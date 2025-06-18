@@ -2,9 +2,15 @@
 <html>
 <head>
   <title>SmartPick - Lotto Generator</title>
+  <!-- 구글 폰트 사용 -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <h1>Welcome to SmartPick!</h1>
-  <p>로또 번호 추천 웹앱에 오신 걸 환영합니다.</p>
+  <div class="container">
+    <h1>Welcome to <span class="logo">SmartPick!</span></h1>
+    <p class="subtitle">로또 번호 추천 웹앱에 오신 걸 환영합니다.</p>
+    <!-- 앞으로 여기에 버튼, 추천 번호 등 추가 가능 -->
+  </div>
 </body>
 </html>
