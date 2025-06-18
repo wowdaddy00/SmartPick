@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>추천 번호 - SmartPick</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body { font-family: 'Pretendard', Arial, sans-serif; background: #f7fafc; margin:0;}
+      .container { max-width: 420px; margin: 70px auto; background:#fff; border-radius:2em; box-shadow:0 8px 28px #0001; padding:2.5em 2em; text-align:center; }
+      h2 { font-size:1.6em; color:#22223b;}
+      .lotto { margin:2.5em 0; }
+      .ball { display:inline-block; width:44px; height:44px; line-height:44px; border-radius:50%; margin:0 5px; font-size:1.4em; font-weight:600; color:#fff; background:#4361ee; box-shadow:0 2px 6px #0002;}
+      a.btn { display:inline-block; margin-top:1.8em; padding:1em 2em; background:#4361ee; color:#fff; border-radius:1.2em; text-decoration:none; font-weight:bold; transition:.2s;}
+      a.btn:hover { background:#2642b2;}
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h2>오늘의 추천 번호</h2>
+    <div class="lotto">
+      {% for n in lotto %}
+        <span class="ball">{{ n }}</span>
+      {% endfor %}
+    </div>
+    <a href="{{ url_for('generate') }}" class="btn">다시 추천받기</a>
+    <br><br>
+    <a href="{{ url_for('index') }}" style="font-size:0.95em;">홈으로</a>
+  </div>
+</body>
+</html>
