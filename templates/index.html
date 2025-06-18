@@ -14,3 +14,36 @@
   </div>
 </body>
 </html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartPick - 로또 번호 추천</title>
+    <!-- 애드센스(비활성, 나중에 ID만 교체) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config','G-XXXXXXX');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      body { font-family: 'Pretendard', Arial, sans-serif; background: #f7fafc; margin:0; }
+      .container { max-width: 420px; margin: 70px auto; background:#fff; border-radius:2em; box-shadow:0 8px 28px #0001; padding:2.5em 2em; text-align:center; }
+      h1 { font-size: 2.1em; color:#263159; margin-bottom:0.6em;}
+      a.btn { display:inline-block; margin-top:1.5em; padding:1em 2em; background:#4361ee; color:#fff; border-radius:1.2em; text-decoration:none; font-weight:bold; transition:.2s;}
+      a.btn:hover { background:#2642b2;}
+      .desc { color:#555; font-size:1.07em; margin-bottom:2em;}
+    </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎲 SmartPick 로또 추천 🎲</h1>
+    <div class="desc">
+      과거 1등 당첨 조합과 겹치지 않는<br>
+      신뢰도 높은 로또 번호를 제공합니다.
+    </div>
+    <a href="{{ url_for('generate') }}" class="btn">무료 번호 추천받기</a>
+  </div>
+</body>
+</html>
