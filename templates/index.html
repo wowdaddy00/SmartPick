@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>SmartPick - Lotto Generator</title>
-  <!-- 구글 폰트 사용 -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="container">
-    <h1>Welcome to <span class="logo">SmartPick!</span></h1>
-    <p class="subtitle">로또 번호 추천 웹앱에 오신 걸 환영합니다.</p>
-    <!-- 앞으로 여기에 버튼, 추천 번호 등 추가 가능 -->
-  </div>
-</body>
-</html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>SmartPick - 로또 번호 추천</title>
-    <!-- 애드센스(비활성, 나중에 ID만 교체) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config','G-XXXXXXX');
-    </script>
+    <title>SmartPick - 1~3등 제외 로또 추천</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- (필요시 애드센스 코드/SEO 메타태그 추가 가능) -->
     <style>
-      body { font-family: 'Pretendard', Arial, sans-serif; background: #f7fafc; margin:0; }
+      body { font-family: 'Pretendard', Arial, sans-serif; background: #f7fafc; margin:0;}
       .container { max-width: 420px; margin: 70px auto; background:#fff; border-radius:2em; box-shadow:0 8px 28px #0001; padding:2.5em 2em; text-align:center; }
       h1 { font-size: 2.1em; color:#263159; margin-bottom:0.6em;}
-      a.btn { display:inline-block; margin-top:1.5em; padding:1em 2em; background:#4361ee; color:#fff; border-radius:1.2em; text-decoration:none; font-weight:bold; transition:.2s;}
-      a.btn:hover { background:#2642b2;}
+      form { margin: 2em 0;}
       .desc { color:#555; font-size:1.07em; margin-bottom:2em;}
+      input { font-size:1.1em; padding:0.3em 0.7em; border-radius:0.7em; border:1px solid #ccc;}
+      button { font-size:1.1em; background:#4361ee; color:#fff; border:none; border-radius:1.2em; padding:0.7em 2em; margin-top:1.5em; font-weight:bold; cursor:pointer; transition:.2s;}
+      button:hover { background:#2642b2;}
+      .lotto { margin:2.5em 0; }
+      .ball { display:inline-block; width:44px; height:44px; line-height:44px; border-radius:50%; margin:0 5px; font-size:1.4em; font-weight:600; color:#fff; background:#4361ee; box-shadow:0 2px 6px #0002;}
     </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎲 SmartPick 로또 추천 🎲</h1>
+    <h1>🎲 SmartPick 추천 🎲</h1>
     <div class="desc">
-      과거 1등 당첨 조합과 겹치지 않는<br>
+      1~3등 당첨 조합과 겹치지 않는<br>
       신뢰도 높은 로또 번호를 제공합니다.
     </div>
-    <a href="{{ url_for('generate') }}" class="btn">무료 번호 추천받기</a>
+    <form method="post">
+      <div>
+        <label>제외할 번호(쉼표로 구분):</label>
+        <input name="exclude" placeholder="예: 1,3,5" value="{{exclude}}">
+      </div>
+      <div style="margin-top:1em;">
+        <label>고정할 번호(필수 포함):</label>
+        <input name="include" placeholder="예: 7,21" value="{{include}}">
+      </div>
+      <button type="submit">추천번호 생성</button>
+    </form>
+    {% if numbers %}
+      <div class="lotto">
+        <h3>추천 번호</h3>
+        {% for n in numbers %}
+          <span class="ball">{{ n }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </body>
 </html>
