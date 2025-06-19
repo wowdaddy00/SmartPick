@@ -123,21 +123,26 @@ def filter_page():
             user_exclude = parse_int_list(request.form.get("user_exclude", ""))
             user_include = parse_int_list(request.form.get("user_include", ""))
             count = int(request.form.get("count") or 5)
-            # 추천 생성
-            numbers = generate_numbers(
-                exclude_ranks=exclude_ranks,
-                exclude_hot_n=exclude_hot_n,
-                exclude_consecutive=exclude_consecutive,
-                user_exclude=user_exclude,
-                user_include=user_include,
-                count=count
-            )
-            form = dict(request.form)
-            if not numbers:
-                error = "조건에 맞는 추천 번호가 없습니다."
+            # **고정번호가 2개 이상일 때 에러 처리**
+            if len(user_include) > 1:
+                error = "고정할 번호는 1개만 입력할 수 있습니다."
+                numbers = []
+            else:
+                numbers = generate_numbers(
+                    exclude_ranks=exclude_ranks,
+                    exclude_hot_n=exclude_hot_n,
+                    exclude_consecutive=exclude_consecutive,
+                    user_exclude=user_exclude,
+                    user_include=user_include,
+                    count=count
+                )
+                form = dict(request.form)
+                if not numbers and not error:
+                    error = "조건에 맞는 추천번호가 없습니다. (필터를 줄여 다시 시도해주세요)"
         except Exception as e:
             error = f"입력값 오류: {e}"
     return render_template("filter.html", numbers=numbers, error=error, form=form)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
