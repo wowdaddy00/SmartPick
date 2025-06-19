@@ -1,23 +1,19 @@
-# SmartPick 1~3등 자동제외 로또 추천 웹앱 (최신 통합버전)
-# 구글 애드센스/SEO/고급UI/사용자 필터 모두 반영
-
+import os, json, random
 from flask import Flask, render_template, request
-import random, json, os
 
 app = Flask(__name__)
 
-# ===== [1] 1~3등 당첨번호 파일 경로 설정 =====
+# [1] 1~3등 당첨번호 DB 파일 경로
 BASE_DIR = os.path.dirname(__file__)
 WINNING1_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_full.json')
 WINNING2_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank2.json')
 WINNING3_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank3.json')
 
-# ===== [2] 파일에서 각 등수별 당첨번호를 읽어 set으로 합치기 =====
+# [2] 각 DB 파일 불러오기
 def load_rank(path, key, length=6):
     try:
         with open(path, encoding='utf-8') as f:
             data = json.load(f)
-            # 숫자 정렬/중복방지
             return [tuple(sorted(row[:length])) for row in data.get(key, [])]
     except Exception as e:
         print(f"{path} 파일 읽기 에러:", e)
@@ -25,38 +21,123 @@ def load_rank(path, key, length=6):
 
 rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
 rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
-rank3 = load_rank(WINNING3_PATH, 'rank3', 5)  # 3등은 5개짜리 조합
-ALL_WINNING = set(rank1 + rank2 + rank3)
+rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
+ALL_WINNING = {
+    "1": set(rank1),
+    "2": set(rank2),
+    "3": set(rank3)
+}
 
-# ===== [3] 추천번호 생성 (1~3등, 사용자 입력 제외/고정 모두 반영) =====
-def generate_numbers(user_exclude=None, user_include=None):
+# [3] 최근 N회 많이 나온 번호
+def get_hot_numbers(n=5):
+    all_nums = []
+    for row in rank1[-n:]:
+        all_nums.extend(row)
+    freq = {}
+    for num in all_nums:
+        freq[num] = freq.get(num, 0) + 1
+    sorted_nums = [k for k, v in sorted(freq.items(), key=lambda x: -x[1])]
+    return set(sorted_nums)
+
+# [4] 연속번호 판단
+def has_consecutive(numbers, seq_len=2):
+    nums = sorted(numbers)
+    count = 1
+    for i in range(1, len(nums)):
+        if nums[i] == nums[i-1]+1:
+            count += 1
+            if count >= seq_len:
+                return True
+        else:
+            count = 1
+    return False
+
+# [5] 추천번호 생성(모든 필터 반영)
+def generate_numbers(
+    exclude_ranks=[],
+    exclude_hot_n=None,
+    exclude_consecutive=None,
+    user_exclude=None,
+    user_include=None,
+    count=1
+):
+    results = []
     tries = 0
-    while True:
+    exclude_db = set()
+    for r in exclude_ranks:
+        exclude_db.update(ALL_WINNING.get(r, set()))
+    hot_numbers = get_hot_numbers(exclude_hot_n) if exclude_hot_n else set()
+    # 추천 번호 세트 생성
+    while len(results) < count:
         nums = set(random.sample(range(1, 46), 6))
+        # 고정번호(필수 포함)
         if user_include and not set(user_include).issubset(nums):
             continue
+        # 제외번호(직접입력)
         if user_exclude and nums.intersection(set(user_exclude)):
             continue
-        nums_tuple = tuple(sorted(nums))
-        if nums_tuple not in ALL_WINNING:
-            return sorted(nums)
+        # 등수별 당첨조합 제외
+        if exclude_db and tuple(sorted(nums)) in exclude_db:
+            continue
+        # 최근 N회 핫번호 제외
+        if exclude_hot_n and nums.intersection(hot_numbers):
+            continue
+        # 연속번호 필터
+        if exclude_consecutive and has_consecutive(nums, exclude_consecutive):
+            continue
+        # 중복 세트 방지
+        if sorted(nums) in results:
+            continue
+        results.append(sorted(nums))
         tries += 1
-        if tries > 10000:  # 무한루프 방지
-            return None
+        if tries > 30000:
+            break
+    return results
 
-# ===== [4] Flask 라우팅 (홈/추천) =====
+# [6] 입력 값 유효성 검증 함수
+def parse_int_list(text):
+    return [int(n) for n in str(text).replace(" ", "").split(",") if str(n).isdigit()]
+
+# [7] 무료 추천 (조건 없이 1세트)
 @app.route("/", methods=["GET", "POST"])
-def home():
+def free():
     numbers = None
-    exclude = ""
-    include = ""
+    error = ""
     if request.method == "POST":
-        exclude = request.form.get("exclude", "")
-        include = request.form.get("include", "")
-        exclude_list = [int(n) for n in exclude.replace(" ", "").split(",") if n.isdigit()]
-        include_list = [int(n) for n in include.replace(" ", "").split(",") if n.isdigit()]
-        numbers = generate_numbers(user_exclude=exclude_list, user_include=include_list)
-    return render_template("index.html", numbers=numbers, exclude=exclude, include=include)
+        numbers = generate_numbers(count=1)
+        if not numbers:
+            error = "추천 가능한 번호가 없습니다."
+    return render_template("index.html", numbers=numbers, error=error)
+
+# [8] 조건 추천 (필터+추천개수 등 선택)
+@app.route("/filter", methods=["GET", "POST"])
+def filter_page():
+    numbers = []
+    form = {}
+    error = ""
+    if request.method == "POST":
+        try:
+            exclude_ranks = request.form.getlist("exclude_ranks")
+            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
+            exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
+            user_exclude = parse_int_list(request.form.get("user_exclude", ""))
+            user_include = parse_int_list(request.form.get("user_include", ""))
+            count = int(request.form.get("count") or 5)
+            # 추천 생성
+            numbers = generate_numbers(
+                exclude_ranks=exclude_ranks,
+                exclude_hot_n=exclude_hot_n,
+                exclude_consecutive=exclude_consecutive,
+                user_exclude=user_exclude,
+                user_include=user_include,
+                count=count
+            )
+            form = dict(request.form)
+            if not numbers:
+                error = "조건에 맞는 추천 번호가 없습니다."
+        except Exception as e:
+            error = f"입력값 오류: {e}"
+    return render_template("filter.html", numbers=numbers, error=error, form=form)
 
 if __name__ == '__main__':
     app.run(debug=True)
