@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartPick 고급 추천</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <h1>SmartPick 조건 추천</h1>
+  <form method="post">
+    <div>
+      <b>제외할 당첨번호 등수:</b><br>
+      <label><input type="checkbox" name="exclude_ranks" value="1" {% if '1' in form.get('exclude_ranks', []) %}checked{% endif %}> 1등</label>
+      <label><input type="checkbox" name="exclude_ranks" value="2" {% if '2' in form.get('exclude_ranks', []) %}checked{% endif %}> 2등</label>
+      <label><input type="checkbox" name="exclude_ranks" value="3" {% if '3' in form.get('exclude_ranks', []) %}checked{% endif %}> 3등</label>
+    </div>
+    <div>
+      <b>최근 많이 나온 번호 제외:</b>
+      <select name="exclude_hot_n">
+        <option value="">--선택안함--</option>
+        <option value="5" {% if form.get('exclude_hot_n', '')=='5' %}selected{% endif %}>5회</option>
+        <option value="10" {% if form.get('exclude_hot_n', '')=='10' %}selected{% endif %}>10회</option>
+        <option value="20" {% if form.get('exclude_hot_n', '')=='20' %}selected{% endif %}>20회</option>
+      </select>
+    </div>
+    <div>
+      <b>연속번호 제외:</b>
+      <select name="exclude_consecutive">
+        <option value="">--선택안함--</option>
+        <option value="2" {% if form.get('exclude_consecutive', '')=='2' %}selected{% endif %}>2연속</option>
+        <option value="3" {% if form.get('exclude_consecutive', '')=='3' %}selected{% endif %}>3연속</option>
+        <option value="4" {% if form.get('exclude_consecutive', '')=='4' %}selected{% endif %}>4연속</option>
+      </select>
+    </div>
+    <div>
+      <b>제외할 번호(쉼표구분):</b>
+      <input name="user_exclude" value="{{form.get('user_exclude','')}}" placeholder="예: 1,3,5">
+    </div>
+    <div>
+      <b>고정할 번호(필수포함):</b>
+      <input name="user_include" value="{{form.get('user_include','')}}" placeholder="예: 7,21">
+    </div>
+    <div>
+      <b>추천개수:</b>
+      <select name="count">
+        <option value="5" {% if form.get('count','')=='5' %}selected{% endif %}>5개</option>
+        <option value="10" {% if form.get('count','')=='10' %}selected{% endif %}>10개</option>
+        <option value="15" {% if form.get('count','')=='15' %}selected{% endif %}>15개</option>
+        <option value="20" {% if form.get('count','')=='20' %}selected{% endif %}>20개</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit">고급 조건 추천</button>
+    </div>
+  </form>
+  {% if numbers %}
+    <h2>추천 번호 세트</h2>
+    <div>
+      {% for row in numbers %}
+        <div style="margin-bottom:7px;">
+          {% for n in row %}
+            <span style="display:inline-block;width:38px;height:38px;background:#4361ee;color:#fff;border-radius:50%;text-align:center;line-height:38px;margin:3px;font-weight:bold;">{{n}}</span>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% if error %}<div style="color:red;">{{ error }}</div>{% endif %}
+  <br>
+  <a href="/">무료 추천으로 돌아가기</a>
+</body>
+</html>
