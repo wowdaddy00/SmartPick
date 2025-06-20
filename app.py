@@ -142,6 +142,22 @@ def filter_page():
         except Exception as e:
             error = f"입력값 오류: {e}"
     return render_template("filter.html", numbers=numbers, error=error, form=form)
+    
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/disclaimer')
+def disclaimer():
+    return render_template('disclaimer.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 
 if __name__ == '__main__':
