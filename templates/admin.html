@@ -16,6 +16,15 @@
 <body>
   <div class="dash">
     <h1>SmartPick 관리자 대시보드</h1>
+    <form action="/update_winning" method="post" style="margin-bottom:18px;">
+      <input type="password" name="pw" placeholder="관리자 비밀번호" style="padding:6px 12px; border-radius:6px; border:1px solid #ccc;">
+      <button type="submit" style="padding:9px 28px;">최신 로또 1등 번호 자동 업데이트</button>
+    </form>
+    <!-- ★ 메시지 노출도 여기에! -->
+    {% if msg %}
+       <div style="color:#25701a; margin-bottom:14px; font-weight:bold;">{{ msg }}</div>
+    {% endif %}
+    
     <div>총 방문자 수: <b>{{total_visits}}</b></div>
     <div>총 추천 생성 수: <b>{{total_recs}}</b></div>
     <hr>
