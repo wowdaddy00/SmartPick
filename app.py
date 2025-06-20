@@ -156,7 +156,7 @@ def filter_page():
     if request.method == "POST":
         try:
             hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
-            if hot_pick_n:
+if hot_pick_n:
     # 1) 최근 N회 번호 뽑기
     recent_nums = []
     for row in rank1[-hot_pick_n:]:
