@@ -278,6 +278,48 @@ def admin():
     total_recs = sum(1 for log in logs if log["event"]=="recommend")
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs)
 
+@app.route("/update_winning", methods=["POST"])
+def update_winning():
+    pw = request.form.get("pw")
+    if pw != "1234":   # 실운영 시 더 강력하게!
+        # 인증 실패 시 관리자 페이지에 경고 메시지 출력
+        logs = []
+        try:
+            with open("admin_log.json", encoding="utf-8") as f:
+                logs = [json.loads(line) for line in f if line.strip()]
+        except:
+            pass
+        total_visits = sum(1 for log in logs if log["event"] == "visit")
+        total_recs = sum(1 for log in logs if log["event"] == "recommend")
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg="비밀번호가 틀렸습니다.")
+
+    # 1등 번호 최신 정보 가져오기
+    latest, nums = fetch_latest_lotto_number()
+    # 1등 DB 파일 불러오기
+    try:
+        with open(WINNING1_PATH, encoding="utf-8") as f:
+            db = json.load(f)
+    except:
+        db = {"rank1": []}
+    # 중복 체크 후 추가
+    if nums not in db["rank1"]:
+        db["rank1"].append(nums)
+        with open(WINNING1_PATH, "w", encoding="utf-8") as f:
+            json.dump(db, f, ensure_ascii=False, indent=2)
+        msg = f"{latest}회차 번호 {nums} 저장 완료!"
+    else:
+        msg = "이미 최신 번호가 반영되어 있습니다."
+
+    # 관리자 대시보드로 다시 렌더링
+    logs = []
+    try:
+        with open("admin_log.json", encoding="utf-8") as f:
+            logs = [json.loads(line) for line in f if line.strip()]
+    except:
+        pass
+    total_visits = sum(1 for log in logs if log["event"] == "visit")
+    total_recs = sum(1 for log in logs if log["event"] == "recommend")
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
 
 if __name__ == '__main__':
     app.run(debug=True)
