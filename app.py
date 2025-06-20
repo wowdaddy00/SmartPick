@@ -1,5 +1,7 @@
 import os, json, random
 from flask import Flask, render_template, request
+from collections import Counter
+
 
 app = Flask(__name__)
 
