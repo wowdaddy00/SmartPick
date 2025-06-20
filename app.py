@@ -144,7 +144,13 @@ def free():
         })
         if not numbers:
             error = "추천 가능한 번호가 없습니다."
-    return render_template("index.html", numbers=numbers, error=error)
+    return render_template(
+        "index.html",
+        numbers=numbers,
+        error=error,
+        total_recs=total_recs,
+        today_recs=today_recs
+    )
 
 # [8] 조건 추천 (필터+추천개수 등 선택)
 @app.route("/filter", methods=["GET", "POST"])
