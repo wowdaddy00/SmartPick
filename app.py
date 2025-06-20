@@ -118,10 +118,16 @@ def parse_int_list(text):
 # [7] 무료 추천 (조건 없이 1세트)
 @app.route("/", methods=["GET", "POST"])
 def free():
+    log_event("visit", {"page": "index"})
     numbers = None
     error = ""
     if request.method == "POST":
         numbers = generate_numbers(count=1)
+        log_event("recommend", {
+            "page": "index",
+            "numbers": numbers,
+            "user_ip": request.remote_addr
+        })
         if not numbers:
             error = "추천 가능한 번호가 없습니다."
     return render_template("index.html", numbers=numbers, error=error)
@@ -129,6 +135,7 @@ def free():
 # [8] 조건 추천 (필터+추천개수 등 선택)
 @app.route("/filter", methods=["GET", "POST"])
 def filter_page():
+    log_event("visit", {"page": "filter"}) 
     numbers = []
     form = {}
     error = ""
@@ -162,22 +169,27 @@ def filter_page():
     
 @app.route('/about')
 def about():
+    log_event("visit", {"page": "about"})
     return render_template('about.html')
 
 @app.route('/privacy')
 def privacy():
+    log_event("visit", {"page": "privacy"})
     return render_template('privacy.html')
 
 @app.route('/disclaimer')
 def disclaimer():
+    log_event("visit", {"page": "disclaimer"})
     return render_template('disclaimer.html')
 
 @app.route('/contact')
 def contact():
+    log_event("visit", {"page": "contact"})
     return render_template('contact.html')
 
 @app.route('/stats')
 def stats():
+    log_event("visit", {"page": "stats"})
     recent_n = 10  # 최근 10주 기준 (20, 52 등으로 변경 가능)
     numbers = []
     for row in rank1[-recent_n:]:
