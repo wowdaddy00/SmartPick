@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://smartpick.wow-daddy.com/sitemap.xml
