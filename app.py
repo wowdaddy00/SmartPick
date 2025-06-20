@@ -159,6 +159,17 @@ def disclaimer():
 def contact():
     return render_template('contact.html')
 
+@app.route('/stats')
+def stats():
+    recent_n = 10  # 최근 10주 기준 (20, 52 등으로 변경 가능)
+    numbers = []
+    for row in rank1[-recent_n:]:
+        numbers.extend(row)
+    freq = dict(Counter(numbers))
+    for n in range(1, 46):
+        freq.setdefault(n, 0)
+    freq = dict(sorted(freq.items()))
+    return render_template('stats.html', freq_json=freq, recent_n=recent_n)
 
 if __name__ == '__main__':
     app.run(debug=True)
