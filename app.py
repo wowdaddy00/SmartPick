@@ -153,7 +153,7 @@ def filter_page():
     numbers = []
     form = {}
     error = ""
-    if request.method == "POST":
+if request.method == "POST":
         try:
             hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
 if hot_pick_n:
