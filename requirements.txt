@@ -1,4 +1,4 @@
 flask
 requests
-# (다른 필요 패키지들...)
+gunicorn
 
