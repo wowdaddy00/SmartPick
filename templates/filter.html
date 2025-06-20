@@ -73,12 +73,12 @@
         <label><input type="checkbox" name="exclude_ranks" value="3" {% if '3' in form.get('exclude_ranks', []) %}checked{% endif %}> 3등</label>
       </div>
       <div class="form-row">
-        <b>최근 많이 나온 번호 제외:</b>
-        <select name="exclude_hot_n">
+        <b>최근 많이 나온 번호로 추천:</b>
+        <select name="hot_pick_n">
           <option value="">--선택안함--</option>
-          <option value="5" {% if form.get('exclude_hot_n', '')=='5' %}selected{% endif %}>5회</option>
-          <option value="10" {% if form.get('exclude_hot_n', '')=='10' %}selected{% endif %}>10회</option>
-          <option value="20" {% if form.get('exclude_hot_n', '')=='20' %}selected{% endif %}>20회</option>
+          <option value="5" {% if form.get('hot_pick_n', '')=='5' %}selected{% endif %}>5회</option>
+          <option value="10" {% if form.get('hot_pick_n', '')=='10' %}selected{% endif %}>10회</option>
+          <option value="20" {% if form.get('hot_pick_n', '')=='20' %}selected{% endif %}>20회</option>
         </select>
       </div>
       <div class="form-row">
