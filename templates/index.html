@@ -73,7 +73,7 @@
     {% if numbers %}
       <div class="lotto" id="lotto_result">
         {% for n in numbers[0] %}
-          <span class="ball">{{ n }}</span>
+          <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
         {% endfor %}
       </div>
       <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
