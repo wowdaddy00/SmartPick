@@ -19,6 +19,24 @@ def log_event(event, detail=None):
             f.write(json.dumps(log, ensure_ascii=False) + "\n")
     except Exception as e:
         print("로그 기록 오류:", e)
+    
+import requests
+
+def fetch_latest_lotto_number():
+    url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
+    latest = get_latest_round()
+    resp = requests.get(url + str(latest))
+    data = resp.json()
+    nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
+    return latest, nums
+
+def get_latest_round():
+    import datetime
+    base_round = 1176
+    base_date = datetime.date(2024, 6, 15)
+    today = datetime.date.today()
+    delta_weeks = ((today - base_date).days) // 7
+    return base_round + delta_weeks
 
 # [1] 1~3등 당첨번호 DB 파일 경로
 BASE_DIR = os.path.dirname(__file__)
