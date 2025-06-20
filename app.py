@@ -118,12 +118,26 @@ def parse_int_list(text):
 # [7] 무료 추천 (조건 없이 1세트)
 @app.route("/", methods=["GET", "POST"])
 def free():
-    log_event("visit", {"page": "index"})
+    log_event("visit", {"page": "index"})   # ① ★ 함수 제일 첫 줄(방문 기록)
     numbers = None
     error = ""
+     # 추천 로그 불러오기
+    total_recs = 0
+    today_recs = 0
+    from datetime import datetime
+    today = datetime.now().strftime('%Y-%m-%d')
+    try:
+        with open("admin_log.json", encoding="utf-8") as f:
+            for line in f:
+                if '"event": "recommend"' in line:
+                    total_recs += 1
+                    if today in line:
+                        today_recs += 1
+    except:
+        pass
     if request.method == "POST":
         numbers = generate_numbers(count=1)
-        log_event("recommend", {
+        log_event("recommend", {            # ② ★ 추천번호가 생성된 후 바로 아래!
             "page": "index",
             "numbers": numbers,
             "user_ip": request.remote_addr
@@ -141,6 +155,30 @@ def filter_page():
     error = ""
     if request.method == "POST":
         try:
+            hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
+            if hot_pick_n:
+    # 1) 최근 N회 번호 뽑기
+    recent_nums = []
+    for row in rank1[-hot_pick_n:]:
+        recent_nums.extend(row)
+    # 2) 빈도 집계
+    from collections import Counter
+    counts = Counter(recent_nums)
+    # 3) 가장 많이 나온 번호 6개 선택
+    top6 = [num for num, cnt in counts.most_common(6)]
+    # 4) 만약 6개 미만이면 무작위 추가
+    if len(top6) < 6:
+        import random
+        top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
+    numbers = [sorted(top6)]
+    form = dict(request.form)
+    log_event("recommend", {
+        "page": "filter-hot",
+        "numbers": numbers,
+        "user_ip": request.remote_addr,
+        "condition": dict(request.form)
+    })
+    return render_template("filter.html", numbers=numbers, error=error, form=form)
             exclude_ranks = request.form.getlist("exclude_ranks")
             exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
