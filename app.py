@@ -5,6 +5,21 @@ from collections import Counter
 
 app = Flask(__name__)
 
+import datetime
+
+def log_event(event, detail=None):
+    log = {
+        "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "event": event,
+        "detail": detail or {}
+    }
+    logfile = "admin_log.json"
+    try:
+        with open(logfile, "a", encoding="utf-8") as f:
+            f.write(json.dumps(log, ensure_ascii=False) + "\n")
+    except Exception as e:
+        print("로그 기록 오류:", e)
+
 # [1] 1~3등 당첨번호 DB 파일 경로
 BASE_DIR = os.path.dirname(__file__)
 WINNING1_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_full.json')
@@ -172,6 +187,23 @@ def stats():
         freq.setdefault(n, 0)
     freq = dict(sorted(freq.items()))
     return render_template('stats.html', freq_json=freq, recent_n=recent_n)
+
+@app.route('/admin')
+def admin():
+    pw = request.args.get("pw","")
+    if pw != "1234":   # 실운영시 더 안전하게!
+        return "관리자 인증 필요(pw=1234)", 403
+    logs = []
+    try:
+        with open("admin_log.json", encoding="utf-8") as f:
+            logs = [json.loads(line) for line in f if line.strip()]
+    except:
+        pass
+    # 예시 통계 집계
+    total_visits = sum(1 for log in logs if log["event"]=="visit")
+    total_recs = sum(1 for log in logs if log["event"]=="recommend")
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
