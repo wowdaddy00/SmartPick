@@ -27,6 +27,10 @@ def fetch_latest_lotto_number():
     latest = get_latest_round()
     resp = requests.get(url + str(latest))
     data = resp.json()
+    # 만약 정상 데이터가 아니면 None 또는 빈 리스트 반환
+    if "drwtNo1" not in data:
+        # 최신 회차 정보가 아직 없음 (returnValue=fail 등)
+        return None, None
     nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
     return latest, nums
 
@@ -295,6 +299,18 @@ def update_winning():
 
     # 1등 번호 최신 정보 가져오기
     latest, nums = fetch_latest_lotto_number()
+    if latest is None or nums is None:
+       msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
+       logs = []
+       try:
+            with open("admin_log.json", encoding="utf-8") as f:
+                logs = [json.loads(line) for line in f if line.strip()]
+       except:
+           pass
+       total_visits = sum(1 for log in logs if log["event"] == "visit")
+       total_recs = sum(1 for log in logs if log["event"] == "recommend")
+       return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
+        
     # 1등 DB 파일 불러오기
     try:
         with open(WINNING1_PATH, encoding="utf-8") as f:
