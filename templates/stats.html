@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartPick 로또 번호 통계</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family:'Pretendard', Arial, sans-serif; background:#f8fafd; margin:0;}
+    .container { max-width:650px; margin:60px auto; background:#fff; border-radius:2em; box-shadow:0 6px 36px #22325620; padding:2.8em 2em 2.2em 2em; text-align:center;}
+    h1 { font-size:2em; margin-bottom:1.3em;}
+    .desc { color:#666; margin-bottom:2.2em;}
+    .highlight { font-weight:bold; color:#4361ee;}
+    canvas { margin:1em 0 2em 0;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>로또 번호 통계/분석</h1>
+    <div class="desc">
+      최근 <span class="highlight">{{ recent_n }}</span>주간 가장 많이 나온 번호<br>
+      (1~45번 전체, 최신 {{ recent_n }}회 기준)
+    </div>
+    <canvas id="freqChart" width="520" height="240"></canvas>
+    <script>
+      const freqData = {{ freq_json|safe }};
+      const labels = Object.keys(freqData).map(Number);
+      const values = Object.values(freqData);
+      const ctx = document.getElementById('freqChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: '출현 빈도',
+            data: values,
+            backgroundColor: '#4361ee99'
+          }]
+        },
+        options: {
+          scales: { y: { beginAtZero:true } }
+        }
+      });
+    </script>
+    <div>
+      <a href="/">홈으로</a>
+    </div>
+  </div>
+</body>
+</html>
