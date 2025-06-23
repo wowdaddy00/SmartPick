@@ -337,11 +337,13 @@ def update_winning():
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
 
-
 @app.route('/ads.txt')
 def ads_txt():
     return app.send_static_file('ads.txt')
 
+@app.route("/healthz")
+def healthz():
+    return "OK", 200
 
 if __name__ == '__main__':
     app.run(debug=True)
