@@ -2,33 +2,33 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>SmartPick 무료 추천</title>
+  <title>SmartPick 무료 로또 번호 추천 - 1등 당첨 예측 분석</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- (여기에 붙여넣기) -->
+  
+  <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
      crossorigin="anonymous"></script>
 
-  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 예시 -->
-<meta name="description" content="SmartPick는 1~3등 당첨번호 제외, 신뢰도 높은 로또 번호 추천, 맞춤 필터, 통계 서비스를 제공합니다.">
-<meta name="keywords" content="로또, 로또번호추천, SmartPick, 번호생성, 필터, 통계, 분석">
-<meta name="author" content="SmartPick Team">
+  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
+  <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
+  <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 무료로또, 로또당첨번호">
+  <meta name="author" content="SmartPick Team">
 
-<!-- 오픈그래프 -->
-<meta property="og:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-<meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 추천 서비스" />
-<meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-<meta property="og:url" content="https://smartpick.wow-daddy.com/" />
-<meta property="og:type" content="website" />
+  <!-- 오픈그래프 (소셜 미디어 공유 최적화) -->
+  <meta property="og:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
+  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 로또 번호 추천 서비스! 무료로 시작하세요." />
+  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+  <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
+  <meta property="og:type" content="website" />
 
-<!-- 트위터 카드 -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-<meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에!" />
-<meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+  <!-- 트위터 카드 -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
+  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 무료 로또 번호 추천을 받아보세요." />
+  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+  
+  <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" />
 
-  <meta charset="UTF-8">
-  <title>SmartPick 무료 추천</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- SEO/광고/폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
   <style>
@@ -92,11 +92,45 @@
       </div>
       <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
       <script>
+        // 사용자에게 복사 완료/실패 메시지를 알릴 때 alert() 대신 커스텀 메시지 박스를 사용할 것을 권장합니다.
+        // 현재는 기존 코드의 로직을 유지했습니다.
         function copyLotto() {
           let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
           navigator.clipboard.writeText(txt)
-            .then(()=>alert("복사 완료: " + txt))
-            .catch(()=>alert("복사 실패!"));
+            .then(() => {
+                // alert("복사 완료: " + txt);
+                // 커스텀 메시지 박스 구현 예시:
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 완료: " + txt;
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #4CAF50; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            })
+            .catch(() => {
+                // alert("복사 실패!");
+                // 커스텀 메시지 박스 구현 예시:
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 실패!";
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #f44336; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            });
         }
       </script>
     {% endif %}
