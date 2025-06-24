@@ -36,7 +36,7 @@ def fetch_latest_lotto_number():
         nums.append(data[key])
     return latest, nums
 
-def get_real_latest_round():
+def get_latest_round():
     import requests
     # 9999 등 비현실적 회차 요청 → 실제 존재하는 마지막 회차 반환
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
@@ -47,6 +47,7 @@ def get_real_latest_round():
         if data.get('returnValue') == 'success' and all(isinstance(data.get(f'drwtNo{i}'), int) for i in range(1, 7)):
             return drw
     return None
+
 
 def fetch_latest_lotto_with_bonus():
     import requests
