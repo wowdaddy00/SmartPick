@@ -36,13 +36,46 @@ def fetch_latest_lotto_number():
         nums.append(data[key])
     return latest, nums
 
-def get_latest_round():
-    import datetime
-    base_round = 1177 # << 실제로 최신 회차(6/21 기준)
-    base_date = datetime.date(2025, 6, 21)  # 1177회차 추첨일
-    today = datetime.date.today()
-    delta_weeks = ((today - base_date).days) // 7
-    return base_round + delta_weeks
+def get_real_latest_round():
+    import requests
+    # 9999 등 비현실적 회차 요청 → 실제 존재하는 마지막 회차 반환
+    url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
+    for drw in range(1200, 1000, -1):  # 1200부터 1000까지 역순 검색(충분히 최근만)
+        resp = requests.get(url + str(drw))
+        data = resp.json()
+        # 정상 데이터면 바로 반환
+        if data.get('returnValue') == 'success' and all(isinstance(data.get(f'drwtNo{i}'), int) for i in range(1, 7)):
+            return drw
+    return None
+
+def fetch_latest_lotto_with_bonus():
+    import requests
+    latest = get_real_latest_round()
+    url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
+    resp = requests.get(url + str(latest))
+    data = resp.json()
+    nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
+    bonus = data['bnusNo']
+    return latest, nums, bonus
+
+import itertools
+
+def make_rank2_3(nums, bonus):
+    nums_set = set(nums)
+    # 6개 중 5개 뽑는 모든 조합
+    combis = list(itertools.combinations(nums, 5))
+    rank2 = []
+    rank3 = []
+    for c in combis:
+        cset = set(c)
+        if bonus in c:
+            # 보너스 포함 2등
+            rank2.append(tuple(sorted(c)))
+        else:
+            # 보너스 미포함 3등
+            rank3.append(tuple(sorted(c)))
+    return rank2, rank3
+
 
 # [1] 1~3등 당첨번호 DB 파일 경로
 BASE_DIR = os.path.dirname(__file__)
