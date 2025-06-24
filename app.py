@@ -228,21 +228,24 @@ def filter_page():
                 # 2) 빈도 집계
                 from collections import Counter
                 counts = Counter(recent_nums)
+                count = int(request.form.get("count") or 1)
+                numbers = []
+                for _ in range(count):
                 # 3) 가장 많이 나온 번호 6개 선택
-                top6 = [num for num, cnt in counts.most_common(6)]
+                    top6 = [num for num, cnt in counts.most_common(6)]
                 # 4) 만약 6개 미만이면 무작위 추가
-                if len(top6) < 6:
-                    import random
-                    top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
-                numbers = [sorted(top6)]
-                form = dict(request.form)
-                log_event("recommend", {
-                    "page": "filter-hot",
-                    "numbers": numbers,
-                    "user_ip": request.remote_addr,
-                    "condition": dict(request.form)
-                })
-                return render_template("filter.html", numbers=numbers, error=error, form=form)
+                    if len(top6) < 6:
+                        import random
+                        top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
+                    numbers.append(sorted(top6))
+               form = dict(request.form)
+               log_event("recommend", {
+                   "page": "filter-hot",
+                   "numbers": numbers,
+                   "user_ip": request.remote_addr,
+                   "condition": dict(request.form)
+               })
+               return render_template("filter.html", numbers=numbers, error=error, form=form)
             exclude_ranks = request.form.getlist("exclude_ranks")
             exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
