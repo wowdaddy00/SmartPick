@@ -220,6 +220,8 @@ def filter_page():
     if request.method == "POST":
         try:
             hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
+            count = int(request.form.get("count") or 1)
+            
             if hot_pick_n:
                 # 1) 최근 N회 번호 뽑기
                 recent_nums = []
@@ -228,7 +230,6 @@ def filter_page():
                 # 2) 빈도 집계
                 from collections import Counter
                 counts = Counter(recent_nums)
-                count = int(request.form.get("count") or 1)
                 numbers = []
                 for _ in range(count):
                 # 3) 가장 많이 나온 번호 6개 선택
@@ -237,6 +238,8 @@ def filter_page():
                     if len(top6) < 6:
                         import random
                         top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
+                    import random
+                    random.shuffle(top6)    
                     numbers.append(sorted(top6))
                form = dict(request.form)
                log_event("recommend", {
@@ -246,6 +249,7 @@ def filter_page():
                    "condition": dict(request.form)
                })
                return render_template("filter.html", numbers=numbers, error=error, form=form)
+            
             exclude_ranks = request.form.getlist("exclude_ranks")
             exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
