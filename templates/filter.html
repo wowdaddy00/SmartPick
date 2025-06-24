@@ -113,14 +113,25 @@
       <div class="form-row">
         <b>추천개수:</b>
         <select name="count">
-          <option value="1" {% if form.get('count','')=='5' %}selected{% endif %}>1개</option>
-          <option value="2" {% if form.get('count','')=='10' %}selected{% endif %}>2개</option>
-          <option value="3" {% if form.get('count','')=='15' %}selected{% endif %}>3개</option>
-          <option value="4" {% if form.get('count','')=='20' %}selected{% endif %}>4개</option>
-          <option value="5" {% if form.get('count','')=='5' or form.get('count','')=='' %}selected{% endif %}>1개</option>
+          <option value="1" {% if form.get('count','')=='1' or form.get('count','')=='' %}selected{% endif %}>1개</option>
+          <option value="2" {% if form.get('count','')=='2' %}selected{% endif %}>2개</option>
+          <option value="3" {% if form.get('count','')=='3' %}selected{% endif %}>3개</option>
+          <option value="4" {% if form.get('count','')=='4' %}selected{% endif %}>4개</option>
+          <option value="5" {% if form.get('count','')=='5' %}selected{% endif %}>5개</option>
         </select>
+
       </div>
       <button type="submit">고급 조건 추천받기</button>
+      <div style="height:30px"></div>
+      <ins class="adsbygoogle"
+           style="display:block; text-align:center;"
+           data-ad-client="ca-pub-2748658493247983"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+           (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </form>
     {% if numbers %}
       <h3>추천 번호 세트</h3>
