@@ -27,17 +27,19 @@ def fetch_latest_lotto_number():
     latest = get_latest_round()
     resp = requests.get(url + str(latest))
     data = resp.json()
-    # 만약 정상 데이터가 아니면 None 또는 빈 리스트 반환
-    if "drwtNo1" not in data:
-        # 최신 회차 정보가 아직 없음 (returnValue=fail 등)
-        return None, None
-    nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
+    # 예외 처리 추가 (drwtNo1 ~ 6이 모두 없으면 None 반환)
+    nums = []
+    for i in range(1, 7):
+        key = f'drwtNo{i}'
+        if key not in data or not isinstance(data[key], int):
+            return None, None   # 당첨번호 미발표시 None 반환
+        nums.append(data[key])
     return latest, nums
 
 def get_latest_round():
     import datetime
-    base_round = 1176
-    base_date = datetime.date(2024, 6, 15)
+    base_round = 1177 # << 실제로 최신 회차(6/21 기준)
+    base_date = datetime.date(2025, 6, 21)  # 1177회차 추첨일
     today = datetime.date.today()
     delta_weeks = ((today - base_date).days) // 7
     return base_round + delta_weeks
