@@ -51,7 +51,7 @@ def get_latest_round():
 
 def fetch_latest_lotto_with_bonus():
     import requests
-    latest = get_real_latest_round()
+    latest =  get_latest_round()
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     resp = requests.get(url + str(latest))
     data = resp.json()
