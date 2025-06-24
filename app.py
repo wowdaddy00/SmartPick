@@ -234,15 +234,13 @@ def filter_page():
                 for _ in range(count):
                 # 3) 가장 많이 나온 번호 6개 선택
                     top6 = [num for num, cnt in counts.most_common(6)]
-                # 4) 만약 6개 미만이면 무작위 추가
                     if len(top6) < 6:
                         import random
                         top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
-                    import random
-                    random.shuffle(top6)    
+                    random.shuffle(top6)
                     numbers.append(sorted(top6))
-               form = dict(request.form)
-               log_event("recommend", {
+                form = dict(request.form)
+                log_event("recommend", {
                    "page": "filter-hot",
                    "numbers": numbers,
                    "user_ip": request.remote_addr,
