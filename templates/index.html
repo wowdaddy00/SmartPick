@@ -47,23 +47,24 @@
     
     /* 로또 볼 배열 개선을 위한 CSS (문제 1 해결) */
     .lotto { 
-      margin:2.3em 0 0.7em 0;
+      margin:2.3em auto 0.7em auto; /* margin auto로 가운데 정렬 */
       display: flex; /* Flexbox 사용 */
       flex-wrap: wrap; /* 자동으로 줄 바꿈 */
-      justify-content: center; /* 가운데 정렬 */
+      justify-content: center; /* 볼들 가운데 정렬 */
       align-items: center; /* 수직 가운데 정렬 (필요 시) */
       gap: 8px; /* 볼 사이의 간격 */
-      padding: 0 10px; /* 좌우 여백 추가 */
+      max-width: 320px; /* 볼들이 6개 들어갈 충분한 최대 너비 설정 */
     }
     .ball {
       display:inline-flex; /* inline-block 대신 inline-flex 사용 */
       justify-content: center; /* 숫자 가운데 정렬 */
       align-items: center; /* 숫자 수직 가운데 정렬 */
-      width:48px; /* 볼 크기 살짝 키움 */
-      height:48px; /* 볼 크기 살짝 키움 */
+      width:48px; /* 볼 크기 유지 */
+      height:48px; /* 볼 크기 유지 */
       line-height:48px; /* line-height 대신 flexbox로 중앙 정렬 */
-      border-radius:50%;margin:0; /* gap 사용으로 margin 0 */
-      font-size:1.4em; /* 숫자 크기 키움 */
+      border-radius:50%;
+      margin:0; /* gap 사용으로 margin 0 */
+      font-size:1.4em; /* 숫자 크기 유지 */
       font-weight:600;
       box-shadow:0 2px 8px #0001; transition:.13s;
       border:2.5px solid #fff;
@@ -82,9 +83,12 @@
       .subtitle { font-size:0.98em;}
       /* 모바일에서 볼 크기 조정 */
       .ball {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3em;
+        width: 42px; /* 모바일에서 볼 크기 살짝 줄임 */
+        height: 42px; /* 모바일에서 볼 크기 살짝 줄임 */
+        font-size: 1.2em; /* 모바일에서 숫자 크기 살짝 줄임 */
+      }
+      .lotto {
+          max-width: 280px; /* 모바일에서 6개 볼이 한 줄에 들어갈 수 있도록 너비 조정 */
       }
     }
   </style>
@@ -100,7 +104,6 @@
     <form method="post">
       <button type="submit">무작위 번호 1세트 추천받기</button>
       <div style="height:30px"></div>
-    <!-- 상단 광고 코드 제거됨 (문제 2 해결) -->
     </form>
     {% if numbers %}
       <div class="lotto" id="lotto_result">
@@ -159,6 +162,3 @@
        data-full-width-responsive="true"></ins>
   <script>
        (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-</body>
-</html>
