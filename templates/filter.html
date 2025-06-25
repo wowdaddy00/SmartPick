@@ -1,182 +1,271 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>SmartPick 고급 조건 추천</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
-     crossorigin="anonymous"></script>
+<!DOCTYPE html> 
+<html lang="ko"> 
+<head> 
+  <meta charset="UTF-8"> 
+  <title>SmartPick 고급 로또 번호 추천 - 필터 기반 맞춤 번호 생성</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  
+  <!-- Google AdSense 코드 -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" 
+     crossorigin="anonymous"></script> 
+  
+  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 --> 
+  <meta name="description" content="SmartPick 고급 조건 추천 페이지에서 1~3등 당첨번호 제외, 최근 핫번호, 연속번호 제외 등 다양한 필터를 적용하여 로또 번호를 추천받으세요. 맞춤형 로또 번호 생성으로 당첨 확률을 높여보세요!"> 
+  <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 고급로또추천, 로또당첨확률"> 
+  <meta name="author" content="SmartPick Team"> 
 
-    <meta name="description" content="SmartPick는 1~3등 당첨번호 제외, 신뢰도 높은 로또 번호 추천, 맞춤 필터, 통계 서비스를 제공합니다.">
-  <meta name="keywords" content="로또, 로또번호추천, SmartPick, 번호생성, 필터, 통계, 분석">
-  <meta name="author" content="SmartPick Team">
+  <!-- 오픈그래프 --> 
+  <meta property="og:title" content="SmartPick - 고급 로또 번호 조건 추천" /> 
+  <meta property="og:description" content="원하는 조건을 직접 선택해 더 안전한 맞춤 로또 번호를 추천받으세요." /> 
+  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" /> 
+  <meta property="og:url" content="https://smartpick.wow-daddy.com/filter" /> 
+  <meta property="og:type" content="website" /> 
 
-    <meta property="og:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 추천 서비스" />
-  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-  <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
-  <meta property="og:type" content="website" />
+  <!-- 트위터 카드 --> 
+  <meta name="twitter:card" content="summary_large_image" /> 
+  <meta name="twitter:title" content="SmartPick - 고급 로또 번호 조건 추천" /> 
+  <meta name="twitter:description" content="1~3등 당첨번호 자동제외, 최신 인기번호, 연속번호 제외 등 강력한 필터로 나만의 로또 번호를 받아보세요!" /> 
+  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" /> 
 
-    <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에!" />
-  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-  
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { background:#f8fafd; font-family:'Pretendard', Arial, sans-serif; margin:0;}
-    .container { max-width:430px; margin:50px auto; background:#fff; border-radius:2em; box-shadow:0 6px 36px #22325620; padding:2.8em 2em 2.2em 2em; text-align:center; box-sizing: border-box; }
-    h1 { font-size:2em; font-weight:900; color:#222; margin-bottom:0.1em;}
-    .subtitle { color:#666; font-size:1.08em; margin-bottom:1.8em;}
-    form { margin-bottom:2em; }
-    label, select, input[type="text"] {
-      font-size:1.1em; margin-bottom:0.6em; display:inline-block;
-    }
-    select, input[type="text"] {
-      border-radius:0.8em; border:1px solid #ccc; padding:0.35em 0.7em;
-      margin-left:5px; margin-right:12px; margin-bottom:0.9em;
-    }
-    .form-row { margin-bottom:1.3em; }
-    button, .copy-btn {
-      font-size:1.14em; font-weight:bold; background:#3a5df0;
-      color:#fff; border:none; border-radius:1.1em;
-      padding:0.8em 2.1em; box-shadow:0 2px 10px #4361ee22;
-      margin-top:0.8em; cursor:pointer; transition:.2s;
-    }
-    button:hover, .copy-btn:hover { background:#2642b2;}
-    
-    /* [수정] 첫 페이지와 동일한 최신 flexbox 스타일로 교체 */
-    .lotto {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      max-width: 280px;
-      margin: 1.5em auto; /* 위아래, 좌우 자동 마진으로 중앙 정렬 */
-      box-sizing: border-box;
-    }
-    .ball {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius:50%;
-      margin: 0; /* gap으로 간격 제어하므로 margin 제거 */
-      font-size:1.2em;
-      font-weight:600;
-      box-shadow:0 2px 8px #0001;
-      transition:.13s;
-      border:2.5px solid #fff;
-      flex-shrink: 0;
-      box-sizing: border-box;
-    }
+  <!-- Google Search Console 소유권 확인 태그 (이 페이지에는 보통 필요 없지만, 필요시 여기에 붙여넣기!) -->
+  <!-- 예시: <meta name="google-site-verification" content="YOUR_UNIQUE_CODE_FROM_GOOGLE_SEARCH_CONSOLE" /> -->
 
-    .ball.n1 { background: #ffd100; color: #222;}   /* 1~10 노랑 */
-    .ball.n2 { background: #7fd7ff; color: #222;}   /* 11~20 하늘 */
-    .ball.n3 { background: #ff7676; color: #fff;}   /* 21~30 빨강 */
-    .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */
-    .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */
-    
-    .desc { color:#6c7a89; font-size:0.98em; margin-bottom:1.5em;}
-    .error { color:#c22; margin-top:1.2em; }
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet"> 
+  <style> 
+    body { 
+      background:#f8fafd; 
+      font-family:'Pretendard', Arial, sans-serif; 
+      margin:0;
+      display: flex; /* body를 flex 컨테이너로 설정 */
+      flex-direction: column; /* 세로 방향 정렬 */
+      min-height: 100vh; /* 최소 뷰포트 높이 */
+    } 
+    .container { 
+      max-width:430px; 
+      margin:50px auto; 
+      background:#fff; 
+      border-radius:2em; 
+      box-shadow:0 6px 36px #22325620; 
+      padding:2.8em 2em 2.2em 2em; 
+      text-align:center; 
+      flex-grow: 1; /* 컨테이너가 공간을 차지하도록 */
+      box-sizing: border-box; /* 패딩이 width에 포함되도록 */
+    } 
+    h1 { font-size:2em; font-weight:900; color:#222; margin-bottom:0.1em;} 
+    .subtitle { color:#666; font-size:1.08em; margin-bottom:1.8em;} 
+    form { margin-bottom:2em; } 
+    label, select, input[type="text"] { 
+      font-size:1.1em; margin-bottom:0.6em; display:inline-block; 
+    } 
+    select, input[type="text"] { 
+      border-radius:0.8em; border:1px solid #ccc; padding:0.35em 0.7em; 
+      margin-left:5px; margin-right:12px; margin-bottom:0.9em; 
+    } 
+    .form-row { margin-bottom:1.3em; } 
+    button, .copy-btn { 
+      font-size:1.14em; font-weight:bold; background:#3a5df0; 
+      color:#fff; border:none; border-radius:1.1em; 
+      padding:0.8em 2.1em; box-shadow:0 2px 10px #4361ee22; 
+      margin-top:0.8em; cursor:pointer; transition:.2s; 
+    } 
+    button:hover, .copy-btn:hover { background:#2642b2;} 
+    
+    /* 로또 볼 배열 재조정 (문제 해결 집중) */
+    /* .lotto는 여러 세트를 포함하는 컨테이너이므로, 각 세트 내부의 레이아웃을 조정 */
+    .lotto { 
+      margin:2.3em auto 0.7em auto; 
+      /* 이 부분은 그대로 두거나, 필요에 따라 전체 결과 컨테이너로 조정 */
+    } 
+    
+    /* 각 추천 번호 세트를 감싸는 div에 flexbox 적용 */
+    .lotto > div { /* .lotto 바로 아래의 div (각 로또 세트) */
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 6px; /* 볼 사이의 간격 */
+      max-width: 280px; /* 로또 볼 6개 (40px) + 5개 gap (6px*5) = 270px, 여유있게 */
+      margin: 0 auto 7px auto; /* 각 세트의 하단 여백 및 가운데 정렬 */
+      box-sizing: border-box;
+    }
 
-    @media (max-width:500px){
-      .container { max-width:97vw; margin:13vw 2vw; padding:2em 0.2em; }
-      h1 { font-size:1.15em;}
-      .subtitle { font-size:0.92em;}
-      /* [수정] 모바일 볼 폰트 크기 조정 */
-      .ball {
-        font-size: 1.1em;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>SmartPick 고급 조건 추천</h1>
-    <div class="subtitle">원하는 조건을 직접 선택해<br>더 안전한 맞춤 추천번호를 받아보세요</div>
-    <form method="post">
-      <div class="form-row">
-        <b>제외할 당첨번호 등수:</b><br>
-        <label><input type="checkbox" name="exclude_ranks" value="1" {% if '1' in form.get('exclude_ranks', []) %}checked{% endif %}> 1등</label>
-        <label><input type="checkbox" name="exclude_ranks" value="2" {% if '2' in form.get('exclude_ranks', []) %}checked{% endif %}> 2등</label>
-        <label><input type="checkbox" name="exclude_ranks" value="3" {% if '3' in form.get('exclude_ranks', []) %}checked{% endif %}> 3등</label>
-      </div>
-      <div class="form-row">
-        <b>최근 많이 나온 번호로 추천:</b>
-        <select name="hot_pick_n">
-          <option value="">--선택안함--</option>
-          <option value="5" {% if form.get('hot_pick_n', '')=='5' %}selected{% endif %}>5회</option>
-          <option value="10" {% if form.get('hot_pick_n', '')=='10' %}selected{% endif %}>10회</option>
-          <option value="20" {% if form.get('hot_pick_n', '')=='20' %}selected{% endif %}>20회</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <b>연속번호 제외:</b>
-        <select name="exclude_consecutive">
-          <option value="">--선택안함--</option>
-          <option value="2" {% if form.get('exclude_consecutive', '')=='2' %}selected{% endif %}>2연속</option>
-          <option value="3" {% if form.get('exclude_consecutive', '')=='3' %}selected{% endif %}>3연속</option>
-          <option value="4" {% if form.get('exclude_consecutive', '')=='4' %}selected{% endif %}>4연속</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <b>제외할 번호(쉼표구분):</b>
-        <input type="text" name="user_exclude" value="{{form.get('user_exclude','')}}" placeholder="예: 1,3,5">
-      </div>
-      <div class="form-row">
-        <b>고정할 번호(1개만 가능):</b>
-        <input type="text" name="user_include" value="{{form.get('user_include','')}}" placeholder="예: 7">
-      </div>
-      <div class="form-row">
-        <b>추천개수:</b>
-        <select name="count">
-          <option value="1" {% if form.get('count','')=='1' or form.get('count','')=='' %}selected{% endif %}>1개</option>
-          <option value="2" {% if form.get('count','')=='2' %}selected{% endif %}>2개</option>
-          <option value="3" {% if form.get('count','')=='3' %}selected{% endif %}>3개</option>
-          <option value="4" {% if form.get('count','')=='4' %}selected{% endif %}>4개</option>
-          <option value="5" {% if form.get('count','')=='5' %}selected{% endif %}>5개</option>
-        </select>
+    .ball { 
+      display: flex; /* flex로 변경하여 내부 정렬 더 확실히 */
+      justify-content: center; 
+      align-items: center; 
+      /* calc()를 사용하여 6개 볼이 항상 한 줄에 들어가도록 동적 너비 계산 */
+      width: calc((100% - (6px * 5)) / 6); 
+      height: calc((100% - (6px * 5)) / 6); /* 높이도 동일하게 설정하여 원형 유지 */
+      min-width: 38px; /* 너무 작아지지 않도록 최소 크기 설정 (모바일 기준) */
+      min-height: 38px;
+      border-radius:50%;
+      margin:0; /* gap으로 간격 제어, 개별 margin 사용 안 함 */
+      font-size:1.1em; 
+      font-weight:600; 
+      box-shadow:0 2px 8px #0001; 
+      transition:.13s; 
+      border:2.5px solid #fff; 
+      flex-shrink: 0; /* 줄어들지 않도록 */
+      box-sizing: border-box; /* 각 볼에도 border-box 적용 */
+    } 
+    .ball.n1 { background: #ffd100; color: #222;}   /* 1~10 노랑 */ 
+    .ball.n2 { background: #7fd7ff; color: #222;}   /* 11~20 하늘 */ 
+    .ball.n3 { background: #ff7676; color: #fff;}   /* 21~30 빨강 */ 
+    .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */ 
+    .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */ 
 
-      </div>
-      <button type="submit">고급 조건 추천받기</button>
-      <div style="height:30px"></div>
-      <ins class="adsbygoogle"
-           style="display:block; text-align:center;"
-           data-ad-client="ca-pub-2748658493247983"
-           data-ad-slot="1234567890"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-           (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </form>
-    {% if numbers %}
-      <h3>추천 번호 세트</h3>
-            <div id="lotto_result">
-        {% for row in numbers %}
-                    <div class="lotto">
-            {% for n in row %}
-              <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
-            {% endfor %}
-          </div>
-        {% endfor %}
-      </div>
-      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
-      <script>
-        function copyLotto() {
-          let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
-          navigator.clipboard.writeText(txt)
-            .then(()=>alert("복사 완료: " + txt))
-            .catch(()=>alert("복사 실패!"));
-        }
-      </script>
-    {% endif %}
-    {% if error %}<div class="error">{{ error }}</div>{% endif %}
-    <div class="desc"><a href="/">무료 추천으로 돌아가기</a></div>
-  </div>
-</body>
+    .desc { color:#6c7a89; font-size:0.98em; margin-bottom:1.5em;} 
+    .error { color:#c22; margin-top:1.2em; } 
+
+    /* 모바일 반응형 미디어 쿼리 */
+    @media (max-width:500px){ 
+      .container { 
+        max-width:97vw; 
+        margin:13vw 2vw; 
+        padding:2em 0.2em; 
+        box-sizing: border-box; 
+      } 
+      h1 { font-size:1.15em;} 
+      .subtitle { font-size:0.92em;} 
+      .lotto > div { /* 모바일에서 각 로또 세트의 최대 너비 재조정 */
+          max-width: 270px; /* 6개 볼이 들어갈 수 있도록 조정 (38*6 + 5*6 = 228 + 30 = 258px) */
+      }
+      .ball {
+          min-width: 38px; 
+          min-height: 38px;
+          font-size: 1.05em; /* 모바일에서 숫자 크기 살짝 줄임 */
+          /* width와 height는 calc()로 계속 계산됨 */
+      }
+      /* 폼 요소 모바일 최적화 */
+      label, select, input[type="text"] {
+          display: block; /* 모바일에서 한 줄에 하나씩 */
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+          width: calc(100% - 24px); /* 여백 제외하고 넓게 사용 */
+          max-width: 250px; /* 너무 넓어지지 않도록 */
+      }
+      .form-row b {
+          display: block;
+          margin-bottom: 0.5em;
+      }
+    } 
+  </style> 
+</head> 
+<body> 
+  <div class="container"> 
+    <h1>SmartPick 고급 조건 추천</h1> 
+    <div class="subtitle">원하는 조건을 직접 선택해<br>더 안전한 맞춤 추천번호를 받아보세요</div> 
+    <form method="post"> 
+      <div class="form-row"> 
+        <b>제외할 당첨번호 등수:</b><br> 
+        <label><input type="checkbox" name="exclude_ranks" value="1" {% if '1' in form.get('exclude_ranks', []) %}checked{% endif %}> 1등</label> 
+        <label><input type="checkbox" name="exclude_ranks" value="2" {% if '2' in form.get('exclude_ranks', []) %}checked{% endif %}> 2등</label> 
+        <label><input type="checkbox" name="exclude_ranks" value="3" {% if '3' in form.get('exclude_ranks', []) %}checked{% endif %}> 3등</label> 
+      </div> 
+      <div class="form-row"> 
+        <b>최근 많이 나온 번호로 추천:</b> 
+        <select name="hot_pick_n"> 
+          <option value="">--선택안함--</option> 
+          <option value="5" {% if form.get('hot_pick_n', '')=='5' %}selected{% endif %}>5회</option> 
+          <option value="10" {% if form.get('hot_pick_n', '')=='10' %}selected{% endif %}>10회</option> 
+          <option value="20" {% if form.get('hot_pick_n', '')=='20' %}selected{% endif %}>20회</option> 
+        </select> 
+      </div> 
+      <div class="form-row"> 
+        <b>연속번호 제외:</b> 
+        <select name="exclude_consecutive"> 
+          <option value="">--선택안함--</option> 
+          <option value="2" {% if form.get('exclude_consecutive', '')=='2' %}selected{% endif %}>2연속</option> 
+          <option value="3" {% if form.get('exclude_consecutive', '')=='3' %}selected{% endif %}>3연속</option> 
+          <option value="4" {% if form.get('exclude_consecutive', '')=='4' %}selected{% endif %}>4연속</option> 
+        </select> 
+      </div> 
+      <div class="form-row"> 
+        <b>제외할 번호(쉼표구분):</b> 
+        <input type="text" name="user_exclude" value="{{form.get('user_exclude','')}}" placeholder="예: 1,3,5"> 
+      </div> 
+      <div class="form-row"> 
+        <b>고정할 번호(1개만 가능):</b> 
+        <input type="text" name="user_include" value="{{form.get('user_include','')}}" placeholder="예: 7"> 
+      </div> 
+      <div class="form-row"> 
+        <b>추천개수:</b> 
+        <select name="count"> 
+          <option value="1" {% if form.get('count','')=='1' or form.get('count','')=='' %}selected{% endif %}>1개</option> 
+          <option value="2" {% if form.get('count','')=='2' %}selected{% endif %}>2개</option> 
+          <option value="3" {% if form.get('count','')=='3' %}selected{% endif %}>3개</option> 
+          <option value="4" {% if form.get('count','')=='4' %}selected{% endif %}>4개</option> 
+          <option value="5" {% if form.get('count','')=='5' %}selected{% endif %}>5개</option> 
+        </select> 
+      </div> 
+      <button type="submit">고급 조건 추천받기</button> 
+      <div style="height:30px"></div> 
+      <!-- 광고 코드는 유지 (필요 시 AdSense 대시보드에서 조정 필요) -->
+      <ins class="adsbygoogle" 
+            style="display:block; text-align:center;" 
+            data-ad-client="ca-pub-2748658493247983" 
+            data-ad-slot="1322588827"  {# index.html과 동일한 슬롯 ID 사용 #}
+            data-ad-format="auto" 
+            data-full-width-responsive="true"></ins> 
+      <script> 
+            (adsbygoogle = window.adsbygoogle || []).push({}); 
+      </script> 
+    </form> 
+    {% if numbers %} 
+      <h3>추천 번호 세트</h3> 
+      <!-- 각 로또 세트마다 별도의 div를 사용하여 레이아웃 제어 -->
+      <div class="lotto" id="lotto_result"> 
+        {% for row in numbers %} 
+          <div class="lotto-ball-row"> {# 여기에 새로운 클래스 적용 #}
+            {% for n in row %} 
+              <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span> 
+            {% endfor %} 
+          </div> 
+        {% endfor %} 
+      </div> 
+      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button> 
+      <script> 
+        // 사용자에게 복사 완료/실패 메시지를 알릴 때 alert() 대신 커스텀 메시지 박스를 사용할 것을 권장합니다.
+        function copyLotto() { 
+          // #lotto_result 안에 있는 모든 .ball 요소의 텍스트를 추출하여 합칩니다.
+          let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', '); 
+          navigator.clipboard.writeText(txt) 
+            .then(() => {
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 완료: " + txt;
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #4CAF50; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            })
+            .catch(() => {
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 실패!";
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #f44336; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            });
+        } 
+      </script> 
+    {% endif %} 
+    {% if error %}<div class="error">{{ error }}</div>{% endif %} 
+    <div class="desc"><a href="/">무료 추천으로 돌아가기</a></div> 
+  </div> 
+</body> 
 </html>
