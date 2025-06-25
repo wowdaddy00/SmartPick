@@ -27,18 +27,21 @@
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 무료 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
+  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
+  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
 
   <!-- SEO/광고/폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body { 
       background:#f8fafd; 
       font-family:'Pretendard', Arial, sans-serif; 
       margin:0;
-      display: flex; /* body를 flex 컨테이너로 설정 */
-      flex-direction: column; /* 세로 방향 정렬 */
-      min-height: 100vh; /* 최소 뷰포트 높이 */
+      display: flex; 
+      flex-direction: column; 
+      min-height: 100vh; 
     }
     .container { 
       max-width:430px; 
@@ -48,11 +51,56 @@
       box-shadow:0 6px 36px #22325620; 
       padding:2.8em 2em 2.2em 2em; 
       text-align:center; 
-      flex-grow: 1; /* 컨테이너가 공간을 차지하도록 */
-      box-sizing: border-box; /* 패딩이 width에 포함되도록 */
+      flex-grow: 1; 
+      box-sizing: border-box; 
     }
-    h1 { font-size:2.2em; font-weight:900; color:#222; margin-bottom:0.2em;}
-    .subtitle { color:#666; font-size:1.15em; margin-bottom:2.2em;}
+    h1 { 
+      font-size:2.2em; 
+      font-weight:900; 
+      color:#222; 
+      margin-bottom:0.8em; /* 아래 간격 늘림 */
+    } 
+    
+    /* 핵심 차별점 메시지 스타일 */
+    .usp-message {
+        margin-bottom: 2.2em; /* 전체 메시지 블록 아래 간격 */
+        border: 2px solid #e53935; /* 빨간색 테두리 */
+        padding: 1.2em 1em; /* 내부 여백 */
+        border-radius: 1.5em; /* 둥근 모서리 */
+        background-color: #fff8f8; /* 약간 붉은 배경색 */
+        box-shadow: 0 4px 15px rgba(229, 57, 53, 0.1); /* 그림자 */
+    }
+    .usp-message div {
+        font-size: 1.1em; /* 기본 텍스트 크기 */
+        font-weight: 600;
+        line-height: 1.5;
+        color: #333;
+        margin-bottom: 0.5em; /* 각 줄 사이 간격 */
+    }
+    .usp-message .line1 {
+        font-size: 1.35em; /* 첫 줄 가장 크게 강조 */
+        font-weight: 700;
+        color: #e53935; /* 강조 색상 */
+    }
+    .usp-message .line1 .icon {
+        margin-right: 8px;
+        color: #e53935;
+    }
+    .usp-message .line2 {
+        font-size: 1.0em;
+        font-weight: 400;
+        color: #666;
+    }
+    .usp-message .line3 {
+        font-size: 1.2em; /* 마지막 줄 강조 */
+        font-weight: 700;
+        color: #4CAF50; /* 긍정적인 초록색 */
+    }
+    .usp-message .line3 .icon {
+        margin-right: 8px;
+        color: #4CAF50;
+    }
+
     form { margin-bottom:2em; }
     button, .copy-btn {
       font-size:1.15em; font-weight:bold; background:#3a5df0;
@@ -62,39 +110,34 @@
     }
     button:hover, .copy-btn:hover { background:#2642b2;}
     
-    /* 로또 볼 배열 재조정 (문제 해결 집중) */
+    /* 로또 볼 배열 */
     .lotto { 
       margin:2.3em auto 0.7em auto; 
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
       align-items: center; 
-      gap: 6px; /* 볼 사이의 간격 (고정값) */
-      /* 볼 6개 (width) + gap 5개 (6px*5=30px) = 총 너비 */
-      /* 각 볼 너비가 40px일 때 40*6 + 30 = 240 + 30 = 270px. 여유있게 280px */
-      max-width: 280px; /* 로또 볼 컨테이너의 최대 너비 */
-      box-sizing: border-box; /* 패딩, 보더가 width에 포함되도록 */
+      gap: 6px; 
+      max-width: 280px; 
+      box-sizing: border-box; 
     }
     .ball {
-      display: flex; /* flex로 변경하여 내부 정렬 더 확실히 */
+      display: flex; 
       justify-content: center; 
       align-items: center; 
-      /* calc()를 사용하여 6개 볼이 항상 한 줄에 들어가도록 동적 너비 계산 */
-      /* (컨테이너 너비 - (gap * 5)) / 6 */
-      /* 실제 렌더링되는 .lotto의 너비에서 5개의 gap을 뺀 후 6으로 나눔 */
       width: calc((100% - (6px * 5)) / 6); 
-      height: calc((100% - (6px * 5)) / 6); /* 높이도 동일하게 설정하여 원형 유지 */
-      min-width: 40px; /* 너무 작아지지 않도록 최소 크기 설정 (데스크톱 기준) */
-      min-height: 40px;
+      height: calc((100% - (6px * 5)) / 6); 
+      min-width: 38px; 
+      min-height: 38px;
       border-radius:50%;
-      margin:0; /* gap으로 간격 제어, 개별 margin 사용 안 함 */
-      font-size:1.2em; 
+      margin:0; 
+      font-size:1.1em; 
       font-weight:600;
       box-shadow:0 2px 8px #0001; 
       transition:.13s;
       border:2.5px solid #fff;
-      flex-shrink: 0; /* 줄어들지 않도록 */
-      box-sizing: border-box; /* 각 볼에도 border-box 적용 */
+      flex-shrink: 0; 
+      box-sizing: border-box; 
     }
     .ball.n1 { background: #ffd100; color: #222;}   /* 1~10 노랑 */
     .ball.n2 { background: #7fd7ff; color: #222;}   /* 11~20 하늘 */
@@ -102,7 +145,16 @@
     .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */
     .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */
 
-    .desc { color:#6c7a89; font-size:0.99em; margin-bottom:1.7em;}
+    .desc { color:#6c7a89; font-size:0.99em; margin-top:2em;} /* desc margin-bottom 제거, margin-top만 유지 */
+    .desc a {
+        font-weight: bold;
+        color: #3a5df0;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .desc a:hover {
+        color: #2642b2;
+    }
     
     /* 모바일 반응형 미디어 쿼리 */
     @media (max-width:500px){
@@ -110,26 +162,33 @@
         max-width:97vw; 
         margin:13vw 2vw; 
         padding:2em 0.2em; 
-        box-sizing: border-box; /* Ensure it applies here too */
+        box-sizing: border-box; 
+      } 
+      h1 { font-size:1.5em;} /* 모바일 h1 크기 조정 */
+      .usp-message div {
+          font-size: 1.0em;
       }
-      h1 { font-size:1.25em;}
-      .subtitle { font-size:0.98em;}
+      .usp-message .line1 {
+          font-size: 1.2em;
+      }
+      .usp-message .line3 {
+          font-size: 1.1em;
+      }
       .lotto {
-          max-width: 280px; /* 모바일에서 볼 6개가 들어갈 수 있도록 최대 너비 재조정 (40*6 + 5*6 = 270) */
+          max-width: 270px; 
       }
       .ball {
-          /* [수정] calc() 대신 고정 크기를 지정하여 렌더링 오류를 근본적으로 방지합니다. */
-          width: 38px;
-          height: 38px;
-        
-          min-width: 38px; /* 모바일에서 볼 최소 크기 약간 줄임 */
+          min-width: 38px; 
           min-height: 38px;
-          font-size: 1.1em; /* 모바일에서 숫자 크기 살짝 줄임 */
-          /* width와 height는 calc()로 계속 계산됨 */
+          font-size: 1.05em; 
+      }
+      button, .copy-btn {
+          font-size: 1.05em;
+          padding: 0.7em 1.8em;
       }
     }
     .stats {
-        /* .stats 섹션은 그대로 유지, 필요한 경우 조정 */
+        margin-top: 20px; 
     }
   </style>
 </head>
@@ -139,12 +198,19 @@
   <b>누적 추천 조합:</b> {{ total_recs }}건
 </div>
   <div class="container">
-    <h1>🎲 SmartPick 무료 추천</h1>
-    <div class="subtitle"><br>이미 당첨된 번호는<br>다시 당첨 된 적이 없습니다.<br></div>
+    <h1>🎲 SmartPick 로또 번호 추천</h1>
+    
+    <div class="usp-message">
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다❌</div>
+        <div class="line2"></div>
+        <div class="line3"><i class="fas fa-check-circle icon"></i> SmartPick은 과거 당첨번호를<br>완전히 제외하고 추천해 드립니다!</div>
+    </div>
+    
     <form method="post">
-      <button type="submit">무작위 번호 1세트 추천받기</button>
+      <button type="submit">과거 당첨번호 제외하고 추천받기</button>
       <div style="height:30px"></div>
     </form>
+    
     {% if numbers %}
       <div class="lotto" id="lotto_result">
         {% for n in numbers[0] %}
@@ -189,10 +255,9 @@
         }
       </script>
     {% endif %}
-    <div class="desc"><br>프리미엄 번호 추천은 여기서 받으세요! <a href="/filter">클릭!</a></div>
+    <div class="desc"><a href="/filter">SmartPick이 특별한 이유: 자세히 알아보기</a></div>
   </div>
   <div style="height:36px"></div>
-  <!-- 하단 광고는 유지 -->
   <ins class="adsbygoogle"
        style="display:block; text-align:center;"
        data-ad-client="ca-pub-2748658493247983"
