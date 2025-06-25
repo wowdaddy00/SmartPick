@@ -49,6 +49,7 @@
       padding:2.8em 2em 2.2em 2em; 
       text-align:center; 
       flex-grow: 1; /* 컨테이너가 공간을 차지하도록 */
+      box-sizing: border-box; /* 패딩이 width에 포함되도록 */
     }
     h1 { font-size:2.2em; font-weight:900; color:#222; margin-bottom:0.2em;}
     .subtitle { color:#666; font-size:1.15em; margin-bottom:2.2em;}
@@ -68,25 +69,32 @@
       flex-wrap: wrap; 
       justify-content: center; 
       align-items: center; 
-      /* max-width를 명확하게 설정하여 6개 볼이 들어갈 공간 확보 */
-      /* 볼 크기 42px + gap 6px = 48px. 48px * 6 = 288px. 조금 여유있게 설정. */
-      max-width: 290px; 
-      box-sizing: border-box; /* padding이 width에 포함되도록 */
+      gap: 6px; /* 볼 사이의 간격 (고정값) */
+      /* 볼 6개 (width) + gap 5개 (6px*5=30px) = 총 너비 */
+      /* 각 볼 너비가 40px일 때 40*6 + 30 = 240 + 30 = 270px. 여유있게 280px */
+      max-width: 280px; /* 로또 볼 컨테이너의 최대 너비 */
+      box-sizing: border-box; /* 패딩, 보더가 width에 포함되도록 */
     }
     .ball {
-      display:inline-flex; 
+      display: flex; /* flex로 변경하여 내부 정렬 더 확실히 */
       justify-content: center; 
       align-items: center; 
-      width:42px; /* 볼 크기 */
-      height:42px; /* 볼 크기 */
+      /* calc()를 사용하여 6개 볼이 항상 한 줄에 들어가도록 동적 너비 계산 */
+      /* (컨테이너 너비 - (gap * 5)) / 6 */
+      /* 실제 렌더링되는 .lotto의 너비에서 5개의 gap을 뺀 후 6으로 나눔 */
+      width: calc((100% - (6px * 5)) / 6); 
+      height: calc((100% - (6px * 5)) / 6); /* 높이도 동일하게 설정하여 원형 유지 */
+      min-width: 40px; /* 너무 작아지지 않도록 최소 크기 설정 (데스크톱 기준) */
+      min-height: 40px;
       border-radius:50%;
-      margin:0 3px; /* 좌우 여백을 균일하게 3px씩 */
-      font-size:1.2em; /* 숫자 크기 */
+      margin:0; /* gap으로 간격 제어, 개별 margin 사용 안 함 */
+      font-size:1.2em; 
       font-weight:600;
       box-shadow:0 2px 8px #0001; 
       transition:.13s;
       border:2.5px solid #fff;
       flex-shrink: 0; /* 줄어들지 않도록 */
+      box-sizing: border-box; /* 각 볼에도 border-box 적용 */
     }
     .ball.n1 { background: #ffd100; color: #222;}   /* 1~10 노랑 */
     .ball.n2 { background: #7fd7ff; color: #222;}   /* 11~20 하늘 */
@@ -98,17 +106,22 @@
     
     /* 모바일 반응형 미디어 쿼리 */
     @media (max-width:500px){
-      .container { max-width:97vw; margin:13vw 2vw; padding:2em 0.2em; }
+      .container { 
+        max-width:97vw; 
+        margin:13vw 2vw; 
+        padding:2em 0.2em; 
+        box-sizing: border-box; /* Ensure it applies here too */
+      }
       h1 { font-size:1.25em;}
       .subtitle { font-size:0.98em;}
       .lotto {
-          max-width: 280px; /* 6개 볼이 들어갈 수 있도록 모바일에서 최대 너비 다시 조정 */
+          max-width: 270px; /* 모바일에서 볼 6개가 들어갈 수 있도록 최대 너비 재조정 (40*6 + 5*6 = 270) */
       }
       .ball {
-          width: 40px; /* 모바일에서 볼 크기 살짝 더 줄임 */
-          height: 40px; /* 모바일에서 볼 크기 살짝 더 줄임 */
-          font-size: 1.1em; /* 모바일에서 숫자 크기 살짝 더 줄임 */
-          margin: 0 2px; /* 모바일에서 볼 간격 더 줄임 */
+          min-width: 38px; /* 모바일에서 볼 최소 크기 약간 줄임 */
+          min-height: 38px;
+          font-size: 1.1em; /* 모바일에서 숫자 크기 살짝 줄임 */
+          /* width와 height는 calc()로 계속 계산됨 */
       }
     }
     .stats {
