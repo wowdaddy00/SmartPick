@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>SmartPick 무료 로또 번호 추천 - 1등 당첨 예측 분석</title>
+  <title>SmartPick 로또 번호 추천 - 프리미엄 당첨 번호 생성</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
   <!-- Google AdSense 코드 -->
@@ -11,20 +11,20 @@
 
   <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
   <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
-  <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 무료로또, 로또당첨번호">
+  <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 프리미엄로또, 로또당첨번호">
   <meta name="author" content="SmartPick Team">
 
   <!-- 오픈그래프 (소셜 미디어 공유 최적화) -->
-  <meta property="og:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 로또 번호 추천 서비스! 무료로 시작하세요." />
+  <meta property="og:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
+  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스! 지금 바로 경험하세요." />
   <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
   <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
   <meta property="og:type" content="website" />
 
   <!-- 트위터 카드 -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SmartPick - 1~3등 제외 로또 번호 추천" />
-  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 무료 로또 번호 추천을 받아보세요." />
+  <meta name="twitter:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
+  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
   <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
@@ -144,36 +144,42 @@
     .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */
     .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */
 
-    .desc { color:#6c7a89; font-size:0.99em; margin-top:2em;} 
-    .desc a {
+    /* '자세히 알아보기' 및 '고급 맞춤 추천' 링크 스타일 */
+    .link-section {
+        margin-top: 2em; /* 상단 여백 추가 */
+        margin-bottom: 1em;
+    }
+    .desc a, .advanced-recommend-link {
         font-weight: bold;
         color: #3a5df0;
         text-decoration: none;
         transition: color 0.2s;
+        display: block; /* 블록 요소로 변경하여 각 링크가 한 줄씩 차지하도록 */
+        padding: 0.5em 0;
     }
-    .desc a:hover {
+    .desc a:hover, .advanced-recommend-link:hover {
         color: #2642b2;
     }
     
     /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
     .stats-box {
-      margin-top: 20px; /* 상단 여백 추가 */
-      margin-bottom: 25px; /* 하단 여백 추가 */
+      margin-top: 20px; 
+      margin-bottom: 25px; 
       padding: 15px 20px;
-      background-color: #e0f7fa; /* 연한 하늘색 배경 */
+      background-color: #e0f7fa; 
       border-radius: 1.5em;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
       font-size: 1.05em;
-      color: #00796b; /* 진한 녹청색 글자색 */
+      color: #00796b; 
       font-weight: 600;
       line-height: 1.6;
-      text-align: center; /* 중앙 정렬 */
-      max-width: 300px; /* 적절한 최대 너비 설정 */
-      margin-left: auto; /* 중앙 정렬 */
-      margin-right: auto; /* 중앙 정렬 */
+      text-align: center; 
+      max-width: 300px; 
+      margin-left: auto; 
+      margin-right: auto; 
     }
     .stats-box b {
-        color: #004d40; /* 더 진한 색으로 강조 */
+        color: #004d40; 
     }
 
     /* 모바일 반응형 미디어 쿼리 */
@@ -206,7 +212,7 @@
           font-size: 1.05em;
           padding: 0.7em 1.8em;
       }
-      .stats-box { /* 모바일에서 통계 박스 너비 조정 */
+      .stats-box { 
           max-width: 90%;
           font-size: 0.95em;
           padding: 12px 15px;
@@ -215,7 +221,7 @@
   </style>
 </head>
 <body>
-  <!-- 오늘의/누적 추천 조합 통계 섹션 (새로운 스타일 적용) -->
+  <!-- 오늘의/누적 추천 조합 통계 섹션 -->
   <div class="stats-box">
     <b>오늘의 추천 조합:</b> {{ today_recs }}건<br>
     <b>누적 추천 조합:</b> {{ total_recs }}건
@@ -225,12 +231,12 @@
     <h1>🎲 SmartPick 로또 번호 추천</h1>
     
     <div class="usp-message">
-        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가<br>다시 당첨된 적은 없습니다.❌</div>
-        <div class="line2"><i class="fas fa-check-circle icon"></i> SmartPick은 과거 당첨번호를 완전히 제외하고 추천해 드립니다!</div>
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다❌</div>
+        <div class="line3"><i class="fas fa-check-circle icon"></i> SmartPick은 과거 당첨번호를 완전히 제외하고 추천해 드립니다!</div>
     </div>
     
     <form method="post">
-      <button type="submit">과거 당첨번호 제외하고 추천받기</button>
+      <button type="submit">SmartPick 프리미엄 번호 추천받기</button>
       <div style="height:30px"></div>
     </form>
     
@@ -278,8 +284,12 @@
         }
       </script>
     {% endif %}
-    <!-- '자세히 알아보기' 링크 수정 (문제 1 해결) -->
-    <div class="desc"><a href="/about">SmartPick이 특별한 이유: 자세히 알아보기</a></div>
+    <div class="link-section">
+        <!-- '자세히 알아보기' 링크 수정 및 스타일 강조 -->
+        <a href="/about" class="desc">SmartPick이 특별한 이유: 자세히 알아보기</a>
+        <!-- 새로운 '고급 맞춤 추천' 링크 추가 -->
+        <a href="/choose_recommendation" class="advanced-recommend-link">SmartPick 고급 맞춤 추천</a>
+    </div>
   </div>
   <div style="height:36px"></div>
   <ins class="adsbygoogle"
