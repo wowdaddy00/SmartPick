@@ -19,33 +19,14 @@ def log_event(event, detail=None):
         with open(logfile, "a", encoding="utf-8") as f:
             f.write(json.dumps(log, ensure_ascii=False) + "\n")
     except Exception as e:
-        print("로그 기록 오류:", e) # Print error to console, as alert() is not allowed
-
-# Function to fetch the latest winning lotto numbers (excluding bonus)
-# NOTE: This function is deprecated for update_winning route, use fetch_latest_lotto_with_bonus instead
-def fetch_latest_lotto_number():
-    url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
-    latest = get_latest_round()
-    resp = requests.get(url + str(latest))
-    data = resp.json()
-    
-    nums = []
-    # Check if all winning numbers (drwtNo1 to drwtNo6) exist and are integers
-    for i in range(1, 7):
-        key = f'drwtNo{i}'
-        if key not in data or not isinstance(data[key], int):
-            return None, None # Return None if winning numbers are not available
-        nums.append(data[key])
-    return latest, nums
+        print("로그 기록 오류:", e)
 
 # Function to get the latest lottery round number
 def get_latest_round():
-    # Search backwards from a high number to find the latest valid round
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
-    for drw in range(1200, 1000, -1): # Search from 1200 down to 1001 for recent rounds
+    for drw in range(1200, 1000, -1): # Search from a high number down to 1001 for recent rounds
         resp = requests.get(url + str(drw))
         data = resp.json()
-        # Return round number if data is successful and all 6 winning numbers are integers
         if data.get('returnValue') == 'success' and all(isinstance(data.get(f'drwtNo{i}'), int) for i in range(1, 7)):
             return drw
     return None
@@ -54,16 +35,15 @@ def get_latest_round():
 def fetch_latest_lotto_with_bonus():
     latest = get_latest_round()
     if latest is None:
-        return None, None, None # No latest round found
+        return None, None, None
 
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     resp = requests.get(url + str(latest))
     data = resp.json()
     
-    # Ensure all required keys exist and are integers
     required_keys = [f'drwtNo{i}' for i in range(1, 7)] + ['bnusNo']
     if not all(key in data and isinstance(data[key], int) for key in required_keys):
-        return None, None, None # Missing or invalid data
+        return None, None, None
 
     nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
     bonus = data['bnusNo']
@@ -71,16 +51,13 @@ def fetch_latest_lotto_with_bonus():
 
 # Function to generate combinations for 2nd and 3rd rank numbers
 def make_rank2_3(nums, bonus):
-    # Get all combinations of 5 numbers from the 6 winning numbers
     combis = list(itertools.combinations(nums, 5))
     rank2 = []
     rank3 = []
     for c in combis:
-        # If the combination includes the bonus number, it's a 2nd rank equivalent
         if bonus in c:
             rank2.append(tuple(sorted(c)))
         else:
-            # Otherwise, it's a 3rd rank equivalent (5 matching, no bonus)
             rank3.append(tuple(sorted(c)))
     return rank2, rank3
 
@@ -93,63 +70,58 @@ WINNING3_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank3.json')
 # Function to load winning rank data from JSON files
 def load_rank(path, key, length=6):
     try:
-        # Ensure directory exists before attempting to open
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, encoding='utf-8') as f:
             data = json.load(f)
-            # Sort numbers in each row and ensure correct length (6 for rank1/2, 5 for rank3)
             return [tuple(sorted(row[:length])) for row in data.get(key, [])]
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"{path} 파일 읽기/디코딩 에러 (새 파일 생성):", e) # Print error to console
+        print(f"{path} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
         return []
     except Exception as e:
-        print(f"{path} 파일 읽기 에러:", e) # Other errors
+        print(f"{path} 파일 읽기 에러:", e)
         return []
 
 # Load all historical winning numbers into sets for quick lookup
-# This will be reloaded in update_winning after file changes
+# These will be reloaded in update_winning after file changes
 rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
 rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
-rank3 = load_rank(WINNING3_PATH, 'rank3', 5) # Rank 3 has 5 numbers + no bonus
+rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
 ALL_WINNING = {
     "1": set(rank1),
     "2": set(rank2),
-    "3": set(rank3) # Store rank3 as 5-number tuples
+    "3": set(rank3)
 }
 
 # Function to get frequently appearing numbers from recent N draws
 def get_hot_numbers(n=5):
     all_nums = []
-    # Extend all_nums with numbers from the last 'n' draws
     for row in rank1[-n:]:
         all_nums.extend(row)
     
-    # Calculate frequency of each number
     freq = {}
     for num in all_nums:
         freq[num] = freq.get(num, 0) + 1
     
-    # Sort numbers by frequency in descending order
     sorted_nums = [k for k, v in sorted(freq.items(), key=lambda x: -x[1])]
     return set(sorted_nums)
 
 # Function to check if a set of numbers contains a consecutive sequence
 def has_consecutive(numbers, seq_len=2):
-    nums = sorted(list(numbers)) # Ensure sorted list for checking consecutiveness
+    nums = sorted(list(numbers))
     count = 1
     for i in range(1, len(nums)):
         if nums[i] == nums[i-1] + 1:
             count += 1
-            if count >= seq_len: # If consecutive sequence reaches desired length
+            if count >= seq_len:
                 return True
         else:
-            count = 1 # Reset count if sequence breaks
+            count = 1
     return False
 
 # Function to generate lottery numbers based on various filters
 def generate_numbers(
     exclude_ranks=[],
-    exclude_hot_n=None,
+    exclude_hot_n=None, # This is now for 'filter' logic, not hotpick
     exclude_consecutive=None,
     user_exclude=None,
     user_include=None,
@@ -158,19 +130,15 @@ def generate_numbers(
     results = []
     tries = 0
     
-    # Build a set of numbers to exclude based on winning ranks
     exclude_db = set()
     for r in exclude_ranks:
         exclude_db.update(ALL_WINNING.get(r, set()))
     
-    # Get hot numbers to exclude if specified
-    hot_numbers = get_hot_numbers(exclude_hot_n) if exclude_hot_n else set()
+    hot_numbers_to_exclude = get_hot_numbers(exclude_hot_n) if exclude_hot_n else set()
     
-    # Generate numbers until the desired count is reached or max tries exceeded
     while len(results) < count:
-        nums = set(random.sample(range(1, 46), 6)) # Generate 6 random numbers
+        nums = set(random.sample(range(1, 46), 6))
         
-        # Apply filters:
         # 1. User required numbers (user_include)
         if user_include and not set(user_include).issubset(nums):
             tries += 1
@@ -184,17 +152,15 @@ def generate_numbers(
             continue
         
         # 3. Exclude past winning combinations (by rank)
-        # For rank 3, check only 5 numbers of the generated set
         if exclude_db:
-            if tuple(sorted(nums)) in ALL_WINNING.get("1", set()): # Check against rank 1
+            if tuple(sorted(nums)) in ALL_WINNING.get("1", set()):
                 tries += 1
                 if tries > 30000: break
                 continue
-            if tuple(sorted(nums)) in ALL_WINNING.get("2", set()): # Check against rank 2
+            if tuple(sorted(nums)) in ALL_WINNING.get("2", set()):
                 tries += 1
                 if tries > 30000: break
                 continue
-            # For rank 3, check all 6C5 combinations of the generated numbers
             is_rank3_match = False
             for combo in itertools.combinations(nums, 5):
                 if tuple(sorted(combo)) in ALL_WINNING.get("3", set()):
@@ -205,8 +171,8 @@ def generate_numbers(
                 if tries > 30000: break
                 continue
 
-        # 4. Exclude recent hot numbers
-        if exclude_hot_n and nums.intersection(hot_numbers):
+        # 4. Exclude recent hot numbers (when used as a filter, NOT a generation method)
+        if exclude_hot_n and nums.intersection(hot_numbers_to_exclude):
             tries += 1
             if tries > 30000: break
             continue
@@ -218,15 +184,17 @@ def generate_numbers(
             continue
         
         # 6. Prevent duplicate sets in the results
-        if sorted(list(nums)) in results: # Convert set to list, sort, then check
+        if sorted(list(nums)) in results:
             tries += 1
             if tries > 30000: break
             continue
             
-        results.append(sorted(list(nums))) # Add sorted list of numbers to results
-        tries += 1 # Increment tries for valid numbers found
+        results.append(sorted(list(nums)))
+        # Do NOT increment tries for successful generation, only for rejected tries
+        # This allows it to generate 'count' numbers without hitting max_tries too soon if filters are strict
 
-        if tries > 30000: # Safety break to prevent infinite loops
+        if tries > 300000: # Increase safety break for strict filters
+            print("경고: 필터 조건이 너무 엄격하여 번호 생성 시도 횟수 초과. 일부 결과가 누락될 수 있습니다.")
             break
     return results
 
@@ -239,35 +207,34 @@ def parse_int_list(text):
 # Route for the free recommendation page (root URL)
 @app.route("/", methods=["GET", "POST"])
 def free():
-    log_event("visit", {"page": "index"}) # Log page visit
+    log_event("visit", {"page": "index"})
     numbers = None
     error = ""
     
-    # Initialize recommendation counters
     total_recs = 0
     today_recs = 0
-    
-    # Read admin log to count recommendations
     today = datetime.datetime.now().strftime('%Y-%m-%d')
     try:
         with open("admin_log.json", encoding="utf-8") as f:
             for line in f:
-                if '"event": "recommend"' in line: # Check for 'recommend' event
+                if '"event": "recommend"' in line:
                     total_recs += 1
-                    if today in line: # Check if event occurred today
+                    if today in line:
                         today_recs += 1
     except:
-        pass # Ignore if log file doesn't exist or is unreadable
+        pass
         
     if request.method == "POST":
-        numbers = generate_numbers(count=1) # Generate 1 set of numbers
-        log_event("recommend", { # Log the recommendation event
-            "page": "index",
+        # 'SmartPick 프리미엄 번호 추천받기' 버튼 클릭 시
+        # 기본적으로 1,2,3등 당첨 번호 제외 필터를 적용
+        numbers = generate_numbers(count=1, exclude_ranks=['1', '2', '3'])
+        log_event("recommend", {
+            "page": "index_premium_quick",
             "numbers": numbers,
-            "user_ip": request.remote_addr # Log user's IP address
+            "user_ip": request.remote_addr
         })
         if not numbers:
-            error = "추천 가능한 번호가 없습니다." # Set error if no numbers generated
+            error = "추천 가능한 프리미엄 번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
             
     return render_template(
         "index.html",
@@ -277,83 +244,103 @@ def free():
         today_recs=today_recs
     )
 
-# Route for the filtered recommendation page
+# New Route for choosing recommendation type
+@app.route('/choose_recommendation')
+def choose_recommendation():
+    log_event("visit", {"page": "choose_recommendation"})
+    return render_template('choose_recommendation.html')
+
+# Route for the detailed filtered recommendation page (formerly /filter)
 @app.route("/filter", methods=["GET", "POST"])
-def filter_page():
-    log_event("visit", {"page": "filter"}) # Log page visit
+def detailed_filter_page():
+    log_event("visit", {"page": "detailed_filter"})
     numbers = []
     form = {}
     error = ""
     
     if request.method == "POST":
         try:
-            hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
-            count = int(request.form.get("count") or 1)
+            exclude_ranks = request.form.getlist("exclude_ranks")
+            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
+            exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
+            user_exclude = parse_int_list(request.form.get("user_exclude", ""))
+            user_include = parse_int_list(request.form.get("user_include", ""))
+            count = int(request.form.get("count") or 5)
             
-            # If hot_pick_n is selected, process hot numbers
-            if hot_pick_n:
-                # 1) Get recent N rounds' numbers
-                recent_nums = []
-                for row in rank1[-hot_pick_n:]:
-                    recent_nums.extend(row)
+            if len(user_include) > 1:
+                error = "고정할 번호는 1개만 입력할 수 있습니다."
+                numbers = []
+            else:
+                numbers = generate_numbers(
+                    exclude_ranks=exclude_ranks,
+                    exclude_hot_n=exclude_hot_n,
+                    exclude_consecutive=exclude_consecutive,
+                    user_exclude=user_exclude,
+                    user_include=user_include,
+                    count=count
+                )
+                form = dict(request.form)
                 
-                # 2) Count frequency of numbers
-                counts = Counter(recent_nums)
+                if not numbers and not error:
+                    error = "조건에 맞는 추천번호가 없습니다. (필터를 줄여 다시 시도해주세요)"
                 
-                # 3) Select top 6 most common numbers
-                generated_numbers = []
-                for _ in range(count):
-                    top6 = [num for num, cnt in counts.most_common(6)]
-                    if len(top6) < 6:
-                        # Fill remaining slots with random numbers if less than 6 hot numbers
-                        top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
-                    random.shuffle(top6) # Shuffle the numbers
-                    generated_numbers.append(sorted(top6)) # Add sorted numbers to list
-                
-                numbers = generated_numbers # Assign generated numbers to 'numbers'
-                form = dict(request.form) # Store form data
-                
-                log_event("recommend", { # Log the recommendation event
-                    "page": "filter-hot",
+                log_event("recommend", {
+                    "page": "detailed_filter",
                     "numbers": numbers,
                     "user_ip": request.remote_addr,
                     "condition": dict(request.form)
                 })
-                # Return early if hot_pick_n was handled
-                return render_template("filter.html", numbers=numbers, error=error, form=form)
-            
-            # If hot_pick_n is NOT selected, proceed with other filters
-            else:
-                exclude_ranks = request.form.getlist("exclude_ranks")
-                exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
-                exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
-                user_exclude = parse_int_list(request.form.get("user_exclude", ""))
-                user_include = parse_int_list(request.form.get("user_include", ""))
-                count = int(request.form.get("count") or 5) # Default count for general filters
-                
-                # Error handling for user_include (only 1 number allowed as fixed)
-                if len(user_include) > 1:
-                    error = "고정할 번호는 1개만 입력할 수 있습니다."
-                    numbers = [] # Clear numbers in case of error
-                else:
-                    # Generate numbers with all specified filters
-                    numbers = generate_numbers(
-                        exclude_ranks=exclude_ranks,
-                        exclude_hot_n=exclude_hot_n,
-                        exclude_consecutive=exclude_consecutive,
-                        user_exclude=user_exclude,
-                        user_include=user_include,
-                        count=count
-                    )
-                    form = dict(request.form) # Store form data
-                    
-                    if not numbers and not error:
-                        error = "조건에 맞는 추천번호가 없습니다. (필터를 줄여 다시 시도해주세요)"
-        
         except Exception as e:
-            error = f"입력값 오류: {e}" # Catch any input-related errors
+            error = f"입력값 오류: {e}"
             
     return render_template("filter.html", numbers=numbers, error=error, form=form)
+
+# New Route for Hot Pick recommendation page
+@app.route("/hotpick", methods=["GET", "POST"])
+def hotpick_page():
+    log_event("visit", {"page": "hotpick"})
+    numbers = []
+    form = {}
+    error = ""
+
+    if request.method == "POST":
+        try:
+            hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
+            count = int(request.form.get("count") or 1)
+            
+            if hot_pick_n:
+                recent_nums = []
+                for row in rank1[-hot_pick_n:]:
+                    recent_nums.extend(row)
+                
+                counts = Counter(recent_nums)
+                
+                generated_numbers = []
+                # Fix for problem 6: Ensure 'count' sets are generated for hotpick
+                for _ in range(count):
+                    top6 = [num for num, cnt in counts.most_common(6)]
+                    if len(top6) < 6:
+                        top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
+                    random.shuffle(top6)
+                    generated_numbers.append(sorted(top6))
+                
+                numbers = generated_numbers
+                form = dict(request.form)
+                
+                log_event("recommend", {
+                    "page": "hotpick_recommendation",
+                    "numbers": numbers,
+                    "user_ip": request.remote_addr,
+                    "condition": dict(request.form)
+                })
+            else:
+                error = "최근 많이 나온 번호 추천 주기를 선택해주세요."
+            
+        except Exception as e:
+            error = f"입력값 오류: {e}"
+    
+    return render_template("hotpick.html", numbers=numbers, error=error, form=form)
+
 
 # Route for the About page
 @app.route('/about')
@@ -383,17 +370,15 @@ def contact():
 @app.route('/stats')
 def stats():
     log_event("visit", {"page": "stats"})
-    recent_n = 10 # Default to recent 10 weeks (can be changed)
+    recent_n = 10 
     numbers = []
-    # Collect numbers from recent 'n' draws
     for row in rank1[-recent_n:]:
         numbers.extend(row)
     
-    # Calculate frequency of all numbers (1-45)
     freq = dict(Counter(numbers))
     for n in range(1, 46):
-        freq.setdefault(n, 0) # Ensure all numbers from 1 to 45 are in the frequency dictionary
-    freq = dict(sorted(freq.items())) # Sort by number
+        freq.setdefault(n, 0)
+    freq = dict(sorted(freq.items()))
     
     return render_template('stats.html', freq_json=freq, recent_n=recent_n)
 
@@ -401,18 +386,16 @@ def stats():
 @app.route('/admin')
 def admin():
     pw = request.args.get("pw", "")
-    if pw != "1234": # Basic password check (should be more secure in production)
-        return "관리자 인증 필요(pw=1234)", 403 # Unauthorized access
+    if pw != "1234":
+        return "관리자 인증 필요(pw=1234)", 403
     
     logs = []
     try:
-        # Load all logs from admin_log.json
         with open("admin_log.json", encoding="utf-8") as f:
             logs = [json.loads(line) for line in f if line.strip()]
     except:
-        pass # Ignore if log file doesn't exist
+        pass
     
-    # Aggregate statistics from logs
     total_visits = sum(1 for log in logs if log["event"]=="visit")
     total_recs = sum(1 for log in logs if log["event"]=="recommend")
     
@@ -423,9 +406,7 @@ def admin():
 def update_winning():
     pw = request.form.get("pw")
     
-    # Password authentication
-    if pw != "1234": # Basic password check
-        # If authentication fails, render admin page with an error message
+    if pw != "1234":
         logs = []
         try:
             with open("admin_log.json", encoding="utf-8") as f:
@@ -436,13 +417,10 @@ def update_winning():
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg="비밀번호가 틀렸습니다.")
 
-    # Fetch latest winning numbers WITH bonus number
-    latest, nums, bonus = fetch_latest_lotto_with_bonus() # Use fetch_latest_lotto_with_bonus()
+    latest, nums, bonus = fetch_latest_lotto_with_bonus()
     
-    # If numbers are not yet available for the latest round
     if latest is None or nums is None or bonus is None:
         msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
-        # Render admin page with status message
         logs = []
         try:
             with open("admin_log.json", encoding="utf-8") as f:
@@ -481,8 +459,8 @@ def update_winning():
         db_rank2 = {"rank2": []}
     
     for r2_combo in rank2_new:
-        if list(r2_combo) not in db_rank2["rank2"]: # Convert tuple back to list for comparison with stored list
-            db_rank2["rank2"].append(list(r2_combo)) # Store as list
+        if list(r2_combo) not in db_rank2["rank2"]:
+            db_rank2["rank2"].append(list(r2_combo))
     with open(WINNING2_PATH, "w", encoding="utf-8") as f:
         json.dump(db_rank2, f, ensure_ascii=False, indent=2)
     msg_rank2 = "2등 조합 업데이트 완료."
@@ -497,17 +475,16 @@ def update_winning():
         db_rank3 = {"rank3": []}
     
     for r3_combo in rank3_new:
-        if list(r3_combo) not in db_rank3["rank3"]: # Convert tuple back to list
-            db_rank3["rank3"].append(list(r3_combo)) # Store as list
+        if list(r3_combo) not in db_rank3["rank3"]:
+            db_rank3["rank3"].append(list(r3_combo))
     with open(WINNING3_PATH, "w", encoding="utf-8") as f:
         json.dump(db_rank3, f, ensure_ascii=False, indent=2)
     msg_rank3 = "3등 조합 업데이트 완료."
     
-    msg = f"{msg_rank1}<br>{msg_rank2}<br>{msg_rank3}" # Combine messages
+    msg = f"{msg_rank1}<br>{msg_rank2}<br>{msg_rank3}"
 
-    # Reload ALL_WINNING for current session
-    global ALL_WINNING # Declare ALL_WINNING as global to modify it
-    global rank1, rank2, rank3 # Also declare these as global for re-assignment
+    global ALL_WINNING
+    global rank1, rank2, rank3
     rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
     rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
     rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
@@ -517,7 +494,6 @@ def update_winning():
         "3": set(rank3)
     }
 
-    # Re-render admin dashboard with the update message
     logs = []
     try:
         with open("admin_log.json", encoding="utf-8") as f:
