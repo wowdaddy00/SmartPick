@@ -22,6 +22,7 @@ def log_event(event, detail=None):
         print("로그 기록 오류:", e) # Print error to console, as alert() is not allowed
 
 # Function to fetch the latest winning lotto numbers (excluding bonus)
+# NOTE: This function is deprecated for update_winning route, use fetch_latest_lotto_with_bonus instead
 def fetch_latest_lotto_number():
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     latest = get_latest_round()
@@ -41,7 +42,7 @@ def fetch_latest_lotto_number():
 def get_latest_round():
     # Search backwards from a high number to find the latest valid round
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
-    for drw in range(1200, 1000, -1): # Search from 1200 down to 1001
+    for drw in range(1200, 1000, -1): # Search from 1200 down to 1001 for recent rounds
         resp = requests.get(url + str(drw))
         data = resp.json()
         # Return round number if data is successful and all 6 winning numbers are integers
@@ -52,9 +53,18 @@ def get_latest_round():
 # Function to fetch latest lotto numbers with bonus number
 def fetch_latest_lotto_with_bonus():
     latest = get_latest_round()
+    if latest is None:
+        return None, None, None # No latest round found
+
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     resp = requests.get(url + str(latest))
     data = resp.json()
+    
+    # Ensure all required keys exist and are integers
+    required_keys = [f'drwtNo{i}' for i in range(1, 7)] + ['bnusNo']
+    if not all(key in data and isinstance(data[key], int) for key in required_keys):
+        return None, None, None # Missing or invalid data
+
     nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
     bonus = data['bnusNo']
     return latest, nums, bonus
@@ -83,15 +93,21 @@ WINNING3_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank3.json')
 # Function to load winning rank data from JSON files
 def load_rank(path, key, length=6):
     try:
+        # Ensure directory exists before attempting to open
+        os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, encoding='utf-8') as f:
             data = json.load(f)
             # Sort numbers in each row and ensure correct length (6 for rank1/2, 5 for rank3)
             return [tuple(sorted(row[:length])) for row in data.get(key, [])]
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"{path} 파일 읽기/디코딩 에러 (새 파일 생성):", e) # Print error to console
+        return []
     except Exception as e:
-        print(f"{path} 파일 읽기 에러:", e) # Print error to console
+        print(f"{path} 파일 읽기 에러:", e) # Other errors
         return []
 
 # Load all historical winning numbers into sets for quick lookup
+# This will be reloaded in update_winning after file changes
 rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
 rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
 rank3 = load_rank(WINNING3_PATH, 'rank3', 5) # Rank 3 has 5 numbers + no bonus
@@ -420,11 +436,11 @@ def update_winning():
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg="비밀번호가 틀렸습니다.")
 
-    # Fetch latest winning numbers
-    latest, nums = fetch_latest_lotto_number()
+    # Fetch latest winning numbers WITH bonus number
+    latest, nums, bonus = fetch_latest_lotto_with_bonus() # Use fetch_latest_lotto_with_bonus()
     
     # If numbers are not yet available for the latest round
-    if latest is None or nums is None:
+    if latest is None or nums is None or bonus is None:
         msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
         # Render admin page with status message
         logs = []
@@ -437,21 +453,69 @@ def update_winning():
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
         
-    # Load existing rank 1 data
+    # --- Update Rank 1 Data ---
     try:
+        os.makedirs(os.path.dirname(WINNING1_PATH), exist_ok=True)
         with open(WINNING1_PATH, encoding="utf-8") as f:
-            db = json.load(f)
-    except:
-        db = {"rank1": []} # Initialize if file doesn't exist
-        
-    # Add new winning numbers if not already present
-    if nums not in db["rank1"]:
-        db["rank1"].append(nums)
+            db_rank1 = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        db_rank1 = {"rank1": []}
+    
+    if nums not in db_rank1["rank1"]:
+        db_rank1["rank1"].append(nums)
         with open(WINNING1_PATH, "w", encoding="utf-8") as f:
-            json.dump(db, f, ensure_ascii=False, indent=2) # Save with pretty print
-        msg = f"{latest}회차 번호 {nums} 저장 완료!"
+            json.dump(db_rank1, f, ensure_ascii=False, indent=2)
+        msg_rank1 = f"{latest}회차 1등 번호 {nums} 저장 완료!"
     else:
-        msg = "이미 최신 번호가 반영되어 있습니다."
+        msg_rank1 = f"1등 번호 (회차 {latest})는 이미 최신으로 반영되어 있습니다."
+
+    # --- Update Rank 2 & 3 Data ---
+    rank2_new, rank3_new = make_rank2_3(nums, bonus)
+
+    # Update Rank 2
+    try:
+        os.makedirs(os.path.dirname(WINNING2_PATH), exist_ok=True)
+        with open(WINNING2_PATH, encoding="utf-8") as f:
+            db_rank2 = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        db_rank2 = {"rank2": []}
+    
+    for r2_combo in rank2_new:
+        if list(r2_combo) not in db_rank2["rank2"]: # Convert tuple back to list for comparison with stored list
+            db_rank2["rank2"].append(list(r2_combo)) # Store as list
+    with open(WINNING2_PATH, "w", encoding="utf-8") as f:
+        json.dump(db_rank2, f, ensure_ascii=False, indent=2)
+    msg_rank2 = "2등 조합 업데이트 완료."
+
+
+    # Update Rank 3
+    try:
+        os.makedirs(os.path.dirname(WINNING3_PATH), exist_ok=True)
+        with open(WINNING3_PATH, encoding="utf-8") as f:
+            db_rank3 = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        db_rank3 = {"rank3": []}
+    
+    for r3_combo in rank3_new:
+        if list(r3_combo) not in db_rank3["rank3"]: # Convert tuple back to list
+            db_rank3["rank3"].append(list(r3_combo)) # Store as list
+    with open(WINNING3_PATH, "w", encoding="utf-8") as f:
+        json.dump(db_rank3, f, ensure_ascii=False, indent=2)
+    msg_rank3 = "3등 조합 업데이트 완료."
+    
+    msg = f"{msg_rank1}<br>{msg_rank2}<br>{msg_rank3}" # Combine messages
+
+    # Reload ALL_WINNING for current session
+    global ALL_WINNING # Declare ALL_WINNING as global to modify it
+    global rank1, rank2, rank3 # Also declare these as global for re-assignment
+    rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
+    rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
+    rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
+    ALL_WINNING = {
+        "1": set(rank1),
+        "2": set(rank2),
+        "3": set(rank3)
+    }
 
     # Re-render admin dashboard with the update message
     logs = []
@@ -477,4 +541,3 @@ def healthz():
 # Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)
-
