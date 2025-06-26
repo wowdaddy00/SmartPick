@@ -2,215 +2,156 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>SmartPick이 특별한 이유 - 로또 번호 추천의 진실</title>
+  <title>SmartPick 관리자 대시보드 - 로또 서비스 관리</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
-  <meta name="description" content="SmartPick이 왜 특별한지 자세히 알아보세요. 과거 로또 당첨 데이터 분석을 통한 독점적인 번호 추천 로직으로 당신의 로또 선택을 돕습니다.">
-  <meta name="keywords" content="SmartPick, 로또 특별한 이유, 로또 분석, 로또 당첨번호 제외, 로또 전략, 로또 진실, 로또 확률, 로또 번호 추천">
+  <!-- SEO/Meta 태그 추가 -->
+  <meta name="description" content="SmartPick 로또 번호 추천 서비스의 관리자 대시보드입니다. 방문자 로그 및 추천 기록을 확인하고 최신 당첨 번호를 업데이트할 수 있습니다.">
+  <meta name="keywords" content="SmartPick 관리자, 로또 관리, 로또 통계, 로또 로그">
   <meta name="author" content="SmartPick Team">
 
-  <!-- 오픈그래프 -->
-  <meta property="og:title" content="SmartPick이 특별한 이유 - 로또 번호 추천의 진실" />
-  <meta property="og:description" content="과거 당첨된 적 없는 번호만 추천하는 SmartPick의 독점적인 로직을 공개합니다." />
-  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-  <meta property="og:url" content="https://smartpick.wow-daddy.com/about" />
-  <meta property="og:type" content="website" />
-
-  <!-- 트위터 카드 -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SmartPick이 특별한 이유 - 로또 번호 추천의 진실" />
-  <meta name="twitter:description" content="로또 확률은 동일하지만, SmartPick은 다른 접근 방식을 제안합니다. 지금 바로 알아보세요." />
-  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { 
-      background:#f8fafd; 
-      font-family:'Pretendard', Arial, sans-serif; 
-      margin:0;
-      line-height: 1.6;
-      color: #333;
-    }
-    .container { 
-      max-width:680px; /* 넓이 확장 */
-      margin:50px auto; 
+    body { font-family:'Pretendard', sans-serif; background:#f7fafc; margin:0;}
+    .dash { 
+      max-width:700px; 
+      margin:40px auto; 
       background:#fff; 
-      border-radius:2em; 
-      box-shadow:0 6px 36px #22325620; 
-      padding:2.8em 2.5em 2.2em 2.5em; /* 여백 조정 */
+      border-radius:1.5em; 
+      padding:2.5em;
+      box-shadow:0 6px 36px #22325620; /* 일관된 그림자 */
     }
-    h1 { 
-      font-size:2.2em; 
-      font-weight:900; 
-      color:#222; 
-      margin-bottom:1.5em;
-      text-align: center;
+    h1 { font-size: 2em; margin-bottom:1em; color:#222;}
+    h2 { font-size: 1.4em; margin-top: 1.5em; margin-bottom: 0.8em; color:#333; border-bottom: 1px solid #eee; padding-bottom: 0.5em;}
+    form { margin-bottom:18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;}
+    input[type="password"] {
+      padding:10px 15px; /* 패딩 증가 */
+      border-radius:10px; /* 모서리 둥글게 */
+      border:1px solid #ccc;
+      margin-right:10px;
+      margin-bottom: 10px; /* 모바일 대응 */
+      flex-grow: 1; /* 너비 유연하게 */
+      max-width: 250px; /* 최대 너비 */
     }
-    h2 { 
-      font-size:1.6em; 
-      font-weight:700; 
-      color:#333; 
-      margin-top:2em; 
-      margin-bottom:1em;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 0.5em;
+    button[type="submit"] {
+      padding:10px 20px; /* 패딩 증가 */
+      border-radius:10px; /* 모서리 둥글게 */
+      background:#3a5df0;
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      transition:.2s;
+      margin-bottom: 10px; /* 모바일 대응 */
     }
-    h3 { 
-      font-size:1.3em; 
-      font-weight:700; 
-      color:#444; 
-      margin-top:1.5em; 
-      margin-bottom:0.8em;
-      border-left: 5px solid #3a5df0; /* 강조 라인 */
-      padding-left: 10px;
-    }
-    p { margin-bottom:1em; }
-    ul { list-style: none; padding: 0; margin-bottom: 1em;}
-    ul li { 
-      margin-bottom: 0.5em; 
-      padding-left: 1.5em; 
-      position: relative;
-    }
-    ul li::before { /* 리스트 아이콘 */
-        content: '\f00c'; /* Font Awesome 체크 아이콘 */
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 900;
-        position: absolute;
-        left: 0;
-        color: #4CAF50;
+    button[type="submit"]:hover { background:#2642b2;}
+    
+    .msg-box {
+      color:#25701a; 
+      margin-bottom:14px; 
+      font-weight:bold;
+      background-color: #e6ffe6;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #4CAF50;
     }
 
-    .fact-highlight {
-        background-color: #fcebeb; /* 밝은 빨간색 배경 */
-        border-left: 5px solid #e53935; /* 빨간색 왼쪽 테두리 */
-        padding: 1.2em 1.5em;
-        margin: 1.5em 0;
-        border-radius: 0.8em;
-        font-size: 1.1em;
-        line-height: 1.8;
+    table { 
+      width:100%; 
+      border-collapse:collapse; 
+      margin:1.5em 0;
+      font-size: 0.95em;
     }
-    .fact-highlight strong {
-        color: #e53935; /* 텍스트 강조 색상 */
+    th, td { 
+      border:1px solid #eee; 
+      padding:10px; /* 패딩 증가 */
+      text-align:left;
+      vertical-align: top;
     }
-    .fact-highlight .icon {
-        margin-right: 8px;
-        color: #e53935;
+    th { 
+      background:#f0f2fa;
+      font-weight: 700;
+      color: #555;
     }
-
-    .conclusion-box {
-        background-color: #e8f5e9; /* 밝은 초록색 배경 */
-        border-left: 5px solid #4CAF50; /* 초록색 왼쪽 테두리 */
-        padding: 1.5em;
-        margin-top: 2.5em;
-        border-radius: 0.8em;
-        font-size: 1.1em;
-        font-weight: 600;
-        line-height: 1.7;
-    }
-    .conclusion-box strong {
-        color: #2e7d32;
-    }
-
-    .link-back { 
-      display: block;
-      margin-top:2.5em; 
-      text-align: center;
-      font-size:1.1em;
-      font-weight: bold;
-      color:#3a5df0;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .link-back:hover { 
-      color:#2642b2;
-    }
+    hr { border: none; border-top: 1px solid #eee; margin: 2em 0;}
 
     /* 모바일 반응형 */
     @media (max-width: 768px) {
-        .container {
-            margin: 30px 15px;
-            padding: 1.5em;
-        }
-        h1 { font-size:1.8em; }
-        h2 { font-size:1.4em; }
-        h3 { font-size:1.1em; }
-        .fact-highlight, .conclusion-box {
-            padding: 1em;
-            font-size: 1em;
-        }
+      .dash {
+        margin: 20px 15px;
+        padding: 1.5em;
+      }
+      h1 { font-size: 1.6em; text-align: center;}
+      form {
+        flex-direction: column; /* 세로 정렬 */
+        align-items: stretch; /* 늘려서 너비 채우기 */
+      }
+      input[type="password"], button[type="submit"] {
+        width: 100%;
+        margin-right: 0;
+      }
+      table, thead, tbody, th, td, tr { 
+        display: block; /* 테이블 셀을 블록 요소로 변경 */
+      }
+      thead tr { 
+        position: absolute; /* 헤더 숨김 */
+        top: -9999px;
+        left: -9999px;
+      }
+      tr { border: 1px solid #ccc; margin-bottom: 1.5em; border-radius: 8px;} /* 각 행마다 테두리 */
+      td { 
+        border: none; /* 셀 테두리 제거 */
+        border-bottom: 1px solid #eee; /* 하단 구분선 */
+        position: relative;
+        padding-left: 50%; /* 레이블 공간 확보 */
+        text-align: right;
+      }
+      td:last-child { border-bottom: 0;} /* 마지막 셀 하단선 제거 */
+      td::before { /* 레이블 추가 (모바일에서 테이블 헤더 역할) */
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%; /* 레이블 너비 */
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: bold;
+        text-align: left;
+        color: #666;
+      }
+      /* 각 td에 데이터 속성으로 레이블 지정 */
+      td:nth-of-type(1)::before { content: "일시:"; }
+      td:nth-of-type(2)::before { content: "이벤트:"; }
+      td:nth-of-type(3)::before { content: "상세:"; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎯 SmartPick이 특별한 이유: 자세히 알아보기</h1>
-
-    <h2>📊 동행복권도 인정하는 '과거 데이터의 중요성'</h2>
-    <p>동행복권 공식 홈페이지를 보셨나요? 로또의 확률은 모두 동일하다고 하지만, 정작 공식 사이트에서는 아래와 같은 다양한 통계 데이터를 제공하고 있습니다.</p>
-    <ul>
-      <li>번호별 출현 통계</li>
-      <li>색상별 당첨 분석</li>
-      <li>구간별 출현 횟수</li>
-      <li>기간별 미출현 번호</li>
-      <li>홀짝 통계</li>
-      <li>연속번호 출현 패턴</li>
-    </ul>
-    <p>왜 공식 사이트에서 이런 통계를 제공할까요? 그것은 바로 **과거 데이터가 로또 번호 선택에 있어 심리적으로 중요한 의미를 가진다**는 것을 스스로 인정하고 있는 것입니다.</p>
-
-    <h2>🚨 우리가 발견한 충격적 사실</h2>
-    <div class="fact-highlight">
-        <p>최근 회차까지의 완전한 데이터 분석 결과:</p>
-        <p><i class="fas fa-check-circle icon"></i> <strong>1등 당첨번호: 단 한 번도 재당첨 없음</strong></p>
-        <p><i class="fas fa-check-circle icon"></i> <strong>2등 당첨번호: 단 한 번도 재당첨 없음</strong></p>
-        <p><i class="fas fa-check-circle icon"></i> <strong style="color: #e53935;">3등 당첨번호: 단 한 번도 재당첨 없음</strong></p>
-        <p>이것은 추측이 아닌 **데이터로 검증된 명확한 팩트**입니다.</p>
-    </div>
-
-    <h2>🎲 그렇다면 논리적으로 생각해보세요</h2>
-    <p>모든 번호 조합의 당첨 확률은 동일합니다. 이는 수학적 사실이고, 그 누구도 부정할 수 없습니다.</p>
-    <p>하지만 이것 또한 팩트입니다:</p>
-    <ul>
-      <li>이미 당첨된 조합이 다시 나올 확률 = 동일</li>
-      <li>한 번도 안 나온 조합이 나올 확률 = 동일</li>
-    </ul>
-    <p>그렇다면 같은 확률이라면 어떤 번호 조합을 선택하는 것이 당신에게 더 합리적이고 심리적인 만족감을 줄까요? 선택은 당신의 몫입니다.</p>
-
-    <h2>🔍 SmartPick의 차별화된 접근</h2>
-    <h3>기존 로또 앱들의 문제점:</h3>
-    <ul>
-      <li><i class="fas fa-times-circle icon" style="color: #e53935;"></i> 과거 당첨번호도 그냥 추천</li>
-      <li><i class="fas fa-times-circle icon" style="color: #e53935;"></i> "모든 확률이 동일하다"며 아무 번호나 제공</li>
-      <li><i class="fas fa-times-circle icon" style="color: #e53935;"></i> 사용자의 심리적 만족도 무시</li>
-    </ul>
-
-    <h3>SmartPick의 스마트한 해결책:</h3>
-    <ul>
-      <li><i class="fas fa-check-circle icon"></i> 1,177회차 전체 당첨번호 데이터베이스 구축</li>
-      <li><i class="fas fa-check-circle icon"></i> 과거 당첨 조합 완전 배제 시스템</li>
-      <li><i class="fas fa-check-circle icon"></i> 심리적으로 더 만족스러운 번호 제공</li>
-    </ul>
-
-    <h2>💡 왜 이 방식이 합리적일까요?</h2>
-    <ul>
-      <li><i class="fas fa-check-circle icon"></i> 동행복권도 과거 통계를 중요하게 여깁니다.</li>
-      <li><i class="fas fa-check-circle icon"></i> 한 번도 재당첨된 적 없다는 것은 **팩트**입니다.</li>
-      <li><i class="fas fa-check-circle icon"></i> 같은 확률이라면 심리적 만족도가 높은 쪽을 선택하는 게 현명합니다.</li>
-    </ul>
-
-    <div class="conclusion-box">
-      <strong>🎯 결론:</strong><br>
-      확률은 동일하지만, 선택은 스마트하게.<br>
-      이미 나온 번호에 베팅할 이유가 있나요?<br><br>
-      한 번도 나오지 않은 새로운 조합을 시도해보는 것이<br>
-      같은 확률이라면 **더 합리적인 선택** 아닐까요?<br><br>
-      SmartPick은 이런 합리적 사고를 가진 분들을 위한 서비스입니다.<br>
-      <strong style="font-size: 1.2em;">"확률은 같지만, 접근은 다르게" - SmartPick</strong>
-    </div>
-
-    <a href="/" class="link-back">홈으로 돌아가기</a>
+  <div class="dash">
+    <h1>SmartPick 관리자 대시보드</h1>
+    <form action="/update_winning" method="post">
+      <input type="password" name="pw" placeholder="관리자 비밀번호">
+      <button type="submit">최신 로또 1등 번호 자동 업데이트</button>
+    </form>
+   {% if msg %}
+     <div class="msg-box">{{ msg|safe }}</div>
+   {% endif %}
+    
+    <div>총 방문자 수: <b>{{total_visits}}</b></div>
+    <div>총 추천 생성 수: <b>{{total_recs}}</b></div>
+    <hr>
+    <h2>최근 로그 기록</h2>
+    <table>
+      <thead>
+        <tr><th>일시</th><th>이벤트</th><th>상세</th></tr>
+      </thead>
+      <tbody>
+        {% for log in logs|reverse %} {# 최신 로그부터 보이도록 reverse 필터 사용 #}
+        <tr>
+          <td>{{log.dt}}</td>
+          <td>{{log.event}}</td>
+          <td>{{log.detail}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </body>
 </html>
