@@ -27,8 +27,7 @@
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 무료 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
-  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
+  <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
 
   <!-- SEO/광고/폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
@@ -58,29 +57,29 @@
       font-size:2.2em; 
       font-weight:900; 
       color:#222; 
-      margin-bottom:0.8em; /* 아래 간격 늘림 */
+      margin-bottom:0.8em; 
     } 
     
     /* 핵심 차별점 메시지 스타일 */
     .usp-message {
-        margin-bottom: 2.2em; /* 전체 메시지 블록 아래 간격 */
-        border: 2px solid #e53935; /* 빨간색 테두리 */
-        padding: 1.2em 1em; /* 내부 여백 */
-        border-radius: 1.5em; /* 둥근 모서리 */
-        background-color: #fff8f8; /* 약간 붉은 배경색 */
-        box-shadow: 0 4px 15px rgba(229, 57, 53, 0.1); /* 그림자 */
+        margin-bottom: 2.2em; 
+        border: 2px solid #e53935; 
+        padding: 1.2em 1em; 
+        border-radius: 1.5em; 
+        background-color: #fff8f8; 
+        box-shadow: 0 4px 15px rgba(229, 57, 53, 0.1); 
     }
     .usp-message div {
-        font-size: 1.1em; /* 기본 텍스트 크기 */
+        font-size: 1.1em; 
         font-weight: 600;
         line-height: 1.5;
         color: #333;
-        margin-bottom: 0.5em; /* 각 줄 사이 간격 */
+        margin-bottom: 0.5em; 
     }
     .usp-message .line1 {
-        font-size: 1.35em; /* 첫 줄 가장 크게 강조 */
+        font-size: 1.35em; 
         font-weight: 700;
-        color: #e53935; /* 강조 색상 */
+        color: #e53935; 
     }
     .usp-message .line1 .icon {
         margin-right: 8px;
@@ -92,9 +91,9 @@
         color: #666;
     }
     .usp-message .line3 {
-        font-size: 1.2em; /* 마지막 줄 강조 */
+        font-size: 1.2em; 
         font-weight: 700;
-        color: #4CAF50; /* 긍정적인 초록색 */
+        color: #4CAF50; 
     }
     .usp-message .line3 .icon {
         margin-right: 8px;
@@ -145,7 +144,7 @@
     .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */
     .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */
 
-    .desc { color:#6c7a89; font-size:0.99em; margin-top:2em;} /* desc margin-bottom 제거, margin-top만 유지 */
+    .desc { color:#6c7a89; font-size:0.99em; margin-top:2em;} 
     .desc a {
         font-weight: bold;
         color: #3a5df0;
@@ -156,6 +155,27 @@
         color: #2642b2;
     }
     
+    /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
+    .stats-box {
+      margin-top: 20px; /* 상단 여백 추가 */
+      margin-bottom: 25px; /* 하단 여백 추가 */
+      padding: 15px 20px;
+      background-color: #e0f7fa; /* 연한 하늘색 배경 */
+      border-radius: 1.5em;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      font-size: 1.05em;
+      color: #00796b; /* 진한 녹청색 글자색 */
+      font-weight: 600;
+      line-height: 1.6;
+      text-align: center; /* 중앙 정렬 */
+      max-width: 300px; /* 적절한 최대 너비 설정 */
+      margin-left: auto; /* 중앙 정렬 */
+      margin-right: auto; /* 중앙 정렬 */
+    }
+    .stats-box b {
+        color: #004d40; /* 더 진한 색으로 강조 */
+    }
+
     /* 모바일 반응형 미디어 쿼리 */
     @media (max-width:500px){
       .container { 
@@ -164,7 +184,7 @@
         padding:2em 0.2em; 
         box-sizing: border-box; 
       } 
-      h1 { font-size:1.5em;} /* 모바일 h1 크기 조정 */
+      h1 { font-size:1.5em;} 
       .usp-message div {
           font-size: 1.0em;
       }
@@ -186,24 +206,28 @@
           font-size: 1.05em;
           padding: 0.7em 1.8em;
       }
-    }
-    .stats {
-        margin-top: 20px; 
+      .stats-box { /* 모바일에서 통계 박스 너비 조정 */
+          max-width: 90%;
+          font-size: 0.95em;
+          padding: 12px 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="stats" style="margin-bottom:18px;">
-  <b>오늘의 추천 조합:</b> {{ today_recs }}건<br>
-  <b>누적 추천 조합:</b> {{ total_recs }}건
-</div>
+  <!-- 오늘의/누적 추천 조합 통계 섹션 (새로운 스타일 적용) -->
+  <div class="stats-box">
+    <b>오늘의 추천 조합:</b> {{ today_recs }}건<br>
+    <b>누적 추천 조합:</b> {{ total_recs }}건
+  </div>
+
   <div class="container">
     <h1>🎲 SmartPick 로또 번호 추천</h1>
     
     <div class="usp-message">
-        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다❌</div>
-        <div class="line2"></div>
-        <div class="line3"><i class="fas fa-check-circle icon"></i> SmartPick은 과거 당첨번호를<br>완전히 제외하고 추천해 드립니다!</div>
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가 다시 나온 적이 없습니다❌</div>
+        <div class="line2">다른 앱들은 이미 나온 번호도 추천해드립니다</div>
+        <div class="line3"><i class="fas fa-check-circle icon"></i> SmartPick은 과거 당첨번호를 완전히 제외하고 추천해 드립니다!</div>
     </div>
     
     <form method="post">
@@ -255,7 +279,8 @@
         }
       </script>
     {% endif %}
-    <div class="desc"><a href="/filter">SmartPick이 특별한 이유: 자세히 알아보기</a></div>
+    <!-- '자세히 알아보기' 링크 수정 (문제 1 해결) -->
+    <div class="desc"><a href="/about">SmartPick이 특별한 이유: 자세히 알아보기</a></div>
   </div>
   <div style="height:36px"></div>
   <ins class="adsbygoogle"
