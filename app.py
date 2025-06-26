@@ -93,6 +93,7 @@ ALL_WINNING = {
 }
 
 # Function to get frequently appearing numbers from recent N draws
+# This function is used for filtering in detailed_filter_page if needed
 def get_hot_numbers(n=5):
     all_nums = []
     for row in rank1[-n:]:
@@ -105,23 +106,10 @@ def get_hot_numbers(n=5):
     sorted_nums = [k for k, v in sorted(freq.items(), key=lambda x: -x[1])]
     return set(sorted_nums)
 
-# Function to check if a set of numbers contains a consecutive sequence
-def has_consecutive(numbers, seq_len=2):
-    nums = sorted(list(numbers))
-    count = 1
-    for i in range(1, len(nums)):
-        if nums[i] == nums[i-1] + 1:
-            count += 1
-            if count >= seq_len:
-                return True
-        else:
-            count = 1
-    return False
-
 # Function to generate lottery numbers based on various filters
 def generate_numbers(
     exclude_ranks=[],
-    exclude_hot_n=None, # This is now for 'filter' logic, not hotpick
+    exclude_hot_n=None, 
     exclude_consecutive=None,
     user_exclude=None,
     user_include=None,
@@ -193,7 +181,7 @@ def generate_numbers(
         # Do NOT increment tries for successful generation, only for rejected tries
         # This allows it to generate 'count' numbers without hitting max_tries too soon if filters are strict
 
-        if tries > 300000: # Increase safety break for strict filters
+        if tries > 300000:
             print("경고: 필터 조건이 너무 엄격하여 번호 생성 시도 횟수 초과. 일부 결과가 누락될 수 있습니다.")
             break
     return results
@@ -250,7 +238,7 @@ def choose_recommendation():
     log_event("visit", {"page": "choose_recommendation"})
     return render_template('choose_recommendation.html')
 
-# Route for the detailed filtered recommendation page (formerly /filter)
+# Route for the detailed filtered recommendation page
 @app.route("/filter", methods=["GET", "POST"])
 def detailed_filter_page():
     log_event("visit", {"page": "detailed_filter"})
@@ -261,7 +249,7 @@ def detailed_filter_page():
     if request.method == "POST":
         try:
             exclude_ranks = request.form.getlist("exclude_ranks")
-            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
+            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None # This will always be None for this page
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
             user_exclude = parse_int_list(request.form.get("user_exclude", ""))
             user_include = parse_int_list(request.form.get("user_include", ""))
@@ -273,7 +261,7 @@ def detailed_filter_page():
             else:
                 numbers = generate_numbers(
                     exclude_ranks=exclude_ranks,
-                    exclude_hot_n=exclude_hot_n,
+                    exclude_hot_n=exclude_hot_n, # This will be None
                     exclude_consecutive=exclude_consecutive,
                     user_exclude=user_exclude,
                     user_include=user_include,
@@ -309,32 +297,33 @@ def hotpick_page():
             count = int(request.form.get("count") or 1)
             
             if hot_pick_n:
-                recent_nums = []
-                for row in rank1[-hot_pick_n:]:
-                    recent_nums.extend(row)
-                
-                counts = Counter(recent_nums)
+                # Get the hot numbers based on N recent draws
+                hot_numbers_set = get_hot_numbers(hot_pick_n) # Returns a set of unique hot numbers
                 
                 generated_numbers = []
-                # Fix for problem 6: Ensure 'count' sets are generated for hotpick
+                # Fix for problem 4: Ensure 'count' sets are generated for hotpick
                 for _ in range(count):
-                    top6 = [num for num, cnt in counts.most_common(6)]
-                    if len(top6) < 6:
-                        top6 += random.sample([n for n in range(1,46) if n not in top6], 6 - len(top6))
-                    random.shuffle(top6)
-                    generated_numbers.append(sorted(top6))
+                    if len(hot_numbers_set) < 6:
+                        error = "선택된 회차의 인기 번호가 6개 미만입니다. 다른 회차를 선택하거나 필터를 줄여주세요."
+                        break
+                    
+                    # Generate a combination from the hot numbers
+                    # Ensure the generated number set is unique and sorted
+                    current_set = sorted(random.sample(list(hot_numbers_set), 6))
+                    generated_numbers.append(current_set)
                 
-                numbers = generated_numbers
-                form = dict(request.form)
-                
-                log_event("recommend", {
-                    "page": "hotpick_recommendation",
-                    "numbers": numbers,
-                    "user_ip": request.remote_addr,
-                    "condition": dict(request.form)
-                })
+                if not error: # Only update if no error occurred
+                    numbers = generated_numbers
+                    form = dict(request.form)
+                    
+                    log_event("recommend", {
+                        "page": "hotpick_recommendation",
+                        "numbers": numbers,
+                        "user_ip": request.remote_addr,
+                        "condition": dict(request.form)
+                    })
             else:
-                error = "최근 많이 나온 번호 추천 주기를 선택해주세요."
+                error = "인기 번호 추천 주기를 선택해주세요."
             
         except Exception as e:
             error = f"입력값 오류: {e}"
