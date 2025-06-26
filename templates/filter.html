@@ -27,60 +27,128 @@
   <meta name="twitter:description" content="1~3등 당첨번호 자동제외, 연속번호 제외, 사용자 맞춤 필터로 나만의 로또 번호를 받아보세요!" /> 
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" /> 
 
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet"> 
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet"> 
   <style> 
     body { 
-      background:#f8fafd; 
+      background: #f0f4f8; 
       font-family:'Pretendard', Arial, sans-serif; 
       margin:0;
       display: flex; 
       flex-direction: column; 
       min-height: 100vh; 
+      justify-content: center; 
+      align-items: center; 
     } 
     .container { 
-      max-width:430px; 
-      margin:50px auto; 
-      background:#fff; 
-      border-radius:2em; 
-      box-shadow:0 6px 36px #22325620; 
-      padding:2.8em 2em 2.2em 2em; 
+      max-width:450px; 
+      background:#ffffff; 
+      border-radius:2.5em; 
+      box-shadow:0 12px 40px rgba(0, 0, 0, 0.1); 
+      padding:3em 2.5em 2.5em 2.5em; 
       text-align:center; 
       flex-grow: 1; 
       box-sizing: border-box; 
     } 
-    h1 { font-size:2em; font-weight:900; color:#222; margin-bottom:0.1em;} 
-    .subtitle { color:#666; font-size:1.08em; margin-bottom:1.8em;} 
+    h1 { 
+      font-size:2.4em; 
+      font-weight:900; 
+      color:#2a4365; 
+      margin-bottom:0.8em; 
+      letter-spacing: -0.05em; 
+    } 
+    .subtitle { 
+      color:#6a7f9a; /* 색상 조정 */
+      font-size:1.15em; 
+      margin-bottom:2.2em;
+      line-height: 1.5;
+    } 
     form { margin-bottom:2em; } 
-    label, select, input[type="text"] { 
-      font-size:1.1em; margin-bottom:0.6em; display:inline-block; 
-    } 
+    label { /* 체크박스 라벨 스타일 */
+      font-size:1.05em; 
+      margin-bottom:0.8em; 
+      display:inline-flex; /* 체크박스와 텍스트를 한 줄에 */
+      align-items: center;
+      margin-right: 15px; /* 체크박스 간 간격 */
+      color: #3f5477;
+      font-weight: 600;
+    }
+    input[type="checkbox"] { /* 체크박스 기본 스타일 초기화 */
+        margin-right: 5px;
+        transform: scale(1.1); /* 체크박스 크기 살짝 키움 */
+        accent-color: #3a5df0; /* 체크박스 색상 */
+    }
     select, input[type="text"] { 
-      border-radius:0.8em; border:1px solid #ccc; padding:0.35em 0.7em; 
-      margin-left:5px; margin-right:12px; margin-bottom:0.9em; 
+      border-radius:0.8em; 
+      border:1px solid #cdd5df; /* 테두리 색상 조정 */
+      padding:0.6em 0.8em; /* 패딩 키움 */
+      margin-left:8px; /* 간격 조정 */
+      margin-right:8px; 
+      margin-bottom:1.2em; /* 아래 간격 늘림 */
+      font-size:1.0em;
+      color: #3f5477;
+      max-width: 150px; /* input/select 최대 너비 제한 */
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* 내부 그림자 */
+      transition: border-color 0.2s;
     } 
-    .form-row { margin-bottom:1.3em; } 
+    select:focus, input[type="text"]:focus {
+        border-color: #3a5df0;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(58, 93, 240, 0.2); /* 포커스 시 그림자 */
+    }
+    .form-row { 
+        margin-bottom:1.8em; /* 행 간 간격 늘림 */
+        background-color: #f7f9fc; /* 폼 행 배경색 */
+        padding: 1em 0.8em;
+        border-radius: 1em;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border: 1px solid #e0e6ec;
+    } 
+    .form-row b {
+        display: block; /* 제목을 위로 분리 */
+        margin-bottom: 0.8em;
+        color: #2a4365;
+        font-size: 1.15em;
+        font-weight: 700;
+    }
     button, .copy-btn { 
-      font-size:1.14em; font-weight:bold; background:#3a5df0; 
-      color:#fff; border:none; border-radius:1.1em; 
-      padding:0.8em 2.1em; box-shadow:0 2px 10px #4361ee22; 
-      margin-top:0.8em; cursor:pointer; transition:.2s; 
+      font-size:1.2em; 
+      font-weight:bold; 
+      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); 
+      color:#fff; 
+      border:none; 
+      border-radius:1.2em; 
+      padding:1em 2.5em; 
+      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); 
+      margin-top:1.5em; 
+      cursor:pointer; 
+      transition: all 0.3s ease; 
+      position: relative; 
+      overflow: hidden; 
     } 
-    button:hover, .copy-btn:hover { background:#2642b2;} 
+    button:hover, .copy-btn:hover { 
+      transform: translateY(-3px); 
+      box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
+    }
+    button:active, .copy-btn:active {
+        transform: translateY(1px);
+        box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
+    }
     
     /* 로또 볼 배열 */
     .lotto { 
-      margin:2.3em auto 0.7em auto; 
+      margin:2.5em auto 1em auto; 
     } 
     
-    /* 각 추천 번호 세트를 감싸는 div에 flexbox 적용 */
     .lotto-ball-row { 
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
       align-items: center; 
-      gap: 6px; 
-      max-width: 280px; 
-      margin: 0 auto 7px auto; 
+      gap: 8px; 
+      max-width: 300px; 
+      margin: 0 auto 10px auto; /* 각 세트 하단 마진 늘림 */
       box-sizing: border-box;
     }
 
@@ -88,27 +156,28 @@
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      width: calc((100% - (6px * 5)) / 6); 
-      height: calc((100% - (6px * 5)) / 6); 
-      min-width: 38px; 
-      min-height: 38px;
+      width: calc((100% - (8px * 5)) / 6); 
+      height: calc((100% - (8px * 5)) / 6); 
+      min-width: 42px; 
+      min-height: 42px;
       border-radius:50%;
       margin:0; 
-      font-size:1.1em; 
-      font-weight:600; 
-      box-shadow:0 2px 8px #0001; 
-      transition:.13s; 
-      border:2.5px solid #fff; 
+      font-size:1.2em; 
+      font-weight:700; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.15); 
+      transition: all 0.2s ease; 
+      border:3px solid #fff; 
       flex-shrink: 0; 
       box-sizing: border-box; 
+      color: #333; 
     } 
-    .ball.n1 { background: #ffd100; color: #222;}   /* 1~10 노랑 */ 
-    .ball.n2 { background: #7fd7ff; color: #222;}   /* 11~20 하늘 */ 
-    .ball.n3 { background: #ff7676; color: #fff;}   /* 21~30 빨강 */ 
-    .ball.n4 { background: #b7b7b7; color: #222;}   /* 31~40 회색 */ 
-    .ball.n5 { background: #b8e253; color: #222;}   /* 41~45 연두 */ 
+    .ball.n1 { background: #ffdf6c; } 
+    .ball.n2 { background: #9bd0ff; } 
+    .ball.n3 { background: #ff91a5; color: #fff;} 
+    .ball.n4 { background: #c2c9d1; } 
+    .ball.n5 { background: #b0e891; } 
 
-    .desc { color:#6c7a89; font-size:0.98em; margin-bottom:1.5em;} 
+    .desc { color:#6a7f9a; font-size:1em; margin-bottom:1.5em; margin-top:2.5em;} /* desc 스타일 조정 */
     .desc a {
         font-weight: bold;
         color: #3a5df0;
@@ -118,38 +187,52 @@
     .desc a:hover {
         color: #2642b2;
     }
-    .error { color:#c22; margin-top:1.2em; } 
+    .error { color:#d32f2f; font-weight: 600; margin-top:1.2em; } 
 
     /* 모바일 반응형 */
     @media (max-width:500px){ 
+      body {
+          justify-content: flex-start;
+      }
       .container { 
         max-width:97vw; 
-        margin:13vw 2vw; 
+        margin:8vw 2vw; 
         padding:2em 0.2em; 
-        box-sizing: border-box; 
       } 
-      h1 { font-size:1.15em;} 
-      .subtitle { font-size:0.92em;} 
+      h1 { font-size:1.8em;} 
+      .subtitle { font-size:1em;} 
+      .form-row b { font-size: 1.05em; margin-bottom: 0.6em; }
+      select, input[type="text"] {
+          margin-left: 0; margin-right: 0;
+          width: calc(100% - 20px); /* 패딩 고려 */
+          max-width: 280px;
+          display: block; /* 한 줄에 하나씩 */
+          margin-left: auto; margin-right: auto;
+      }
+      label {
+          font-size: 0.95em;
+          margin-right: 10px;
+      }
       .lotto-ball-row { 
           max-width: 270px; 
+          gap: 6px; 
+          margin-bottom: 8px; /* 모바일 세트 하단 마진 줄임 */
       }
       .ball {
           min-width: 38px; 
           min-height: 38px;
           font-size: 1.05em; 
+          width: calc((100% - (6px * 5)) / 6); 
+          height: calc((100% - (6px * 5)) / 6);
       }
-      /* 폼 요소 모바일 최적화 */
-      label, select, input[type="text"] {
-          display: block; 
-          margin-left: auto;
-          margin-right: auto;
-          text-align: center;
-          width: calc(100% - 24px); 
-          max-width: 250px; 
+      button, .copy-btn {
+          font-size: 1.05em;
+          padding: 0.8em 1.8em;
+          margin-top: 1em;
       }
-      .form-row b {
-          display: block;
-          margin-bottom: 0.5em;
+      .desc {
+          margin-top: 2em;
+          font-size: 0.95em;
       }
     } 
   </style> 
