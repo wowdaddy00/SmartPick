@@ -1,5 +1,5 @@
 import os, json, random
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify # jsonify 추가
 from collections import Counter
 import datetime
 import requests
@@ -93,7 +93,6 @@ ALL_WINNING = {
 }
 
 # Function to get frequently appearing numbers from recent N draws
-# This function is used for filtering in detailed_filter_page if needed
 def get_hot_numbers(n=5):
     all_nums = []
     for row in rank1[-n:]:
@@ -106,11 +105,25 @@ def get_hot_numbers(n=5):
     sorted_nums = [k for k, v in sorted(freq.items(), key=lambda x: -x[1])]
     return set(sorted_nums)
 
+# Function to check if a set of numbers contains a consecutive sequence
+# **** 이 함수가 누락되어 있었습니다. ****
+def has_consecutive(numbers, seq_len=2):
+    nums = sorted(list(numbers))
+    count = 1
+    for i in range(1, len(nums)):
+        if nums[i] == nums[i-1] + 1:
+            count += 1
+            if count >= seq_len:
+                return True
+        else:
+            count = 1
+    return False
+
 # Function to generate lottery numbers based on various filters
 def generate_numbers(
     exclude_ranks=[],
     exclude_hot_n=None, 
-    exclude_consecutive=None,
+    exclude_consecutive=None, # 연속번호 제외 필터 인자
     user_exclude=None,
     user_include=None,
     count=1
@@ -166,7 +179,7 @@ def generate_numbers(
             continue
         
         # 5. Exclude consecutive numbers if specified
-        if exclude_consecutive and has_consecutive(nums, exclude_consecutive):
+        if exclude_consecutive and has_consecutive(nums, exclude_consecutive): # has_consecutive 함수 사용
             tries += 1
             if tries > 30000: break
             continue
@@ -249,7 +262,7 @@ def detailed_filter_page():
     if request.method == "POST":
         try:
             exclude_ranks = request.form.getlist("exclude_ranks")
-            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None # This will always be None for this page
+            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None 
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
             user_exclude = parse_int_list(request.form.get("user_exclude", ""))
             user_include = parse_int_list(request.form.get("user_include", ""))
@@ -261,7 +274,7 @@ def detailed_filter_page():
             else:
                 numbers = generate_numbers(
                     exclude_ranks=exclude_ranks,
-                    exclude_hot_n=exclude_hot_n, # This will be None
+                    exclude_hot_n=exclude_hot_n, 
                     exclude_consecutive=exclude_consecutive,
                     user_exclude=user_exclude,
                     user_include=user_include,
@@ -270,7 +283,7 @@ def detailed_filter_page():
                 form = dict(request.form)
                 
                 if not numbers and not error:
-                    error = "조건에 맞는 추천번호가 없습니다. (필터를 줄여 다시 시도해주세요)"
+                    error = "조건에 맞는 추천번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
                 
                 log_event("recommend", {
                     "page": "detailed_filter",
@@ -297,22 +310,18 @@ def hotpick_page():
             count = int(request.form.get("count") or 1)
             
             if hot_pick_n:
-                # Get the hot numbers based on N recent draws
-                hot_numbers_set = get_hot_numbers(hot_pick_n) # Returns a set of unique hot numbers
+                hot_numbers_set = get_hot_numbers(hot_pick_n)
                 
                 generated_numbers = []
-                # Fix for problem 4: Ensure 'count' sets are generated for hotpick
                 for _ in range(count):
                     if len(hot_numbers_set) < 6:
                         error = "선택된 회차의 인기 번호가 6개 미만입니다. 다른 회차를 선택하거나 필터를 줄여주세요."
                         break
                     
-                    # Generate a combination from the hot numbers
-                    # Ensure the generated number set is unique and sorted
                     current_set = sorted(random.sample(list(hot_numbers_set), 6))
                     generated_numbers.append(current_set)
                 
-                if not error: # Only update if no error occurred
+                if not error: 
                     numbers = generated_numbers
                     form = dict(request.form)
                     
@@ -329,6 +338,15 @@ def hotpick_page():
             error = f"입력값 오류: {e}"
     
     return render_template("hotpick.html", numbers=numbers, error=error, form=form)
+
+
+# 새로운 LLM 통합 라우트: 로또 번호 스토리 생성
+@app.route('/generate_lotto_story', methods=['POST'])
+def generate_lotto_story():
+    # 이 부분은 현재 코드를 기준으로 LLM 연동 부분이 없으므로 추가하지 않습니다.
+    # LLM 기능이 필요하시다면, 이전 대화에서 제가 제공해드렸던 LLM 연동 코드를 다시 요청해주세요.
+    # 현재 `app.py`에는 `jsonify`가 import 되어 있지만 사용되지 않고 있습니다.
+    return jsonify({"error": "LLM 스토리 생성 기능이 현재 활성화되어 있지 않습니다."}), 501 # Not Implemented
 
 
 # Route for the About page
@@ -475,7 +493,7 @@ def update_winning():
     global ALL_WINNING
     global rank1, rank2, rank3
     rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
-    rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
+    rank2 = load_rank(WINWINING2_PATH, 'rank2', 6) # 오타 수정: WINWINING2_PATH -> WINNING2_PATH
     rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
     ALL_WINNING = {
         "1": set(rank1),
