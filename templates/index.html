@@ -5,134 +5,377 @@
   <title>SmartPick 로또 번호 추천 - 프리미엄 당첨 번호 생성</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
+  <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
      crossorigin="anonymous"></script>
 
+  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
   <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
   <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 프리미엄로또, 로또당첨번호">
   <meta name="author" content="SmartPick Team">
 
+  <!-- 오픈그래프 (소셜 미디어 공유 최적화) -->
   <meta property="og:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
-  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스 SmartPick. 지금 바로 당신의 행운 번호를 받아보세요!" />
+  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스! 지금 바로 경험하세요." />
   <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
   <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
   <meta property="og:type" content="website" />
 
+  <!-- 트위터 카드 -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
-  <meta name="twitter:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스 SmartPick. 지금 바로 당신의 행운 번호를 받아보세요!" />
+  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
+  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
+
+  <!-- SEO/광고/폰트 -->
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    body { font-family: 'Pretendard', sans-serif; background: #f7fafc; margin: 0; }
-    .container { max-width: 480px; margin: 60px auto; background: #fff; border-radius: 1.5em; padding: 2.5em; box-shadow: 0 8px 28px #0001; text-align: center; }
-    h1 { font-size: 2em; margin-bottom: 0.8em; color: #222; }
-    .subtitle { font-size: 1.1em; color: #666; margin-bottom: 2em; line-height: 1.5; }
-    .btn { display: block; width: fit-content; margin: 0 auto; padding: 1.1em 2.5em; background: #4361ee; color: #fff; border-radius: 1.2em; text-decoration: none; font-weight: bold; transition: background 0.2s; font-size: 1.1em; border: none; cursor: pointer; }
-    .btn:hover { background: #2642b2; }
-    .link-item { display: block; margin-top: 1.5em; text-align: center; font-size: 1.1em; font-weight: bold; color: #3a5df0; text-decoration: none; transition: color 0.2s; }
-    .link-item:hover { color: #2642b2; }
-    .link-item .icon { margin-right: 8px; color: #4361ee; }
-    .lotto-numbers-box { background: #fee2e2; border: 2px dashed #ef4444; border-radius: 1.5em; padding: 2em 1.5em; margin: 2em 0; }
-    .lotto-balls { display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5em; }
-    .ball { display: flex; justify-content: center; align-items: center; width: 48px; height: 48px; line-height: 48px; border-radius: 50%; font-size: 1.6em; font-weight: 600; color: #fff; background: #ef4444; box-shadow: 0 2px 6px #0002; }
-    .copy-btn { background: #f97316; color: #fff; border: none; padding: 0.8em 1.8em; border-radius: 0.8em; cursor: pointer; font-size: 1em; font-weight: bold; transition: background 0.2s; }
-    .copy-btn:hover { background: #ea580c; }
-    .msg-box { background-color: #d1fae5; color: #065f46; padding: 10px 15px; border-radius: 8px; margin-top: 15px; font-weight: bold; }
-    /* Mobile responsiveness */
-    @media (max-width: 500px) {
-      .container { max-width: 95vw; margin: 5vw auto; padding: 2em 1.5em; }
-      h1 { font-size: 1.8em; }
-      .subtitle { font-size: 1em; }
-      .ball { width: 42px; height: 42px; font-size: 1.4em; }
-      .lotto-balls { gap: 6px; }
-      .btn { font-size: 1em; padding: 1em 2em; }
-      .link-item { font-size: 1em; }
+    body { 
+      background: #f0f4f8; /* 더 부드러운 배경색 */
+      font-family:'Pretendard', Arial, sans-serif; 
+      margin:0;
+      display: flex; 
+      flex-direction: column; 
+      min-height: 100vh; 
+      justify-content: center; /* 세로 중앙 정렬 */
+      align-items: center; /* 가로 중앙 정렬 */
+    }
+    .container { 
+      max-width:450px; /* 컨테이너 너비 살짝 키움 */
+      background:#ffffff; /* 흰색 배경 */
+      border-radius:2.5em; /* 모서리 더 둥글게 */
+      box-shadow:0 12px 40px rgba(0, 0, 0, 0.1); /* 그림자 더 부드럽고 깊게 */
+      padding:3em 2.5em 2.5em 2.5em; /* 패딩 조정 */
+      text-align:center; 
+      flex-grow: 1; 
+      box-sizing: border-box; 
+    }
+    h1 { 
+      font-size:2.4em; /* h1 크기 키움 */
+      font-weight:900; 
+      color:#2a4365; /* 어두운 파란색 계열 */
+      margin-bottom:0.8em; 
+      letter-spacing: -0.05em; /* 자간 조절 */
+    } 
+    
+    /* 핵심 차별점 메시지 스타일 */
+    .usp-message {
+        margin-bottom: 2.5em; /* 간격 더 넓게 */
+        border: 2px solid #ff708a; /* 핑크빛 테두리 */
+        padding: 1.5em 1.2em; /* 내부 여백 */
+        border-radius: 1.8em; /* 모서리 더 둥글게 */
+        background-color: #fffafc; /* 매우 연한 핑크 배경 */
+        box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15); /* 부드러운 핑크 그림자 */
+    }
+    .usp-message div {
+        font-size: 1.15em; /* 폰트 크기 살짝 키움 */
+        font-weight: 600;
+        line-height: 1.6;
+        color: #3f5477; /* 진한 파란색 계열 */
+        margin-bottom: 0.6em; 
+    }
+    .usp-message .line1 {
+        font-size: 1.45em; /* 첫 줄 가장 크게 강조 */
+        font-weight: 800;
+        color: #d32f2f; /* 강렬한 빨간색 */
+        margin-bottom: 0.8em;
+    }
+    .usp-message .line1 .icon {
+        margin-right: 10px;
+        color: #d32f2f;
+    }
+    .usp-message .line2 {
+        font-size: 1.05em;
+        font-weight: 500;
+        color: #6a7f9a; /* 연한 회색 파란색 */
+    }
+    .usp-message .line3 {
+        font-size: 1.3em; /* 마지막 줄 강조 */
+        font-weight: 700;
+        color: #28a745; /* 선명한 녹색 */
+        margin-top: 1em; /* 위쪽 간격 추가 */
+    }
+    .usp-message .line3 .icon {
+        margin-right: 10px;
+        color: #28a745;
+    }
+
+    form { margin-bottom:2em; }
+    button, .copy-btn {
+      font-size:1.2em; /* 버튼 글씨 키움 */
+      font-weight:bold; 
+      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 그라데이션 버튼 */
+      color:#fff; 
+      border:none; 
+      border-radius:1.2em; /* 더 둥글게 */
+      padding:1em 2.5em; /* 패딩 키움 */
+      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); /* 그림자 부드럽게 */
+      margin-top:1.5em; /* 간격 늘림 */
+      cursor:pointer; 
+      transition: all 0.3s ease; /* 전환 효과 */
+      position: relative; /* 눌리는 효과를 위해 */
+      overflow: hidden; /* 배경 애니메이션용 */
+    }
+    button:hover, .copy-btn:hover { 
+      transform: translateY(-3px); /* 살짝 떠오르는 효과 */
+      box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
+    }
+    button:active, .copy-btn:active {
+        transform: translateY(1px); /* 눌리는 효과 */
+        box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
+    }
+    
+    /* 로또 볼 배열 */
+    .lotto { 
+      margin:2.5em auto 1em auto; /* 상단 간격 늘림 */
+      display: flex; 
+      flex-wrap: wrap; 
+      justify-content: center; 
+      align-items: center; 
+      gap: 8px; /* 볼 간격 키움 */
+      max-width: 300px; /* 너비 조정 */
+      box-sizing: border-box; 
+    }
+    .ball {
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      width: calc((100% - (8px * 5)) / 6); /* gap 변경에 따라 calc 값 조정 */
+      height: calc((100% - (8px * 5)) / 6); 
+      min-width: 42px; /* 최소 크기 조정 */
+      min-height: 42px;
+      border-radius:50%;
+      margin:0; 
+      font-size:1.2em; /* 숫자 크기 조정 */
+      font-weight:700; /* 폰트 굵기 조정 */
+      box-shadow:0 4px 10px rgba(0,0,0,0.15); /* 그림자 더 부드럽게 */
+      transition: all 0.2s ease;
+      border:3px solid #fff; /* 테두리 두껍게 */
+      flex-shrink: 0; 
+      box-sizing: border-box; 
+      color: #333; /* 기본 글자색 */
+    }
+    .ball.n1 { background: #ffdf6c; } /* 노랑 더 부드럽게 */
+    .ball.n2 { background: #9bd0ff; } /* 하늘 더 부드럽게 */
+    .ball.n3 { background: #ff91a5; color: #fff;} /* 빨강 더 부드럽게 */
+    .ball.n4 { background: #c2c9d1; } /* 회색 더 부드럽게 */
+    .ball.n5 { background: #b0e891; } /* 연두 더 부드럽게 */
+
+    /* 링크 섹션 스타일 (5번, 6번 문제 해결) */
+    .link-section {
+        margin-top: 3em; /* 전체 섹션 상단 여백 */
+        display: flex;
+        flex-direction: column;
+        gap: 12px; /* 링크 간 간격 */
+    }
+    .link-item { /* 개별 링크 컨테이너 */
+        display: block; /* 블록 요소로 만들고 */
+        padding: 1.2em 1.5em;
+        border-radius: 1.5em;
+        font-weight: bold;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+
+    /* '자세히 알아보기' 링크 스타일 */
+    .link-about {
+        background-color: #f7f9fc; /* 밝은 배경 */
+        border: 2px solid #b3d4f5; /* 연한 파란색 테두리 */
+        color: #4a6fa3; /* 차분한 파란색 글자 */
+    }
+    .link-about:hover {
+        background-color: #e6f0fa;
+        border-color: #8bbceb;
+        transform: translateY(-3px);
+    }
+    .link-about .icon {
+        margin-right: 8px;
+        color: #4a6fa3;
+    }
+
+    /* '고급 맞춤 추천' 링크 스타일 */
+    .link-advanced {
+        background: linear-gradient(135deg, #8b9be2 0%, #6f80d1 100%); /* 다른 그라데이션 */
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(139, 155, 226, 0.4);
+    }
+    .link-advanced:hover {
+        background: linear-gradient(135deg, #6f80d1 0%, #8b9be2 100%);
+        transform: translateY(-3px);
+    }
+    .link-advanced .icon {
+        margin-right: 8px;
+        color: #fff;
+    }
+
+    /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
+    .stats-box {
+      margin-top: 25px; /* 컨테이너 위쪽 간격 */
+      margin-bottom: 25px; /* 컨테이너 아래쪽 간격 */
+      padding: 18px 25px; /* 패딩 키움 */
+      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%); /* 그라데이션 배경 */
+      border-radius: 2em; /* 더 둥글게 */
+      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15); /* 시원한 파란 그림자 */
+      font-size: 1.1em; /* 폰트 크기 키움 */
+      color: #00796b; 
+      font-weight: 700; /* 굵기 강조 */
+      line-height: 1.6;
+      text-align: center; 
+      max-width: 350px; /* 너비 살짝 키움 */
+      margin-left: auto; 
+      margin-right: auto; 
+    }
+    .stats-box b {
+        color: #004d40; 
+        font-weight: 800; /* 더욱 굵게 */
+    }
+
+    /* 모바일 반응형 미디어 쿼리 */
+    @media (max-width:500px){
+      body {
+          justify-content: flex-start; /* 모바일에서 상단으로 정렬 */
+      }
+      .container { 
+        max-width:97vw; 
+        margin:8vw 2vw; /* 모바일 상단 마진 줄임 */
+        padding:2em 0.2em; 
+      } 
+      h1 { font-size:1.8em;} /* 모바일 h1 크기 조정 */
+      .usp-message div {
+          font-size: 1.0em;
+      }
+      .usp-message .line1 {
+          font-size: 1.1em;
+      }
+      .usp-message .line3 {
+          font-size: 1.0em;
+      }
+      .lotto {
+          max-width: 270px; 
+          gap: 6px; /* 모바일에서는 볼 간격 다시 줄임 */
+      }
+      .ball {
+          min-width: 38px; 
+          min-height: 38px;
+          font-size: 1.05em; 
+          width: calc((100% - (6px * 5)) / 6); /* gap 변경에 따라 calc 값 조정 */
+          height: calc((100% - (6px * 5)) / 6);
+      }
+      button, .copy-btn {
+          font-size: 1.05em;
+          padding: 0.8em 1.8em;
+          margin-top: 1em;
+      }
+      .stats-box { 
+          max-width: 90%;
+          font-size: 0.95em;
+          padding: 15px 20px;
+          margin-top: 5vw;
+          margin-bottom: 5vw;
+      }
+      .link-section {
+          margin-top: 2.5em; /* 모바일 링크 섹션 상단 여백 */
+          gap: 10px;
+      }
+      .link-item {
+          padding: 1em 1.2em;
+          font-size: 1em;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- 오늘의/누적 추천 조합 통계 섹션 -->
+  <div class="stats-box">
+    <b>오늘의 추천 조합:</b> {{ today_recs }}건<br>
+    <b>누적 추천 조합:</b> {{ total_recs }}건
+  </div>
+
   <div class="container">
-    <h1>SmartPick 로또 번호 추천</h1>
-    <p class="subtitle">1~3등 당첨 조합을 제외한 <br>프리미엄 로또 번호를 추천해 드립니다.</p>
-
-    {% if numbers_display %}
-      <div class="lotto-numbers-box">
-        <div class="lotto-balls">
-            {{ numbers_display|safe }}
-        </div>
-        <button class="copy-btn" onclick="copyNumbers()">번호 복사</button>
-      </div>
-      <div style="height:20px;"></div> {# Add a little space #}
-    {% endif %}
-
-    <a href="/about" class="link-item link-about" style="display: block; margin-bottom: 20px;">
-        <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유: 자세히 알아보기
-    </a>
-
-    <a href="#" class="btn btn-primary" onclick="generateNumbers()">프리미엄 번호 추천받기</a>
+    <h1><i class="fas fa-dice-d6"></i> SmartPick 로또 번호 추천</h1>
     
-    <a href="/choose_recommendation" class="link-item link-advanced" style="display: block; margin-top: 20px;">
-        <i class="fas fa-cogs icon"></i> SmartPick 고급 맞춤 추천
-    </a>
-
-    {% if msg %}<div class="msg-box">{{ msg|safe }}</div>{% endif %}
-
-    <div style="height:36px"></div>
-    <ins class="adsbygoogle"
-         style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 970px; margin: 0 auto;"
-         data-ad-client="ca-pub-2748658493247983"
-         data-ad-slot="9350410423"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-    <script src="/static/js/main.js"></script>
-    {% if numbers_display %}
-        <script>
-          function copyNumbers() {
-              const lottoBalls = document.querySelector('.lotto-balls');
-              const numbers = [];
-              lottoBalls.querySelectorAll('.ball').forEach(ball => {
-                  numbers.push(ball.textContent);
-              });
-              const textToCopy = numbers.join(', ');
-
-              navigator.clipboard.writeText(textToCopy)
-              .then(() => {
-                  const msgBox = document.createElement('div');
-                  msgBox.textContent = "번호가 복사되었습니다!";
-                  msgBox.style.cssText = `
-                      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                      background-color: #4CAF50; color: white; padding: 15px 20px;
-                      border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-                  `;
-                  document.body.appendChild(msgBox);
-                  setTimeout(() => msgBox.style.opacity = 1, 10);
-                  setTimeout(() => {
-                      msgBox.style.opacity = 0;
-                      msgBox.addEventListener('transitionend', () => msgBox.remove());
-                  }, 2000);
-              })
-              .catch(() => {
-                  const msgBox = document.createElement('div');
-                  msgBox.textContent = "복사 실패!";
-                  msgBox.style.cssText = `
-                      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                      background-color: #f44336; color: white; padding: 15px 20px;
-                      border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-                  `;
-                  document.body.appendChild(msgBox);
-                  setTimeout(() => msgBox.style.opacity = 1, 10);
-                  setTimeout(() => {
-                      msgBox.style.opacity = 0;
-                      msgBox.addEventListener('transitionend', () => msgBox.remove());
-                  }, 2000);
-              });
-          }
-        </script>
+    <div class="usp-message">
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가 다시 나온 적이 없습니다.❌</div>
+        <div class="line2">SmartPick은 과거 당첨번호를 **학습하여** 제외하고<br>무료로 추천해 드립니다!</div>
+        <div class="line3"><i class="fas fa-check-circle icon"></i> 오직! SmartPick에서만 가능한<br>**과거 당첨번호 제외!**</div>
+    </div>
+    
+    <form method="post">
+      <button type="submit">SmartPick 프리미엄 번호 추천받기</button>
+      <div style="height:30px"></div>
+    </form>
+    
+    {% if numbers %}
+      <div class="lotto" id="lotto_result">
+        {% for n in numbers[0] %}
+          <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
+        {% endfor %}
+      </div>
+      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
+      <script>
+        function copyLotto() {
+          let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
+          navigator.clipboard.writeText(txt)
+            .then(() => {
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 완료: " + txt;
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #4CAF50; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            })
+            .catch(() => {
+                const msgBox = document.createElement('div');
+                msgBox.textContent = "복사 실패!";
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #f44336; color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+            });
+        }
+      </script>
     {% endif %}
+    <div class="link-section">
+        <!-- '자세히 알아보기' 링크 스타일 강조 -->
+        <a href="/about" class="link-item link-about">
+            <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유: 자세히 알아보기
+        </a>
+        <!-- '고급 맞춤 추천' 링크 스타일 강조 -->
+        <a href="/choose_recommendation" class="link-item link-advanced">
+            <i class="fas fa-cogs icon"></i> SmartPick 고급 맞춤 추천
+        </a>
+    </div>
+  </div>
+  <div style="height:36px"></div>
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
+       data-ad-client="ca-pub-2748658493247983"
+       data-ad-slot="1322588827"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 </body>
 </html>
