@@ -11,111 +11,68 @@ import itertools
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from firebase_admin import auth # Firebase Auth를 위한 모듈 임포트
 
 # Flask 앱 초기화
 app = Flask(__name__)
 
-# Firebase 초기화 (앱이 한 번만 초기화되도록 확인)
-if not firebase_admin._apps:
-    # Canvas 환경에서 제공되는 전역 변수 활용
-    # __firebase_config는 JSON 문자열로 제공되므로 파싱 필요
-    # __app_id는 Firestore Collection Path에 사용될 앱 ID
-    firebase_config = json.loads(os.environ.get('__firebase_config', '{}'))
-    app_id = os.environ.get('__app_id', 'default-smartpick-app') # 기본 앱 ID 설정
+# Firebase Firestore 클라이언트 선언 (초기화는 아래 함수에서 수행)
+db = None
+app_id = os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'default-smartpick-app').replace('.', '-')
 
-    # Firebase Admin SDK 초기화
-    # Render 환경에서는 FIREBASE_CONFIG 환경 변수에 서비스 계정 키를 직접 저장하거나
-    # Firebase Console에서 서비스 계정 키 파일을 다운로드하여 사용하는 방식 고려
-    # 여기서는 __firebase_config를 사용하지만, 실제 배포 환경에서는 더 안전한 방식 필요
-    # 예: Render Secrets에 FIREBASE_SERVICE_ACCOUNT_KEY 환경 변수로 JSON 문자열 저장 후,
-    # cred = credentials.Certificate(json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY')))
-    # 이 예시에서는 __firebase_config를 사용하므로, 이는 실제 서비스 계정 키가 아님을 인지해야 함.
-    # 일반적으로는 서비스 계정 키 파일의 경로를 지정하거나, JSON 내용을 직접 파싱하여 사용.
-    # 여기서는 임시방편으로 dummy creds를 사용. 실제 서비스에서는 서비스 계정 키를 사용해야 함.
-    
-    # Firestore 사용을 위한 최소한의 초기화 (여기서는 실제 인증 키는 사용하지 않음)
-    # 실제 Firebase Admin SDK 초기화는 서비스 계정 키가 필요합니다.
-    # 여기서는 임시로 빈 Credential을 사용하여 firestore.client()를 얻는 것을 목표로 합니다.
-    # 만약 배포 환경에서 서비스 계정 키를 환경 변수로 넘겨받는다면 아래와 같이 변경해야 합니다.
-    # cred_json = json.loads(os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY_JSON'))
-    # cred = credentials.Certificate(cred_json)
-    # firebase_admin.initialize_app(cred)
+def initialize_firebase_app():
+    """Firebase Admin SDK를 초기화하고 Firestore 클라이언트를 반환합니다."""
+    global db # 전역 변수 db를 수정하기 위해 global 선언
+    global app_id # 전역 변수 app_id를 수정하기 위해 global 선언
 
-    # NOTE: Canvas 환경에서는 __firebase_config가 실제 Firebase Admin SDK에 필요한 형식이 아닐 수 있습니다.
-    # 일반적으로 Admin SDK는 서비스 계정 키 JSON 파일 또는 그 내용을 필요로 합니다.
-    # 여기서는 Firestore 클라이언트만 초기화하는 방식으로 진행하며, 이는 Firebase 규칙에 따라 제어됩니다.
-    
-    # 임시 크리덴셜 초기화 (실제 운영 환경에서는 Firebase 서비스 계정 키를 사용해야 합니다.)
-    # Render 환경에서는 FIREBASE_SERVICE_ACCOUNT_KEY 같은 환경 변수에 JSON 내용을 통째로 넣어 사용 권장
+    if firebase_admin._apps:
+        print("Firebase Admin SDK already initialized.")
+        db = firestore.client() # 이미 초기화된 경우 클라이언트만 가져옴
+        return
+
     try:
-        # 이전에 제공된 __firebase_config는 일반 클라이언트 SDK 용이므로, Admin SDK용 Creds는 별도 구성해야 함.
-        # 따라서, 여기서는 임시로 Firebase Admin SDK 없이 Firestore 클라이언트만 가져오는 방식을 시도.
-        # 실제 Admin SDK 초기화가 필요하다면, 서비스 계정 키가 환경 변수로 주어져야 함.
-        # from firebase_admin import _apps
-        # if not _apps:
-        #     cred = credentials.ApplicationDefault() # 또는 credentials.Certificate(...)
-        #     firebase_admin.initialize_app(cred, {'projectId': firebase_config.get('projectId')})
-        # db = firestore.client()
-        pass # Firebase Admin SDK 초기화는 Render 환경에서 외부 설정으로 처리될 것으로 가정
+        # Render 환경 변수에서 서비스 계정 키 JSON 문자열을 가져옴
+        firebase_service_account_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY')
+        
+        if firebase_service_account_json:
+            cred_dict = json.loads(firebase_service_account_json)
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
+            print("Firebase Admin SDK initialized successfully from environment variable.")
+            db = firestore.client()
+            print("Firestore client initialized successfully.")
+        else:
+            print("FIREBASE_SERVICE_ACCOUNT_KEY environment variable not found. Firebase Admin SDK will not be initialized.")
+            print("Firestore features will be unavailable.")
+
     except Exception as e:
         print(f"Firebase Admin SDK initialization failed: {e}")
-        # 오류 발생 시 DB 연결 없이 진행 (개발 환경 등)
-        pass
+        db = None # 초기화 실패 시 db를 None으로 설정하여 사용하지 않도록 함
 
-
-# Firestore 클라이언트 인스턴스 (초기화 후 사용 가능)
-db = firestore.client()
-
-
-# Firebase Authentication
-# 전역 변수로 제공되는 __initial_auth_token을 사용하여 로그인
-# 이 토큰은 Canvas 런타임에서 자동으로 제공됩니다.
-# NOTE: Flask 요청 처리 전에 Firebase 인증이 완료되어야 함.
-# 여기서는 요청마다 토큰을 확인하는 대신, 앱 시작 시 또는 요청 컨텍스트에서 처리하도록 구성.
-# 실제 앱에서는 미들웨어 등을 통해 요청 전 인증을 처리하는 것이 일반적.
-def get_current_user_id():
-    # 이 함수는 요청 컨텍스트 외부에서 호출될 수 있으므로,
-    # 실제 사용자 인증 정보를 얻기 위해서는 request.headers 등을 사용하거나
-    # Firebase 클라이언트 SDK와 연동하여 토큰을 받아와야 함.
-    # 여기서는 더미 userID 또는 익명 userID를 반환.
-    try:
-        # __initial_auth_token이 제공되면 이를 통해 인증을 시도하고 UID 반환
-        initial_auth_token = os.environ.get('__initial_auth_token')
-        if initial_auth_token:
-            # Firebase Admin SDK의 auth.verify_id_token을 사용하여 토큰 검증
-            # 이 기능은 Admin SDK 초기화가 필요합니다.
-            # 하지만 현재 제공된 정보로는 Admin SDK 초기화가 어려우므로,
-            # 임시로 더미 UID를 반환하거나 익명 사용자 UID를 사용합니다.
-            # 실제 배포 시에는 적절한 Firebase Auth 연동 필요.
-            # decoded_token = auth.verify_id_token(initial_auth_token)
-            # return decoded_token['uid']
-            pass
-        
-        # __app_id가 제공된다면 이를 기반으로 임시 userID 생성
-        # 아니면 그냥 랜덤 UUID 사용
-        user_id_base = os.environ.get('__app_id', 'anonymous')
-        return f"{user_id_base}_{random.getrandbits(64)}" # 단순 UUID 대신 앱 ID 기반으로 생성
-    except Exception as e:
-        print(f"Error getting user ID: {e}")
-        return f"anonymous_user_{random.getrandbits(64)}" # 오류 시 익명 사용자 ID
-
-# Firestore 보안 규칙 (참고용 - 코드에 직접 구현되지 않음)
-# /artifacts/{appId}/users/{userId}/{your_collection_name} -> private data
-# /artifacts/{appId}/public/data/{your_collection_name} -> public data
+# Flask 앱 컨텍스트 외부에서 Firebase 초기화 함수 호출
+# 이 함수는 앱이 로드될 때 (gunicorn에 의해) 한 번만 호출되도록 의도됩니다.
+initialize_firebase_app()
 
 # Function to log events to Firestore
 def log_event(event, detail=None):
+    if db is None:
+        print(f"Firestore is not initialized. Log event '{event}' skipped.")
+        return
+
     try:
-        user_id = get_current_user_id() # 현재 사용자 ID 가져오기
+        user_id = f"{app_id}_user_{random.getrandbits(64)}" # 앱 ID 기반 사용자 ID
+        
         log_data = {
             "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            "timestamp": firestore.SERVER_TIMESTAMP, # 서버 타임스탬프 사용 권장
+            "timestamp": firestore.SERVER_TIMESTAMP,
             "event": event,
             "detail": detail or {},
             "userId": user_id
         }
         # 개인 로그는 /artifacts/{appId}/users/{userId}/logs 컬렉션에 저장
+        # NOTE: 이 예시에서는 모든 로그가 Firestore에 저장됩니다.
+        # 실제 사용자가 늘어날 경우 비용 문제가 발생할 수 있으므로,
+        # 'recommend' 이벤트와 같은 주요 통계만 Firestore에 저장하고
+        # 'visit'과 같은 빈번한 이벤트는 로컬 로그 파일 또는 집계된 형태로 저장하는 것을 고려해야 합니다.
         doc_ref = db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
         print(f"Log event '{event}' for user '{user_id}' added to Firestore with ID: {doc_ref[1].id}")
     except Exception as e:
@@ -135,15 +92,14 @@ def get_latest_round():
 def fetch_latest_lotto_with_bonus():
     latest = get_latest_round()
     if latest is None:
-        return None, None, None, None
-
+        return None, None, None
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     resp = requests.get(url + str(latest))
     data = resp.json()
     
     required_keys = [f'drwtNo{i}' for i in range(1, 7)] + ['bnusNo']
     if not all(key in data and isinstance(data[key], int) for key in required_keys):
-        return None, None, None, None
+        return None, None, None
 
     nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
     bonus = data['bnusNo']
@@ -316,21 +272,23 @@ def free():
 
     # Firestore에서 누적 추천 건수 가져오기
     total_recs_count = 0
-    try:
-        # 모든 사용자의 'recommend' 이벤트를 집계
-        # public/data/app_stats 컬렉션에서 통계 문서 가져오기 (만약 통계가 별도 문서에 집계된다면)
-        # 아니면 모든 사용자 로그를 일일이 쿼리해야 하므로 비효율적 -> 별도 통계 문서 권장
-        # 여기서는 임시로 모든 로그를 쿼리하여 계산 (비효율적일 수 있음)
-        # 실제 운영에서는 총계를 저장하는 별도 문서 생성 필요
-        logs_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-        for user_doc in logs_ref:
-            user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-            recommend_logs = user_logs_ref.where('event', '==', 'recommend').stream()
-            total_recs_count += sum(1 for _ in recommend_logs)
-            
-    except Exception as e:
-        print(f"Firestore에서 누적 추천 건수 가져오기 오류: {e}")
-        total_recs_count = 0 # 오류 발생 시 0으로 설정
+    if db: # db가 초기화되었을 때만 Firestore 사용
+        try:
+            # public/data/app_stats 컬렉션에서 통계 문서 가져오기 (만약 통계가 별도 문서에 집계된다면)
+            # artifacts/{appId}/public/data/app_stats/recommendation_counts 문서에서 count 필드 가져오기
+            stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+            stats_doc = stats_doc_ref.get()
+            if stats_doc.exists:
+                total_recs_count = stats_doc.to_dict().get('total_recommendations', 0)
+            else:
+                # 문서가 없으면 초기값 0으로 설정하고 문서 생성 (필요하다면)
+                stats_doc_ref.set({'total_recommendations': 0})
+                total_recs_count = 0 # 새로 만들었으니 0으로 시작
+        except Exception as e:
+            print(f"Firestore에서 누적 추천 건수 가져오기 오류: {e}")
+            total_recs_count = 0 # 오류 발생 시 0으로 설정
+    else:
+        print("Firestore DB not available for fetching total recommendations.")
 
 
     if request.method == "POST":
@@ -340,6 +298,18 @@ def free():
             "numbers": numbers,
             "user_ip": request.remote_addr
         })
+
+        # 추천 시 Firestore에 누적 카운트 증가
+        if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+            try:
+                stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                stats_doc_ref.update({
+                    'total_recommendations': firestore.Increment(1),
+                    'last_updated': firestore.SERVER_TIMESTAMP
+                })
+            except Exception as e:
+                print(f"Firestore 누적 추천 건수 업데이트 오류: {e}")
+
         if not numbers:
             error = "추천 가능한 프리미엄 번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
             
@@ -396,8 +366,21 @@ def detailed_filter_page():
                 log_event("recommend", {
                     "page": "detailed_filter",
                     "numbers": numbers,
-                    "user_ip": request.remote_addr
+                    "user_ip": request.remote_addr,
+                    "condition": dict(request.form)
                 })
+
+                # 추천 시 Firestore에 누적 카운트 증가
+                if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+                    try:
+                        stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                        stats_doc_ref.update({
+                            'total_recommendations': firestore.Increment(1),
+                            'last_updated': firestore.SERVER_TIMESTAMP
+                        })
+                    except Exception as e:
+                        print(f"Firestore 누적 추천 건수 업데이트 오류 (detailed filter): {e}")
+
         except Exception as e:
             error = f"입력값 오류: {e}"
             
@@ -438,6 +421,18 @@ def hotpick_page():
                         "user_ip": request.remote_addr,
                         "condition": dict(request.form)
                     })
+
+                    # 추천 시 Firestore에 누적 카운트 증가
+                    if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+                        try:
+                            stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                            stats_doc_ref.update({
+                                'total_recommendations': firestore.Increment(1),
+                                'last_updated': firestore.SERVER_TIMESTAMP
+                            })
+                        except Exception as e:
+                            print(f"Firestore 누적 추천 건수 업데이트 오류 (hotpick): {e}")
+
             else:
                 error = "인기 번호 추천 주기를 선택해주세요."
             
@@ -447,7 +442,7 @@ def hotpick_page():
     return render_template("hotpick.html", numbers=numbers, error=error, form=form)
 
 
-# 로또 번호 스토리 생성 LLM 통합 라우트 (활성화 예정)
+# 로또 번호 스토리 생성 LLM 통합 라우트 (활성화됨)
 @app.route('/generate_lotto_story', methods=['POST'])
 def generate_lotto_story():
     log_event("llm_story_request", {"user_ip": request.remote_addr})
@@ -463,7 +458,7 @@ def generate_lotto_story():
         prompt = f"다음 로또 번호 {numbers_str}에 대한 짧고 재미있는 로또 당첨 시나리오를 작성해주세요. 예를 들어, 이 번호들로 복권에 당첨되어 어떤 일이 일어났는지 상상력을 발휘하여 이야기해주세요. 최대한 긍정적이고 유머러스하게 작성해 주세요. 3-4문장으로 간결하게 작성해주세요."
 
         # Gemini API 호출 (API 키는 Canvas 환경에서 자동으로 제공됩니다.)
-        api_key = "" 
+        api_key = os.environ.get('GEMINI_API_KEY', '') # Render 환경 변수에서 API 키 가져오기 (필요하다면)
         api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
         
         payload = {
@@ -484,7 +479,7 @@ def generate_lotto_story():
         if result.get('candidates') and len(result['candidates']) > 0 and \
            result['candidates'][0].get('content') and \
            result['candidates'][0]['content'].get('parts') and \
-           len(result['candidates'][0]['content']['parts']) > 0:
+           len(result['candidates'][0]['content'].get('parts')) > 0:
             story = result['candidates'][0]['content']['parts'][0]['text']
         else:
             print("Gemini API 응답 구조가 예상과 다릅니다:", result) # 디버깅을 위한 출력
@@ -548,29 +543,38 @@ def admin():
         return "관리자 인증 필요(pw=1234)", 403
     
     logs = []
-    try:
-        # Firestore에서 모든 로그 가져오기 (매우 비효율적일 수 있음. 실제로는 페이지네이션 또는 필터링 필요)
-        # 모든 사용자의 로그를 합쳐서 가져오기
-        all_logs = []
-        users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-        for user_doc in users_ref:
-            user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-            user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
-            for log in user_logs:
-                all_logs.append(log.to_dict())
-        logs = sorted(all_logs, key=lambda x: x.get('dt', '')) # 시간 기준으로 정렬
+    if db: # db가 초기화되었을 때만 Firestore 사용
+        try:
+            all_logs = []
+            # 모든 사용자의 로그를 가져오는 것은 비효율적일 수 있으므로 주의.
+            # 실제 운영에서는 특정 기간이나 제한된 수의 로그만 가져와야 함.
+            users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
+            for user_doc in users_ref:
+                user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
+                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream() # 최근 100개 로그만 가져오기
+                for log in user_logs:
+                    log_data = log.to_dict()
+                    # timestamp 필드가 존재하면 datetime 객체로 변환
+                    if 'timestamp' in log_data and log_data['timestamp']: # None 체크 추가
+                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S') # datetime 객체를 문자열로 변환
+                    elif 'dt' in log_data:
+                        log_data['dt_formatted'] = log_data['dt'] # 기존 dt 사용
+                    all_logs.append(log_data)
+            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True) # 최신 로그가 위에 오도록 정렬
 
-    except Exception as e:
-        print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
-        pass
-    
+        except Exception as e:
+            print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
+            pass
+    else:
+        print("Firestore DB not available for fetching admin logs.")
+
     total_visits = sum(1 for log in logs if log["event"]=="visit")
     total_recs = sum(1 for log in logs if log["event"]=="recommend")
     
     today_recs_admin = 0
     today_str = datetime.datetime.now().strftime('%Y-%m-%d')
     for log in logs:
-        if log["event"] == "recommend" and log["dt"].startswith(today_str):
+        if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(today_str):
             today_recs_admin += 1
 
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin)
@@ -582,22 +586,28 @@ def update_winning():
     
     if pw != "1234":
         logs = []
-        try:
-            all_logs = []
-            users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-            for user_doc in users_ref:
-                user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
-                for log in user_logs:
-                    all_logs.append(log.to_dict())
-            logs = sorted(all_logs, key=lambda x: x.get('dt', ''))
-        except Exception as e:
-            print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
-            pass
+        if db:
+            try:
+                all_logs = []
+                users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
+                for user_doc in users_ref:
+                    user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
+                    user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream()
+                    for log in user_logs:
+                        log_data = log.to_dict()
+                        if 'timestamp' in log_data and log_data['timestamp']:
+                            log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
+                        elif 'dt' in log_data:
+                            log_data['dt_formatted'] = log_data['dt']
+                        all_logs.append(log_data)
+                logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
+            except Exception as e:
+                print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
+                pass
         
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
-        today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log["dt"].startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
+        today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
         
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg="비밀번호가 틀렸습니다.")
 
@@ -606,22 +616,28 @@ def update_winning():
     if latest is None or nums is None or bonus is None:
         msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
         logs = []
-        try:
-            all_logs = []
-            users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-            for user_doc in users_ref:
-                user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
-                for log in user_logs:
-                    all_logs.append(log.to_dict())
-            logs = sorted(all_logs, key=lambda x: x.get('dt', ''))
-        except Exception as e:
-            print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
-            pass
+        if db:
+            try:
+                all_logs = []
+                users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
+                for user_doc in users_ref:
+                    user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
+                    user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream()
+                    for log in user_logs:
+                        log_data = log.to_dict()
+                        if 'timestamp' in log_data and log_data['timestamp']:
+                            log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
+                        elif 'dt' in log_data:
+                            log_data['dt_formatted'] = log_data['dt']
+                        all_logs.append(log_data)
+                logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
+            except Exception as e:
+                print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
+                pass
         
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
-        today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log["dt"].startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
+        today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
 
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
         
@@ -668,7 +684,7 @@ def update_winning():
         with open(WINNING3_PATH, encoding="utf-8") as f:
             db_rank3 = json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"{WINething3_PATH} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
+        print(f"{WINNING3_PATH} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
         db_rank3 = {"rank3": []}
     
     for r3_combo in rank3_new:
@@ -692,22 +708,28 @@ def update_winning():
     }
 
     logs = []
-    try:
-        all_logs = []
-        users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-        for user_doc in users_ref:
-            user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-            user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).stream()
-            for log in user_logs:
-                all_logs.append(log.to_dict())
-        logs = sorted(all_logs, key=lambda x: x.get('dt', ''))
-    except Exception as e:
-        print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
-        pass
+    if db:
+        try:
+            all_logs = []
+            users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
+            for user_doc in users_ref:
+                user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
+                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream()
+                for log in user_logs:
+                    log_data = log.to_dict()
+                    if 'timestamp' in log_data and log_data['timestamp']:
+                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
+                    elif 'dt' in log_data:
+                        log_data['dt_formatted'] = log_data['dt']
+                    all_logs.append(log_data)
+            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
+        except Exception as e:
+            print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
+            pass
     
     total_visits = sum(1 for log in logs if log["event"] == "visit")
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
-    today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log["dt"].startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
+    today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
 
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
 
@@ -723,40 +745,6 @@ def healthz():
 
 # Run the Flask app
 if __name__ == '__main__':
-    # Firebase Admin SDK 초기화 시점에 대한 고려
-    # Render와 같은 환경에서는 서비스 시작 시점에 환경 변수 등을 통해 인증 정보를 주입받아 초기화하는 것이 일반적
-    # 여기서는 임시로 Firebase Admin SDK 없이 Firestore 클라이언트만 초기화하는 방식으로 진행하며,
-    # 이는 Firebase 규칙에 따라 제어됩니다.
-    # __firebase_config와 __app_id가 Canvas 환경에서 제공될 것으로 가정합니다.
-    try:
-        # __firebase_config가 제공될 때만 초기화 시도
-        firebase_config = json.loads(os.environ.get('__firebase_config', '{}'))
-        app_id = os.environ.get('__app_id', 'default-smartpick-app')
-
-        if firebase_config and not firebase_admin._apps:
-            # Firebase Admin SDK는 서비스 계정 키를 통해 인증됩니다.
-            # 이 예시에서는 서비스 계정 키가 환경 변수로 제공되지 않으므로,
-            # Admin SDK 초기화는 생략하고 Firestore 클라이언트만 사용합니다.
-            # 실제 배포에서는 Firebase Admin SDK를 적절히 초기화해야 합니다.
-            # cred = credentials.Certificate(path_to_your_service_account_key.json)
-            # firebase_admin.initialize_app(cred, {'projectId': firebase_config.get('projectId')})
-            
-            # 임시 사용자 인증 (Firestore 사용을 위함)
-            # Render 환경에서 __initial_auth_token이 주어질 경우 이를 사용
-            initial_auth_token = os.environ.get('__initial_auth_token')
-            if initial_auth_token:
-                # Firestore client는 이미 전역으로 선언됨.
-                # 사용자 인증은 Python 백엔드보다는 클라이언트 SDK에서 처리되는 경우가 많음.
-                # 여기서는 'log_event'와 같은 함수에서 user_id를 생성하여 사용.
-                pass
-            else:
-                # 익명 로그인 (Firebase Admin SDK의 auth 모듈 필요)
-                # 이 예시에서는 Admin SDK가 완벽히 초기화되지 않았으므로 생략.
-                pass
-
-        db = firestore.client() # Firestore 클라이언트 재확인
-    except Exception as e:
-        print(f"Firestore setup or auth failed during app run: {e}")
-
+    # Flask 개발 서버 실행 (Gunicorn은 프로덕션용)
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
 
