@@ -18,7 +18,7 @@ def log_event(event, detail=None):
     try:
         with open(logfile, "a", encoding="utf-8") as f:
             f.write(json.dumps(log, ensure_ascii=False) + "\n")
-    except Exception as e:
+    except Exception as e: # SyntaxError 수정: except에 예외 타입을 명시
         print("로그 기록 오류:", e)
 
 # Function to get the latest lottery round number
@@ -211,20 +211,6 @@ def free():
     numbers = None
     error = ""
     
-    # '오늘의 추천 조합'과 '누적 추천 조합' 정보는 관리자 페이지로 이동했으므로 여기서는 제거
-    # total_recs = 0
-    # today_recs = 0
-    # today = datetime.datetime.now().strftime('%Y-%m-%d')
-    # try:
-    #     with open("admin_log.json", encoding="utf-8") as f:
-    #         for line in f:
-    #             if '"event": "recommend"' in line:
-    #                 total_recs += 1
-    #                 if today in line:
-    #                     today_recs += 1
-    # except:
-    #     pass
-        
     if request.method == "POST":
         # 'SmartPick 프리미엄 번호 추천받기' 버튼 클릭 시
         # 기본적으로 1,2,3등 당첨 번호 제외 필터를 적용
@@ -241,8 +227,6 @@ def free():
         "index.html",
         numbers=numbers,
         error=error
-        # total_recs=total_recs, # 관리자 페이지로 이동했으므로 제거
-        # today_recs=today_recs # 관리자 페이지로 이동했으므로 제거
     )
 
 # New Route for choosing recommendation type
@@ -400,7 +384,8 @@ def admin():
     try:
         with open("admin_log.json", encoding="utf-8") as f:
             logs = [json.loads(line) for line in f if line.strip()]
-    except:
+    except Exception as e: # SyntaxError 수정
+        print("admin log file read error:", e)
         pass
     
     total_visits = sum(1 for log in logs if log["event"]=="visit")
@@ -417,7 +402,8 @@ def admin():
                     total_recs_admin += 1
                     if today in line:
                         today_recs_admin += 1
-    except:
+    except Exception as e: # SyntaxError 수정
+        print("admin log file read error (for stats):", e)
         pass
 
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin) # today_recs_admin 추가
@@ -432,7 +418,8 @@ def update_winning():
         try:
             with open("admin_log.json", encoding="utf-8") as f:
                 logs = [json.loads(line) for line in f if line.strip()]
-        except:
+        except Exception as e: # SyntaxError 수정
+            print("admin log file read error:", e)
             pass
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
@@ -447,7 +434,8 @@ def update_winning():
                         total_recs_admin += 1
                         if today in line:
                             today_recs_admin += 1
-        except:
+        except Exception as e: # SyntaxError 수정
+            print("admin log file read error (for stats in update_winning):", e)
             pass
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg="비밀번호가 틀렸습니다.")
 
@@ -459,7 +447,8 @@ def update_winning():
         try:
             with open("admin_log.json", encoding="utf-8") as f:
                 logs = [json.loads(line) for line in f if line.strip()]
-        except:
+        except Exception as e: # SyntaxError 수정
+            print("admin log file read error:", e)
             pass
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
@@ -474,7 +463,8 @@ def update_winning():
                         total_recs_admin += 1
                         if today in line:
                             today_recs_admin += 1
-        except:
+        except Exception as e: # SyntaxError 수정
+            print("admin log file read error (for stats in update_winning):", e)
             pass
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
         
@@ -483,7 +473,8 @@ def update_winning():
         os.makedirs(os.path.dirname(WINNING1_PATH), exist_ok=True)
         with open(WINNING1_PATH, encoding="utf-8") as f:
             db_rank1 = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, json.JSONDecodeError) as e: # SyntaxError 수정
+        print(f"{WINNING1_PATH} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
         db_rank1 = {"rank1": []}
     
     if nums not in db_rank1["rank1"]:
@@ -502,7 +493,8 @@ def update_winning():
         os.makedirs(os.path.dirname(WINNING2_PATH), exist_ok=True)
         with open(WINNING2_PATH, encoding="utf-8") as f:
             db_rank2 = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, json.JSONDecodeError) as e: # SyntaxError 수정
+        print(f"{WINNING2_PATH} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
         db_rank2 = {"rank2": []}
     
     for r2_combo in rank2_new:
@@ -518,7 +510,8 @@ def update_winning():
         os.makedirs(os.path.dirname(WINNING3_PATH), exist_ok=True)
         with open(WINNING3_PATH, encoding="utf-8") as f:
             db_rank3 = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, json.JSONDecodeError) as e: # SyntaxError 수정
+        print(f"{WINNING3_PATH} 파일 읽기/디코딩 에러 (새 파일 생성):", e)
         db_rank3 = {"rank3": []}
     
     for r3_combo in rank3_new:
@@ -545,11 +538,12 @@ def update_winning():
     try:
         with open("admin_log.json", encoding="utf-8") as f:
             logs = [json.loads(line) for line in f if line.strip()]
-    except:
+    except Exception as e: # SyntaxError 수정
+        print("admin log file read error:", e)
         pass
     total_visits = sum(1 for log in logs if log["event"] == "visit")
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
-    
+
     # 관리자 페이지에 통계 정보를 다시 전달
     today_recs_admin = 0
     total_recs_admin = 0
@@ -561,8 +555,9 @@ def update_winning():
                     total_recs_admin += 1
                     if today in line:
                         today_recs_admin += 1
-        except:
-            pass
+    except Exception as e: # SyntaxError 수정
+        print("admin log file read error (for stats in update_winning):", e)
+        pass
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
 
 # Route for ads.txt (for ad services)
