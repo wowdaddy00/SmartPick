@@ -144,53 +144,46 @@
         margin-right: 8px; /* 아이콘과 텍스트 간격 */
     }
     
-    /* 로또 볼 배열 */
+    /* 로또 볼 배열 (기본) - 데스크탑/태블릿용 */
     .lotto { 
-      margin:2.5em auto 1em auto; /* 상단 간격 늘림 */
+      margin:2.5em auto 1em auto; 
       display: flex; 
-      flex-wrap: wrap; /* 기존 flex-wrap: wrap 유지 */
+      flex-wrap: wrap; 
       justify-content: center; 
       align-items: center; 
-      gap: 8px; /* 볼 간격 키움 */
-      max-width: 300px; /* 너비 조정 */
+      gap: 8px; 
+      max-width: 300px; 
       box-sizing: border-box; 
     }
-    .lotto.fixed-width { /* 새로운 클래스 추가: 고정 너비 및 줄바꿈 방지 */
-        flex-wrap: nowrap; /* 줄바꿈 방지 */
-        overflow-x: auto; /* 내용이 넘칠 경우 스크롤 허용 (모바일) */
-        -webkit-overflow-scrolling: touch; /* iOS Safari 부드러운 스크롤 */
-        padding-bottom: 5px; /* 스크롤바가 생길 경우 대비 */
-        max-width: 100%; /* 부모 요소에 맞게 최대 너비 설정 */
-        justify-content: flex-start; /* 왼쪽 정렬 */
-    }
+    /* 볼 스타일 (기본) */
     .ball {
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      width: calc((100% - (8px * 5)) / 6); /* gap 변경에 따라 calc 값 조정 */
+      width: calc((100% - (8px * 5)) / 6); 
       height: calc((100% - (8px * 5)) / 6); 
-      min-width: 42px; /* 최소 크기 조정 */
+      min-width: 42px; 
       min-height: 42px;
       border-radius:50%;
       margin:0; 
-      font-size:1.2em; /* 숫자 크기 조정 */
-      font-weight:700; /* 폰트 굵기 조정 */
-      box-shadow:0 4px 10px rgba(0,0,0,0.15); /* 그림자 더 부드럽게 */
+      font-size:1.2em; 
+      font-weight:700; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.15); 
       transition: all 0.2s ease;
-      border:3px solid #fff; /* 테두리 두껍게 */
+      border:3px solid #fff; 
       flex-shrink: 0; 
       box-sizing: border-box; 
-      color: #333; /* 기본 글자색 */
+      color: #333; 
     }
-    .ball.n1 { background: #ffdf6c; } /* 노랑 더 부드럽게 */
-    .ball.n2 { background: #9bd0ff; } /* 하늘 더 부드럽게 */
-    .ball.n3 { background: #ff91a5; color: #fff;} /* 빨강 더 부드럽게 */
-    .ball.n4 { background: #c2c9d1; } /* 회색 더 부드럽게 */
-    .ball.n5 { background: #b0e891; } /* 연두 더 부드럽게 */
+    .ball.n1 { background: #ffdf6c; } 
+    .ball.n2 { background: #9bd0ff; } 
+    .ball.n3 { background: #ff91a5; color: #fff;} 
+    .ball.n4 { background: #c2c9d1; } 
+    .ball.n5 { background: #b0e891; } 
 
     /* 'SmartPick이 특별한 이유' 링크 스타일 */
-    .link-about-moved { /* 이동된 링크를 위한 새로운 클래스 */
-        display: block; /* 블록 요소로 만들고 */
+    .link-about-moved { 
+        display: block; 
         padding: 1.2em 1.5em;
         border-radius: 1.5em;
         font-weight: bold;
@@ -198,10 +191,10 @@
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         text-align: center;
-        background-color: #f7f9fc; /* 밝은 배경 */
-        border: 2px solid #b3d4f5; /* 연한 파란색 테두리 */
-        color: #4a6fa3; /* 차분한 파란색 글자 */
-        margin-bottom: 2em; /* 빨간 박스 아래 간격 조정 */
+        background-color: #f7f9fc; 
+        border: 2px solid #b3d4f5; 
+        color: #4a6fa3; 
+        margin-bottom: 2em; 
     }
     .link-about-moved:hover {
         background-color: #e6f0fa;
@@ -216,30 +209,30 @@
 
     /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
     .stats-box {
-      margin-top: 25px; /* 컨테이너 위쪽 간격 */
-      margin-bottom: 25px; /* 컨테이너 아래쪽 간격 */
-      padding: 18px 25px; /* 패딩 키움 */
-      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%); /* 그라데이션 배경 */
-      border-radius: 2em; /* 더 둥글게 */
-      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15); /* 시원한 파란 그림자 */
-      font-size: 1.1em; /* 폰트 크기 키움 */
+      margin-top: 25px; 
+      margin-bottom: 25px; 
+      padding: 18px 25px; 
+      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%); 
+      border-radius: 2em; 
+      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15); 
+      font-size: 1.1em; 
       color: #00796b; 
-      font-weight: 700; /* 굵기 강조 */
+      font-weight: 700; 
       line-height: 1.6;
       text-align: center; 
-      max-width: 350px; /* 너비 살짝 키움 */
+      max-width: 350px; 
       margin-left: auto; 
       margin-right: auto; 
     }
     .stats-box b {
         color: #004d40; 
-        font-weight: 800; /* 더욱 굵게 */
+        font-weight: 800; 
     }
 
     /* 최신 당첨번호 섹션 */
     .latest-winning-section {
-        background-color: #e6f7ff; /* 밝은 파란색 배경 */
-        border: 2px solid #a8e0f5; /* 연한 파란색 테두리 */
+        background-color: #e6f7ff; 
+        border: 2px solid #a8e0f5; 
         border-radius: 1.8em;
         padding: 1.5em;
         margin-bottom: 2em;
@@ -255,43 +248,42 @@
     .latest-winning-numbers {
         display: flex;
         flex-wrap: nowrap; /* 줄바꿈 방지 */
-        justify-content: center;
+        justify-content: center; /* 중앙 정렬 */
         align-items: center;
-        gap: 8px;
+        gap: 5px; /* 볼 간격 최소화 */
         margin-top: 1em;
-        overflow-x: auto; /* 내용이 넘칠 경우 스크롤 허용 */
-        -webkit-overflow-scrolling: touch; /* iOS Safari 부드러운 스크롤 */
-        padding-bottom: 5px; /* 스크롤바가 생길 경우 대비 */
+        /* overflow-x: auto; 제거 - 스크롤 없이 한 줄에 보이도록 */
+        /* padding-bottom: 5px; 제거 */
     }
     .latest-winning-numbers .ball {
-        flex-shrink: 0; /* 볼이 줄어들지 않도록 함 */
-        min-width: 42px; /* 최소 크기 유지 */
-        min-height: 42px;
-        width: 42px; /* 고정 크기 */
-        height: 42px;
-        font-size: 1.1em;
-        border: 2px solid #fff; /* 테두리 */
+        flex-shrink: 0; 
+        min-width: 32px; /* 볼 크기 더 줄임 */
+        min-height: 32px;
+        width: 32px; /* 고정 크기 */
+        height: 32px;
+        font-size: 0.95em; /* 폰트 크기 줄임 */
+        border: 2px solid #fff; 
         box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
     .plus-sign {
-        font-size: 2em;
+        font-size: 1.6em; /* 플러스 기호 크기 줄임 */
         font-weight: 900;
         color: #4a6fa3;
-        margin: 0 5px;
+        margin: 0 3px; /* 간격 줄임 */
         flex-shrink: 0;
     }
 
     /* 모바일 반응형 미디어 쿼리 */
     @media (max-width:500px){
       body {
-          justify-content: flex-start; /* 모바일에서 상단으로 정렬 */
+          justify-content: flex-start; 
       }
       .container { 
         max-width:97vw; 
-        margin:8vw 2vw; /* 모바일 상단 마진 줄임 */
+        margin:8vw 2vw; 
         padding:2em 0.2em; 
       } 
-      h1 { font-size:1.8em;} /* 모바일 h1 크기 조정 */
+      h1 { font-size:1.8em;} 
       .usp-message div {
           font-size: 1.0em;
       }
@@ -301,22 +293,30 @@
       .usp-message .line3 {
           font-size: 1.0em;
       }
-      .lotto, .latest-winning-numbers { /* 로또 볼과 최신 당첨 번호 볼 레이아웃 */
-          max-width: calc(100% - 20px); /* 화면 가장자리에 너무 붙지 않도록 */
-          gap: 5px; /* 모바일에서는 볼 간격 다시 줄임 */
-          justify-content: center; /* 중앙 정렬 유지 */
+      /* 로또 볼 및 최신 당첨 번호 볼 레이아웃 */
+      .lotto, .latest-winning-numbers { 
+          max-width: calc(100% - 20px); 
+          gap: 4px; /* 모바일에서 볼 간격 더 줄임 */
+          justify-content: center; 
+          /* overflow-x: auto; 제거 */
       }
       .ball {
-          min-width: 36px; /* 모바일에서 볼 크기 더 줄임 */
-          min-height: 36px;
-          width: 36px; /* 고정 크기 */
-          height: 36px;
-          font-size: 1.0em; 
-          /* calc 계산은 flex-wrap: nowrap일 때 덜 중요해짐 */
+          min-width: 30px; /* 모바일에서 볼 크기 더 줄임 */
+          min-height: 30px;
+          width: 30px; /* 고정 크기 */
+          height: 30px;
+          font-size: 0.9em; /* 폰트 크기 더 줄임 */
+      }
+      .latest-winning-numbers .ball { /* 최신 당첨 번호 볼도 크기 및 폰트 줄임 */
+          min-width: 30px; 
+          min-height: 30px;
+          width: 30px;
+          height: 30px;
+          font-size: 0.9em;
       }
       .plus-sign {
-          font-size: 1.8em;
-          margin: 0 3px;
+          font-size: 1.5em;
+          margin: 0 2px;
       }
       button, .copy-btn, .main-action-link-button {
           font-size: 1.05em;
@@ -331,12 +331,12 @@
           margin-bottom: 5vw;
       }
       .link-about-moved {
-          margin-bottom: 1.5em; /* 모바일에서 간격 조정 */
+          margin-bottom: 1.5em; 
           padding: 1em 1.2em;
           font-size: 1em;
       }
       .main-action-link-button {
-          width: calc(100% - (1.8em * 2)); /* 모바일 패딩에 맞춰 너비 조정 */
+          width: calc(100% - (1.8em * 2)); 
       }
     }
   </style>
@@ -387,7 +387,7 @@
     </a>
     
     {% if numbers %}
-      <div class="lotto fixed-width" id="lotto_result"> {# fixed-width 클래스 추가 #}
+      <div class="lotto" id="lotto_result"> {# fixed-width 클래스 제거하고 기본 .lotto에 flex-wrap:nowrap 설정으로 대체 #}
         {% for n in numbers[0] %}
           <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
         {% endfor %}
