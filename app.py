@@ -1,12 +1,12 @@
 import os
 import json
 import random
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify 
 from collections import Counter
 import datetime
 import requests
 import itertools
-import time # 캐싱을 위한 time 모듈 임포트
+import time 
 
 # Firebase Admin SDK imports
 import firebase_admin
@@ -30,13 +30,12 @@ CACHE_TTL = 3600 # 캐시 유효 시간 (초) - 1시간
 
 def initialize_firebase_app():
     """Firebase Admin SDK를 초기화하고 Firestore 클라이언트를 반환합니다."""
-    global db # 전역 변수 db를 수정하기 위해 global 선언
-    global app_id # 전역 변수 app_id를 수정하기 위해 global 선언
+    global db 
+    global app_id 
 
     if firebase_admin._apps:
         print("Firebase Admin SDK already initialized.")
         try:
-            # 기본 데이터베이스를 사용하므로 database 인자 필요 없음
             db = firestore.client() 
             print("Firestore client initialized successfully.")
         except Exception as e:
@@ -45,15 +44,14 @@ def initialize_firebase_app():
         return
 
     try:
-        # Render 환경 변수에서 서비스 계정 키 JSON 문자열을 가져옴
         firebase_service_account_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY')
         
         if firebase_service_account_json:
             cred_dict = json.loads(firebase_service_account_json)
             cred = credentials.Certificate(cred_dict)
-            firebase_admin.initialize_app(cred) # 기본 데이터베이스 사용 시 database_id 불필요
+            firebase_admin.initialize_app(cred) 
             print("Firebase Admin SDK initialized successfully from environment variable.")
-            db = firestore.client() # 기본 데이터베이스 사용 시 database 인자 불필요
+            db = firestore.client() 
             print("Firestore client initialized successfully.")
         else:
             print("FIREBASE_SERVICE_ACCOUNT_KEY environment variable not found. Firebase Admin SDK will not be initialized.")
@@ -61,10 +59,9 @@ def initialize_firebase_app():
 
     except Exception as e:
         print(f"Firebase Admin SDK initialization failed: {e}")
-        db = None # 초기화 실패 시 db를 None으로 설정
+        db = None 
 
 # Flask 앱 컨텍스트 외부에서 Firebase 초기화 함수 호출
-# 이 함수는 앱이 로드될 때 (gunicorn에 의해) 한 번만 호출되도록 의도됩니다.
 initialize_firebase_app()
 
 # Function to log events to Firestore
@@ -74,16 +71,12 @@ def log_event(event, detail=None):
         return
 
     try:
-        user_id = f"{app_id}_user_{random.getrandbits(64)}" # 앱 ID 기반 사용자 ID
+        user_id = f"{app_id}_user_{random.getrandbits(64)}" 
         
-        # detail 딕셔너리의 모든 값을 문자열로 변환하여 Firestore 오류 방지
         sanitized_detail = {}
         if detail:
             for k, v in detail.items():
                 if isinstance(v, (list, dict)):
-                    # 리스트나 딕셔너리 내부의 원소도 문자열로 변환하거나,
-                    # JSON 직렬화하여 단일 문자열로 저장하는 것을 고려할 수 있습니다.
-                    # 여기서는 간단히 JSON 직렬화합니다.
                     sanitized_detail[k] = json.dumps(v, ensure_ascii=False)
                 else:
                     sanitized_detail[k] = str(v)
@@ -92,7 +85,7 @@ def log_event(event, detail=None):
             "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             "timestamp": firestore.SERVER_TIMESTAMP,
             "event": event,
-            "detail": sanitized_detail, # 위에서 정제된 detail 사용
+            "detail": sanitized_detail, 
             "userId": user_id
         }
         
@@ -104,7 +97,7 @@ def log_event(event, detail=None):
 # Function to get the latest lottery round number
 def get_latest_round():
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
-    for drw in range(1200, 1000, -1): # Search from a high number down to 1001 for recent rounds
+    for drw in range(1200, 1000, -1): 
         resp = requests.get(url + str(drw))
         data = resp.json()
         if data.get('returnValue') == 'success' and all(isinstance(data.get(f'drwtNo{i}'), int) for i in range(1, 7)):
@@ -112,23 +105,23 @@ def get_latest_round():
     return None
 
 # Function to fetch latest lotto numbers with bonus number (with caching)
-def fetch_latest_lotto_with_bonus_cached():
+# force_update 인자를 추가하여 캐시를 강제로 무효화할 수 있도록 함
+def fetch_latest_lotto_with_bonus_cached(force_update=False):
     global cached_lotto_data
 
     current_time = time.time()
 
-    # 캐시가 유효한지 확인
-    if cached_lotto_data['data'] and (current_time - cached_lotto_data['timestamp'] < CACHE_TTL):
+    # 캐시가 유효하고 강제 업데이트가 요청되지 않았을 때
+    if cached_lotto_data['data'] and (current_time - cached_lotto_data['timestamp'] < CACHE_TTL) and not force_update:
         print("Using cached lotto data.")
         return cached_lotto_data['data']['round'], \
                cached_lotto_data['data']['nums'], \
                cached_lotto_data['data']['bonus']
     
-    # 외부 API에서 최신 회차 번호 가져오기
-    print("Fetching new lotto data from external API.")
+    print("Fetching new lotto data from external API (or forced update).")
     latest = get_latest_round()
     if latest is None:
-        return None, None, None # 최신 회차를 가져오지 못함
+        return None, None, None 
 
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     resp = requests.get(url + str(latest))
@@ -309,7 +302,7 @@ def parse_int_list(text):
 # Route for the free recommendation page (root URL)
 @app.route("/", methods=["GET", "POST"])
 def free():
-    log_event("visit", {"page": "index"})
+    log_event("visit", {"page": "index", "user_ip": str(request.remote_addr)})
     numbers = None
     error = ""
     
@@ -320,19 +313,16 @@ def free():
     total_recs_count = 0
     if db: # db가 초기화되었을 때만 Firestore 사용
         try:
-            # Firestore에 총 추천 수를 저장하는 단일 문서 사용 (효율적)
-            # artifacts/{appId}/public/data/app_stats/recommendation_counts 문서에서 count 필드 가져오기
             stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
             stats_doc = stats_doc_ref.get()
             if stats_doc.exists:
                 total_recs_count = stats_doc.to_dict().get('total_recommendations', 0)
             else:
-                # 문서가 없으면 초기값 0으로 설정하고 문서 생성 (필요하다면)
                 stats_doc_ref.set({'total_recommendations': 0})
-                total_recs_count = 0 # 새로 만들었으니 0으로 시작
+                total_recs_count = 0 
         except Exception as e:
             print(f"Firestore에서 누적 추천 건수 가져오기 오류: {e}")
-            total_recs_count = 0 # 오류 발생 시 0으로 설정
+            total_recs_count = 0 
     else:
         print("Firestore DB not available for fetching total recommendations.")
 
@@ -342,11 +332,10 @@ def free():
         log_event("recommend", {
             "page": "index_premium_quick",
             "numbers": numbers,
-            "user_ip": str(request.remote_addr) # 문자열로 변환
+            "user_ip": str(request.remote_addr) 
         })
 
-        # 추천 시 Firestore에 누적 카운트 증가
-        if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+        if db and numbers: 
             try:
                 stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                 stats_doc_ref.update({
@@ -366,19 +355,19 @@ def free():
         latest_round=latest_round,
         winning_nums=winning_nums,
         bonus_num=bonus_num,
-        total_recs_count=total_recs_count # 누적 추천 건수 전달
+        total_recs_count=total_recs_count 
     )
 
 # New Route for choosing recommendation type
 @app.route('/choose_recommendation')
 def choose_recommendation():
-    log_event("visit", {"page": "choose_recommendation", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "choose_recommendation", "user_ip": str(request.remote_addr)}) 
     return render_template('choose_recommendation.html')
 
 # Route for the detailed filtered recommendation page
 @app.route("/filter", methods=["GET", "POST"])
 def detailed_filter_page():
-    log_event("visit", {"page": "detailed_filter", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "detailed_filter", "user_ip": str(request.remote_addr)}) 
     numbers = []
     form = {}
     error = ""
@@ -412,12 +401,11 @@ def detailed_filter_page():
                 log_event("recommend", {
                     "page": "detailed_filter",
                     "numbers": numbers,
-                    "user_ip": str(request.remote_addr), # 문자열로 변환
-                    "condition": str(dict(request.form)) # 딕셔너리도 문자열로 변환 (복잡한 중첩 방지)
+                    "user_ip": str(request.remote_addr), 
+                    "condition": str(dict(request.form)) 
                 })
 
-                # 추천 시 Firestore에 누적 카운트 증가
-                if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+                if db and numbers: 
                     try:
                         stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                         stats_doc_ref.update({
@@ -435,7 +423,7 @@ def detailed_filter_page():
 # New Route for Hot Pick recommendation page
 @app.route("/hotpick", methods=["GET", "POST"])
 def hotpick_page():
-    log_event("visit", {"page": "hotpick", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "hotpick", "user_ip": str(request.remote_addr)}) 
     numbers = []
     form = {}
     error = ""
@@ -464,12 +452,11 @@ def hotpick_page():
                     log_event("recommend", {
                         "page": "hotpick_recommendation",
                         "numbers": numbers,
-                        "user_ip": str(request.remote_addr), # 문자열로 변환
-                        "condition": str(dict(request.form)) # 딕셔너리도 문자열로 변환
+                        "user_ip": str(request.remote_addr), 
+                        "condition": str(dict(request.form)) 
                     })
 
-                    # 추천 시 Firestore에 누적 카운트 증가
-                    if db and numbers: # db가 초기화되었고 번호가 성공적으로 생성되었을 때만
+                    if db and numbers: 
                         try:
                             stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                             stats_doc_ref.update({
@@ -491,7 +478,7 @@ def hotpick_page():
 # 로또 번호 스토리 생성 LLM 통합 라우트 (활성화됨)
 @app.route('/generate_lotto_story', methods=['POST'])
 def generate_lotto_story():
-    log_event("llm_story_request", {"user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("llm_story_request", {"user_ip": str(request.remote_addr)}) 
     try:
         data = request.json
         lotto_numbers = data.get('numbers')
@@ -500,11 +487,9 @@ def generate_lotto_story():
 
         numbers_str = ", ".join(map(str, sorted(lotto_numbers)))
         
-        # Gemini API를 위한 프롬프트 구성
         prompt = f"다음 로또 번호 {numbers_str}에 대한 짧고 재미있는 로또 당첨 시나리오를 작성해주세요. 예를 들어, 이 번호들로 복권에 당첨되어 어떤 일이 일어났는지 상상력을 발휘하여 이야기해주세요. 최대한 긍정적이고 유머러스하게 작성해 주세요. 3-4문장으로 간결하게 작성해주세요."
 
-        # Gemini API 호출 (API 키는 Canvas 환경에서 자동으로 제공됩니다.)
-        api_key = os.environ.get('GEMINI_API_KEY', '') # Render 환경 변수에서 API 키 가져오기 (필요하다면)
+        api_key = os.environ.get('GEMINI_API_KEY', '') 
         api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
         
         payload = {
@@ -517,7 +502,7 @@ def generate_lotto_story():
         }
 
         response = requests.post(api_url, headers={'Content-Type': 'application/json'}, json=payload)
-        response.raise_for_status() # HTTP 오류 (4xx, 5xx) 발생 시 예외 처리
+        response.raise_for_status() 
         
         result = response.json()
         
@@ -528,9 +513,9 @@ def generate_lotto_story():
            len(result['candidates'][0]['content'].get('parts')) > 0:
             story = result['candidates'][0]['content']['parts'][0]['text']
         else:
-            print("Gemini API 응답 구조가 예상과 다릅니다:", result) # 디버깅을 위한 출력
+            print("Gemini API 응답 구조가 예상과 다릅니다:", result) 
             
-        log_event("llm_story_response", {"numbers": str(lotto_numbers), "story": story}) # numbers도 문자열로 변환
+        log_event("llm_story_response", {"numbers": str(lotto_numbers), "story": story}) 
         return jsonify({"story": story})
 
     except requests.exceptions.RequestException as e:
@@ -544,35 +529,35 @@ def generate_lotto_story():
 # Route for the About page
 @app.route('/about')
 def about():
-    log_event("visit", {"page": "about", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "about", "user_ip": str(request.remote_addr)}) 
     return render_template('about.html')
 
 # Route for the Privacy Policy page
 @app.route('/privacy')
 def privacy():
-    log_event("visit", {"page": "privacy", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "privacy", "user_ip": str(request.remote_addr)}) 
     return render_template('privacy.html')
 
 # Route for the Disclaimer page
 @app.route('/disclaimer')
 def disclaimer():
-    log_event("visit", {"page": "disclaimer", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "disclaimer", "user_ip": str(request.remote_addr)}) 
     return render_template('disclaimer.html')
 
 # Route for the Contact page
 @app.route('/contact')
 def contact():
-    log_event("visit", {"page": "contact", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "contact", "user_ip": str(request.remote_addr)}) 
     return render_template('contact.html')
 
 # Route for the Statistics page
 @app.route('/stats')
 def stats():
-    log_event("visit", {"page": "stats", "user_ip": str(request.remote_addr)}) # 문자열로 변환
+    log_event("visit", {"page": "stats", "user_ip": str(request.remote_addr)}) 
     recent_n = 10 
     numbers = []
     for row in rank1[-recent_n:]:
-        numbers.extend(row)
+        all_nums.extend(row)
     
     freq = dict(Counter(numbers))
     for n in range(1, 46):
@@ -589,22 +574,21 @@ def admin():
         return "관리자 인증 필요(pw=1234)", 403
     
     logs = []
-    if db: # db가 초기화되었을 때만 Firestore 사용
+    if db: 
         try:
             all_logs = []
             users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
             for user_doc in users_ref:
                 user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream() # 최근 100개 로그만 가져오기
+                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream() 
                 for log in user_logs:
                     log_data = log.to_dict()
-                    # timestamp 필드가 존재하면 datetime 객체로 변환
-                    if 'timestamp' in log_data and log_data['timestamp']: # None 체크 추가
-                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S') # datetime 객체를 문자열로 변환
+                    if 'timestamp' in log_data and log_data['timestamp']: 
+                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S') 
                     elif 'dt' in log_data:
-                        log_data['dt_formatted'] = log_data['dt'] # 기존 dt 사용
+                        log_data['dt_formatted'] = log_data['dt'] 
                     all_logs.append(log_data)
-            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True) # 최신 로그가 위에 오도록 정렬
+            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True) 
 
         except Exception as e:
             print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
@@ -655,7 +639,8 @@ def update_winning():
         
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg="비밀번호가 틀렸습니다.")
 
-    latest, nums, bonus = fetch_latest_lotto_with_bonus_cached() # 캐싱된 함수 사용
+    # 강제로 캐시를 업데이트하도록 fetch_latest_lotto_with_bonus_cached 호출 시 True 전달
+    latest, nums, bonus = fetch_latest_lotto_with_bonus_cached(force_update=True) 
     
     if latest is None or nums is None or bonus is None:
         msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
@@ -788,4 +773,3 @@ def healthz():
 if __name__ == '__main__':
     # Flask 개발 서버 실행 (Gunicorn은 프로덕션용)
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
-
