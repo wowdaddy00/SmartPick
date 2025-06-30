@@ -1,5 +1,5 @@
 import os, json, random
-from flask import Flask, render_template, request, jsonify # jsonify 추가
+from flask import Flask, render_template, request, jsonify
 from collections import Counter
 import datetime
 import requests
@@ -64,7 +64,7 @@ def make_rank2_3(nums, bonus):
 # Paths to the JSON files storing winning numbers data
 BASE_DIR = os.path.dirname(__file__)
 WINNING1_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_full.json')
-WINNING2_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank2.json')
+WINNING2_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank2.json') # 오타 수정 완료
 WINNING3_PATH = os.path.join(BASE_DIR, 'static', 'winning_numbers_rank3.json')
 
 # Function to load winning rank data from JSON files
@@ -106,7 +106,6 @@ def get_hot_numbers(n=5):
     return set(sorted_nums)
 
 # Function to check if a set of numbers contains a consecutive sequence
-# **** 이 함수가 누락되어 있었습니다. ****
 def has_consecutive(numbers, seq_len=2):
     nums = sorted(list(numbers))
     count = 1
@@ -123,7 +122,7 @@ def has_consecutive(numbers, seq_len=2):
 def generate_numbers(
     exclude_ranks=[],
     exclude_hot_n=None, 
-    exclude_consecutive=None, # 연속번호 제외 필터 인자
+    exclude_consecutive=None,
     user_exclude=None,
     user_include=None,
     count=1
@@ -179,7 +178,7 @@ def generate_numbers(
             continue
         
         # 5. Exclude consecutive numbers if specified
-        if exclude_consecutive and has_consecutive(nums, exclude_consecutive): # has_consecutive 함수 사용
+        if exclude_consecutive and has_consecutive(nums, exclude_consecutive):
             tries += 1
             if tries > 30000: break
             continue
@@ -212,18 +211,19 @@ def free():
     numbers = None
     error = ""
     
-    total_recs = 0
-    today_recs = 0
-    today = datetime.datetime.now().strftime('%Y-%m-%d')
-    try:
-        with open("admin_log.json", encoding="utf-8") as f:
-            for line in f:
-                if '"event": "recommend"' in line:
-                    total_recs += 1
-                    if today in line:
-                        today_recs += 1
-    except:
-        pass
+    # '오늘의 추천 조합'과 '누적 추천 조합' 정보는 관리자 페이지로 이동했으므로 여기서는 제거
+    # total_recs = 0
+    # today_recs = 0
+    # today = datetime.datetime.now().strftime('%Y-%m-%d')
+    # try:
+    #     with open("admin_log.json", encoding="utf-8") as f:
+    #         for line in f:
+    #             if '"event": "recommend"' in line:
+    #                 total_recs += 1
+    #                 if today in line:
+    #                     today_recs += 1
+    # except:
+    #     pass
         
     if request.method == "POST":
         # 'SmartPick 프리미엄 번호 추천받기' 버튼 클릭 시
@@ -240,9 +240,9 @@ def free():
     return render_template(
         "index.html",
         numbers=numbers,
-        error=error,
-        total_recs=total_recs,
-        today_recs=today_recs
+        error=error
+        # total_recs=total_recs, # 관리자 페이지로 이동했으므로 제거
+        # today_recs=today_recs # 관리자 페이지로 이동했으므로 제거
     )
 
 # New Route for choosing recommendation type
@@ -406,7 +406,21 @@ def admin():
     total_visits = sum(1 for log in logs if log["event"]=="visit")
     total_recs = sum(1 for log in logs if log["event"]=="recommend")
     
-    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs)
+    # 관리자 페이지에서 오늘의/누적 추천 조합 통계 정보를 표시
+    today_recs_admin = 0
+    total_recs_admin = 0
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    try:
+        with open("admin_log.json", encoding="utf-8") as f:
+            for line in f:
+                if '"event": "recommend"' in line:
+                    total_recs_admin += 1
+                    if today in line:
+                        today_recs_admin += 1
+    except:
+        pass
+
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin) # today_recs_admin 추가
 
 # Route to update winning numbers (admin functionality)
 @app.route("/update_winning", methods=["POST"])
@@ -422,7 +436,20 @@ def update_winning():
             pass
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg="비밀번호가 틀렸습니다.")
+        # 관리자 페이지에 통계 정보를 다시 전달
+        today_recs_admin = 0
+        total_recs_admin = 0
+        today = datetime.datetime.now().strftime('%Y-%m-%d')
+        try:
+            with open("admin_log.json", encoding="utf-8") as f:
+                for line in f:
+                    if '"event": "recommend"' in line:
+                        total_recs_admin += 1
+                        if today in line:
+                            today_recs_admin += 1
+        except:
+            pass
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg="비밀번호가 틀렸습니다.")
 
     latest, nums, bonus = fetch_latest_lotto_with_bonus()
     
@@ -436,7 +463,20 @@ def update_winning():
             pass
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
+        # 관리자 페이지에 통계 정보를 다시 전달
+        today_recs_admin = 0
+        total_recs_admin = 0
+        today = datetime.datetime.now().strftime('%Y-%m-%d')
+        try:
+            with open("admin_log.json", encoding="utf-8") as f:
+                for line in f:
+                    if '"event": "recommend"' in line:
+                        total_recs_admin += 1
+                        if today in line:
+                            today_recs_admin += 1
+        except:
+            pass
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
         
     # --- Update Rank 1 Data ---
     try:
@@ -493,7 +533,7 @@ def update_winning():
     global ALL_WINNING
     global rank1, rank2, rank3
     rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
-    rank2 = load_rank(WINWINING2_PATH, 'rank2', 6) # 오타 수정: WINWINING2_PATH -> WINNING2_PATH
+    rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
     rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
     ALL_WINNING = {
         "1": set(rank1),
@@ -509,7 +549,21 @@ def update_winning():
         pass
     total_visits = sum(1 for log in logs if log["event"] == "visit")
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
-    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, msg=msg)
+    
+    # 관리자 페이지에 통계 정보를 다시 전달
+    today_recs_admin = 0
+    total_recs_admin = 0
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    try:
+        with open("admin_log.json", encoding="utf-8") as f:
+            for line in f:
+                if '"event": "recommend"' in line:
+                    total_recs_admin += 1
+                    if today in line:
+                        today_recs_admin += 1
+        except:
+            pass
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
 
 # Route for ads.txt (for ad services)
 @app.route('/ads.txt')
