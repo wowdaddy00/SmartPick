@@ -27,8 +27,7 @@
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
-  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
+  <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
 
   <!-- SEO/광고/폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
@@ -243,7 +242,7 @@
     }
     
     /* 오늘의/누적 추천 조합 통계 섹션 (index.html에서 제거) */
-    .stats-box { display: none; } /* 메인에서 숨김 */
+    /* .stats-box { display: none; } */ /* 메인에서 숨김 */
 
 
     /* 로또 스토리 박스 스타일 */
@@ -274,6 +273,55 @@
         font-weight: bold;
         color: #666666; /* 중간 톤 텍스트 색상 */
         margin-top: 1em;
+    }
+
+    /* 최신 당첨 번호 섹션 스타일 */
+    .latest-winning-section {
+        margin-bottom: 2.5em;
+        padding: 1.5em 1em;
+        background-color: #e6f7ff; /* 연한 파란색 배경 */
+        border: 1px solid #aaddff;
+        border-radius: 1.5em;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    .latest-winning-section .round-info {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: #2a4365;
+        margin-bottom: 1em;
+    }
+    .latest-winning-section .winning-balls {
+        margin-top: 1em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+    }
+    .latest-winning-section .plus-sign {
+        font-size: 1.8em;
+        font-weight: 800;
+        color: #3f5477;
+        margin: 0 5px;
+    }
+    /* 보너스볼 스타일 (선택적으로 강조) */
+    .latest-winning-section .ball.bonus-ball {
+        border: 3px solid #ffcc00; /* 노란색 테두리 */
+        box-shadow: 0 4px 10px rgba(255, 204, 0, 0.2);
+    }
+
+    /* 누적 추천 건수 표시 섹션 */
+    .total-recs-display {
+        margin-top: 2.5em;
+        padding: 1em 1.5em;
+        background: linear-gradient(45deg, #e0f7f7 0%, #c8e8ef 100%);
+        border-radius: 1.5em;
+        box-shadow: 0 5px 15px rgba(0, 188, 212, 0.1);
+        font-size: 1.1em;
+        font-weight: 700;
+        color: #00796b;
+    }
+    .total-recs-display b {
+        color: #004d40;
     }
 
 
@@ -328,11 +376,17 @@
           margin-top: 1.5em;
           max-width: 90%;
       }
+      .latest-winning-section .round-info {
+        font-size: 1em;
+      }
+      .latest-winning-section .plus-sign {
+        font-size: 1.5em;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- 오늘의/누적 추천 조합 통계 섹션: 관리자 페이지로 이동했으므로 여기서는 제거하거나 display: none 처리 -->
+  <!-- 오늘의/누적 추천 조합 통계 섹션 (관리자 페이지로 이동) -->
   {# <div class="stats-box"> #}
   {#   <b>오늘의 추천 조합:</b> {{ today_recs }}건<br> #}
   {#   <b>누적 추천 조합:</b> {{ total_recs }}건 #}
@@ -342,13 +396,32 @@
     <h1><i class="fas fa-dice-d6"></i> SmartPick 로또 번호 추천</h1>
     <div class="subtitle-small">AI 로또 번호 추천 서비스</div>
     
+    <!-- 최신 당첨 번호 표시 섹션 -->
+    {% if latest_round and winning_nums and bonus_num %}
+    <div class="latest-winning-section">
+        <p class="round-info">제{{ latest_round }}회차 1등 당첨번호</p>
+        <div class="lotto winning-balls">
+            {% for n in winning_nums %}
+                <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
+            {% endfor %}
+            <span class="plus-sign">+</span>
+            <span class="ball bonus-ball n{{ (bonus_num-1)//10 + 1 }}">{{ bonus_num }}</span> {# 보너스볼을 위한 추가 클래스 #}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- 누적 추천 건수 표시 섹션 (Firestore 연동 후 데이터 가져옴) -->
+    <div class="total-recs-display">
+        <b>누적 추천 조합:</b> {{ total_recs_count }}건
+    </div>
+
     <div class="usp-message">
         <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가 다시 나온 적이 없습니다.❌</div>
         <div class="line2">SmartPick은 과거 당첨번호를 **학습하여** 제외하고<br>무료로 추천해 드립니다!</div>
         <div class="line3"><i class="fas fa-check-circle icon"></i> 오직! SmartPick에서만 가능한<br>**과거 당첨번호 제외!**</div>
     </div>
     
-    <!-- 'SmartPick이 특별한 이유'를 빨간 박스 바로 아래로 이동 -->
+    <!-- 'SmartPick이 특별한 이유' 링크 -->
     <a href="/about" class="about-link-moved">
         <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유: 자세히 알아보기
     </a>
@@ -357,10 +430,9 @@
       <button type="submit" class="common-button"> {# common-button 클래스 적용 #}
           <i class="fas fa-star icon"></i> SmartPick 프리미엄 번호 추천받기
       </button>
-      {# 이전 버튼 간격 조절용 div 제거 #}
     </form>
     
-    <!-- '고급 맞춤 추천'을 '프리미엄 번호 추천받기' 바로 아래로 이동 -->
+    <!-- '고급 맞춤 추천' 링크 -->
     <a href="/choose_recommendation" class="common-button"> {# common-button 클래스 적용 #}
         <i class="fas fa-cogs icon"></i> 고급 맞춤 추천 받기
     </a>
@@ -373,9 +445,9 @@
       </div>
       <button class="common-button" onclick="copyLotto()">추천 번호 복사</button> {# common-button 클래스 적용 #}
       
-      {# 로또 스토리 생성 버튼 (현재 app.py에서 기능 비활성 상태 유지) #}
+      {# 로또 스토리 생성 버튼 (이제 활성화됨) #}
       <button class="common-button" onclick="generateLottoStory()"> {# common-button 클래스 적용 #}
-          <i class="fas fa-sparkles icon"></i> 로또 스토리 생성 ✨
+          <i class="fas fa-crown icon"></i> 로또 당첨 후 내 모습 확인하기!
       </button>
 
       {# 로또 스토리 표시 영역 #}
@@ -440,37 +512,32 @@
             storyContent.textContent = '';
             storyLoading.style.display = 'block';
 
-            // 현재 app.py의 LLM 기능이 비활성화되어 있으므로 실제 요청 대신 더미 메시지 표시
-            storyContent.textContent = '현재 로또 스토리 생성 기능이 비활성화되어 있습니다. 관리자에게 문의해주세요.';
-            storyLoading.style.display = 'none';
+            try {
+                // 실제 LLM 연동 요청 활성화
+                const response = await fetch('/generate_lotto_story', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ numbers: numbers }),
+                });
 
-            // 실제 LLM 연동 코드는 app.py가 활성화된 후에 추가될 예정
-            // try {
-            //     const response = await fetch('/generate_lotto_story', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({ numbers: numbers }),
-            //     });
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                }
 
-            //     if (!response.ok) {
-            //         const errorText = await response.text();
-            //         throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            //     }
-
-            //     const data = await response.json();
-            //     storyContent.textContent = data.story;
-            // } catch (error) {
-            //     console.error('Error generating lotto story:', error);
-            //     storyContent.textContent = '스토리 생성에 실패했습니다. 다시 시도해 주세요.';
-            // } finally {
-            //     storyLoading.style.display = 'none';
-            // }
+                const data = await response.json();
+                storyContent.textContent = data.story;
+            } catch (error) {
+                console.error('Error generating lotto story:', error);
+                storyContent.textContent = '스토리 생성에 실패했습니다. 다시 시도해 주세요.';
+            } finally {
+                storyLoading.style.display = 'none';
+            }
         }
       </script>
     {% endif %}
-    <!-- 기존 link-section은 내용이 모두 이동했으므로 제거합니다. -->
   </div>
   <div style="height:36px"></div>
   <ins class="adsbygoogle"
