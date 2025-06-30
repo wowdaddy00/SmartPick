@@ -105,11 +105,8 @@
         color: #28a745;
     }
 
-    form { 
-        /* form 태그 아래에 고급 맞춤 추천 버튼을 놓기 위해 margin-bottom 조정 */
-        margin-bottom: 1.5em; 
-    }
-    button, .copy-btn, .main-action-link-button { /* main-action-link-button 클래스 추가 */
+    /* common-button 스타일 (두 메인 버튼에 공통 적용) */
+    .common-button { 
       font-size:1.2em; /* 버튼 글씨 키움 */
       font-weight:bold; 
       background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 그라데이션 버튼 */
@@ -118,71 +115,96 @@
       border-radius:1.2em; /* 더 둥글게 */
       padding:1em 2.5em; /* 패딩 키움 */
       box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); /* 그림자 부드럽게 */
-      margin-top:1.5em; /* 간격 늘림 */
       cursor:pointer; 
       transition: all 0.3s ease; /* 전환 효과 */
-      position: relative; /* 눌리는 효과를 위해 */
-      overflow: hidden; /* 배경 애니메이션용 */
-      display: inline-block; /* 링크를 버튼처럼 보이게 */
+      position: relative; 
+      overflow: hidden; 
+      
+      /* 중앙 정렬 및 너비 설정 */
+      display: flex; /* 내부 아이콘/텍스트 정렬 */
+      align-items: center;
+      justify-content: center;
       text-decoration: none; /* 링크 밑줄 제거 */
+      width: 100%; /* 부모 요소 (form 또는 container)의 100% */
+      max-width: 350px; /* 최대 너비 제한 */
+      box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+      margin: 0.7em auto; /* 상하 간격 및 좌우 자동 마진으로 중앙 정렬 (간격 줄임) */
     }
-    button:hover, .copy-btn:hover, .main-action-link-button:hover { 
-      transform: translateY(-3px); /* 살짝 떠오르는 효과 */
+    /* form 내부의 button에도 동일한 스타일 적용 (form의 width:100% 때문에) */
+    form button[type="submit"] {
+        font-size:1.2em; 
+        font-weight:bold; 
+        background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
+        color:#fff; 
+        border:none; 
+        border-radius:1.2em; 
+        padding:1em 2.5em; 
+        box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); 
+        cursor:pointer; 
+        transition: all 0.3s ease; 
+        position: relative; 
+        overflow: hidden; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 350px;
+        box-sizing: border-box;
+        margin: 0.7em auto; /* 상하 간격 및 좌우 자동 마진으로 중앙 정렬 (간격 줄임) */
+    }
+
+    /* 호버/액티브 효과 */
+    button:hover, .common-button:hover, form button[type="submit"]:hover { 
+      transform: translateY(-3px); 
       box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
     }
-    button:active, .copy-btn:active, .main-action-link-button:active {
-        transform: translateY(1px); /* 눌리는 효과 */
+    button:active, .common-button:active, form button[type="submit"]:active {
+        transform: translateY(1px); 
         box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
     }
-    .main-action-link-button {
-        margin-top: 0.8em; /* 윗 버튼과의 간격 조정 */
-        width: calc(100% - (2.5em * 2)); /* 패딩 고려하여 너비 조정 */
-        max-width: 350px; /* 프리미엄 버튼과 유사하게 조정 */
-        box-sizing: border-box;
-    }
-    .main-action-link-button .icon {
+    .common-button .icon, form button[type="submit"] .icon {
         margin-right: 8px; /* 아이콘과 텍스트 간격 */
     }
     
     /* 로또 볼 배열 */
     .lotto { 
-      margin:2.5em auto 1em auto; /* 상단 간격 늘림 */
+      margin:2.5em auto 1em auto; 
       display: flex; 
       flex-wrap: wrap; 
       justify-content: center; 
       align-items: center; 
-      gap: 8px; /* 볼 간격 키움 */
-      max-width: 300px; /* 너비 조정 */
+      gap: 8px; 
+      max-width: 300px; 
       box-sizing: border-box; 
     }
     .ball {
       display: flex; 
       justify-content: center; 
       align-items: center; 
-      width: calc((100% - (8px * 5)) / 6); /* gap 변경에 따라 calc 값 조정 */
+      width: calc((100% - (8px * 5)) / 6); 
       height: calc((100% - (8px * 5)) / 6); 
-      min-width: 42px; /* 최소 크기 조정 */
+      min-width: 42px; 
       min-height: 42px;
       border-radius:50%;
       margin:0; 
-      font-size:1.2em; /* 숫자 크기 조정 */
-      font-weight:700; /* 폰트 굵기 조정 */
-      box-shadow:0 4px 10px rgba(0,0,0,0.15); /* 그림자 더 부드럽게 */
+      font-size:1.2em; 
+      font-weight:700; 
+      box-shadow:0 4px 10px rgba(0,0,0,0.15); 
       transition: all 0.2s ease;
-      border:3px solid #fff; /* 테두리 두껍게 */
+      border:3px solid #fff; 
       flex-shrink: 0; 
       box-sizing: border-box; 
-      color: #333; /* 기본 글자색 */
+      color: #333; 
     }
-    .ball.n1 { background: #ffdf6c; } /* 노랑 더 부드럽게 */
-    .ball.n2 { background: #9bd0ff; } /* 하늘 더 부드럽게 */
-    .ball.n3 { background: #ff91a5; color: #fff;} /* 빨강 더 부드럽게 */
-    .ball.n4 { background: #c2c9d1; } /* 회색 더 부드럽게 */
-    .ball.n5 { background: #b0e891; } /* 연두 더 부드럽게 */
+    .ball.n1 { background: #ffdf6c; } 
+    .ball.n2 { background: #9bd0ff; } 
+    .ball.n3 { background: #ff91a5; color: #fff;} 
+    .ball.n4 { background: #c2c9d1; } 
+    .ball.n5 { background: #b0e891; } 
 
-    /* 'SmartPick이 특별한 이유' 링크 스타일 */
-    .link-about-moved { /* 이동된 링크를 위한 새로운 클래스 */
-        display: block; /* 블록 요소로 만들고 */
+    /* 'SmartPick이 특별한 이유' 링크 (이동된 위치를 위한 스타일) */
+    .about-link-moved { 
+        display: block; 
         padding: 1.2em 1.5em;
         border-radius: 1.5em;
         font-weight: bold;
@@ -190,55 +212,82 @@
         transition: all 0.3s ease;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         text-align: center;
-        background-color: #f7f9fc; /* 밝은 배경 */
-        border: 2px solid #b3d4f5; /* 연한 파란색 테두리 */
-        color: #4a6fa3; /* 차분한 파란색 글자 */
-        margin-bottom: 2em; /* 빨간 박스 아래 간격 조정 */
+        background-color: #f7f9fc; 
+        border: 2px solid #b3d4f5; 
+        color: #4a6fa3; 
+        margin-top: 2.5em; /* usp-message 아래 간격 */
+        margin-bottom: 2.5em; /* 다음 요소와의 간격 */
+        width: 100%;
+        max-width: 350px; /* 메인 버튼과 유사한 너비 */
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
     }
-    .link-about-moved:hover {
+    .about-link-moved:hover {
         background-color: #e6f0fa;
         border-color: #8bbceb;
         transform: translateY(-3px);
     }
-    .link-about-moved .icon {
+    .about-link-moved .icon {
         margin-right: 8px;
         color: #4a6fa3;
     }
 
 
-    /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
-    .stats-box {
-      margin-top: 25px; /* 컨테이너 위쪽 간격 */
-      margin-bottom: 25px; /* 컨테이너 아래쪽 간격 */
-      padding: 18px 25px; /* 패딩 키움 */
-      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%); /* 그라데이션 배경 */
-      border-radius: 2em; /* 더 둥글게 */
-      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15); /* 시원한 파란 그림자 */
-      font-size: 1.1em; /* 폰트 크기 키움 */
-      color: #00796b; 
-      font-weight: 700; /* 굵기 강조 */
-      line-height: 1.6;
-      text-align: center; 
-      max-width: 350px; /* 너비 살짝 키움 */
-      margin-left: auto; 
-      margin-right: auto; 
+    /* 푸터 */
+    .footer-text {
+        font-size: 0.85em;
+        color: var(--color-text-light);
+        margin-top: 2.5em;
+        line-height: 1.4;
     }
-    .stats-box b {
-        color: #004d40; 
-        font-weight: 800; /* 더욱 굵게 */
+    
+    /* 오늘의/누적 추천 조합 통계 섹션 (index.html에서 제거) */
+    .stats-box { display: none; } /* 메인에서 숨김 */
+
+
+    /* 로또 스토리 박스 스타일 */
+    .story-box {
+        background-color: #fffafc; /* 배경 색상 */
+        border: 2px solid #b0e891; /* APPLE 색상 테두리 (사용자 팔레트 기준) */
+        border-radius: 1.5em;
+        padding: 1.5em;
+        margin-top: 2.5em; 
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        text-align: left;
+        color: #333333; /* 기본 텍스트 색상 */
+        line-height: 1.6;
+        font-size: 1.05em;
+        width: 100%; 
+        max-width: 350px; /* 메인 버튼과 유사한 너비 */
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
     }
+    .story-box .story-content {
+        margin-bottom: 0.5em;
+        font-weight: 500;
+        min-height: 3em; 
+    }
+    .story-box .story-loading {
+        text-align: center;
+        font-weight: bold;
+        color: #666666; /* 중간 톤 텍스트 색상 */
+        margin-top: 1em;
+    }
+
 
     /* 모바일 반응형 미디어 쿼리 */
     @media (max-width:500px){
       body {
-          justify-content: flex-start; /* 모바일에서 상단으로 정렬 */
+          justify-content: flex-start; 
       }
       .container { 
         max-width:97vw; 
-        margin:8vw 2vw; /* 모바일 상단 마진 줄임 */
+        margin:8vw 2vw; 
         padding:2em 0.2em; 
       } 
-      h1 { font-size:1.8em;} /* 모바일 h1 크기 조정 */
+      h1 { font-size:1.8em;} 
       .usp-message div {
           font-size: 1.0em;
       }
@@ -250,67 +299,70 @@
       }
       .lotto {
           max-width: 270px; 
-          gap: 6px; /* 모바일에서는 볼 간격 다시 줄임 */
+          gap: 6px; 
       }
       .ball {
           min-width: 38px; 
           min-height: 38px;
           font-size: 1.05em; 
-          width: calc((100% - (6px * 5)) / 6); /* gap 변경에 따라 calc 값 조정 */
+          width: calc((100% - (6px * 5)) / 6); 
           height: calc((100% - (6px * 5)) / 6);
       }
-      button, .copy-btn, .main-action-link-button {
+      button, .copy-btn, .common-button, form button[type="submit"] {
           font-size: 1.05em;
           padding: 0.8em 1.8em;
-          margin-top: 1em;
+          margin-top: 0.8em; /* 모바일에서 간격 다시 조정 */
+          margin-bottom: 0.8em; /* 모바일에서 간격 다시 조정 */
+          max-width: 90%; /* 모바일에서 너비 조정 */
       }
-      .stats-box { 
-          max-width: 90%;
-          font-size: 0.95em;
-          padding: 15px 20px;
-          margin-top: 5vw;
-          margin-bottom: 5vw;
-      }
-      .link-about-moved {
-          margin-bottom: 1.5em; /* 모바일에서 간격 조정 */
+      .about-link-moved {
+          margin-top: 1.5em;
+          margin-bottom: 1.5em; 
           padding: 1em 1.2em;
           font-size: 1em;
+          max-width: 90%;
       }
-      .main-action-link-button {
-          width: calc(100% - (1.8em * 2)); /* 모바일 패딩에 맞춰 너비 조정 */
+      .story-box {
+          padding: 1em;
+          font-size: 0.95em;
+          margin-top: 1.5em;
+          max-width: 90%;
       }
     }
   </style>
 </head>
 <body>
-  <!-- 오늘의/누적 추천 조합 통계 섹션 -->
-  <div class="stats-box">
-    <b>오늘의 추천 조합:</b> {{ today_recs }}건<br>
-    <b>누적 추천 조합:</b> {{ total_recs }}건
-  </div>
+  <!-- 오늘의/누적 추천 조합 통계 섹션: 관리자 페이지로 이동했으므로 여기서는 제거하거나 display: none 처리 -->
+  {# <div class="stats-box"> #}
+  {#   <b>오늘의 추천 조합:</b> {{ today_recs }}건<br> #}
+  {#   <b>누적 추천 조합:</b> {{ total_recs }}건 #}
+  {# </div> #}
 
   <div class="container">
-    <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
+    <h1><i class="fas fa-dice-d6"></i> SmartPick 로또 번호 추천</h1>
+    <div class="subtitle-small">AI 로또 번호 추천 서비스</div>
     
     <div class="usp-message">
-        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i><br>지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.</div>
-        <div class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</div>
-        
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i> 지금까지 1등 당첨번호가 다시 나온 적이 없습니다.❌</div>
+        <div class="line2">SmartPick은 과거 당첨번호를 **학습하여** 제외하고<br>무료로 추천해 드립니다!</div>
+        <div class="line3"><i class="fas fa-check-circle icon"></i> 오직! SmartPick에서만 가능한<br>**과거 당첨번호 제외!**</div>
     </div>
     
     <!-- 'SmartPick이 특별한 이유'를 빨간 박스 바로 아래로 이동 -->
-    <a href="/about" class="link-item link-about-moved">
-        <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
+    <a href="/about" class="about-link-moved">
+        <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유: 자세히 알아보기
     </a>
 
-    <form method="post" style="width: 100%;"> {# form의 너비를 100%로 설정하여 내부 버튼이 중앙 정렬되도록 함 #}
-      <button type="submit"> 프리미엄 번호 추천받기</button>
-      <div style="height:10px"></div> {# 버튼 사이 간격 조절용 #}
+    <form method="post" style="width: 100%;">
+      <button type="submit" class="common-button"> {# common-button 클래스 적용 #}
+          <i class="fas fa-star icon"></i> SmartPick 프리미엄 번호 추천받기
+      </button>
+      {# 이전 버튼 간격 조절용 div 제거 #}
     </form>
     
     <!-- '고급 맞춤 추천'을 '프리미엄 번호 추천받기' 바로 아래로 이동 -->
-    <a href="/choose_recommendation" class="main-action-link-button">
-        <i class="fas fa-cogs icon"></i>고급 맞춤 추천 받기
+    <a href="/choose_recommendation" class="common-button"> {# common-button 클래스 적용 #}
+        <i class="fas fa-cogs icon"></i> 고급 맞춤 추천 받기
     </a>
     
     {% if numbers %}
@@ -319,17 +371,28 @@
           <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
         {% endfor %}
       </div>
-      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
+      <button class="common-button" onclick="copyLotto()">추천 번호 복사</button> {# common-button 클래스 적용 #}
+      
+      {# 로또 스토리 생성 버튼 (현재 app.py에서 기능 비활성 상태 유지) #}
+      <button class="common-button" onclick="generateLottoStory()"> {# common-button 클래스 적용 #}
+          <i class="fas fa-sparkles icon"></i> 로또 스토리 생성 ✨
+      </button>
+
+      {# 로또 스토리 표시 영역 #}
+      <div id="lottoStoryResult" class="story-box" style="display: none;">
+          <p class="story-content"></p>
+          <div class="story-loading">스토리를 생성 중입니다... <i class="fas fa-spinner fa-spin"></i></div>
+      </div>
+
       <script>
         function copyLotto() {
           let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
-          // navigator.clipboard.writeText 대신 임시 textarea 사용
           const tempTextArea = document.createElement('textarea');
           tempTextArea.value = txt;
           document.body.appendChild(tempTextArea);
           tempTextArea.select();
           document.execCommand('copy'); 
-          document.body.removeChild(tempTextArea); // 사용 후 제거
+          document.body.removeChild(tempTextArea); 
 
           const msgBox = document.createElement('div');
           msgBox.textContent = "복사 완료: " + txt;
@@ -344,6 +407,66 @@
               msgBox.style.opacity = 0;
               msgBox.addEventListener('transitionend', () => msgBox.remove());
           }, 2000);
+        }
+
+        async function generateLottoStory() {
+            const lottoNumbersDiv = document.getElementById('lotto_result');
+            if (!lottoNumbersDiv) {
+                // 커스텀 모달 메시지 표시 (index.html에 있는 동일 스타일 활용)
+                const msgBox = document.createElement('div');
+                msgBox.textContent = '먼저 로또 번호를 생성해주세요!';
+                msgBox.style.cssText = `
+                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background-color: #f0743e; /* BRICK 색상 */ 
+                    color: white; padding: 15px 20px;
+                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                `;
+                document.body.appendChild(msgBox);
+                setTimeout(() => msgBox.style.opacity = 1, 10);
+                setTimeout(() => {
+                    msgBox.style.opacity = 0;
+                    msgBox.addEventListener('transitionend', () => msgBox.remove());
+                }, 2000);
+                return;
+            }
+            const numbers = Array.from(lottoNumbersDiv.querySelectorAll('.ball')).map(e => parseInt(e.textContent));
+            
+            const storyBox = document.getElementById('lottoStoryResult');
+            const storyContent = storyBox.querySelector('.story-content');
+            const storyLoading = storyBox.querySelector('.story-loading');
+
+            storyBox.style.display = 'block';
+            storyContent.textContent = '';
+            storyLoading.style.display = 'block';
+
+            // 현재 app.py의 LLM 기능이 비활성화되어 있으므로 실제 요청 대신 더미 메시지 표시
+            storyContent.textContent = '현재 로또 스토리 생성 기능이 비활성화되어 있습니다. 관리자에게 문의해주세요.';
+            storyLoading.style.display = 'none';
+
+            // 실제 LLM 연동 코드는 app.py가 활성화된 후에 추가될 예정
+            // try {
+            //     const response = await fetch('/generate_lotto_story', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({ numbers: numbers }),
+            //     });
+
+            //     if (!response.ok) {
+            //         const errorText = await response.text();
+            //         throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            //     }
+
+            //     const data = await response.json();
+            //     storyContent.textContent = data.story;
+            // } catch (error) {
+            //     console.error('Error generating lotto story:', error);
+            //     storyContent.textContent = '스토리 생성에 실패했습니다. 다시 시도해 주세요.';
+            // } finally {
+            //     storyLoading.style.display = 'none';
+            // }
         }
       </script>
     {% endif %}
