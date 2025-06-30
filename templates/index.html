@@ -106,49 +106,54 @@
     }
 
     form { 
-        /* form 태그 아래에 고급 맞춤 추천 버튼을 놓기 위해 margin-bottom 조정 */
         margin-bottom: 1.5em; 
     }
-    button, .copy-btn, .main-action-link-button { /* main-action-link-button 클래스 추가 */
-      font-size:1.2em; /* 버튼 글씨 키움 */
+    button, .copy-btn, .main-action-link-button { 
+      font-size:1.2em; 
       font-weight:bold; 
-      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 그라데이션 버튼 */
+      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); 
       color:#fff; 
       border:none; 
-      border-radius:1.2em; /* 더 둥글게 */
-      padding:1em 2.5em; /* 패딩 키움 */
-      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); /* 그림자 부드럽게 */
-      margin-top:1.5em; /* 간격 늘림 */
+      border-radius:1.2em; 
+      padding:1em 2.5em; 
+      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); 
+      margin-top:1.5em; 
       cursor:pointer; 
-      transition: all 0.3s ease; /* 전환 효과 */
-      position: relative; /* 눌리는 효과를 위해 */
-      overflow: hidden; /* 배경 애니메이션용 */
-      display: inline-block; /* 링크를 버튼처럼 보이게 */
-      text-decoration: none; /* 링크 밑줄 제거 */
+      transition: all 0.3s ease; 
+      position: relative; 
+      overflow: hidden; 
+      display: inline-block; 
+      text-decoration: none; 
+      /* 버튼 너비 통일 */
+      width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
+      max-width: 350px; /* 최대 너비 설정 */
+      box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
     }
     button:hover, .copy-btn:hover, .main-action-link-button:hover { 
-      transform: translateY(-3px); /* 살짝 떠오르는 효과 */
+      transform: translateY(-3px); 
       box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
     }
     button:active, .copy-btn:active, .main-action-link-button:active {
-        transform: translateY(1px); /* 눌리는 효과 */
+        transform: translateY(1px); 
         box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
     }
-    .main-action-link-button {
-        margin-top: 0.8em; /* 윗 버튼과의 간격 조정 */
-        width: calc(100% - (2.5em * 2)); /* 패딩 고려하여 너비 조정 */
-        max-width: 350px; /* 프리미엄 버튼과 유사하게 조정 */
-        box-sizing: border-box;
+    /* 버튼 간 간격 조절 */
+    form button { /* 프리미엄 번호 추천받기 버튼 */
+        margin-bottom: 0.8em; /* 아래 간격 추가 */
     }
+    .main-action-link-button { /* 고급 맞춤 추천 받기 버튼 */
+        margin-top: 0; /* 위쪽 여백 제거 (form button과의 간격으로 대체) */
+    }
+
     .main-action-link-button .icon {
-        margin-right: 8px; /* 아이콘과 텍스트 간격 */
+        margin-right: 8px; 
     }
     
     /* 로또 볼 배열 (기본) - 데스크탑/태블릿용 */
     .lotto { 
       margin:2.5em auto 1em auto; 
       display: flex; 
-      flex-wrap: wrap; 
+      flex-wrap: nowrap; /* 줄바꿈 방지 */
       justify-content: center; 
       align-items: center; 
       gap: 8px; 
@@ -207,7 +212,7 @@
     }
 
 
-    /* 오늘의/누적 추천 조합 통계 섹션 스타일 */
+    /* 누적 추천 조합 통계 섹션 스타일 */
     .stats-box {
       margin-top: 25px; 
       margin-bottom: 25px; 
@@ -248,28 +253,26 @@
     .latest-winning-numbers {
         display: flex;
         flex-wrap: nowrap; /* 줄바꿈 방지 */
-        justify-content: center; /* 중앙 정렬 */
+        justify-content: center; 
         align-items: center;
-        gap: 5px; /* 볼 간격 최소화 */
+        gap: 5px; 
         margin-top: 1em;
-        /* overflow-x: auto; 제거 - 스크롤 없이 한 줄에 보이도록 */
-        /* padding-bottom: 5px; 제거 */
     }
     .latest-winning-numbers .ball {
         flex-shrink: 0; 
-        min-width: 32px; /* 볼 크기 더 줄임 */
+        min-width: 32px; 
         min-height: 32px;
-        width: 32px; /* 고정 크기 */
+        width: 32px; 
         height: 32px;
-        font-size: 0.95em; /* 폰트 크기 줄임 */
+        font-size: 0.95em; 
         border: 2px solid #fff; 
         box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
     .plus-sign {
-        font-size: 1.6em; /* 플러스 기호 크기 줄임 */
+        font-size: 1.6em; 
         font-weight: 900;
         color: #4a6fa3;
-        margin: 0 3px; /* 간격 줄임 */
+        margin: 0 3px; 
         flex-shrink: 0;
     }
 
@@ -296,32 +299,35 @@
       /* 로또 볼 및 최신 당첨 번호 볼 레이아웃 */
       .lotto, .latest-winning-numbers { 
           max-width: calc(100% - 20px); 
-          gap: 4px; /* 모바일에서 볼 간격 더 줄임 */
+          gap: 3px; /* 모바일에서 볼 간격 더더 줄임 */
           justify-content: center; 
-          /* overflow-x: auto; 제거 */
       }
       .ball {
-          min-width: 30px; /* 모바일에서 볼 크기 더 줄임 */
-          min-height: 30px;
-          width: 30px; /* 고정 크기 */
-          height: 30px;
-          font-size: 0.9em; /* 폰트 크기 더 줄임 */
+          min-width: 28px; /* 모바일에서 볼 크기 더더 줄임 */
+          min-height: 28px;
+          width: 28px; 
+          height: 28px;
+          font-size: 0.85em; /* 폰트 크기 더더 줄임 */
       }
-      .latest-winning-numbers .ball { /* 최신 당첨 번호 볼도 크기 및 폰트 줄임 */
-          min-width: 30px; 
-          min-height: 30px;
-          width: 30px;
-          height: 30px;
-          font-size: 0.9em;
+      .latest-winning-numbers .ball { 
+          min-width: 28px; 
+          min-height: 28px;
+          width: 28px;
+          height: 28px;
+          font-size: 0.85em;
       }
       .plus-sign {
-          font-size: 1.5em;
-          margin: 0 2px;
+          font-size: 1.4em;
+          margin: 0 1px; /* 간격 거의 없음 */
       }
       button, .copy-btn, .main-action-link-button {
           font-size: 1.05em;
           padding: 0.8em 1.8em;
           margin-top: 1em;
+      }
+      /* 버튼 너비 통일 (모바일에서도) */
+      button, .main-action-link-button {
+          width: calc(100% - (1.8em * 2)); /* 모바일 패딩에 맞춰 너비 조정 */
       }
       .stats-box { 
           max-width: 90%;
@@ -335,16 +341,12 @@
           padding: 1em 1.2em;
           font-size: 1em;
       }
-      .main-action-link-button {
-          width: calc(100% - (1.8em * 2)); 
-      }
     }
   </style>
 </head>
 <body>
-  <!-- 오늘의/누적 추천 조합 통계 섹션 -->
+  <!-- 누적 추천 조합 통계 섹션 (오늘의 추천 조합 제거) -->
   <div class="stats-box">
-    <b>오늘의 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건<br>
     <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
   </div>
 
@@ -376,9 +378,9 @@
         <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
     </a>
 
-    <form method="post" style="width: 100%;"> {# form의 너비를 100%로 설정하여 내부 버튼이 중앙 정렬되도록 함 #}
+    <form method="post" style="width: 100%;"> 
       <button type="submit"> 프리미엄 번호 추천받기</button>
-      <div style="height:10px"></div> {# 버튼 사이 간격 조절용 #}
+      {# <div style="height:10px"></div> #} {# 버튼 사이 간격 조절용 div 제거 #}
     </form>
     
     <!-- '고급 맞춤 추천'을 '프리미엄 번호 추천받기' 바로 아래로 이동 -->
@@ -387,7 +389,7 @@
     </a>
     
     {% if numbers %}
-      <div class="lotto" id="lotto_result"> {# fixed-width 클래스 제거하고 기본 .lotto에 flex-wrap:nowrap 설정으로 대체 #}
+      <div class="lotto" id="lotto_result"> 
         {% for n in numbers[0] %}
           <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
         {% endfor %}
@@ -408,13 +410,12 @@
       <script>
         function copyLotto() {
           let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
-          // navigator.clipboard.writeText 대신 임시 textarea 사용
           const tempTextArea = document.createElement('textarea');
           tempTextArea.value = txt;
           document.body.appendChild(tempTextArea);
           tempTextArea.select();
           document.execCommand('copy'); 
-          document.body.removeChild(tempTextArea); // 사용 후 제거
+          document.body.removeChild(tempTextArea); 
 
           const msgBox = document.createElement('div');
           msgBox.textContent = "복사 완료: " + txt;
@@ -436,8 +437,8 @@
             const loadingIndicator = document.getElementById('story-loading-indicator');
             const recommendedNumbers = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => parseInt(e.textContent));
             
-            storyDiv.textContent = ''; // 기존 스토리 삭제
-            loadingIndicator.style.display = 'block'; // 로딩 인디케이터 표시
+            storyDiv.textContent = ''; 
+            loadingIndicator.style.display = 'block'; 
 
             try {
                 const response = await fetch('/generate_lotto_story', {
@@ -461,7 +462,7 @@
                 storyDiv.textContent = '스토리 생성 중 네트워크 오류가 발생했습니다.';
                 storyDiv.style.color = 'red';
             } finally {
-                loadingIndicator.style.display = 'none'; // 로딩 인디케이터 숨기기
+                loadingIndicator.style.display = 'none'; 
             }
         }
       </script>
