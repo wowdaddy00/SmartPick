@@ -65,22 +65,32 @@ def initialize_firebase_app():
 initialize_firebase_app()
 
 # Function to log events to Firestore
-def log_event(event, detail=None):
+# 클라이언트에서 직접 호출될 수 있도록 라우트 추가
+@app.route('/log_event', methods=['POST'])
+def handle_log_event():
     if db is None:
-        print(f"Firestore is not initialized. Log event '{event}' skipped.")
-        return
+        print("Firestore is not initialized. Log event skipped.")
+        return jsonify({"status": "error", "message": "Firestore not initialized"}), 500
 
     try:
-        user_id = f"{app_id}_user_{random.getrandbits(64)}" 
+        data = request.json
+        event = data.get('event')
+        detail = data.get('detail')
+
+        # 클라이언트에서 넘어온 user_ip를 그대로 사용하거나, 서버에서 다시 가져올 수 있음
+        # 여기서는 클라이언트에서 넘겨준 detail을 그대로 사용
         
+        # detail의 값들을 Firestore에 저장 가능한 형태로 정제
         sanitized_detail = {}
         if detail:
             for k, v in detail.items():
+                # 리스트나 딕셔너리 같은 복합 객체는 JSON 문자열로 변환
                 if isinstance(v, (list, dict)):
                     sanitized_detail[k] = json.dumps(v, ensure_ascii=False)
                 else:
-                    sanitized_detail[k] = str(v)
+                    sanitized_detail[k] = str(v) # 모든 값을 문자열로 변환
 
+        user_id = f"{app_id}_user_{random.getrandbits(64)}" # 앱 ID 기반 사용자 ID
         log_data = {
             "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             "timestamp": firestore.SERVER_TIMESTAMP,
@@ -91,8 +101,10 @@ def log_event(event, detail=None):
         
         doc_ref = db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
         print(f"Log event '{event}' for user '{user_id}' added to Firestore with ID: {doc_ref[1].id}")
+        return jsonify({"status": "success", "log_id": doc_ref[1].id}), 200
     except Exception as e:
         print(f"로그 기록 오류 (Firestore): {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
 
 # Function to get the latest lottery round number
 def get_latest_round():
@@ -105,13 +117,11 @@ def get_latest_round():
     return None
 
 # Function to fetch latest lotto numbers with bonus number (with caching)
-# force_update 인자를 추가하여 캐시를 강제로 무효화할 수 있도록 함
 def fetch_latest_lotto_with_bonus_cached(force_update=False):
     global cached_lotto_data
 
     current_time = time.time()
 
-    # 캐시가 유효하고 강제 업데이트가 요청되지 않았을 때
     if cached_lotto_data['data'] and (current_time - cached_lotto_data['timestamp'] < CACHE_TTL) and not force_update:
         print("Using cached lotto data.")
         return cached_lotto_data['data']['round'], \
@@ -134,7 +144,6 @@ def fetch_latest_lotto_with_bonus_cached(force_update=False):
     nums = [data[f'drwtNo{i}'] for i in range(1, 7)]
     bonus = data['bnusNo']
 
-    # 캐시 업데이트
     cached_lotto_data['timestamp'] = current_time
     cached_lotto_data['data'] = {
         'round': latest,
@@ -177,7 +186,6 @@ def load_rank(path, key, length=6):
         return []
 
 # Load all historical winning numbers into sets for quick lookup
-# These will be reloaded in update_winning after file changes
 rank1 = load_rank(WINNING1_PATH, 'rank1', 6)
 rank2 = load_rank(WINNING2_PATH, 'rank2', 6)
 rank3 = load_rank(WINNING3_PATH, 'rank3', 5)
@@ -285,8 +293,6 @@ def generate_numbers(
             continue
             
         results.append(sorted(list(nums)))
-        # Do NOT increment tries for successful generation, only for rejected tries
-        # This allows it to generate 'count' numbers without hitting max_tries too soon if filters are strict
 
         if tries > 300000:
             print("경고: 필터 조건이 너무 엄격하여 번호 생성 시도 횟수 초과. 일부 결과가 누락될 수 있습니다.")
@@ -302,16 +308,14 @@ def parse_int_list(text):
 # Route for the free recommendation page (root URL)
 @app.route("/", methods=["GET", "POST"])
 def free():
-    log_event("visit", {"page": "index", "user_ip": str(request.remote_addr)})
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     numbers = None
     error = ""
     
-    # 최신 당첨 번호 가져오기 (캐싱된 함수 사용)
     latest_round, winning_nums, bonus_num = fetch_latest_lotto_with_bonus_cached()
 
-    # Firestore에서 누적 추천 건수 가져오기
     total_recs_count = 0
-    if db: # db가 초기화되었을 때만 Firestore 사용
+    if db: 
         try:
             stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
             stats_doc = stats_doc_ref.get()
@@ -329,11 +333,7 @@ def free():
 
     if request.method == "POST":
         numbers = generate_numbers(count=1, exclude_ranks=['1', '2', '3'])
-        log_event("recommend", {
-            "page": "index_premium_quick",
-            "numbers": numbers,
-            "user_ip": str(request.remote_addr) 
-        })
+        # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
 
         if db and numbers: 
             try:
@@ -361,13 +361,13 @@ def free():
 # New Route for choosing recommendation type
 @app.route('/choose_recommendation')
 def choose_recommendation():
-    log_event("visit", {"page": "choose_recommendation", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     return render_template('choose_recommendation.html')
 
 # Route for the detailed filtered recommendation page
 @app.route("/filter", methods=["GET", "POST"])
 def detailed_filter_page():
-    log_event("visit", {"page": "detailed_filter", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     numbers = []
     form = {}
     error = ""
@@ -398,12 +398,7 @@ def detailed_filter_page():
                 if not numbers and not error:
                     error = "조건에 맞는 추천번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
                 
-                log_event("recommend", {
-                    "page": "detailed_filter",
-                    "numbers": numbers,
-                    "user_ip": str(request.remote_addr), 
-                    "condition": str(dict(request.form)) 
-                })
+                # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
 
                 if db and numbers: 
                     try:
@@ -423,7 +418,7 @@ def detailed_filter_page():
 # New Route for Hot Pick recommendation page
 @app.route("/hotpick", methods=["GET", "POST"])
 def hotpick_page():
-    log_event("visit", {"page": "hotpick", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     numbers = []
     form = {}
     error = ""
@@ -449,12 +444,7 @@ def hotpick_page():
                     numbers = generated_numbers
                     form = dict(request.form)
                     
-                    log_event("recommend", {
-                        "page": "hotpick_recommendation",
-                        "numbers": numbers,
-                        "user_ip": str(request.remote_addr), 
-                        "condition": str(dict(request.form)) 
-                    })
+                    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
 
                     if db and numbers: 
                         try:
@@ -478,7 +468,7 @@ def hotpick_page():
 # 로또 번호 스토리 생성 LLM 통합 라우트 (활성화됨)
 @app.route('/generate_lotto_story', methods=['POST'])
 def generate_lotto_story():
-    log_event("llm_story_request", {"user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     try:
         data = request.json
         lotto_numbers = data.get('numbers')
@@ -515,7 +505,7 @@ def generate_lotto_story():
         else:
             print("Gemini API 응답 구조가 예상과 다릅니다:", result) 
             
-        log_event("llm_story_response", {"numbers": str(lotto_numbers), "story": story}) 
+        # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
         return jsonify({"story": story})
 
     except requests.exceptions.RequestException as e:
@@ -529,37 +519,39 @@ def generate_lotto_story():
 # Route for the About page
 @app.route('/about')
 def about():
-    log_event("visit", {"page": "about", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     return render_template('about.html')
 
 # Route for the Privacy Policy page
 @app.route('/privacy')
 def privacy():
-    log_event("visit", {"page": "privacy", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     return render_template('privacy.html')
 
 # Route for the Disclaimer page
 @app.route('/disclaimer')
 def disclaimer():
-    log_event("visit", {"page": "disclaimer", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     return render_template('disclaimer.html')
 
 # Route for the Contact page
 @app.route('/contact')
 def contact():
-    log_event("visit", {"page": "contact", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     return render_template('contact.html')
 
 # Route for the Statistics page
 @app.route('/stats')
 def stats():
-    log_event("visit", {"page": "stats", "user_ip": str(request.remote_addr)}) 
+    # log_event는 클라이언트에서 /log_event 엔드포인트로 호출되므로 여기서는 직접 호출하지 않음
     recent_n = 10 
     numbers = []
+    # all_nums 리스트가 정의되지 않았으므로, rank1에서 직접 확장
+    all_nums = [] 
     for row in rank1[-recent_n:]:
         all_nums.extend(row)
     
-    freq = dict(Counter(numbers))
+    freq = dict(Counter(all_nums)) # all_nums 사용
     for n in range(1, 46):
         freq.setdefault(n, 0)
     freq = dict(sorted(freq.items()))
@@ -639,7 +631,6 @@ def update_winning():
         
         return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg="비밀번호가 틀렸습니다.")
 
-    # 강제로 캐시를 업데이트하도록 fetch_latest_lotto_with_bonus_cached 호출 시 True 전달
     latest, nums, bonus = fetch_latest_lotto_with_bonus_cached(force_update=True) 
     
     if latest is None or nums is None or bonus is None:
@@ -769,7 +760,28 @@ def ads_txt():
 def healthz():
     return "OK", 200
 
+# New Route for Lotto DNA Test page
+@app.route('/lotto-dna-test')
+def lotto_dna_test_page():
+    # 클라이언트에서 로그를 직접 보낼 것이므로 여기서는 log_event 호출하지 않음
+    return render_template('lotto_type_test.html')
+
+# New API endpoint to generate Lotto DNA numbers
+@app.route('/generate_dna_lotto_numbers', methods=['POST'])
+def generate_dna_lotto_numbers():
+    try:
+        # 클라이언트에서 넘어온 DNA 유형 (현재는 사용하지 않고 무작위 생성)
+        # dna_type = request.json.get('dna_type') 
+        
+        # 무작위 로또 번호 6개 생성 (1부터 45까지)
+        numbers = sorted(random.sample(range(1, 46), 6))
+        
+        return jsonify({"numbers": numbers}), 200
+    except Exception as e:
+        print(f"로또 DNA 번호 생성 오류: {e}")
+        return jsonify({"error": "로또 DNA 번호 생성에 실패했습니다."}), 500
+
 # Run the Flask app
 if __name__ == '__main__':
-    # Flask 개발 서버 실행 (Gunicorn은 프로덕션용)
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
+
