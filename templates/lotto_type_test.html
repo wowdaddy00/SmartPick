@@ -94,7 +94,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
+            width: 100%; /* 기본적으로 100% 유지 */
             padding: 1.2em 1.5em;
             border: none;
             border-radius: 1.5em;
@@ -105,6 +105,10 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             margin-top: 1.5em;
             text-decoration: none; /* 링크 버튼 대비 */
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+            max-width: 350px; /* 최대 너비 설정 */
+            margin-left: auto; /* 가운데 정렬 */
+            margin-right: auto; /* 가운데 정렬 */
         }
 
         /* 시작/질문 버튼 스타일 (CLEAR DAY 강조) */
@@ -280,6 +284,7 @@
             .start-button, .question-button, .share-button, .lotto-main-link {
                 font-size: 1.05em;
                 padding: 1em 1.2em;
+                max-width: 90%; /* 모바일에서 버튼 너비 조정 */
             }
             .question-section h2 {
                 font-size: 1.4em;
@@ -305,25 +310,23 @@
 <body>
     <div class="test-container">
         <div class="header" id="test-header">
-            <h1>당신의   로또<br>운명 프로파일링</h1>
+            <h1>당신의 로또<br>운명 프로파일링</h1>
             <p>5가지 질문으로 분석하는 나만의 대박 DNA</p>
         </div>
 
         <!-- 테스트 시작 화면 -->
         <div id="start-screen">
-            <button class="start-button" onclick="startTest()">
+            <button class="start-button" onclick="window.startTest()">
                 <i class="fas fa-play-circle" style="margin-right: 10px;"></i> 테스트 시작하기
             </button>
             
             <!-- 광고 배너 시안 위치 1 -->
             <div class="ad-banner">
                 <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
-                <<ins class="adsbygoogle"
+                <!-- 예시: <ins class="adsbygoogle"
                      style="display:block"
-                     data-ad-client="ca-pub-2748658493247983"
-                     data-ad-slot="1322588827"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+                     data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                     data-ad-slot="YOUR_AD_SLOT_ID"></ins>
                 <script>
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script> -->
@@ -344,10 +347,10 @@
                     <!-- 옵션 카드들이 여기에 동적으로 삽입됩니다 -->
                 </div>
             </div>
-            <button class="question-button" onclick="nextQuestion()" id="next-button" style="display: none;">
+            <button class="question-button" onclick="window.nextQuestion()" id="next-button" style="display: none;">
                 다음 질문 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
             </button>
-            <button class="question-button" onclick="showResult()" id="show-result-button" style="display: none;">
+            <button class="question-button" onclick="window.showResult()" id="show-result-button" style="display: none;">
                 결과 보기 <i class="fas fa-check" style="margin-left: 10px;"></i>
             </button>
         </div>
@@ -363,19 +366,17 @@
                 <div class="lotto-ball-result" id="lotto-dna-numbers">
                     <!-- 로또 볼들이 여기에 동적으로 삽입됩니다 -->
                 </div>
-                <button class="share-button" onclick="shareResult()">
+                <button class="share-button" onclick="window.shareResult()">
                     <i class="fas fa-share-alt icon"></i> 결과 카카오톡 공유하기
                 </button>
 
                 <!-- 광고 배너 시안 위치 2 -->
                 <div class="ad-banner">
                     <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
-                    <ins class="adsbygoogle"
+                    <!-- 예시: <ins class="adsbygoogle"
                          style="display:block"
-                         data-ad-client="ca-pub-2748658493247983"
-                         data-ad-slot="1322588827"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"></ins>
                     <script>
                          (adsbygoogle = window.adsbygoogle || []).push({});
                     </script> -->
@@ -430,7 +431,7 @@
             {
                 question: "3. 친구들 사이에서 나의 포지션은?",
                 options: [
-                    { text: "총무 겸 플래너(항상 계산하는 사람) 💼", score: 3 },
+                    { text: "총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
                     { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
                     { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
                 ]
@@ -455,15 +456,15 @@
 
         const results = {
             "5-8": { // 5~8점
-                type: "즉흥왕 🔥",
+                type: "즉흥왕 🔥", // 이모티콘 위치 변경
                 description: "당신의 특징:\n\"일단 지르고 보자!\" 정신의 소유자 🚀\n로또 DNA:\n편의점 지나갈 때마다 충동구매, 자동선택 99%\n한마디:\n계획? 그게 뭔가요? 인생은 즉흥이죠!",
             },
             "9-12": { // 9~12점
-                type: " 밸런서 ⚖️",
+                type: "밸런서 ⚖️", // 이모티콘 위치 변경
                 description: "당신의 특징:\n적당히 신중하고 적당히 대담한 황금비율 ⭐\n로또 DNA:\n특별한 날에만 한 장씩, 가끔 수동선택도 시도\n한마디:\n너무 많이도 너무 적게도 말고 딱 적당히!",
             },
             "13-15": { // 13~15점
-                type: " 전략가 🧠",
+                type: "전략가 🧠", // 이모티콘 위치 변경
                 description: "당신의 특징:\n로또도 과학이다! 데이터 분석의 달인 📊\n로또 DNA:\n당첨번호 패턴 분석 후 신중한 번호 조합\n한마디:\n운도 좋지만 전략이 더 중요해요!",
             }
         };
