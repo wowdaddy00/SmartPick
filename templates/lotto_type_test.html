@@ -345,7 +345,7 @@
             </div>
 
             <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
-                본 테스트는 재미를 위한 것이며, 실제 로또 당첨과는 무관합니다.
+                본 테스트는 재미를 위한 것이며, 실제 로또 당첨과 무관합니다.
             </p>
         </div>
 
@@ -398,7 +398,7 @@
                 </div>
                 
                 <a href="/" class="lotto-main-link">
-                    프리미엄 로또 번호<br>무료로 생성하기 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                    SmartPick으로 돌아가<br>프리미엄 로또 번호 생성하기 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>
             </div>
         </div>
@@ -411,6 +411,9 @@
     <!-- Kakao JavaScript SDK -->
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script>
+        // Flask 백엔드에서 전달받은 Kakao JavaScript Key 사용
+        const KAKAO_JS_KEY = "{{ kakao_js_key }}"; // Flask 템플릿 변수 사용
+
         // 테스트 데이터 (사용자 개선안 적용 및 점수 로직 강화)
         const questions = [
             {
@@ -432,7 +435,7 @@
             {
                 question: "3. 친구들 사이에서 나의 포지션은?",
                 options: [
-                    { text: "총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
+                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
                     { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
                     { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
                 ]
@@ -440,7 +443,7 @@
             { 
                 question: "4. 월요병이 심할 때 나는?",
                 options: [
-                    { text: "주말에 미리 계획 세워서 준비완료 📅", score: 3 },
+                    { text: "주말에 미리 월요일 계획 세워서 준비완료 📅", score: 3 },
                     { text: "아침에 일어나서 그때그때 해결하지 뭐! 🌅", score: 1 },
                     { text: "친구들한테 하소연하면서 힐링 받기 💬", score: 2 }
                 ]
@@ -675,11 +678,8 @@
             if (typeof Kakao !== 'undefined') {
                 // Kakao SDK가 아직 초기화되지 않았다면 초기화 시도
                 if (!Kakao.isInitialized()) {
-                    // !!! 중요: 'YOUR_JAVASCRIPT_KEY'를 사용자님의 실제 카카오 JavaScript 키로 교체해야 합니다. !!!
-                    // 카카오 개발자 플랫폼 (developers.kakao.com)에서 앱을 생성하고 발급받을 수 있습니다.
-                    // 또한, 카카오 개발자 플랫폼의 '내 애플리케이션 > 플랫폼 설정'에서
-                    // 웹 플랫폼에 'https://smartpick.wow-daddy.com' 도메인을 등록해야 합니다.
-                    Kakao.init(721fc993da76a0ef127bb6aa11f8622a); 
+                    // Flask 백엔드에서 전달받은 KAKAO_JS_KEY 사용
+                    Kakao.init(KAKAO_JS_KEY); 
                     console.log('Kakao SDK initialized:', Kakao.isInitialized());
                 }
 
@@ -769,7 +769,7 @@
             if (startButtonElement) {
                 startButtonElement.addEventListener('click', window.startTest);
             }
-            if (nextButtonElement) { // nextButton과 showResultButton도 DOMContentLoaded 이후에 이벤트 리스너를 붙이도록 변경
+            if (nextButtonElement) { 
                 nextButtonElement.addEventListener('click', window.nextQuestion);
             }
             if (showResultButtonElement) {
