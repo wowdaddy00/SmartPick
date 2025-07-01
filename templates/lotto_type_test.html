@@ -255,8 +255,9 @@
         /* 광고 배너 */
         .ad-banner {
             width: 100%;
-            max-width: 300px; /* 광고 배너 최대 너비 */
-            height: 100px; /* 광고 배너 높이 예시 */
+            /* max-width: 300px;  광고 배너 최대 너비 (제거 또는 유연하게) */
+            /* height: 100px;  광고 배너 높이 예시 (제거 또는 최소 높이 설정) */
+            min-height: 100px; /* 최소 높이 설정 (광고가 로드될 공간 확보) */
             background-color: #e0e0e0; /* 광고 영역 표시용 배경 */
             border-radius: 0.8em;
             display: flex;
@@ -317,7 +318,7 @@
 <body>
     <div class="test-container">
         <div class="header" id="test-header">
-            <h1>로또 운명<br>프로파일링</h1>
+            <h1>당신의 로또<br>운명 프로파일링</h1>
             <p>5가지 질문으로 분석하는 나만의 대박 DNA</p>
         </div>
 
@@ -332,7 +333,7 @@
                 <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
                 <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
                 <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
-                <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script> -->
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-2748658493247983"
@@ -340,7 +341,7 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
+                    (adsbygoogle = window.adsbygoogle || []).push({}); // 첫 번째 광고 슬롯에 대한 push
                 </script>
             </div>
 
@@ -377,7 +378,7 @@
                     <!-- 로또 볼들이 여기에 동적으로 삽입됩니다 -->
                 </div>
                 <button class="share-button" id="share-button-element">
-                    <i class="fas fa-share-alt icon"></i> 결과 카카오톡<br>공유하기
+                    <i class="fas fa-share-alt icon"></i> 결과<br>카카오톡 공유하기
                 </button>
 
                 <!-- 광고 배너 시안 위치 2 -->
@@ -385,7 +386,7 @@
                     <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
                     <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
                     <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
-                    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script> -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-2748658493247983"
@@ -393,12 +394,16 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
                     <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
+                        // 결과 화면의 광고는 화면이 표시될 때만 push
+                        // 이전에 adsbygoogle.push({});가 이미 호출되었을 수 있으므로,
+                        // window.adsbygoogle가 존재하고, 해당 슬롯이 아직 처리되지 않았을 때만 push
+                        // 이 부분은 showResult 함수에서 직접 호출하는 것이 더 명확할 수 있습니다.
+                        // 일단은 여기에 두되, showResult에서 다시 호출하는 방식도 고려합니다.
                     </script>
                 </div>
                 
                 <a href="/" class="lotto-main-link">
-                    프리미엄 로또 번호<br>무료로 생성하기! <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                   프리미엄 로또 번호<br>무료로 생성하기! <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>
             </div>
         </div>
@@ -435,7 +440,7 @@
             {
                 question: "3. 친구들 사이에서 나의 포지션은?",
                 options: [
-                    { text: "총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
+                    { text: "총무 겸 플래너 (항상 계산하는 사람)💼", score: 3 },
                     { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
                     { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
                 ]
@@ -444,7 +449,7 @@
                 question: "4. 월요병이 심할 때 나는?",
                 options: [
                     { text: "주말에 미리 계획 세워서 준비완료 📅", score: 3 },
-                    { text: "아침에 일어나서 그때그때 해결하지 뭐! 🌅", score: 1 },
+                    { text: "아침에 일어나서 그때그때 해결하지 뭐!🌅", score: 1 },
                     { text: "친구들한테 하소연하면서 힐링 받기 💬", score: 2 }
                 ]
             },
@@ -465,7 +470,7 @@
             },
             "9-12": { // 9~12점
                 type: "밸런서 ⚖️", // 이모티콘 위치 변경
-                description: "당신의 특징:\n적당히 신중하고\n적당히 대담한 황금비율 ⭐\n\n로또 DNA:\n특별한 날에만 한 장씩,\n가끔 수동선택도 시도\n\n한마디:\n너무 많이도 너무 적게도 말고 딱 적당히!",
+                description: "당신의 특징:\n적당히 신중하고\n적당히 대담한 황금비율 ⭐\n\n로또 DNA:\n특별한 날에만 한 장씩,\n가끔 수동선택도 시도\n\n한마디:\n너무 많이도 너무 적게도 말고\n딱 적당히!",
             },
             "13-15": { // 13~15점
                 type: "전략가 🧠", // 이모티콘 위치 변경
@@ -638,6 +643,19 @@
                 total_score: totalScore, 
                 result_type: result.type 
             });
+
+            // 결과 화면이 보일 때 광고를 다시 로드 시도
+            if (window.adsbygoogle && window.adsbygoogle.loaded) {
+                try {
+                    // 결과 화면 내의 광고 슬롯만 선택
+                    const resultAdSlot = document.querySelector('#result-screen .ad-banner ins.adsbygoogle');
+                    if (resultAdSlot) {
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    }
+                } catch (e) {
+                    console.error('Error pushing AdSense ad in result screen:', e);
+                }
+            }
         }
 
         function getBallResultColor(number) {
@@ -757,6 +775,25 @@
             }
         }
 
+        // AdSense 광고를 로드하는 함수 (수정됨)
+        function loadAdSenseAds() {
+            // adsbygoogle 스크립트가 로드되었는지 확인
+            if (window.adsbygoogle && window.adsbygoogle.loaded) {
+                // 시작 화면의 광고 슬롯만 선택하여 push
+                const startAdSlot = document.querySelector('#start-screen .ad-banner ins.adsbygoogle');
+                if (startAdSlot) {
+                    try {
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {
+                        console.error('Error pushing AdSense ad in start screen:', e);
+                    }
+                }
+            } else {
+                console.warn('adsbygoogle script not fully loaded yet. Retrying...');
+                setTimeout(loadAdSenseAds, 500); 
+            }
+        }
+
         // 초기 로드 시 시작 화면 표시 및 이벤트 리스너 부착
         document.addEventListener('DOMContentLoaded', () => {
             // 버튼 요소들을 DOMContentLoaded 시점에 가져옴
@@ -783,6 +820,9 @@
             // 초기에는 질문 화면과 결과 화면을 숨깁니다.
             questionScreen.style.display = 'none'; 
             resultScreen.style.display = 'none';
+
+            // DOM이 로드된 후 시작 화면의 AdSense 광고 로드 시도
+            loadAdSenseAds();
         });
 
     </script>
