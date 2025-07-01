@@ -252,7 +252,7 @@
             line-height: 1.4;
         }
         
-        /* 광고 배너 위치 시안 */
+        /* 광고 배너 */
         .ad-banner {
             width: 100%;
             max-width: 300px; /* 광고 배너 최대 너비 */
@@ -260,6 +260,7 @@
             background-color: #e0e0e0; /* 광고 영역 표시용 배경 */
             border-radius: 0.8em;
             display: flex;
+            flex-direction: column; /* 텍스트와 광고 코드를 세로로 정렬 */
             justify-content: center;
             align-items: center;
             margin: 1.5em auto;
@@ -268,6 +269,11 @@
             border: 1px dashed #ccc;
             text-align: center;
             overflow: hidden; /* 광고 내용이 넘치지 않도록 숨김 */
+            padding: 10px; /* 내부 여백 추가 */
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+        }
+        .ad-banner .ad-placeholder-text {
+            margin-bottom: 5px; /* 텍스트와 광고 사이 간격 */
         }
 
 
@@ -323,6 +329,7 @@
             
             <!-- 광고 배너 시안 위치 1 -->
             <div class="ad-banner">
+                <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
                 <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
                 <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
                 <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script> -->
@@ -338,22 +345,22 @@
             </div>
 
             <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
-                본 테스트는 재미를 위한 것이며, 실제 로또 당첨과 무관합니다.
+                본 테스트는 재미를 위한 것이며, 실제 로또 당첨과는 무관합니다.
             </p>
         </div>
 
         <!-- 질문 화면 (초기 숨김) -->
-        <div id="question-screen" style="display: none;">
+        <div id="question-screen">
             <div class="question-section">
                 <h2 id="question-text"></h2>
                 <div class="options-grid" id="options-container">
                     <!-- 옵션 카드들이 여기에 동적으로 삽입됩니다 -->
                 </div>
             </div>
-            <button class="question-button" id="next-button-element" style="display: none;">
+            <button class="question-button" id="next-button" style="display: none;">
                 다음 질문 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
             </button>
-            <button class="question-button" id="show-result-button-element" style="display: none;">
+            <button class="question-button" id="show-result-button" style="display: none;">
                 결과 보기 <i class="fas fa-check" style="margin-left: 10px;"></i>
             </button>
         </div>
@@ -375,6 +382,7 @@
 
                 <!-- 광고 배너 시안 위치 2 -->
                 <div class="ad-banner">
+                    <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
                     <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
                     <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
                     <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script> -->
@@ -390,7 +398,7 @@
                 </div>
                 
                 <a href="/" class="lotto-main-link">
-                    프리미엄 로또 번호<br>무료로 생성하기! <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                    프리미엄 로또 번호<br>무료로 생성하기 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
                 </a>
             </div>
         </div>
@@ -502,8 +510,9 @@
             selectedOptionForCurrentQuestion = null;
 
             optionsContainer.innerHTML = '';
-            nextButtonElement.style.display = 'none'; // 수정된 변수명 사용
-            showResultButtonElement.style.display = 'none'; // 수정된 변수명 사용
+            // 버튼 요소가 로드된 후에 접근하도록 변경
+            if (nextButtonElement) nextButtonElement.style.display = 'none'; 
+            if (showResultButtonElement) showResultButtonElement.style.display = 'none'; 
 
             if (currentQuestionIndex < questions.length) {
                 const q = questions[currentQuestionIndex];
@@ -530,12 +539,13 @@
             selectedOptionCardElement = clickedCard;
             selectedOptionForCurrentQuestion = { score: score };
 
+            // 버튼 요소가 로드된 후에 접근하도록 변경
             if (currentQuestionIndex === questions.length - 1) {
-                showResultButtonElement.style.display = 'flex'; // 수정된 변수명 사용
-                nextButtonElement.style.display = 'none'; // 수정된 변수명 사용
+                if (showResultButtonElement) showResultButtonElement.style.display = 'flex'; 
+                if (nextButtonElement) nextButtonElement.style.display = 'none'; 
             } else {
-                nextButtonElement.style.display = 'flex'; // 수정된 변수명 사용
-                showResultButtonElement.style.display = 'none'; // 수정된 변수명 사용
+                if (nextButtonElement) nextButtonElement.style.display = 'flex'; 
+                if (showResultButtonElement) showResultButtonElement.style.display = 'none'; 
             }
         }
 
@@ -663,10 +673,13 @@
 
             // Kakao SDK가 로드되었는지 확인 후 초기화 및 공유 시도
             if (typeof Kakao !== 'undefined') {
+                // Kakao SDK가 아직 초기화되지 않았다면 초기화 시도
                 if (!Kakao.isInitialized()) {
-                    // TODO: 사용자님의 실제 Kakao JavaScript Key로 교체하세요.
-                    // Kakao Developers (developers.kakao.com)에서 앱을 생성하고 발급받을 수 있습니다.
-                    Kakao.init('YOUR_JAVASCRIPT_KEY'); 
+                    // !!! 중요: 'YOUR_JAVASCRIPT_KEY'를 사용자님의 실제 카카오 JavaScript 키로 교체해야 합니다. !!!
+                    // 카카오 개발자 플랫폼 (developers.kakao.com)에서 앱을 생성하고 발급받을 수 있습니다.
+                    // 또한, 카카오 개발자 플랫폼의 '내 애플리케이션 > 플랫폼 설정'에서
+                    // 웹 플랫폼에 'https://smartpick.wow-daddy.com' 도메인을 등록해야 합니다.
+                    Kakao.init(721fc993da76a0ef127bb6aa11f8622a); 
                     console.log('Kakao SDK initialized:', Kakao.isInitialized());
                 }
 
@@ -701,7 +714,7 @@
                 } else {
                     // Kakao SDK 초기화 실패 메시지
                     const msgBox = document.createElement('div');
-                    msgBox.textContent = `[카카오톡 공유 실패] Kakao SDK 초기화에 실패했습니다. Kakao Developers에서 JavaScript 키를 설정하고 도메인을 등록했는지 확인해주세요.`;
+                    msgBox.textContent = `[카카오톡 공유 실패] Kakao SDK 초기화에 실패했습니다. 카카오 개발자 플랫폼에서 JavaScript 키를 설정하고 도메인을 등록했는지 확인해주세요.`;
                     msgBox.style.cssText = `
                         position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
                         background-color: var(--color-brick); 
@@ -748,15 +761,15 @@
         document.addEventListener('DOMContentLoaded', () => {
             // 버튼 요소들을 DOMContentLoaded 시점에 가져옴
             startButtonElement = document.getElementById('start-button-element');
-            nextButtonElement = document.getElementById('next-button-element');
-            showResultButtonElement = document.getElementById('show-result-button-element');
+            nextButtonElement = document.getElementById('next-button'); 
+            showResultButtonElement = document.getElementById('show-result-button'); 
             shareButtonElement = document.getElementById('share-button-element');
 
             // 이벤트 리스너 부착
             if (startButtonElement) {
                 startButtonElement.addEventListener('click', window.startTest);
             }
-            if (nextButtonElement) {
+            if (nextButtonElement) { // nextButton과 showResultButton도 DOMContentLoaded 이후에 이벤트 리스너를 붙이도록 변경
                 nextButtonElement.addEventListener('click', window.nextQuestion);
             }
             if (showResultButtonElement) {
@@ -767,7 +780,8 @@
             }
 
             startScreen.style.display = 'block';
-            questionScreen.style.display = 'none';
+            // 초기에는 질문 화면과 결과 화면을 숨깁니다.
+            questionScreen.style.display = 'none'; 
             resultScreen.style.display = 'none';
         });
 
