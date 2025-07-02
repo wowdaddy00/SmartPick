@@ -79,10 +79,22 @@
         </div>
     </div>
 
+    <!-- Flask에서 전달된 freq_json 데이터를 JavaScript에서 안전하게 파싱하기 위한 숨겨진 input 필드 -->
+    <input type="hidden" id="freqDataInput" value="{{ freq_json | tojson | safe }}">
+
     <script>
-        // Flask에서 전달된 freq_json 데이터를 JavaScript 변수로 직접 정의
-        // tojson 필터가 생성하는 JSON 문자열을 안전하게 삽입합니다.
-        const freqData = {{ freq_json | tojson | safe }}; 
+        // 숨겨진 input 필드에서 JSON 문자열을 가져와 파싱
+        const freqDataString = document.getElementById('freqDataInput').value;
+        let freqData = {};
+        try {
+            freqData = JSON.parse(freqDataString);
+        } catch (e) {
+            console.error("Error parsing freqData from hidden input:", e);
+            console.log("Raw freqDataString:", freqDataString);
+            // 파싱 실패 시 빈 객체로 초기화하여 오류 방지
+            freqData = {}; 
+        }
+        
         const recentN = {{ recent_n }};
 
         // 데이터 유효성 검사
