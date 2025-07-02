@@ -72,7 +72,7 @@
     <div class="container">
         <h1>로또 번호 <span class="highlight">통계</span></h1>
         <p class="desc">최근 <span class="highlight">{{ recent_n }}</span>회차 당첨번호의 출현 빈도 분석</p>
-        <canvas id="frequencyChart" data-freq-data="{{ freq_json | tojson | safe }}"></canvas>
+        <canvas id="frequencyChart"></canvas>
         <!-- 데이터가 없을 때 표시될 메시지 영역 -->
         <div id="noDataMessage" style="display: none; color: red; margin-top: 20px;">
             통계 데이터를 불러올 수 없거나 데이터가 비어있습니다. 잠시 후 다시 시도해주세요.
@@ -80,8 +80,9 @@
     </div>
 
     <script>
-        // Flask에서 전달된 freq_json 데이터를 canvas 요소의 data-freq-data 속성에서 가져와 JavaScript 변수로 파싱
-        const freqData = JSON.parse(document.getElementById('frequencyChart').dataset.freqData); 
+        // Flask에서 전달된 freq_json 데이터를 JavaScript 변수로 직접 정의
+        // tojson 필터가 생성하는 JSON 문자열을 안전하게 삽입합니다.
+        const freqData = {{ freq_json | tojson | safe }}; 
         const recentN = {{ recent_n }};
 
         // 데이터 유효성 검사
