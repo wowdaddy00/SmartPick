@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💰 당신의 로또 DNA는? ✨ SmartPick</title>
 
-    <!-- Google Site Verification 메타 태그 (유지) -->
-    <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> 
-
-    <!-- Google AdSense 관련 메타 태그 및 스크립트 제거 -->
+    <!-- Google AdSense 자동 광고 비활성화 메타 태그 (이 페이지에서만) -->
+    <meta name="google-adsense-account" content="ca-pub-2748658493247983">
+    <meta name="adsbygoogle-enable" content="false">
 
     <!-- 오픈그래프 (카카오톡 등 소셜 미디어 공유 최적화) -->
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
@@ -257,24 +256,29 @@
             line-height: 1.4;
         }
         
-        /* 광고 배너 영역 스타일 */
+        /* 광고 배너 */
         .ad-banner {
-            width: 100%; /* 반응형으로 변경 */
-            min-width: 280px; /* 광고 최소 너비 */
-            min-height: 250px; /* 광고 최소 높이 */
-            margin: 1.5em auto;
+            width: 100%;
+            min-height: 100px; /* 최소 높이 설정 (광고가 로드될 공간 확보) */
+            background-color: #e0e0e0; /* 광고 영역 표시용 배경 */
             border-radius: 0.8em;
-            overflow: hidden;
-            display: flex; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            justify-content: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            align-items: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            background-color: #f0f0f0; /* 플레이스홀더 배경색 */
-            color: #888; /* 플레이스홀더 텍스트 색상 */
-            font-size: 1em;
+            display: flex;
+            flex-direction: column; /* 텍스트와 광고 코드를 세로로 정렬 */
+            justify-content: center;
+            align-items: center;
+            margin: 1.5em auto;
+            font-size: 0.9em;
+            color: #777;
+            border: 1px dashed #ccc;
             text-align: center;
-            border: 1px dashed #ccc; /* 점선 테두리 추가 */
-            box-sizing: border-box; /* 패딩 및 테두리를 너비에 포함 */
+            overflow: hidden; /* 광고 내용이 넘치지 않도록 숨김 */
+            padding: 10px; /* 내부 여백 추가 */
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
         }
+        .ad-banner .ad-placeholder-text {
+            margin-bottom: 5px; /* 텍스트와 광고 사이 간격 */
+        }
+
 
         /* 반응형 디자인 */
         @media (max-width: 480px) {
@@ -310,11 +314,10 @@
                 height: 40px;
                 font-size: 1.2em;
             }
-            .ad-banner {
-                min-height: 200px; /* 모바일에서 최소 높이 조정 */
-            }
         }
     </style>
+    <!-- Google AdSense 메인 스크립트: head 태그 내부에 배치 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="test-container">
@@ -329,9 +332,20 @@
                 <i class="fas fa-play-circle" style="margin-right: 10px;"></i> 테스트 시작하기
             </button>
             
-            <!-- 광고 배너 플레이스홀더: 시작 화면 -->
+            <!-- 광고 배너 시안 위치 1 -->
             <div class="ad-banner">
-                광고 영역 (현재 환경에서는 표시되지 않음)
+                <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
+                <!-- Google AdSense 광고 단위 코드 -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-2748658493247983"
+                     data-ad-slot="1322588827"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     // 이 광고는 페이지 로드 시 바로 보이므로, 표준 방식으로 push
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
 
             <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
@@ -370,9 +384,18 @@
                     <i class="fas fa-share-alt icon"></i> 결과 카카오톡 공유하기
                 </button>
 
-                <!-- 광고 배너 플레이스홀더: 결과 화면 -->
+                <!-- 광고 배너 시안 위치 2 -->
                 <div class="ad-banner">
-                    광고 영역 (현재 환경에서는 표시되지 않음)
+                    <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
+                    <!-- Google AdSense 광고 단위 코드 -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-2748658493247983"
+                         data-ad-slot="1322588827"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"
+                         id="result-screen-ad-slot"></ins>
+                    <!-- 이 광고는 결과 화면이 나타날 때 JavaScript에서 push 합니다. -->
                 </div>
                 
                 <a href="/" class="lotto-main-link">
@@ -616,6 +639,51 @@
                 total_score: totalScore, 
                 result_type: result.type 
             });
+
+            // 결과 화면이 보일 때 광고를 로드
+            // resultScreen이 'block'으로 설정된 후, 브라우저가 레이아웃을 계산할 시간을 주기 위해 setTimeout 사용
+            setTimeout(() => {
+                const resultAdSlot = document.getElementById('result-screen-ad-slot');
+                if (resultAdSlot && window.adsbygoogle) {
+                    // Check if the element has a non-zero width before pushing
+                    const rect = resultAdSlot.getBoundingClientRect();
+                    if (rect.width > 0 && rect.height > 0) {
+                        try {
+                            // 이미 처리된 슬롯이 아니라면 push
+                            if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                                console.log('AdSense ad pushed for result screen.');
+                            } else {
+                                console.log('AdSense ad for result screen already processed.');
+                            }
+                        } catch (e) {
+                            console.error('Error pushing AdSense ad for result screen:', e);
+                        }
+                    } else {
+                        console.warn('Result screen ad slot has no size yet, retrying...');
+                        // If still no size, retry after a short delay
+                        setTimeout(() => {
+                            if (resultAdSlot && window.adsbygoogle) {
+                                const finalRect = resultAdSlot.getBoundingClientRect();
+                                if (finalRect.width > 0 && finalRect.height > 0) {
+                                    try {
+                                        if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                                            (window.adsbygoogle = window.adsbygoogle || []).push({});
+                                            console.log('AdSense ad pushed for result screen after retry.');
+                                        }
+                                    } catch (e) {
+                                        console.error('Error pushing AdSense ad for result screen on retry:', e);
+                                    }
+                                } else {
+                                    console.error('Result screen ad slot still has no size after retry.');
+                                }
+                            }
+                        }, 200); // Shorter retry
+                    }
+                } else {
+                    console.warn('AdSense script or result ad slot not ready for result screen.');
+                }
+            }, 100); // Give browser 100ms to render the display:block element
         }
 
         function getBallResultColor(number) {
