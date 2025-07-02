@@ -33,18 +33,32 @@
         <h1>로또 번호 <span class="highlight">통계</span></h1>
         <p class="desc">최근 <span class="highlight">{{ recent_n }}</span>회차 당첨번호의 출현 빈도 분석</p>
         <canvas id="frequencyChart"></canvas>
+        <!-- 데이터가 없을 때 표시될 메시지 영역 -->
+        <div id="noDataMessage" style="display: none; color: red; margin-top: 20px;">
+            통계 데이터를 불러올 수 없거나 데이터가 비어있습니다. 잠시 후 다시 시도해주세요.
+        </div>
     </div>
 
+    <!-- Flask에서 전달된 freq_json 데이터를 JavaScript에서 안전하게 파싱하기 위한 숨겨진 div -->
+    <div id="freqDataContainer" style="display: none;">{{ freq_json | tojson | safe }}</div>
+
     <script>
-        // Flask에서 전달된 freq_json 데이터를 JavaScript 변수로 파싱
-        // tojson 필터가 생성하는 JSON 문자열을 안전하게 삽입하고, JavaScript에서 명시적으로 파싱합니다.
-        const freqData = JSON.parse('{{ freq_json | tojson | safe }}'); 
+        // Flask에서 전달된 freq_json 데이터를 숨겨진 div에서 가져와 JavaScript 변수로 파싱
+        const freqData = JSON.parse(document.getElementById('freqDataContainer').textContent); 
         const recentN = {{ recent_n }};
 
         // 데이터 유효성 검사
-        if (freqData && Object.keys(freqData).length > 0) {
+        // freqData가 비어있거나, 모든 값이 0인 경우를 처리
+        const hasMeaningfulData = freqData && Object.keys(freqData).some(key => freqData[key] > 0);
+
+        if (hasMeaningfulData) {
             const labels = Object.keys(freqData);
             const data = Object.values(freqData);
+
+            // Y축의 최대값을 동적으로 설정 (데이터의 최대값에 따라)
+            // 만약 모든 데이터가 0이라면, max 값을 1로 설정하여 빈 그래프가 보이지 않도록 함
+            const maxYValue = Math.max(...data);
+            const suggestedMaxY = maxYValue > 0 ? maxYValue + 1 : 1; // 최소 1 이상
 
             const ctx = document.getElementById('frequencyChart').getContext('2d');
             new Chart(ctx, {
@@ -68,7 +82,9 @@
                             title: {
                                 display: true,
                                 text: '출현 횟수'
-                            }
+                            },
+                            // Y축 최대값 동적 설정
+                            max: suggestedMaxY 
                         },
                         x: {
                             title: {
@@ -94,13 +110,8 @@
             });
         } else {
             // 데이터가 없거나 유효하지 않을 경우 메시지 표시
-            const container = document.querySelector('.container');
-            const noDataMessage = document.createElement('p');
-            noDataMessage.textContent = "통계 데이터를 불러올 수 없거나 데이터가 비어있습니다. 잠시 후 다시 시도해주세요.";
-            noDataMessage.style.color = 'red';
-            noDataMessage.style.marginTop = '20px';
-            container.appendChild(noDataMessage);
             document.getElementById('frequencyChart').style.display = 'none'; // 캔버스 숨기기
+            document.getElementById('noDataMessage').style.display = 'block'; // 메시지 표시
         }
     </script>
 </body>
