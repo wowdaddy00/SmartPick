@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💰 당신의 로또 DNA는? ✨ SmartPick</title>
 
-    <!-- Google Site Verification 메타 태그 -->
+    <!-- Google Site Verification 메타 태그 (유지) -->
     <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> 
 
-    <!-- Google AdSense 메타 태그 수정 (필요시) -->
-    <meta name="google-adsense-account" content="ca-pub-2748658493247983">
+    <!-- Google AdSense 관련 메타 태그 및 스크립트 제거 -->
 
     <!-- 오픈그래프 (카카오톡 등 소셜 미디어 공유 최적화) -->
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
@@ -266,9 +265,15 @@
             margin: 1.5em auto;
             border-radius: 0.8em;
             overflow: hidden;
-            display: block; /* AdSense ins 태그가 block으로 작동하도록 */
-            background-color: transparent; /* 배경색 제거 */
-            border: none; /* 테두리 제거 */
+            display: flex; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
+            justify-content: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
+            align-items: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
+            background-color: #f0f0f0; /* 플레이스홀더 배경색 */
+            color: #888; /* 플레이스홀더 텍스트 색상 */
+            font-size: 1em;
+            text-align: center;
+            border: 1px dashed #ccc; /* 점선 테두리 추가 */
+            box-sizing: border-box; /* 패딩 및 테두리를 너비에 포함 */
         }
 
         /* 반응형 디자인 */
@@ -310,8 +315,6 @@
             }
         }
     </style>
-    <!-- Google AdSense 메인 스크립트: head 태그 내부에 배치 -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="test-container">
@@ -326,17 +329,9 @@
                 <i class="fas fa-play-circle" style="margin-right: 10px;"></i> 테스트 시작하기
             </button>
             
-            <!-- 광고 배너 수정: 시작 화면 -->
+            <!-- 광고 배너 플레이스홀더: 시작 화면 -->
             <div class="ad-banner">
-                <ins class="adsbygoogle"
-                     style="display:block;"
-                     data-ad-client="ca-pub-2748658493247983"
-                     data-ad-slot="1322588827"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                광고 영역 (현재 환경에서는 표시되지 않음)
             </div>
 
             <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
@@ -375,18 +370,9 @@
                     <i class="fas fa-share-alt icon"></i> 결과 카카오톡 공유하기
                 </button>
 
-                <!-- 광고 배너 수정: 결과 화면 -->
+                <!-- 광고 배너 플레이스홀더: 결과 화면 -->
                 <div class="ad-banner">
-                    <ins class="adsbygoogle"
-                         style="display:block;"
-                         data-ad-client="ca-pub-2748658493247983"
-                         data-ad-slot="1322588827"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"
-                         id="result-screen-ad-slot"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                    광고 영역 (현재 환경에서는 표시되지 않음)
                 </div>
                 
                 <a href="/" class="lotto-main-link">
@@ -443,7 +429,7 @@
             { 
                 question: "5. 인생에서 가장 중요한 건?",
                 options: [
-                    { text: "안정적인 통장 잔고와 예측 가능한 미래 🏦", score: 3 },
+                    { text: "안정적인 통장 잔고와 예측 가능한 미래 �", score: 3 },
                     { text: "매일 다른 경험과 짜릿한 스릴! 🎢", score: 1 },
                     { text: "가족, 친구들과 함께하는 따뜻한 일상 ❤️", score: 2 }
                 ]
