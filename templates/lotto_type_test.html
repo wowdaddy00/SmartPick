@@ -11,14 +11,14 @@
        crossorigin="anonymous"></script>
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta property="og:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
-    <meta property="og:image" content="https://placehold.co/1200x630/AAD59E/ffffff?text=Lotto+DNA+Test" />
+    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_lottodna.png" />
     <meta property="og:url" content="https://smartpick.wow-daddy.com/lotto-dna-test" />
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta name="twitter:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
-    <meta name="twitter:image" content="https://placehold.co/1200x630/AAD59E/ffffff?text=Lotto+DNA+Test" />
+    <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_lottodna.png" />
 
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -321,9 +321,6 @@
                      data-ad-slot="1322588827"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
         </div>
 
@@ -341,9 +338,6 @@
                      data-ad-slot="1322588827"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
         </div>
 
@@ -367,9 +361,6 @@
                      data-ad-slot="1322588827"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
         </div>
     </div>
@@ -457,6 +448,33 @@
             }
         ];
 
+        // 새로운 함수: AdSense 광고를 다시 로드합니다.
+        function loadAds() {
+            // 페이지에 있는 모든 'adsbygoogle' 클래스를 가진 요소를 찾습니다.
+            const adContainers = document.querySelectorAll('.ad-area');
+            adContainers.forEach(container => {
+                // 기존 광고를 비웁니다.
+                container.innerHTML = ''; 
+                // 새로운 광고 단위를 생성하여 추가합니다.
+                const ins = document.createElement('ins');
+                ins.className = 'adsbygoogle';
+                ins.style.display = 'block';
+                ins.style.textAlign = 'center'; // 스타일은 기존과 동일하게 유지
+                ins.dataset.adClient = 'ca-pub-2748658493247983';
+                ins.dataset.adSlot = '1322588827';
+                ins.dataset.adFormat = 'auto';
+                ins.dataset.fullWidthResponsive = 'true';
+                container.appendChild(ins);
+            });
+
+            // Google AdSense 라이브러리에 새 광고가 있음을 알립니다.
+            // window.adsbygoogle 배열에 모든 새 광고 단위를 추가하여 로드를 요청합니다.
+            if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
+                window.adsbygoogle.push({});
+            }
+        }
+
+
         function startTest() {
             logEvent('lotto_dna_test_start'); // 테스트 시작 이벤트 로깅
             currentQuestionIndex = 0;
@@ -465,6 +483,7 @@
             questionScreen.style.display = 'block';
             resultScreen.style.display = 'none';
             loadQuestion();
+            loadAds(); // 질문 화면으로 넘어갈 때 광고 다시 로드
         }
 
         function loadQuestion() {
@@ -480,6 +499,7 @@
                 optionsGrid.appendChild(optionCard);
             });
             nextButton.style.display = 'none'; // 다음 질문 버튼 숨김
+            // loadAds(); // (선택 사항) 각 질문 로드 시 광고를 다시 로드하려면 이 줄의 주석을 해제하세요.
         }
 
         function selectOption(selectedCard) {
@@ -554,6 +574,7 @@
                 console.error('Error fetching lotto numbers:', error);
                 showToastMessage('로또 번호 생성 중 오류가 발생했습니다.', 'error');
             }
+            loadAds(); // 결과 화면으로 넘어갈 때 광고 다시 로드
         }
 
         function displayLottoNumbers(numbers) {
@@ -625,22 +646,25 @@
 
             // 이벤트 리스너 부착
             if (startButtonElement) {
-                startButtonElement.addEventListener('click', window.startTest);
+                startButtonElement.addEventListener('click', startTest); // window.startTest 대신 직접 함수 참조
             }
             if (nextButtonElement) { 
-                nextButtonElement.addEventListener('click', window.nextQuestion);
+                nextButtonElement.addEventListener('click', nextQuestion); // window.nextQuestion 대신 직접 함수 참조
             }
             if (showResultButtonElement) {
-                showResultButtonElement.addEventListener('click', window.showResult);
+                showResultButtonElement.addEventListener('click', showResult); // window.showResult 대신 직접 함수 참조
             }
             if (shareButtonElement) {
-                shareButtonElement.addEventListener('click', window.shareResult);
+                shareButtonElement.addEventListener('click', shareResult); // window.shareResult 대신 직접 함수 참조
             }
 
             startScreen.style.display = 'block';
             // 초기에는 질문 화면과 결과 화면을 숨깁니다.
             questionScreen.style.display = 'none'; 
             resultScreen.style.display = 'none';
+
+            // 페이지 로드 시 시작 화면에 광고를 로드
+            loadAds();
         });
 
     </script>
