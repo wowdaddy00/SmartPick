@@ -29,3 +29,81 @@ h1 {
     color: #666;
     margin-bottom: 24px;
 }
+
+/* --- SmartPick - 버튼 및 링크 스타일 추가 --- */
+
+/* 모든 주요 버튼 및 링크에 공통으로 적용되는 기본 스타일 */
+button, .link-item { /* .main-action-link-button과 .copy-btn은 아래에서 개별 스타일 적용 */
+    display: block;
+    width: 100%;
+    padding: 1.2em 1em; /* 버튼 높이 기본값 */
+    font-size: 1.1rem;
+    font-weight: 700; /* 기본 볼드 처리 */
+    color: #fff;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); /* 기본 그라데이션 배경색 */
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    line-height: 1.4;
+    margin-top: 1.5em; /* 버튼 간 기본 간격 */
+    box-sizing: border-box;
+}
+
+/* 아이콘 스타일 */
+.main-action-link-button .icon,
+.link-item .icon {
+    margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+}
+
+/* '프리미엄 번호 추천 받기' 버튼 (form 내부) - 고급 맞춤 번호와의 간격 조정 */
+form button {
+    margin-bottom: 0; /* 다음 버튼과의 간격을 없앰 */
+}
+
+/* '고급 맞춤 번호 추천 받기' 및 '재미로 보는 로또 테스트' 버튼 (.main-action-link-button) 스타일 */
+.main-action-link-button {
+    background: #d72638; /* '재미로 보는 로또 테스트' 버튼의 새로운 박스 색상 */
+    font-size: 0.95rem; /* 글씨 크기 줄임 (두 줄에 맞춤) */
+    margin-top: 0; /* 이전 버튼과의 간격을 없앰 (form button의 margin-bottom으로 간격 조절) */
+}
+
+/* 'SmartPick이 특별한 이유 알아보기' 링크 (link-item) 스타일 */
+.link-item {
+    padding: 1em 1em; /* 다른 버튼보다 약간 작은 패딩 */
+    font-size: 1em;
+    font-weight: 500; /* 조금 덜 볼드하게 */
+    color: #3b82f6; /* 파란색 텍스트 */
+    background: #e0f2fe; /* 밝은 파란색 배경 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 그림자 */
+}
+
+/* '추천 번호 복사' 버튼 (.copy-btn) - 요청에 따른 수정 */
+.copy-btn {
+    background-color: transparent; /* 배경색을 투명하게 */
+    color: #FFD700; /* 글씨색을 테두리색과 동일한 황금색으로 */
+    border: 2px solid #FFD700; /* 테두리는 유지 */
+    box-shadow: none; /* 투명 배경이므로 불필요한 그림자 제거 */
+    font-weight: normal; /* 글씨를 볼드 처리하지 않음 */
+    padding: 0.8em 1em; /* 박스 높이 줄임 (상하 패딩 조정) */
+}
+
+/* 모바일 반응형 조정 (필요에 따라 추가) */
+@media (max-width: 600px) {
+    .container {
+        margin: 30px 15px;
+        padding: 25px;
+    }
+    h1 {
+        font-size: 2rem;
+    }
+    .subtitle {
+        font-size: 1rem;
+    }
+    button, .main-action-link-button, .link-item, .copy-btn {
+        padding: 1em 0.8em;
+        font-size: 1rem;
+    }
+}
