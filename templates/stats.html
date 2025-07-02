@@ -1,28 +1,107 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>SmartPick 로또 번호 통계 - 최신 출현 빈도 분석</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="SmartPick 로또 번호 통계 페이지에서 최근 회차 로또 번호의 출현 빈도를 확인하고 분석하세요.">
-  <meta name="keywords" content="로또 통계, 로또 분석, 로또 빈도, 로또 번호, 로또 당첨 번호, SmartPick">
-  <meta name="author" content="SmartPick Team">
+    <meta charset="UTF-8">
+    <title>SmartPick 로또 번호 통계 - 최신 출현 빈도 분석</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SmartPick 로또 번호 통계 페이지에서 최근 회차 로또 번호의 출현 빈도를 확인하고 분석하세요.">
+    <meta name="keywords" content="로또 통계, 로또 분석, 로또 빈도, 로또 번호, 로또 당첨 번호, SmartPick">
+    <meta name="author" content="SmartPick Team">
 
-  <meta property="og:title" content="SmartPick 로또 번호 통계 - 최신 출현 빈도 분석" />
-  <meta property="og:description" content="최신 로또 번호 통계와 출현 빈도를 그래프로 한눈에 확인하세요." />
-  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" /> <meta property="og:url" content="https://smartpick.wow-daddy.com/stats" />
-  <meta property="og:type" content="website" />
+    <meta property="og:title" content="SmartPick 로또 번호 통계 - 최신 출현 빈도 분석" />
+    <meta property="og:description" content="최신 로또 번호 통계와 출현 빈도를 그래프로 한눈에 확인하세요." />
+    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+    <meta property="og:url" content="https://smartpick.wow-daddy.com/stats" />
+    <meta property="og:type" content="website" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SmartPick 로또 번호 통계 - 최신 출현 빈도 분석" />
-  <meta name="twitter:description" content="로또 통계 페이지에서 번호별 출현 빈도를 확인하고 나만의 전략을 세워보세요!" />
-  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" /> <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body { font-family:'Pretendard', Arial, sans-serif; background:#f8fafd; margin:0;}
-    .container { max-width:650px; margin:60px auto; background:#fff; border-radius:2em; box-shadow:0 6px 36px #22325620; padding:2.8em 2em 2.2em 2em; text-align:center;}
-    h1 { font-size:2em; margin-bottom:1.3em;}
-    .desc { color:#666; margin-bottom:2.2em;}
-    .highlight { font-weight:bold; color:#4361ee;}
-    canvas { margin:1em 0 2em 0;}
-  </style>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SmartPick 로또 번호 통계 - 최신 출현 빈도 분석" />
+    <meta name="twitter:description" content="로또 통계 페이지에서 번호별 출현 빈도를 확인하고 나만의 전략을 세워보세요!" />
+    <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family:'Pretendard', Arial, sans-serif; background:#f8fafd; margin:0;}
+        .container { max-width:650px; margin:60px auto; background:#fff; border-radius:2em; box-shadow:0 6px 36px #22325620; padding:2.8em 2em 2.2em 2em; text-align:center;}
+        h1 { font-size:2em; margin-bottom:1.3em;}
+        .desc { color:#666; margin-bottom:2.2em;}
+        .highlight { font-weight:bold; color:#4361ee;}
+        canvas { margin:1em 0 2em 0;}
+    </style>
 </head>
+<body>
+    <div class="container">
+        <h1>로또 번호 <span class="highlight">통계</span></h1>
+        <p class="desc">최근 <span class="highlight">{{ recent_n }}</span>회차 당첨번호의 출현 빈도 분석</p>
+        <canvas id="frequencyChart"></canvas>
+    </div>
+
+    <script>
+        // Flask에서 전달된 freq_json 데이터를 JavaScript 변수로 파싱
+        // tojson 필터가 생성하는 JSON 문자열을 안전하게 삽입하고, JavaScript에서 명시적으로 파싱합니다.
+        const freqData = JSON.parse('{{ freq_json | tojson | safe }}'); 
+        const recentN = {{ recent_n }};
+
+        // 데이터 유효성 검사
+        if (freqData && Object.keys(freqData).length > 0) {
+            const labels = Object.keys(freqData);
+            const data = Object.values(freqData);
+
+            const ctx = document.getElementById('frequencyChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `최근 ${recentN}회차 출현 빈도`,
+                        data: data,
+                        backgroundColor: 'rgba(67, 97, 238, 0.7)', // #4361ee
+                        borderColor: 'rgba(67, 97, 238, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // 컨테이너에 맞춰 크기 조정
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '출현 횟수'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '로또 번호'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `번호 ${context.label}: ${context.raw}회`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            // 데이터가 없거나 유효하지 않을 경우 메시지 표시
+            const container = document.querySelector('.container');
+            const noDataMessage = document.createElement('p');
+            noDataMessage.textContent = "통계 데이터를 불러올 수 없거나 데이터가 비어있습니다. 잠시 후 다시 시도해주세요.";
+            noDataMessage.style.color = 'red';
+            noDataMessage.style.marginTop = '20px';
+            container.appendChild(noDataMessage);
+            document.getElementById('frequencyChart').style.display = 'none'; // 캔버스 숨기기
+        }
+    </script>
+</body>
+</html>
