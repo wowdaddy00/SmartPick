@@ -5,34 +5,25 @@
   <title>SmartPick 로또 번호 추천 - 프리미엄 당첨 번호 생성</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
      crossorigin="anonymous"></script>
 
-  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
   <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
   <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 프리미엄로또, 로또당첨번호">
   <meta name="author" content="SmartPick Team">
 
-  <!-- 오픈그래프 (소셜 미디어 공유 최적화) -->
   <meta property="og:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
   <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스! 지금 바로 경험하세요." />
   <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
   <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
   <meta property="og:type" content="website" />
 
-  <!-- 트위터 카드 -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
-  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
-
-  <!-- SEO/광고/폰트 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body { 
@@ -139,7 +130,7 @@
     }
     /* 버튼 간 간격 조절 */
     form button { /* 프리미엄 번호 추천받기 버튼 */
-        margin-bottom: 0.8em; /* 아래 간격 추가 */
+        margin-bottom: 0; /* 고급 맞춤 번호와의 간격을 없앰 */
     }
     .main-action-link-button { /* 고급 맞춤 추천 받기 버튼 */
         margin-top: 0; /* 위쪽 여백 제거 (form button과의 간격으로 대체) */
@@ -345,7 +336,6 @@
   </style>
 </head>
 <body>
-  <!-- 누적 추천 조합 통계 섹션 (오늘의 추천 조합 제거) -->
   <div class="stats-box">
     <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
   </div>
@@ -353,7 +343,6 @@
   <div class="container">
     <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
 
-    <!-- 최신 당첨 번호 섹션 -->
     {% if latest_round and winning_nums and bonus_num %}
     <div class="latest-winning-section">
         <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
@@ -373,7 +362,6 @@
         
     </div>
     
-    <!-- 'SmartPick이 특별한 이유'를 빨간 박스 바로 아래로 이동 -->
     <a href="/about" class="link-item link-about-moved">
         <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
     </a>
@@ -383,9 +371,12 @@
       {# <div style="height:10px"></div> #} {# 버튼 사이 간격 조절용 div 제거 #}
     </form>
     
-    <!-- '고급 맞춤 추천'을 '프리미엄 번호 추천받기' 바로 아래로 이동 -->
     <a href="/choose_recommendation" class="main-action-link-button">
         고급 맞춤 번호<br>추천 받기
+    </a>
+
+    <a href="/lotto-dna-test" class="main-action-link-button">
+        <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
     </a>
     
     {% if numbers %}
@@ -395,8 +386,7 @@
         {% endfor %}
       </div>
       <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
-      <!-- 로또 당첨 후 내 모습 확인하기 버튼 -->
-      <button class="main-action-link-button" onclick="generateLottoStory()">
+      <div style="height: 15px;"></div> <button class="main-action-link-button" onclick="generateLottoStory()">
           재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
       </button>
 
@@ -404,8 +394,7 @@
           <i class="fas fa-spinner fa-spin"></i> 스토리 생성 중...
       </div>
       <div id="lotto-story" style="margin-top: 1em; padding: 1em; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; text-align: left; color: #333; font-size: 1em; line-height: 1.6;">
-          <!-- 생성된 스토리가 여기에 표시됩니다. -->
-      </div>
+          </div>
 
       <script>
         function copyLotto() {
@@ -467,8 +456,7 @@
         }
       </script>
     {% endif %}
-    <!-- 기존 link-section은 내용이 모두 이동했으므로 제거합니다. -->
-  </div>
+    </div>
   <div style="height:36px"></div>
   <ins class="adsbygoogle"
        style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
