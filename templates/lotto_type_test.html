@@ -258,11 +258,12 @@
         
         /* 광고 배너 */
         .ad-banner {
-            width: 100%;
+            width: 300px; /* 고정 너비 설정 */
+            max-width: 100%; /* 반응형을 위해 최대 너비 설정 */
             min-height: 100px; /* 최소 높이 설정 (광고가 로드될 공간 확보) */
             background-color: #e0e0e0; /* 광고 영역 표시용 배경 */
             border-radius: 0.8em;
-            display: flex;
+            display: flex !important; /* 강제로 보이도록 설정 */
             flex-direction: column; /* 텍스트와 광고 코드를 세로로 정렬 */
             justify-content: center;
             align-items: center;
@@ -395,7 +396,28 @@
                          data-ad-format="auto"
                          data-full-width-responsive="true"
                          id="result-screen-ad-slot"></ins>
-                    <!-- 이 광고는 결과 화면이 나타날 때 JavaScript에서 push 합니다. -->
+                    <script>
+                        // 결과 화면 광고는 화면이 보일 때 push
+                        // resultScreen이 'block'으로 설정된 후, 브라우저가 레이아웃을 계산할 시간을 주기 위해 setTimeout 사용
+                        setTimeout(() => {
+                            const resultAdSlot = document.getElementById('result-screen-ad-slot');
+                            if (resultAdSlot && window.adsbygoogle) {
+                                try {
+                                    // 이미 처리된 슬롯이 아니라면 push
+                                    if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                                        console.log('AdSense ad pushed for result screen.');
+                                    } else {
+                                        console.log('AdSense ad for result screen already processed.');
+                                    }
+                                } catch (e) {
+                                    console.error('Error pushing AdSense ad for result screen:', e);
+                                }
+                            } else {
+                                console.warn('AdSense script or result ad slot not ready for result screen.');
+                            }
+                        }, 100); // 100ms 지연
+                    </script>
                 </div>
                 
                 <a href="/" class="lotto-main-link">
@@ -436,8 +458,8 @@
             {
                 question: "3. 친구들 사이에서 나의 포지션은?",
                 options: [
-                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) �", score: 3 },
-                    { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
+                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
+                    { text: "분위기 메이커 (텐션 담당) �", score: 1 },
                     { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
                 ]
             },
@@ -643,47 +665,23 @@
             // 결과 화면이 보일 때 광고를 로드
             // resultScreen이 'block'으로 설정된 후, 브라우저가 레이아웃을 계산할 시간을 주기 위해 setTimeout 사용
             setTimeout(() => {
-                const resultAdSlot = document.getElementById('result-screen-ad-slot');
+                const resultAdSlot = document.querySelector('#result-screen .ad-banner ins.adsbygoogle');
                 if (resultAdSlot && window.adsbygoogle) {
-                    // Check if the element has a non-zero width before pushing
-                    const rect = resultAdSlot.getBoundingClientRect();
-                    if (rect.width > 0 && rect.height > 0) {
-                        try {
-                            // 이미 처리된 슬롯이 아니라면 push
-                            if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
-                                (window.adsbygoogle = window.adsbygoogle || []).push({});
-                                console.log('AdSense ad pushed for result screen.');
-                            } else {
-                                console.log('AdSense ad for result screen already processed.');
-                            }
-                        } catch (e) {
-                            console.error('Error pushing AdSense ad for result screen:', e);
+                    try {
+                        // 이미 처리된 슬롯이 아니라면 push
+                        if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                            (window.adsbygoogle = window.adsbygoogle || []).push({});
+                            console.log('AdSense ad pushed for result screen.');
+                        } else {
+                            console.log('AdSense ad for result screen already processed.');
                         }
-                    } else {
-                        console.warn('Result screen ad slot has no size yet, retrying...');
-                        // If still no size, retry after a short delay
-                        setTimeout(() => {
-                            if (resultAdSlot && window.adsbygoogle) {
-                                const finalRect = resultAdSlot.getBoundingClientRect();
-                                if (finalRect.width > 0 && finalRect.height > 0) {
-                                    try {
-                                        if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
-                                            (window.adsbygoogle = window.adsbygoogle || []).push({});
-                                            console.log('AdSense ad pushed for result screen after retry.');
-                                        }
-                                    } catch (e) {
-                                        console.error('Error pushing AdSense ad for result screen on retry:', e);
-                                    }
-                                } else {
-                                    console.error('Result screen ad slot still has no size after retry.');
-                                }
-                            }
-                        }, 200); // Shorter retry
+                    } catch (e) {
+                        console.error('Error pushing AdSense ad for result screen:', e);
                     }
                 } else {
                     console.warn('AdSense script or result ad slot not ready for result screen.');
                 }
-            }, 100); // Give browser 100ms to render the display:block element
+            }, 100); // 100ms 지연
         }
 
         function getBallResultColor(number) {
