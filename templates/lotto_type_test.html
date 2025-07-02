@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💰 당신의 로또 DNA는? ✨ SmartPick</title>
 
+    <!-- Google AdSense 자동 광고 비활성화 메타 태그 (이 페이지에서만) -->
+    <meta name="google-adsense-account" content="ca-pub-2748658493247983">
+    <meta name="adsbygoogle-enable" content="false">
+
     <!-- 오픈그래프 (카카오톡 등 소셜 미디어 공유 최적화) -->
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta property="og:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
@@ -339,7 +343,7 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
-                     // ins 태그 바로 뒤에 push 호출 (표준 방식)
+                     // 이 광고는 페이지 로드 시 바로 보이므로, 표준 방식으로 push
                      (adsbygoogle = window.adsbygoogle || []).push({});
                 </script>
             </div>
@@ -389,11 +393,9 @@
                          data-ad-client="ca-pub-2748658493247983"
                          data-ad-slot="1322588827"
                          data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        // ins 태그 바로 뒤에 push 호출 (표준 방식)
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                         data-full-width-responsive="true"
+                         id="result-screen-ad-slot"></ins>
+                    <!-- 이 광고는 결과 화면이 나타날 때 JavaScript에서 push 합니다. -->
                 </div>
                 
                 <a href="/" class="lotto-main-link">
@@ -434,7 +436,7 @@
             {
                 question: "3. 친구들 사이에서 나의 포지션은?",
                 options: [
-                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
+                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) �", score: 3 },
                     { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
                     { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
                 ]
@@ -444,7 +446,7 @@
                 options: [
                     { text: "주말에 미리 월요일 계획 세워서 준비완료 📅", score: 3 },
                     { text: "아침에 일어나서 그때그때 해결하지 뭐! 🌅", score: 1 },
-                    { text: "친구들한테 하소연하면서 힐링 받기 �", score: 2 }
+                    { text: "친구들한테 하소연하면서 힐링 받기 💬", score: 2 }
                 ]
             },
             { 
@@ -582,7 +584,7 @@
             }
 
             questionScreen.style.display = 'none';
-            resultScreen.style.display = 'block';
+            resultScreen.style.display = 'block'; // 결과 화면을 먼저 보이게 설정
 
             let resultKey;
             if (totalScore >= 13) {
@@ -637,6 +639,51 @@
                 total_score: totalScore, 
                 result_type: result.type 
             });
+
+            // 결과 화면이 보일 때 광고를 로드
+            // resultScreen이 'block'으로 설정된 후, 브라우저가 레이아웃을 계산할 시간을 주기 위해 setTimeout 사용
+            setTimeout(() => {
+                const resultAdSlot = document.getElementById('result-screen-ad-slot');
+                if (resultAdSlot && window.adsbygoogle) {
+                    // Check if the element has a non-zero width before pushing
+                    const rect = resultAdSlot.getBoundingClientRect();
+                    if (rect.width > 0 && rect.height > 0) {
+                        try {
+                            // 이미 처리된 슬롯이 아니라면 push
+                            if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                                console.log('AdSense ad pushed for result screen.');
+                            } else {
+                                console.log('AdSense ad for result screen already processed.');
+                            }
+                        } catch (e) {
+                            console.error('Error pushing AdSense ad for result screen:', e);
+                        }
+                    } else {
+                        console.warn('Result screen ad slot has no size yet, retrying...');
+                        // If still no size, retry after a short delay
+                        setTimeout(() => {
+                            if (resultAdSlot && window.adsbygoogle) {
+                                const finalRect = resultAdSlot.getBoundingClientRect();
+                                if (finalRect.width > 0 && finalRect.height > 0) {
+                                    try {
+                                        if (!resultAdSlot.getAttribute('data-adsbygoogle-status')) {
+                                            (window.adsbygoogle = window.adsbygoogle || []).push({});
+                                            console.log('AdSense ad pushed for result screen after retry.');
+                                        }
+                                    } catch (e) {
+                                        console.error('Error pushing AdSense ad for result screen on retry:', e);
+                                    }
+                                } else {
+                                    console.error('Result screen ad slot still has no size after retry.');
+                                }
+                            }
+                        }, 200); // Shorter retry
+                    }
+                } else {
+                    console.warn('AdSense script or result ad slot not ready for result screen.');
+                }
+            }, 100); // Give browser 100ms to render the display:block element
         }
 
         function getBallResultColor(number) {
@@ -787,4 +834,3 @@
     </script>
 </body>
 </html>
-�
