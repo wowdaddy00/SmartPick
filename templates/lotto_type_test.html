@@ -5,27 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💰 당신의 로또 DNA는? ✨ SmartPick</title>
 
-    <!-- Google Site Verification 메타 태그 (유지) -->
     <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> 
 
-    <!-- Google AdSense 관련 메타 태그 및 스크립트 제거 -->
-
-    <!-- 오픈그래프 (카카오톡 등 소셜 미디어 공유 최적화) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" 
+       crossorigin="anonymous"></script>
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta property="og:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
     <meta property="og:image" content="https://placehold.co/1200x630/AAD59E/ffffff?text=Lotto+DNA+Test" />
     <meta property="og:url" content="https://smartpick.wow-daddy.com/lotto-dna-test" />
     <meta property="og:type" content="website" />
 
-    <!-- 트위터 카드 -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta name="twitter:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
     <meta name="twitter:image" content="https://placehold.co/1200x630/AAD59E/ffffff?text=Lotto+DNA+Test" />
 
-    <!-- Google Fonts: Pretendard (SmartPick과 통일감) -->
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* SmartPick 팔레트 색상 변수 */
@@ -205,14 +200,12 @@
             border: 2px solid var(--color-apple); /* APPLE 테두리 */
             box-shadow: 0 10px 30px rgba(170, 213, 158, 0.2);
         }
-
         .result-section h2 {
             font-size: 1.8em;
             font-weight: 800;
             color: var(--color-apple); /* APPLE 색상으로 결과 강조 */
             margin-bottom: 1em;
         }
-
         .result-section p {
             font-size: 1.1em;
             color: var(--color-text-dark);
@@ -221,7 +214,6 @@
             white-space: pre-line; /* 줄바꿈 적용 */
             text-align: center; /* 가운데 정렬 적용 */
         }
-        
         .lotto-ball-result {
             display: flex;
             justify-content: center;
@@ -246,40 +238,39 @@
         .lotto-ball.n1 { background: var(--color-sunshine); }
         .lotto-ball.n2 { background: var(--color-clear-day); }
         .lotto-ball.n3 { background: var(--color-rosehip); color: var(--color-brick);}
-        .lotto-ball.n4 { background: var(--color-viola); }
-        .lotto-ball.n5 { background: var(--color-apple); }
+        .lotto-ball.n4 { background: var(--color-brick); color: var(--color-white);}
+        .lotto-ball.n5 { background: var(--color-viola); }
 
-        /* 푸터 */
-        .footer-text {
-            font-size: 0.85em;
-            color: var(--color-text-light);
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8em; /* 버튼 간 간격 */
             margin-top: 2.5em;
-            line-height: 1.4;
-        }
-        
-        /* 광고 배너 영역 스타일 */
-        .ad-banner {
-            width: 100%; /* 반응형으로 변경 */
-            min-width: 280px; /* 광고 최소 너비 */
-            min-height: 250px; /* 광고 최소 높이 */
-            margin: 1.5em auto;
-            border-radius: 0.8em;
-            overflow: hidden;
-            display: flex; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            justify-content: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            align-items: center; /* 플레이스홀더 텍스트 가운데 정렬을 위해 추가 */
-            background-color: #f0f0f0; /* 플레이스홀더 배경색 */
-            color: #888; /* 플레이스홀더 텍스트 색상 */
-            font-size: 1em;
-            text-align: center;
-            border: 1px dashed #ccc; /* 점선 테두리 추가 */
-            box-sizing: border-box; /* 패딩 및 테두리를 너비에 포함 */
         }
 
-        /* 반응형 디자인 */
-        @media (max-width: 480px) {
+        /* 로딩 스피너 스타일 */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--color-clear-day);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; /* 기본적으로 숨김 */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 모바일 반응형 */
+        @media (max-width: 500px) {
             .test-container {
-                padding: 2em 1.5em;
+                padding: 1.5em;
+                margin: 1em 0;
+                border-radius: 1.8em;
             }
             .header h1 {
                 font-size: 1.8em;
@@ -288,19 +279,18 @@
                 font-size: 0.95em;
             }
             .start-button, .question-button, .share-button, .lotto-main-link {
-                font-size: 1.05em;
                 padding: 1em 1.2em;
-                max-width: 90%; /* 모바일에서 버튼 너비 조정 */
+                font-size: 1.1em;
             }
             .question-section h2 {
                 font-size: 1.4em;
             }
             .option-card {
+                padding: 1em 1.2em;
                 font-size: 1em;
-                padding: 1em 0.8em;
             }
             .result-section h2 {
-                font-size: 1.5em;
+                font-size: 1.6em;
             }
             .result-section p {
                 font-size: 1em;
@@ -310,429 +300,319 @@
                 height: 40px;
                 font-size: 1.2em;
             }
-            .ad-banner {
-                min-height: 200px; /* 모바일에서 최소 높이 조정 */
-            }
         }
     </style>
 </head>
 <body>
     <div class="test-container">
-        <div class="header" id="test-header">
-            <h1>당신의 로또<br>운명 프로파일링</h1>
-            <p>5가지 질문으로 분석하는 나만의 대박 DNA</p>
-        </div>
-
-        <!-- 테스트 시작 화면 -->
         <div id="start-screen">
-            <button class="start-button" id="start-button-element">
-                <i class="fas fa-play-circle" style="margin-right: 10px;"></i> 테스트 시작하기
-            </button>
-            
-            <!-- 광고 배너 플레이스홀더: 시작 화면 -->
-            <div class="ad-banner">
-                광고 영역 (현재 환경에서는 표시되지 않음)
+            <div class="header">
+                <h1>💰 당신의 로또 DNA는?! ✨</h1>
+                <p>간단한 심리 테스트로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요!</p>
             </div>
-
-            <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
-                본 테스트는 재미를 위한 것이며, 실제 로또 당첨과 무관합니다.
-            </p>
+            <button id="start-button-element" class="start-button"><i class="fas fa-play-circle icon"></i>테스트 시작하기</button>
+            <a href="https://smartpick.wow-daddy.com/" class="lotto-main-link" target="_blank">
+                <i class="fas fa-home icon"></i>SmartPick 메인 페이지 가기
+            </a>
+             <div class="ad-area" style="margin-top: 2.5em;">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-client="ca-pub-2748658493247983"
+                     data-ad-slot="1322588827"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
 
-        <!-- 질문 화면 (초기 숨김) -->
-        <div id="question-screen">
-            <div class="question-section">
-                <h2 id="question-text"></h2>
-                <div class="options-grid" id="options-container">
-                    <!-- 옵션 카드들이 여기에 동적으로 삽입됩니다 -->
+        <div id="question-screen" style="display: none;">
+            <div class="header">
+                <h1 id="question-text"></h1>
+            </div>
+            <div id="options-grid" class="options-grid">
                 </div>
+            <button id="next-button" class="question-button" style="display: none;"><i class="fas fa-arrow-right icon"></i>다음 질문</button>
+             <div class="ad-area" style="margin-top: 2.5em;">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-client="ca-pub-2748658493247983"
+                     data-ad-slot="1322588827"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
-            <button class="question-button" id="next-button" style="display: none;">
-                다음 질문 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
-            </button>
-            <button class="question-button" id="show-result-button" style="display: none;">
-                결과 보기 <i class="fas fa-check" style="margin-left: 10px;"></i>
-            </button>
         </div>
 
-        <!-- 결과 화면 (초기 숨김) -->
         <div id="result-screen" style="display: none;">
             <div class="result-section">
-                <h2><i class="fas fa-dna" style="color: var(--color-sunshine); margin-right: 10px;"></i> <span id="result-type"></span></h2>
+                <h2 id="result-type"></h2>
                 <p id="result-description"></p>
-                <p style="font-size: 0.95em; color: var(--color-text-medium); margin-top: -1em;">
-                    이 유형을 위한 SmartPick 추천 예시 번호:
-                </p>
-                <div class="lotto-ball-result" id="lotto-dna-numbers">
-                    <!-- 로또 볼들이 여기에 동적으로 삽입됩니다 -->
-                </div>
-                <button class="share-button" id="share-button-element">
-                    <i class="fas fa-share-alt icon"></i> 결과 카카오톡 공유하기
-                </button>
-
-                <!-- 광고 배너 플레이스홀더: 결과 화면 -->
-                <div class="ad-banner">
-                    광고 영역 (현재 환경에서는 표시되지 않음)
-                </div>
-                
-                <a href="/" class="lotto-main-link">
-                    SmartPick으로 돌아가<br>프리미엄 로또 번호 생성하기 <i class="fas fa-arrow-right" style="margin-left: 10px;"></i>
+                <div class="lotto-ball-result" id="lotto-numbers-display">
+                    </div>
+            </div>
+            <div class="button-group">
+                <button id="share-button-element" class="share-button"><i class="fas fa-share-alt icon"></i>결과 카카오톡 공유하기</button>
+                <a href="https://smartpick.wow-daddy.com/" class="lotto-main-link" target="_blank">
+                    <i class="fas fa-home icon"></i>SmartPick 메인 페이지 가기
                 </a>
             </div>
+            <div class="ad-area" style="margin-top: 2.5em;">
+                <ins class="adsbygoogle"
+                     style="display:block; text-align:center;"
+                     data-ad-client="ca-pub-2748658493247983"
+                     data-ad-slot="1322588827"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
-
-        <p class="footer-text">
-            본 심리 테스트는 재미를 목적으로 제작되었으며,<br>실제 로또 당첨과는 무관합니다.
-        </p>
     </div>
 
-    <!-- Kakao JavaScript SDK -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
-        // Flask 백엔드에서 전달받은 Kakao JavaScript Key 사용
-        const KAKAO_JS_KEY = "{{ kakao_js_key }}"; // Flask 템플릿 변수 사용
-
-        // 테스트 데이터 (사용자 개선안 적용 및 점수 로직 강화)
-        const questions = [
-            {
-                question: "1. 치킨 메뉴를 고를 때 나는?",
-                options: [
-                    { text: "리뷰 10개 이상 읽고 평점 확인 후 주문", score: 3 },
-                    { text: "그냥 보이는 거 아무거나! 다 맛있겠지 뭐~", score: 1 },
-                    { text: "사장님 추천 메뉴로 주세요!", score: 2 }
-                ]
-            },
-            {
-                question: "2. 갑자기 해외여행 가자고 하면?",
-                options: [
-                    { text: "일단 항공료부터 검색하고 일정표 작성 📋", score: 3 },
-                    { text: "좋아! 언제? 내일? 당장 가방 싸자! ✈️", score: 1 },
-                    { text: "오~ 좋은데 언제쯤 생각하고 있어?", score: 2 }
-                ]
-            },
-            {
-                question: "3. 친구들 사이에서 나의 포지션은?",
-                options: [
-                    { text: "그룹 총무 겸 플래너 (항상 계산하는 사람) 💼", score: 3 },
-                    { text: "분위기 메이커 (텐션 담당) 🎉", score: 1 },
-                    { text: "든든한 조언자 (상담사 역할) 🤗", score: 2 }
-                ]
-            },
-            { 
-                question: "4. 월요병이 심할 때 나는?",
-                options: [
-                    { text: "주말에 미리 월요일 계획 세워서 준비완료 📅", score: 3 },
-                    { text: "아침에 일어나서 그때그때 해결하지 뭐! 🌅", score: 1 },
-                    { text: "친구들한테 하소연하면서 힐링 받기 💬", score: 2 }
-                ]
-            },
-            { 
-                question: "5. 인생에서 가장 중요한 건?",
-                options: [
-                    { text: "안정적인 통장 잔고와 예측 가능한 미래 🏦", score: 3 },
-                    { text: "매일 다른 경험과 짜릿한 스릴! 🎢", score: 1 },
-                    { text: "가족, 친구들과 함께하는 따뜻한 일상 ❤️", score: 2 }
-                ]
-            }
-        ];
-
-        const results = {
-            "5-8": { // 5~8점
-                type: "즉흥왕 🔥", // 이모티콘 위치 변경
-                description: "당신의 특징:\n\"일단 지르고 보자!\" 정신의 소유자 🚀\n로또 DNA:\n편의점 지나갈 때마다 충동구매, 자동선택 99%\n한마디:\n계획? 그게 뭔가요? 인생은 즉흥이죠!",
-            },
-            "9-12": { // 9~12점
-                type: "밸런서 ⚖️", // 이모티콘 위치 변경
-                description: "당신의 특징:\n적당히 신중하고 적당히 대담한 황금비율 ⭐\n로또 DNA:\n특별한 날에만 한 장씩, 가끔 수동선택도 시도\n한마디:\n너무 많이도 너무 적게도 말고 딱 적당히!",
-            },
-            "13-15": { // 13~15점
-                type: "전략가 🧠", // 이모티콘 위치 변경
-                description: "당신의 특징:\n로또도 과학이다! 데이터 분석의 달인 📊\n로또 DNA:\n당첨번호 패턴 분석 후 신중한 번호 조합\n한마디:\n운도 좋지만 전략이 더 중요해요!",
-            }
-        };
-
-        let currentQuestionIndex = 0;
-        let totalScore = 0;
-        let selectedOptionForCurrentQuestion = null;
-        let selectedOptionCardElement = null;
+        // Kakao SDK 초기화 (Flask 템플릿에서 전달된 키 사용)
+        if (Kakao && !Kakao.isInitialized()) {
+            Kakao.init('{{ kakao_js_key }}'); // Flask에서 전달된 키 삽입
+        }
 
         const startScreen = document.getElementById('start-screen');
         const questionScreen = document.getElementById('question-screen');
         const resultScreen = document.getElementById('result-screen');
-        const questionTextElement = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        
-        // 버튼 요소들을 DOMContentLoaded 이후에 가져오도록 수정
+        const questionText = document.getElementById('question-text');
+        const optionsGrid = document.getElementById('options-grid');
+        const nextButton = document.getElementById('next-button');
+        const resultType = document.getElementById('result-type');
+        const resultDescription = document.getElementById('result-description');
+        const lottoNumbersDisplay = document.getElementById('lotto-numbers-display');
+
+        // 전역 변수로 선언하여 DOMContentLoaded 이후에도 접근 가능하게 함
         let startButtonElement;
         let nextButtonElement;
         let showResultButtonElement;
         let shareButtonElement;
 
-        const resultTypeElement = document.getElementById('result-type');
-        const resultDescriptionElement = document.getElementById('result-description');
-        const lottoDnaNumbersElement = document.getElementById('lotto-dna-numbers'); // ID 변경
+        let currentQuestionIndex = 0;
+        let totalScore = 0;
+        let lottoNumbers = []; // 백엔드에서 받은 로또 번호를 저장할 변수
 
-        // 모든 함수를 window 객체에 할당하여 전역적으로 접근 가능하게 함
-        window.startTest = function() {
-            startScreen.style.display = 'none';
-            questionScreen.style.display = 'block';
+        // 사용자 활동 로깅 함수
+        async function logEvent(event_name, event_details = {}) {
+            try {
+                await fetch('/log_event', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ event: event_name, details: event_details })
+                });
+            } catch (error) {
+                console.error('Error logging event:', error);
+            }
+        }
+
+        const questions = [
+            {
+                question: "주말에 로또를 샀다! 번호를 고르기 직전, 당신의 선택은?",
+                options: [
+                    { text: "아무 생각 없이 평소 좋아하는 숫자나 무작위 번호를 선택한다.", score: 1 },
+                    { text: "가족 생일, 기념일 등 의미 있는 숫자를 조합해 본다.", score: 2 },
+                    { text: "최근 당첨 번호 통계를 확인하고, 나오지 않은 번호 위주로 분석한다.", score: 3 }
+                ]
+            },
+            {
+                question: "로또 당첨 발표일 저녁, 당신은 어떤 마음으로 결과를 확인하나요?",
+                options: [
+                    { text: "대박 아니면 쪽박! 일확천금을 꿈꾸며 심장이 두근거린다.", score: 1 },
+                    { text: "어차피 기대는 안 했지만, 혹시나 하는 마음에 침착하게 확인한다.", score: 2 },
+                    { text: "꼼꼼하게 번호를 대조하며 분석적으로 다음 회차를 생각한다.", score: 3 }
+                ]
+            },
+            {
+                question: "친구가 로또 번호를 추천해달라고 한다면?",
+                options: [
+                    { text: "직감으로 '이 번호들 좋을 것 같아!'라고 즉흥적으로 알려준다.", score: 1 },
+                    { text: "친구의 생일이나 좋아하는 숫자를 물어보고 조합해준다.", score: 2 },
+                    { text: "최근 당첨 패턴을 분석하여 '이런 경향이 있으니 참고해봐!'라고 조언한다.", score: 3 }
+                ]
+            },
+            {
+                question: "로또 구매를 위해 복권방에 들렀다. 번호 선택 방식은?",
+                options: [
+                    { text: "자동으로 구매하거나, 기계가 뽑아주는 번호를 믿는다.", score: 1 },
+                    { text: "수동으로 직접 고르되, 홀짝 비율이나 번호대 분포를 살짝 고려한다.", score: 2 },
+                    { text: "과거 당첨 번호 데이터나 특정 패턴을 염두에 두고 신중하게 고른다.", score: 3 }
+                ]
+            },
+            {
+                question: "만약 로또 1등에 당첨된다면 가장 먼저 할 일은?",
+                options: [
+                    { text: "당장 퇴사하고 세계 일주! 즉흥적으로 행복을 만끽한다.", score: 1 },
+                    { text: "일단 주변에 알리고, 가족들과 함께 어떻게 쓸지 논의한다.", score: 2 },
+                    { text: "재무 전문가와 상담하여 안정적인 자산 관리 계획을 세운다.", score: 3 }
+                ]
+            }
+        ];
+
+        function startTest() {
+            logEvent('lotto_dna_test_start'); // 테스트 시작 이벤트 로깅
             currentQuestionIndex = 0;
             totalScore = 0;
+            startScreen.style.display = 'none';
+            questionScreen.style.display = 'block';
+            resultScreen.style.display = 'none';
             loadQuestion();
-            // 로그 이벤트: 테스트 시작
-            window.logEventToBackend('dna_test_start', { user_ip: '{{ request.remote_addr }}' });
         }
 
         function loadQuestion() {
-            if (selectedOptionCardElement) {
-                selectedOptionCardElement.classList.remove('selected');
-                selectedOptionCardElement = null;
-            }
-            selectedOptionForCurrentQuestion = null;
-
-            optionsContainer.innerHTML = '';
-            // 버튼 요소가 로드된 후에 접근하도록 변경
-            if (nextButtonElement) nextButtonElement.style.display = 'none'; 
-            if (showResultButtonElement) showResultButtonElement.style.display = 'none'; 
-
-            if (currentQuestionIndex < questions.length) {
-                const q = questions[currentQuestionIndex];
-                questionTextElement.textContent = q.question;
-                
-                q.options.forEach((option, index) => {
-                    const optionCard = document.createElement('div');
-                    optionCard.classList.add('option-card');
-                    optionCard.textContent = option.text;
-                    optionCard.onclick = () => selectOption(option.score, optionCard); 
-                    optionsContainer.appendChild(optionCard);
-                });
-            } else {
-                window.showResult(); // 모든 질문 완료 시 결과 보기
-            }
+            const q = questions[currentQuestionIndex];
+            questionText.textContent = `Q${currentQuestionIndex + 1}. ${q.question}`;
+            optionsGrid.innerHTML = '';
+            q.options.forEach((option, index) => {
+                const optionCard = document.createElement('div');
+                optionCard.classList.add('option-card');
+                optionCard.textContent = option.text;
+                optionCard.dataset.score = option.score;
+                optionCard.addEventListener('click', () => selectOption(optionCard));
+                optionsGrid.appendChild(optionCard);
+            });
+            nextButton.style.display = 'none'; // 다음 질문 버튼 숨김
         }
 
-        function selectOption(score, clickedCard) {
-            if (selectedOptionCardElement) {
-                selectedOptionCardElement.classList.remove('selected');
-            }
-
-            clickedCard.classList.add('selected');
-            selectedOptionCardElement = clickedCard;
-            selectedOptionForCurrentQuestion = { score: score };
-
-            // 버튼 요소가 로드된 후에 접근하도록 변경
-            if (currentQuestionIndex === questions.length - 1) {
-                if (showResultButtonElement) showResultButtonElement.style.display = 'flex'; 
-                if (nextButtonElement) nextButtonElement.style.display = 'none'; 
-            } else {
-                if (nextButtonElement) nextButtonElement.style.display = 'flex'; 
-                if (showResultButtonElement) showResultButtonElement.style.display = 'none'; 
-            }
+        function selectOption(selectedCard) {
+            // 다른 선택된 옵션 스타일 제거
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            // 현재 선택된 옵션에 스타일 추가
+            selectedCard.classList.add('selected');
+            // 다음 질문 버튼 표시
+            nextButton.style.display = 'flex';
         }
 
-        window.nextQuestion = function() {
-            if (selectedOptionForCurrentQuestion === null) {
-                const msgBox = document.createElement('div');
-                msgBox.textContent = '옵션을 선택해주세요!';
-                msgBox.style.cssText = `
-                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    background-color: var(--color-brick); 
-                    color: white; padding: 15px 20px;
-                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                `;
-                document.body.appendChild(msgBox);
-                setTimeout(() => msgBox.style.opacity = 1, 10);
-                setTimeout(() => {
-                    msgBox.style.opacity = 0;
-                    msgBox.addEventListener('transitionend', () => msgBox.remove());
-                }, 2000);
-                return;
-            }
-            totalScore += selectedOptionForCurrentQuestion.score;
-            currentQuestionIndex++;
-            selectedOptionForCurrentQuestion = null;
-            loadQuestion();
-        }
+        function nextQuestion() {
+            const selectedOption = document.querySelector('.option-card.selected');
+            if (selectedOption) {
+                totalScore += parseInt(selectedOption.dataset.score);
+                currentQuestionIndex++;
 
-        window.showResult = async function() {
-            if (selectedOptionForCurrentQuestion) {
-                totalScore += selectedOptionForCurrentQuestion.score;
-            }
-
-            questionScreen.style.display = 'none';
-            resultScreen.style.display = 'block'; // 결과 화면을 먼저 보이게 설정
-
-            let resultKey;
-            if (totalScore >= 13) {
-                resultKey = "13-15";
-            } else if (totalScore >= 9) {
-                resultKey = "9-12";
-            } else {
-                resultKey = "5-8";
-            }
-
-            const result = results[resultKey];
-            resultTypeElement.textContent = result.type;
-            resultDescriptionElement.textContent = result.description;
-
-            // 로딩 인디케이터 표시 (로또 번호 가져오는 동안)
-            lottoDnaNumbersElement.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--color-clear-day);"></i>';
-
-            try {
-                // 백엔드에서 로또 번호 가져오기
-                const response = await fetch(`${window.location.origin}/generate_dna_lotto_numbers`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ dna_type: resultKey }) // DNA 유형 정보를 백엔드로 전송
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.numbers) {
-                    lottoDnaNumbersElement.innerHTML = ''; // 로딩 인디케이터 제거
-                    const generatedNumbers = data.numbers.sort((a, b) => a - b); // 정렬
-
-                    generatedNumbers.forEach((num) => {
-                        const ball = document.createElement('span');
-                        ball.classList.add('lotto-ball', getBallResultColor(num));
-                        ball.textContent = num;
-                        lottoDnaNumbersElement.appendChild(ball);
-                    });
+                if (currentQuestionIndex < questions.length) {
+                    loadQuestion();
                 } else {
-                    lottoDnaNumbersElement.innerHTML = '<p style="color: red;">번호 생성 실패</p>';
-                    console.error('Failed to get numbers from backend:', data.error);
+                    showResult();
+                }
+            } else {
+                showToastMessage('옵션을 선택해주세요!', 'error');
+            }
+        }
+
+        async function showResult() {
+            logEvent('lotto_dna_test_result_view', { score: totalScore }); // 결과 확인 이벤트 로깅
+            questionScreen.style.display = 'none';
+            resultScreen.style.display = 'block';
+
+            let type = '';
+            let description = '';
+            let lottoTypeForAPI = '';
+
+            if (totalScore >= 5 && totalScore <= 7) {
+                type = "즉흥왕 DNA 👑";
+                description = "당신은 로또도 인생처럼 즉흥적으로 즐기는 자유로운 영혼! 운명에 맡기는 당신의 쿨함이 행운을 불러올 거예요. 번호에 너무 연연하기보다, 로또를 사는 그 순간의 즐거움을 만끽하는 것이 중요합니다. SmartPick이 당신의 즉흥적인 선택에 행운을 더해 줄 거예요!";
+                lottoTypeForAPI = 'impulsive';
+            } else if (totalScore >= 8 && totalScore <= 11) {
+                type = "밸런서 DNA ⚖️";
+                description = "당신은 합리와 감성 사이에서 균형을 잡는 현명한 밸런서! 로또도 너무 감정에 치우치지 않고, 그렇다고 너무 분석에만 몰두하지도 않네요. SmartPick은 당신의 균형 잡힌 선택에 정확성을 더해 줄 것입니다. 때로는 직감을, 때로는 통계를 활용해 보세요!";
+                lottoTypeForAPI = 'balanced';
+            } else { // totalScore >= 12
+                type = "전략가 DNA 💡";
+                description = "당신은 로또도 철저한 분석과 전략으로 접근하는 타고난 전략가! 확률과 데이터를 기반으로 최적의 선택을 하려는 당신의 노력이 언젠가 빛을 발할 거예요. SmartPick의 상세 필터링 기능이 당신의 예리한 분석력을 더욱 날카롭게 만들어 줄 것입니다. 행운은 준비된 자에게 찾아옵니다!";
+                lottoTypeForAPI = 'strategic';
+            }
+
+            resultType.textContent = type;
+            resultDescription.textContent = description;
+
+            // 로또 번호 가져오기 (백엔드 API 호출)
+            try {
+                const response = await fetch('/generate_dna_lotto_numbers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dna_type: lottoTypeForAPI }) // DNA 유형 전달 (현재는 무작위 생성이라 미사용)
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    lottoNumbers = data.numbers;
+                    displayLottoNumbers(lottoNumbers);
+                } else {
+                    console.error('Failed to fetch lotto numbers:', data.error);
+                    showToastMessage('로또 번호 생성에 실패했습니다.', 'error');
                 }
             } catch (error) {
-                lottoDnaNumbersElement.innerHTML = '<p style="color: red;">번호 로딩 오류</p>';
                 console.error('Error fetching lotto numbers:', error);
+                showToastMessage('로또 번호 생성 중 오류가 발생했습니다.', 'error');
             }
+        }
 
-            // 로그 이벤트: 테스트 결과 확인
-            window.logEventToBackend('dna_test_result', { 
-                user_ip: '{{ request.remote_addr }}', 
-                total_score: totalScore, 
-                result_type: result.type 
+        function displayLottoNumbers(numbers) {
+            lottoNumbersDisplay.innerHTML = ''; // 기존 번호 초기화
+            numbers.forEach((num, index) => {
+                const lottoBall = document.createElement('div');
+                lottoBall.classList.add('lotto-ball', `n${Math.min(Math.ceil(num / 10), 5)}`); // 1-10:n1, 11-20:n2...
+                lottoBall.textContent = num;
+                lottoNumbersDisplay.appendChild(lottoBall);
             });
         }
 
-        function getBallResultColor(number) {
-            if (number <= 10) return 'n1'; // Yellow
-            if (number <= 20) return 'n2'; // Blue
-            if (number <= 30) return 'n3'; // Red (Rosehip)
-            if (number <= 40) return 'n4'; // Gray (Viola)
-            return 'n5'; // Green (Apple)
-        }
-
-        // 백엔드로 로그를 보내는 함수 (app.py의 log_event와 연동)
-        window.logEventToBackend = async function(event, detail) {
-            try {
-                // Flask 서버의 /log_event 엔드포인트로 POST 요청
-                await fetch(`${window.location.origin}/log_event`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
+        function shareResult() {
+            logEvent('lotto_dna_test_share', { type: resultType.textContent, numbers: lottoNumbers.join(',') }); // 공유 이벤트 로깅
+            if (Kakao.isInitialized()) {
+                Kakao.Share.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: `💰 당신의 로또 DNA는?! ${resultType.textContent} ✨`,
+                        description: `${resultDescription.textContent.split('.')[0]}. \n\n이번 주 행운의 로또 번호는 [${lottoNumbers.join(', ')}] 입니다!`,
+                        imageUrl:
+                            'https://smartpick.wow-daddy.com/images/og_lottodna.png', // 실제 이미지 URL 사용
+                        link: {
+                            mobileWebUrl: 'https://smartpick.wow-daddy.com/lotto-dna-test',
+                            webUrl: 'https://smartpick.wow-daddy.com/lotto-dna-test',
+                        },
                     },
-                    body: JSON.stringify({ event: event, detail: detail })
-                });
-            } catch (error) {
-                console.error('Failed to send log to backend:', error);
-            }
-        }
-
-        window.shareResult = function() {
-            const resultType = resultTypeElement.textContent;
-            let fullDescription = resultDescriptionElement.textContent;
-            let shareDescription = fullDescription;
-            // '추천 로또 번호:' 이후의 텍스트는 공유 메시지에 포함하지 않도록 처리
-            const splitByLottoNumbers = fullDescription.split('\n\n추천 로또 번호:');
-            shareDescription = splitByLottoNumbers[0].trim();
-
-            const shareUrl = "https://smartpick.wow-daddy.com/lotto-dna-test";
-
-            // Kakao SDK가 로드되었는지 확인 후 초기화 및 공유 시도
-            if (typeof Kakao !== 'undefined') {
-                // Kakao SDK가 아직 초기화되지 않았다면 초기화 시도
-                if (!Kakao.isInitialized()) {
-                    // Flask 백엔드에서 전달받은 KAKAO_JS_KEY 사용
-                    Kakao.init(KAKAO_JS_KEY); 
-                    console.log('Kakao SDK initialized:', Kakao.isInitialized());
-                }
-
-                if (Kakao.isInitialized()) {
-                    Kakao.Share.sendDefault({
-                        objectType: 'feed',
-                        content: {
-                            title: `💰 당신의 로또 DNA는? - ${resultType}`,
-                            description: shareDescription, // 수정된 설명 사용
-                            imageUrl: 'https://placehold.co/1200x630/AAD59E/ffffff?text=Lotto+DNA+Test', // TODO: 실제 OG 이미지 URL로 교체
+                    buttons: [
+                        {
+                            title: '나도 테스트 해보기',
                             link: {
-                                mobileWebUrl: shareUrl,
-                                webUrl: shareUrl,
+                                mobileWebUrl: 'https://smartpick.wow-daddy.com/lotto-dna-test',
+                                webUrl: 'https://smartpick.wow-daddy.com/lotto-dna-test',
                             },
                         },
-                        buttons: [
-                            {
-                                title: '내 유형 확인하기',
-                                link: {
-                                    mobileWebUrl: shareUrl,
-                                    webUrl: shareUrl,
-                                },
-                            },
-                        ],
-                    });
-                    // 로그 이벤트: 카카오톡 공유
-                    window.logEventToBackend('dna_test_share', { 
-                        user_ip: '{{ request.remote_addr }}', 
-                        result_type: resultType, 
-                        platform: 'kakao' 
-                    });
-                } else {
-                    // Kakao SDK 초기화 실패 메시지
-                    const msgBox = document.createElement('div');
-                    msgBox.textContent = `[카카오톡 공유 실패] Kakao SDK 초기화에 실패했습니다. 카카오 개발자 플랫폼에서 JavaScript 키를 설정하고 도메인을 등록했는지 확인해주세요.`;
-                    msgBox.style.cssText = `
-                        position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                        background-color: var(--color-brick); 
-                        color: white; padding: 20px;
-                        border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-                        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                        white-space: pre-line; 
-                        text-align: left;
-                        max-width: 80%; 
-                        box-sizing: border-box;
-                    `;
-                    document.body.appendChild(msgBox);
-                    setTimeout(() => msgBox.style.opacity = 1, 10);
-                    setTimeout(() => {
-                        msgBox.style.opacity = 0;
-                        msgBox.addEventListener('transitionend', () => msgBox.remove());
-                    }, 5000);
-                }
+                    ],
+                });
             } else {
-                // Kakao SDK가 로드되지 않은 경우 메시지
-                const msgBox = document.createElement('div');
-                msgBox.textContent = `[카카오톡 공유 실패] Kakao SDK가 로드되지 않았습니다. 네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.`;
-                msgBox.style.cssText = `
-                    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-                    background-color: var(--color-brick); 
-                    color: white; padding: 20px;
-                    border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-                    white-space: pre-line; 
-                    text-align: left;
-                    max-width: 80%; 
-                    box-sizing: border-box;
-                `;
-                document.body.appendChild(msgBox);
-                setTimeout(() => msgBox.style.opacity = 1, 10);
-                setTimeout(() => {
-                    msgBox.style.opacity = 0;
-                    msgBox.addEventListener('transitionend', () => msgBox.remove());
-                }, 5000);
+                showToastMessage('카카오톡 공유 기능을 초기화할 수 없습니다.', 'error');
+                console.error('Kakao SDK is not initialized.');
             }
+        }
+
+        // 토스트 메시지 함수
+        function showToastMessage(message, type = 'info') {
+            const msgBox = document.createElement('div');
+            msgBox.textContent = message;
+            msgBox.style.cssText = `
+                position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                background-color: ${type === 'error' ? '#f44336' : '#4CAF50'};
+                color: white; padding: 15px 20px;
+                border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+            `;
+            document.body.appendChild(msgBox);
+            setTimeout(() => msgBox.style.opacity = 1, 10);
+            setTimeout(() => {
+                msgBox.style.opacity = 0;
+                msgBox.addEventListener('transitionend', () => msgBox.remove());
+            }, 5000);
         }
 
         // 초기 로드 시 시작 화면 표시 및 이벤트 리스너 부착
