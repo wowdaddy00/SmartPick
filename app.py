@@ -36,13 +36,14 @@ def initialize_firebase_app():
     global db 
     global app_id 
 
+    print("Firebase Admin SDK 초기화 시도...") # 디버그 로그
     if firebase_admin._apps:
-        print("Firebase Admin SDK already initialized.")
+        print("Firebase Admin SDK 이미 초기화됨.")
         try:
             db = firestore.client() 
-            print("Firestore client initialized successfully.")
+            print("Firestore 클라이언트 재확인 성공.")
         except Exception as e:
-            print(f"Firestore client re-initialization failed: {e}")
+            print(f"Firestore 클라이언트 재확인 실패: {e}")
             db = None
         return
 
@@ -50,18 +51,19 @@ def initialize_firebase_app():
         firebase_service_account_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY')
         
         if firebase_service_account_json:
+            print("FIREBASE_SERVICE_ACCOUNT_KEY 환경 변수 감지됨.") # 디버그 로그
             cred_dict = json.loads(firebase_service_account_json)
             cred = credentials.Certificate(cred_dict)
             firebase_admin.initialize_app(cred) 
-            print("Firebase Admin SDK initialized successfully from environment variable.")
+            print("Firebase Admin SDK 초기화 성공.") # 디버그 로그
             db = firestore.client() 
-            print("Firestore client initialized successfully.")
+            print("Firestore 클라이언트 초기화 성공.") # 디버그 로그
         else:
-            print("FIREBASE_SERVICE_ACCOUNT_KEY environment variable not found. Firebase Admin SDK will not be initialized.")
-            print("Firestore features will be unavailable.")
+            print("FIREBASE_SERVICE_ACCOUNT_KEY 환경 변수를 찾을 수 없습니다. Firebase Admin SDK가 초기화되지 않습니다.") # 디버그 로그
+            print("Firestore 기능은 사용할 수 없습니다.")
 
     except Exception as e:
-        print(f"Firebase Admin SDK initialization failed: {e}")
+        print(f"Firebase Admin SDK 초기화 실패: {e}") # 디버그 로그
         db = None 
 
 # Flask 앱 컨텍스트 외부에서 Firebase 초기화 함수 호출
@@ -71,6 +73,7 @@ initialize_firebase_app()
 # 로컬 JSON 파일 대신 Firestore를 사용합니다.
 def load_winning_data_from_firestore():
     global ALL_WINNING, rank1, rank2, rank3
+    print("Firestore에서 당첨 번호 데이터 로드 시도 중...") # 디버그 로그
     if db:
         try:
             # Firestore에서 1등 번호 히스토리 컬렉션에서 모든 문서 가져오기
@@ -82,6 +85,7 @@ def load_winning_data_from_firestore():
                 if 'numbers' in data and isinstance(data['numbers'], list):
                     rank1_list.append(tuple(sorted(data['numbers'])))
             rank1 = rank1_list
+            print(f"Firestore에서 1등 조합 {len(rank1_list)}개 로드 완료.") # 디버그 로그
 
             # Firestore에서 2등 조합 히스토리 컬렉션에서 모든 문서 가져오기
             rank2_docs = db.collection('winning_numbers_rank2').order_by('updated_at', direction=firestore.Query.DESCENDING).limit(500).stream() # 최근 업데이트된 500개
@@ -91,6 +95,7 @@ def load_winning_data_from_firestore():
                 if 'combination' in data and isinstance(data['combination'], list):
                     rank2_list.append(tuple(sorted(data['combination'])))
             rank2 = rank2_list
+            print(f"Firestore에서 2등 조합 {len(rank2_list)}개 로드 완료.") # 디버그 로그
 
             # Firestore에서 3등 조합 히스토리 컬렉션에서 모든 문서 가져오기
             rank3_docs = db.collection('winning_numbers_rank3').order_by('updated_at', direction=firestore.Query.DESCENDING).limit(500).stream() # 최근 업데이트된 500개
@@ -100,23 +105,25 @@ def load_winning_data_from_firestore():
                 if 'combination' in data and isinstance(data['combination'], list):
                     rank3_list.append(tuple(sorted(data['combination'])))
             rank3 = rank3_list
+            print(f"Firestore에서 3등 조합 {len(rank3_list)}개 로드 완료.") # 디버그 로그
 
             ALL_WINNING = {
                 "1": set(rank1),
                 "2": set(rank2),
                 "3": set(rank3)
             }
+            print(f"ALL_WINNING 데이터 세트 크기: 1등:{len(ALL_WINNING['1'])}, 2등:{len(ALL_WINNING['2'])}, 3등:{len(ALL_WINNING['3'])}") # 디버그 로그
             print("Firestore에서 당첨 번호 데이터 로드 완료.")
             return True
         except Exception as e:
-            print(f"Firestore에서 당첨 번호 데이터 로드 오류: {e}")
+            print(f"Firestore에서 당첨 번호 데이터 로드 오류: {e}") # 디버그 로그
             ALL_WINNING = {"1": set(), "2": set(), "3": set()} # 오류 시 빈 세트로 초기화
             rank1 = []
             rank2 = []
             rank3 = []
             return False
     else:
-        print("Firestore DB가 초기화되지 않아 당첨 번호를 로드할 수 없습니다.")
+        print("Firestore DB가 초기화되지 않아 당첨 번호를 로드할 수 없습니다.") # 디버그 로그
         ALL_WINNING = {"1": set(), "2": set(), "3": set()}
         rank1 = []
         rank2 = []
@@ -242,8 +249,10 @@ def get_hot_numbers(n=5):
     # rank1 데이터는 이제 Firestore에서 로드됩니다.
     all_nums = []
     # rank1의 마지막 n개 회차에서 번호를 가져옴 (최신 데이터는 리스트의 끝에 있다고 가정)
-    for row in rank1[-n:]: 
-        all_nums.extend(row)
+    # rank1이 비어있을 경우를 대비하여 조건 추가
+    if rank1:
+        for row in rank1[-n:]: 
+            all_nums.extend(row)
     
     freq = {}
     for num in all_nums:
@@ -611,6 +620,7 @@ def stats():
         freq.setdefault(n, 0)
     freq = dict(sorted(freq.items()))
     
+    print(f"/stats 라우트에서 freq 데이터 생성 완료: {freq}") # 디버그 로그 추가
     return render_template('stats.html', freq_json=freq, recent_n=recent_n)
 
 # Route for the Admin page (requires password for access)
@@ -721,7 +731,7 @@ def update_winning():
                 print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
                 msg += f"<br>로그 로드 오류: {e}"
                 pass
-        
+            
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
@@ -796,7 +806,7 @@ def update_winning():
     else:
         msg = "Firestore DB가 초기화되지 않아 로또 번호를 업데이트할 수 없습니다."
 
-    # 관리자 페이지에 표시할 로그와 통계 다시 로드
+    # 비밀번호가 맞았을 때도 로그와 통계 데이터를 가져와서 템플릿에 전달
     logs = []
     if db:
         try:
@@ -815,12 +825,13 @@ def update_winning():
             logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
         except Exception as e:
             print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
+            msg += f"<br>로그 로드 오류: {e}"
             pass
-    
+        
     total_visits = sum(1 for log in logs if log["event"] == "visit")
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
     today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
-
+    
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
 
 # Route for ads.txt (for ad services)
@@ -836,7 +847,7 @@ def healthz():
 # New Route for Lotto DNA Test page
 @app.route('/lotto-dna-test')
 def lotto_dna_test_page():
-    # Kakao JavaScript Key를 템플릿에 전달
+    # 클라이언트에서 로그를 직접 보낼 것이므로 여기서는 log_event 호출하지 않음
     return render_template('lotto_type_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY)
 
 # New API endpoint to generate Lotto DNA numbers
@@ -846,14 +857,13 @@ def generate_dna_lotto_numbers():
         # 클라이언트에서 넘어온 DNA 유형 (현재는 사용하지 않고 무작위 생성)
         # dna_type = request.json.get('dna_type') 
         
-        # 무작위 로또 번호 6개 생성 (1부터 45까지)
-        numbers = sorted(random.sample(range(1, 46), 6))
+        # 무작위 로또 번호 6개 생성 (1부터 45까지, 중복 없이)
+        generated_numbers = random.sample(range(1, 46), 6)
         
-        return jsonify({"numbers": numbers}), 200
+        return jsonify({"numbers": generated_numbers}), 200
     except Exception as e:
         print(f"로또 DNA 번호 생성 오류: {e}")
-        return jsonify({"error": "로또 DNA 번호 생성에 실패했습니다."}), 500
+        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500
 
-# Run the Flask app
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
