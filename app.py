@@ -1,7 +1,7 @@
 import os
 import json
 import random
-from flask import Flask, render_template, request, jsonify 
+from flask import Flask, render_template, request, jsonify, Response, url_for 
 from collections import Counter
 import datetime
 import requests
@@ -70,7 +70,6 @@ def initialize_firebase_app():
 initialize_firebase_app()
 
 # Firestore에서 로또 당첨 번호 (1, 2, 3등 조합)를 불러오는 함수
-# 로컬 JSON 파일 대신 Firestore를 사용합니다.
 def load_winning_data_from_firestore():
     global ALL_WINNING, rank1, rank2, rank3
     print("Firestore에서 당첨 번호 데이터 로드 시도 중...") # 디버그 로그
@@ -251,7 +250,9 @@ def get_hot_numbers(n=5):
     # rank1의 마지막 n개 회차에서 번호를 가져옴 (최신 데이터는 리스트의 끝에 있다고 가정)
     # rank1이 비어있을 경우를 대비하여 조건 추가
     if rank1:
-        for row in rank1[-n:]: 
+        # n이 rank1의 길이보다 크면 rank1의 모든 요소를 사용
+        start_index = max(0, len(rank1) - n)
+        for row in rank1[start_index:]: 
             all_nums.extend(row)
     
     freq = {}
@@ -612,7 +613,9 @@ def stats():
     all_nums = [] 
     # rank1은 이제 Firestore에서 로드되므로, 데이터가 있는지 확인
     if rank1:
-        for row in rank1[-recent_n:]:
+        # n이 rank1의 길이보다 크면 rank1의 모든 요소를 사용
+        start_index = max(0, len(rank1) - recent_n)
+        for row in rank1[start_index:]: 
             all_nums.extend(row)
     
     freq = dict(Counter(all_nums))
@@ -837,7 +840,44 @@ def update_winning():
 # Route for ads.txt (for ad services)
 @app.route('/ads.txt')
 def ads_txt():
-    return app.send_static_file('ads.txt')
+    # Render.com에서 static files를 제공하는 방식에 따라 경로를 조정해야 할 수 있습니다.
+    # 일반적으로는 static 폴더에 ads.txt를 두고 send_from_directory를 사용합니다.
+    # 여기서는 간단하게 텍스트를 직접 반환합니다.
+    return Response("google.com, pub-2748658493247983, DIRECT, f08c47fec0942fa0", mimetype='text/plain')
+
+# Route for sitemap.xml
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    # 동적으로 사이트맵을 생성합니다.
+    # 실제 URL은 Render.com에 배포된 도메인을 사용해야 합니다.
+    base_url = "https://smartpick.wow-daddy.com" # 실제 도메인으로 변경하세요!
+    
+    # 웹사이트의 모든 주요 페이지 URL을 리스트로 정의
+    urls = [
+        {"loc": f"{base_url}/", "lastmod": datetime.date.today().isoformat(), "changefreq": "daily", "priority": "1.0"},
+        {"loc": f"{base_url}/filter", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base_url}/hotpick", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.8"},
+        {"loc": f"{base_url}/stats", "lastmod": datetime.date.today().isoformat(), "changefreq": "daily", "priority": "0.7"},
+        {"loc": f"{base_url}/lotto-dna-test", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.9"},
+        {"loc": f"{base_url}/about", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/privacy", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/disclaimer", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/contact", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+    ]
+
+    sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    sitemap_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for url_data in urls:
+        sitemap_content += '  <url>\n'
+        sitemap_content += f'    <loc>{url_data["loc"]}</loc>\n'
+        sitemap_content += f'    <lastmod>{url_data["lastmod"]}</lastmod>\n'
+        sitemap_content += f'    <changefreq>{url_data["changefreq"]}</changefreq>\n'
+        sitemap_content += f'    <priority>{url_data["priority"]}</priority>\n'
+        sitemap_content += '  </url>\n'
+    sitemap_content += '</urlset>'
+
+    return Response(sitemap_content, mimetype='application/xml')
+
 
 # Health check endpoint for deployment environments
 @app.route("/healthz", methods=["GET", "HEAD"])
