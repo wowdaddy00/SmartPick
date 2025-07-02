@@ -255,8 +255,6 @@
         /* 광고 배너 */
         .ad-banner {
             width: 100%;
-            /* max-width: 300px;  광고 배너 최대 너비 (제거 또는 유연하게) */
-            /* height: 100px;  광고 배너 높이 예시 (제거 또는 최소 높이 설정) */
             min-height: 100px; /* 최소 높이 설정 (광고가 로드될 공간 확보) */
             background-color: #e0e0e0; /* 광고 영역 표시용 배경 */
             border-radius: 0.8em;
@@ -314,6 +312,8 @@
             }
         }
     </style>
+    <!-- Google AdSense 메인 스크립트: head 태그 내부에 배치 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="test-container">
@@ -331,16 +331,17 @@
             <!-- 광고 배너 시안 위치 1 -->
             <div class="ad-banner">
                 <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
-                <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
-                <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
+                <!-- Google AdSense 광고 단위 코드 -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-2748658493247983"
                      data-ad-slot="1322588827"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <!-- 첫 번째 광고 슬롯에 대한 push는 DOMContentLoaded에서 loadAdSenseAds 함수가 처리합니다. -->
+                <script>
+                     // ins 태그 바로 뒤에 push 호출 (표준 방식)
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
 
             <p style="margin-top: 1.5em; font-size: 0.9em; color: var(--color-text-light);">
@@ -382,16 +383,17 @@
                 <!-- 광고 배너 시안 위치 2 -->
                 <div class="ad-banner">
                     <div class="ad-placeholder-text">광고 배너 영역 (Google AdSense 등)</div>
-                    <!-- Google AdSense 광고 코드를 여기에 삽입하세요. -->
-                    <!-- 이 코드는 Google AdSense 계정에서 생성한 '광고 단위' 코드입니다. -->
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
+                    <!-- Google AdSense 광고 단위 코드 -->
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-2748658493247983"
                          data-ad-slot="1322588827"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
-                    <!-- 결과 화면의 광고는 showResult 함수에서 처리합니다. -->
+                    <script>
+                        // ins 태그 바로 뒤에 push 호출 (표준 방식)
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
                 
                 <a href="/" class="lotto-main-link">
@@ -442,14 +444,14 @@
                 options: [
                     { text: "주말에 미리 월요일 계획 세워서 준비완료 📅", score: 3 },
                     { text: "아침에 일어나서 그때그때 해결하지 뭐! 🌅", score: 1 },
-                    { text: "친구들한테 하소연하면서 힐링 받기 💬", score: 2 }
+                    { text: "친구들한테 하소연하면서 힐링 받기 �", score: 2 }
                 ]
             },
             { 
                 question: "5. 인생에서 가장 중요한 건?",
                 options: [
                     { text: "안정적인 통장 잔고와 예측 가능한 미래 🏦", score: 3 },
-                    { text: "그냥 보이는 거 아무거나! 다 맛있겠지 뭐~", score: 1 },
+                    { text: "매일 다른 경험과 짜릿한 스릴! 🎢", score: 1 },
                     { text: "가족, 친구들과 함께하는 따뜻한 일상 ❤️", score: 2 }
                 ]
             }
@@ -635,10 +637,6 @@
                 total_score: totalScore, 
                 result_type: result.type 
             });
-
-            // 결과 화면이 보일 때 광고를 다시 로드 시도
-            // AdSense 광고를 로드하는 함수를 호출
-            loadAdSenseAdsForVisibleElement(document.querySelector('#result-screen .ad-banner ins.adsbygoogle'));
         }
 
         function getBallResultColor(number) {
@@ -758,39 +756,6 @@
             }
         }
 
-        // AdSense 광고를 로드하는 범용 함수 (수정됨)
-        function loadAdSenseAdsForVisibleElement(adSlotElement) {
-            if (!adSlotElement) {
-                console.warn('Ad slot element not found.');
-                return;
-            }
-
-            // AdSense 스크립트가 로드되었는지 확인
-            if (window.adsbygoogle && window.adsbygoogle.loaded) {
-                // 요소가 실제로 화면에 보이는지 확인 (display: none이 아닌지)
-                if (adSlotElement.offsetParent !== null && adSlotElement.offsetWidth > 0 && adSlotElement.offsetHeight > 0) {
-                    try {
-                        // 이미 처리된 슬롯인지 확인 (data-adsbygoogle-status 속성 사용)
-                        if (!adSlotElement.getAttribute('data-adsbygoogle-status')) {
-                            (window.adsbygoogle = window.adsbygoogle || []).push({});
-                            console.log('AdSense ad pushed for:', adSlotElement.id || adSlotElement.className);
-                        } else {
-                            console.log('AdSense ad already processed for:', adSlotElement.id || adSlotElement.className);
-                        }
-                    } catch (e) {
-                        console.error('Error pushing AdSense ad:', e);
-                    }
-                } else {
-                    console.warn('Ad slot is not visible or has no size. Retrying...', adSlotElement.id || adSlotElement.className);
-                    // 요소가 아직 보이지 않거나 크기가 0이면 잠시 후 다시 시도
-                    setTimeout(() => loadAdSenseAdsForVisibleElement(adSlotElement), 500); 
-                }
-            } else {
-                console.warn('adsbygoogle script not fully loaded yet. Retrying...');
-                setTimeout(() => loadAdSenseAdsForVisibleElement(adSlotElement), 500); 
-            }
-        }
-
         // 초기 로드 시 시작 화면 표시 및 이벤트 리스너 부착
         document.addEventListener('DOMContentLoaded', () => {
             // 버튼 요소들을 DOMContentLoaded 시점에 가져옴
@@ -817,11 +782,9 @@
             // 초기에는 질문 화면과 결과 화면을 숨깁니다.
             questionScreen.style.display = 'none'; 
             resultScreen.style.display = 'none';
-
-            // DOM이 로드된 후 시작 화면의 AdSense 광고 로드 시도
-            loadAdSenseAdsForVisibleElement(document.querySelector('#start-screen .ad-banner ins.adsbygoogle'));
         });
 
     </script>
 </body>
 </html>
+�
