@@ -5,439 +5,530 @@
   <title>SmartPick 로또 번호 추천 - 프리미엄 당첨 번호 생성</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  <!-- Google AdSense 코드 -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
      crossorigin="anonymous"></script>
 
-  <!-- SEO/Meta/Og/트위터 카드 한글 최적화 -->
   <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
   <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 프리미엄로또, 로또당첨번호">
   <meta name="author" content="SmartPick Team">
 
-  <!-- 오픈그래프 (소셜 미디어 공유 최적화) -->
   <meta property="og:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
-  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스! 지금 바로 경험하세요." />
+  <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스" />
   <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
   <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
   <meta property="og:type" content="website" />
 
-  <!-- 트위터 카드 -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
-  <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
+  <meta name="twitter:description" content="과거 1~3등 당첨 조합을 제외한 로또 번호 추천, 맞춤 필터, 통계 분석으로 당첨 확률 UP!" />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
-  <!-- Google Search Console 소유권 확인 태그 (여기에 기존 태그 다시 붙여넣기!) -->
-  <!-- 예시: <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> -->
-
-  <!-- SEO/광고/폰트 -->
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <style>
-    body { 
-      background: #f0f4f8; /* 더 부드러운 배경색 */
-      font-family:'Pretendard', Arial, sans-serif; 
-      margin:0;
-      display: flex; 
-      flex-direction: column; 
-      min-height: 100vh; 
-      justify-content: center; /* 세로 중앙 정렬 */
-      align-items: center; /* 가로 중앙 정렬 */
-    }
-    .container { 
-      max-width:450px; /* 컨테이너 너비 살짝 키움 */
-      background:#ffffff; /* 흰색 배경 */
-      border-radius:2.5em; /* 모서리 더 둥글게 */
-      box-shadow:0 12px 40px rgba(0, 0, 0, 0.1); /* 그림자 더 부드럽고 깊게 */
-      padding:3em 2.5em 2.5em 2.5em; /* 패딩 조정 */
-      text-align:center; 
-      flex-grow: 1; 
-      box-sizing: border-box; 
-    }
-    h1 { 
-      font-size:2.4em; /* h1 크기 키움 */
-      font-weight:900; 
-      color:#2a4365; /* 어두운 파란색 계열 */
-      margin-bottom:0.8em; 
-      letter-spacing: -0.05em; /* 자간 조절 */
-    } 
-    
-    /* 핵심 차별점 메시지 스타일 */
-    .usp-message {
-        margin-bottom: 2.5em; /* 간격 더 넓게 */
-        border: 2px solid #ff708a; /* 핑크빛 테두리 */
-        padding: 1.5em 1.2em; /* 내부 여백 */
-        border-radius: 1.8em; /* 모서리 더 둥글게 */
-        background-color: #fffafc; /* 매우 연한 핑크 배경 */
-        box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15); /* 부드러운 핑크 그림자 */
-    }
-    .usp-message div {
-        font-size: 1.15em; /* 폰트 크기 살짝 키움 */
-        font-weight: 600;
-        line-height: 1.6;
-        color: #3f5477; /* 진한 파란색 계열 */
-        margin-bottom: 0.6em; 
-    }
-    .usp-message .line1 {
-        font-size: 1.45em; /* 첫 줄 가장 크게 강조 */
-        font-weight: 800;
-        color: #d32f2f; /* 강렬한 빨간색 */
-        margin-bottom: 0.8em;
-    }
-    .usp-message .line1 .icon {
-        margin-right: 10px;
-        color: #d32f2f;
-    }
-    .usp-message .line2 {
-        font-size: 1.05em;
-        font-weight: 500;
-        color: #6a7f9a; /* 연한 회색 파란색 */
-    }
-    .usp-message .line3 {
-        font-size: 1.3em; /* 마지막 줄 강조 */
-        font-weight: 700;
-        color: #28a745; /* 선명한 녹색 */
-        margin-top: 1em; /* 위쪽 간격 추가 */
-    }
-    .usp-message .line3 .icon {
-        margin-right: 10px;
-        color: #28a745;
+    :root {
+      --color-primary: #4361ee;
+      --color-secondary: #f0f2f5;
+      --color-text-dark: #22223b;
+      --color-text-light: #666;
+      --color-white: #ffffff;
+      --color-background-ivory: #fcf9f6;
+      --color-light-gray: #e0e0e0; /* 드롭다운 호버 색상 */
+      --color-brick: #ff6b6b; /* 드롭다운 아이콘 및 강조 색상 */
     }
 
-    form { 
-        margin-bottom: 1.5em; 
-    }
-    button, .copy-btn, .main-action-link-button { 
-      font-size:1.2em; 
-      font-weight:bold; 
-      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); 
-      color:#fff; 
-      border:none; 
-      border-radius:1.2em; 
-      padding:1em 2.5em; 
-      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3); 
-      margin-top:1.5em; 
-      cursor:pointer; 
-      transition: all 0.3s ease; 
-      position: relative; 
-      overflow: hidden; 
-      display: inline-block; 
-      text-decoration: none; 
-      /* 버튼 너비 통일 */
-      width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
-      max-width: 350px; /* 최대 너비 설정 */
-      box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
-    }
-    button:hover, .copy-btn:hover, .main-action-link-button:hover { 
-      transform: translateY(-3px); 
-      box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
-    }
-    button:active, .copy-btn:active, .main-action-link-button:active {
-        transform: translateY(1px); 
-        box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
-    }
-    /* 버튼 간 간격 조절 */
-    form button { /* 프리미엄 번호 추천받기 버튼 */
-        margin-bottom: 0.8em; /* 아래 간격 추가 */
-    }
-    .main-action-link-button { /* 고급 맞춤 추천 받기 버튼 */
-        margin-top: 0; /* 위쪽 여백 제거 (form button과의 간격으로 대체) */
-    }
-
-    .main-action-link-button .icon {
-        margin-right: 8px; 
-    }
-    
-    /* 로또 볼 배열 (기본) - 데스크탑/태블릿용 */
-    .lotto { 
-      margin:2.5em auto 1em auto; 
-      display: flex; 
-      flex-wrap: nowrap; /* 줄바꿈 방지 */
-      justify-content: center; 
-      align-items: center; 
-      gap: 8px; 
-      max-width: 300px; 
-      box-sizing: border-box; 
-    }
-    /* 볼 스타일 (기본) */
-    .ball {
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      width: calc((100% - (8px * 5)) / 6); 
-      height: calc((100% - (8px * 5)) / 6); 
-      min-width: 42px; 
-      min-height: 42px;
-      border-radius:50%;
-      margin:0; 
-      font-size:1.2em; 
-      font-weight:700; 
-      box-shadow:0 4px 10px rgba(0,0,0,0.15); 
-      transition: all 0.2s ease;
-      border:3px solid #fff; 
-      flex-shrink: 0; 
-      box-sizing: border-box; 
-      color: #333; 
-    }
-    .ball.n1 { background: #ffdf6c; } 
-    .ball.n2 { background: #9bd0ff; } 
-    .ball.n3 { background: #ff91a5; color: #fff;} 
-    .ball.n4 { background: #c2c9d1; } 
-    .ball.n5 { background: #b0e891; } 
-
-    /* 'SmartPick이 특별한 이유' 링크 스타일 */
-    .link-about-moved { 
-        display: block; 
-        padding: 1.2em 1.5em;
-        border-radius: 1.5em;
-        font-weight: bold;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        text-align: center;
-        background-color: #f7f9fc; 
-        border: 2px solid #b3d4f5; 
-        color: #4a6fa3; 
-        margin-bottom: 2em; 
-    }
-    .link-about-moved:hover {
-        background-color: #e6f0fa;
-        border-color: #8bbceb;
-        transform: translateY(-3px);
-    }
-    .link-about-moved .icon {
-        margin-right: 8px;
-        color: #4a6fa3;
-    }
-
-
-    /* 누적 추천 조합 통계 섹션 스타일 */
-    .stats-box {
-      margin-top: 25px; 
-      margin-bottom: 25px; 
-      padding: 18px 25px; 
-      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%); 
-      border-radius: 2em; 
-      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15); 
-      font-size: 1.1em; 
-      color: #00796b; 
-      font-weight: 700; 
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: var(--color-secondary);
+      margin: 0;
+      padding: 0;
       line-height: 1.6;
-      text-align: center; 
-      max-width: 350px; 
-      margin-left: auto; 
-      margin-right: auto; 
-    }
-    .stats-box b {
-        color: #004d40; 
-        font-weight: 800; 
+      color: var(--color-text-dark);
+      overflow-x: hidden; /* 가로 스크롤 방지 */
     }
 
-    /* 최신 당첨번호 섹션 */
-    .latest-winning-section {
-        background-color: #e6f7ff; 
-        border: 2px solid #a8e0f5; 
-        border-radius: 1.8em;
-        padding: 1.5em;
-        margin-bottom: 2em;
-        box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
+    .header-bar {
+      background: linear-gradient(135deg, var(--color-primary), #6a43ee);
+      padding: 15px 0;
+      color: var(--color-white);
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 10;
+    }
+
+    .header-bar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .logo-main {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--color-white);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 20; /* 로고가 다른 요소 위에 오도록 설정 */
+    }
+
+    .logo-main .fas {
+      margin-right: 10px;
+      font-size: 0.9em;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap; /* 반응형을 위해 추가 */
+      justify-content: center; /* 가운데 정렬을 위해 추가 */
+    }
+
+    .header-nav a.btn, .dropdown .dropbtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 1.5em;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: var(--color-text-dark);
+      background-color: var(--color-background-ivory);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    }
+
+    .header-nav a.btn .icon, .dropbtn .icon {
+      margin-right: 8px;
+      color: var(--color-primary); /* 기본 아이콘 색상 */
+    }
+
+    .dropdown .dropbtn .icon {
+        color: var(--color-brick); /* 드롭다운 아이콘 색상 강조 */
+    }
+
+    .header-nav a.btn:hover, .dropbtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .main-content {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--color-white);
+      border-radius: 1.5em;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      color: var(--color-text-light);
+      margin-bottom: 30px;
+    }
+
+    .generate-section, .recommendation-section {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid var(--color-secondary);
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .button-group .btn {
+      flex: 1 1 auto; /* 버튼 크기 유연하게 조정 */
+      min-width: 200px; /* 최소 너비 */
+      padding: 15px 25px;
+      border-radius: 1.5em;
+      font-size: 1.2em;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--color-white);
+      background: var(--color-primary);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button-group .btn:hover {
+      background: #3450d0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .button-group .btn-secondary {
+      background: var(--color-background-ivory);
+      color: var(--color-primary);
+    }
+
+    .button-group .btn-secondary:hover {
+      background: #e0e6f8;
+    }
+
+    .result-section {
+      margin-top: 30px;
+      background: var(--color-background-ivory);
+      padding: 25px;
+      border-radius: 1.2em;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .result-numbers {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .lotto-ball {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      font-size: 1.6em;
+      font-weight: 700;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .copy-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 0.8em;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: background-color 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background-color: #218838;
+    }
+
+    .copied-message {
+      margin-top: 15px;
+      color: #28a745;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* 드롭다운 메뉴 스타일 */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: var(--color-white);
+        min-width: 250px; /* 메뉴 폭 지정 */
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+        z-index: 100; /* 다른 요소 위에 표시 */
+        border-radius: 1em;
+        padding: 10px 0;
+        margin-top: 10px; /* 버튼과의 간격 */
+        left: 50%;
+        transform: translateX(-50%); /* 중앙 정렬 */
+    }
+
+    .dropdown-content a {
+        color: var(--color-text-dark);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        font-weight: 600;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .dropdown-content a:hover {
+        background-color: var(--color-light-gray);
+        color: var(--color-brick); /* 호버 시 색상 변경 */
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a.disabled {
+        color: var(--color-text-light); /* 연한 회색 */
+        cursor: not-allowed; /* 마우스 오버 시 비활성 커서 */
+        opacity: 0.7;
+    }
+
+    .dropdown-content a.disabled:hover {
+        background-color: transparent; /* 호버 시 배경색 변경 없음 */
+        color: var(--color-text-light);
+    }
+    
+    /* 로딩 인디케이터 */
+    .loading-indicator {
+        display: none; /* 기본적으로 숨김 */
+        margin-top: 20px;
+        font-size: 1.1em;
+        color: var(--color-primary);
+    }
+
+    /* 스토리 섹션 */
+    .story-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid var(--color-secondary);
+    }
+
+    .story-section h2 {
+        font-size: 1.5em;
+        color: var(--color-primary);
+        margin-bottom: 15px;
+    }
+
+    .lotto-story {
+        background: var(--color-background-ivory);
+        padding: 20px;
+        border-radius: 1em;
+        text-align: left;
+        font-size: 1.1em;
+        line-height: 1.8;
+        color: var(--color-text-dark);
+        min-height: 80px; /* 최소 높이 설정 */
+        display: flex;
+        align-items: center; /* 텍스트 세로 중앙 정렬 */
+        justify-content: center; /* 텍스트 가로 중앙 정렬 */
+        word-break: keep-all; /* 단어 단위로 줄바꿈 */
         text-align: center;
     }
-    .latest-winning-section h2 {
-        font-size: 1.5em;
-        font-weight: 800;
-        color: #00796b;
-        margin-bottom: 0.8em;
-    }
-    .latest-winning-numbers {
-        display: flex;
-        flex-wrap: nowrap; /* 줄바꿈 방지 */
-        justify-content: center; 
-        align-items: center;
-        gap: 5px; 
-        margin-top: 1em;
-    }
-    .latest-winning-numbers .ball {
-        flex-shrink: 0; 
-        min-width: 32px; 
-        min-height: 32px;
-        width: 32px; 
-        height: 32px;
-        font-size: 0.95em; 
-        border: 2px solid #fff; 
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-    .plus-sign {
-        font-size: 1.6em; 
-        font-weight: 900;
-        color: #4a6fa3;
-        margin: 0 3px; 
-        flex-shrink: 0;
+
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+      .header-bar .container {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .logo-main {
+        margin-bottom: 10px;
+      }
+      .header-nav {
+        width: 100%;
+        justify-content: center;
+      }
+      .header-nav a.btn, .dropdown .dropbtn {
+        flex: 1 1 auto; /* 모바일에서 버튼들이 유연하게 채우도록 */
+        margin: 5px; /* 버튼 사이 여백 */
+      }
+      .main-content {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      .subtitle {
+        font-size: 1em;
+      }
+      .button-group .btn {
+        width: 100%; /* 모바일에서 전체 너비 */
+        min-width: unset;
+      }
+      /* 드롭다운 중앙 정렬 유지 */
+      .dropdown-content {
+          width: calc(100% - 20px); /* 패딩 고려 */
+          box-sizing: border-box;
+      }
     }
 
-    /* 모바일 반응형 미디어 쿼리 */
-    @media (max-width:100px){
-      body {
-          justify-content: flex-start; 
-      }
-      .container { 
-        max-width:97vw; 
-        margin:8vw 2vw; 
-        padding:2em 0.2em; 
-      } 
-      h1 { font-size:1.8em;} 
-      .usp-message div {
-          font-size: 1.0em;
-      }
-      .usp-message .line1 {
-          font-size: 1.1em;
-      }
-      .usp-message .line3 {
-          font-size: 1.0em;
-      }
-      /* 로또 볼 및 최신 당첨 번호 볼 레이아웃 */
-      .lotto, .latest-winning-numbers { 
-          max-width: calc(100% - 20px); 
-          gap: 3px; /* 모바일에서 볼 간격 더더 줄임 */
-          justify-content: center; 
-      }
-      .ball {
-          min-width: 28px; /* 모바일에서 볼 크기 더더 줄임 */
-          min-height: 28px;
-          width: 28px; 
-          height: 28px;
-          font-size: 0.85em; /* 폰트 크기 더더 줄임 */
-      }
-      .latest-winning-numbers .ball { 
-          min-width: 28px; 
-          min-height: 28px;
-          width: 28px;
-          height: 28px;
-          font-size: 0.85em;
-      }
-      .plus-sign {
-          font-size: 1.4em;
-          margin: 0 1px; /* 간격 거의 없음 */
-      }
-      button, .copy-btn, .main-action-link-button {
-          font-size: 1.05em;
-          padding: 0.8em 1.8em;
-          margin-top: 1em;
-      }
-      /* 버튼 너비 통일 (모바일에서도) */
-      button, .main-action-link-button {
-          width: calc(100% - (1.8em * 2)); /* 모바일 패딩에 맞춰 너비 조정 */
-      }
-      .stats-box { 
-          max-width: 90%;
-          font-size: 0.95em;
-          padding: 15px 20px;
-          margin-top: 5vw;
-          margin-bottom: 5vw;
-      }
-      .link-about-moved {
-          margin-bottom: 1.5em; 
-          padding: 1em 1.2em;
-          font-size: 1em;
-      }
+    @media (max-width: 480px) {
+        .lotto-ball {
+            width: 45px;
+            height: 45px;
+            font-size: 1.4em;
+        }
     }
   </style>
 </head>
 <body>
-  <!-- 누적 추천 조합 통계 섹션 (오늘의 추천 조합 제거) -->
-  <div class="stats-box">
-    <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
+  <div class="header-bar">
+    <div class="container">
+      <a href="/" class="logo-main"><i class="fas fa-magic"></i> SmartPick</a>
+      <nav class="header-nav">
+        <a href="/" class="btn"><i class="fas fa-home icon"></i> 홈</a>
+        <a href="/about" class="btn"><i class="fas fa-info-circle icon"></i> SmartPick은?</a>
+        <a href="/stats" class="btn"><i class="fas fa-chart-bar icon"></i> 로또 통계</a>
+        
+        <div class="dropdown">
+            <a href="#" class="dropbtn">
+                <i class="fas fa-laugh-beam icon"></i>
+                재미로 보는 로또 테스트 <i class="fas fa-caret-down"></i>
+            </a>
+            <div class="dropdown-content">
+                <a href="/lotto-dna-test">당신의 로또 DNA는?</a>
+                <a href="#" class="disabled">생년월일로 로또 번호 추천 받기 (예정)</a>
+                <a href="#" class="disabled">MBTI별 로또 번호 추천 받기 (예정)</a>
+            </div>
+        </div>
+      </nav>
+    </div>
   </div>
 
-  <div class="container">
-    <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
+  <div class="main-content">
+    <h1><i class="fas fa-gem"></i> SmartPick</h1>
+    <p class="subtitle">과거 1~3등 당첨 이력이 없는 <span style="font-weight: bold; color: var(--color-primary);">프리미엄 로또 번호</span>를 추천합니다.</p>
+    
+    <div class="generate-section">
+      <h2><i class="fas fa-dice"></i> 자동 번호 추천</h2>
+      <p>단 한 번의 클릭으로 1~3등 당첨 이력이 없는 신뢰도 높은 로또 번호를 받아보세요.</p>
+      <div class="button-group">
+        <button id="generate-button" class="btn">
+          <i class="fas fa-sync-alt icon"></i> 번호 즉시 추천 받기
+        </button>
+      </div>
 
-    <!-- 최신 당첨 번호 섹션 -->
-    {% if latest_round and winning_nums and bonus_num %}
-    <div class="latest-winning-section">
-        <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
-        <div class="latest-winning-numbers">
-            {% for n in winning_nums %}
-                <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
-            {% endfor %}
-            <span class="plus-sign">+</span>
-            <span class="ball n{{ (bonus_num-1)//10 + 1 }}">{{ bonus_num }}</span>
-        </div>
+      <div class="result-section" id="result-section" style="display: none;">
+        <h3>추천된 로또 번호</h3>
+        <div class="result-numbers" id="recommended-numbers">
+          </div>
+        <button id="copy-button" class="copy-btn">번호 복사하기</button>
+        <div id="copied-message" class="copied-message">번호가 클립보드에 복사되었습니다!</div>
+      </div>
+
+      <div class="loading-indicator" id="loading-indicator">
+        <i class="fas fa-spinner fa-spin"></i> 번호를 생성 중입니다...
+      </div>
+
+      <div class="story-section" id="story-section" style="display: none;">
+          <h2><i class="fas fa-book-open"></i> 당신의 로또 번호 스토리</h2>
+          <div class="lotto-story" id="lotto-story">
+              </div>
+      </div>
     </div>
-    {% endif %}
-    
-    <div class="usp-message">
-        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i><br>지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.</div>
-        <div class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</div>
-        
+
+    <div class="recommendation-section">
+      <h2><i class="fas fa-cogs"></i> 고급 맞춤 추천</h2>
+      <p>원하는 조건을 직접 선택하거나, 통계 기반의 인기 번호 조합으로 나만의 로또 번호를 찾아보세요.</p>
+      <div class="button-group">
+        <a href="/choose_recommendation" class="btn btn-secondary">
+          <i class="fas fa-filter icon"></i> 추천 방식 선택하기
+        </a>
+      </div>
     </div>
-    
-    <!-- 'SmartPick이 특별한 이유'를 빨간 박스 바로 아래로 이동 -->
-    <a href="/about" class="link-item link-about-moved">
-        <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
-    </a>
+  </div>
 
-    <form method="post" style="width: 100%;"> 
-      <button type="submit"> 프리미엄 번호<br>추천받기</button>
-      {# <div style="height:10px"></div> #} {# 버튼 사이 간격 조절용 div 제거 #}
-    </form>
-    
-    <!-- '고급 맞춤 추천'을 '프리미엄 번호 추천받기' 바로 아래로 이동 -->
-    <a href="/choose_recommendation" class="main-action-link-button">
-        고급 맞춤 번호<br>추천 받기
-    </a>
-    
-    {% if numbers %}
-      <div class="lotto" id="lotto_result"> 
-        {% for n in numbers[0] %}
-          <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
-        {% endfor %}
-      </div>
-      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
-      <!-- 로또 당첨 후 내 모습 확인하기 버튼 -->
-      <button class="main-action-link-button" onclick="generateLottoStory()">
-          재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
-      </button>
+  <div style="height:36px"></div>
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
+       data-ad-client="ca-pub-2748658493247983"
+       data-ad-slot="1322588827"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 
-      <div id="story-loading-indicator" style="display: none; margin-top: 1em; color: #555;">
-          <i class="fas fa-spinner fa-spin"></i> 스토리 생성 중...
-      </div>
-      <div id="lotto-story" style="margin-top: 1em; padding: 1em; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; text-align: left; color: #333; font-size: 1em; line-height: 1.6;">
-          <!-- 생성된 스토리가 여기에 표시됩니다. -->
-      </div>
+  {% if recommended_numbers %}
+    <script>
+      // Flask에서 전달된 recommended_numbers 변수를 JavaScript로 활용
+      const initialNumbers = {{ recommended_numbers | tojson }};
+      const resultSection = document.getElementById('result-section');
+      const recommendedNumbersDiv = document.getElementById('recommended-numbers');
+      const copyButton = document.getElementById('copy-button');
+      const copiedMessage = document.getElementById('copied-message');
+      const generateButton = document.getElementById('generate-button');
+      const loadingIndicator = document.getElementById('loading-indicator');
+      const storySection = document.getElementById('story-section');
+      const storyDiv = document.getElementById('lotto-story');
 
-      <script>
-        function copyLotto() {
-          let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
-          const tempTextArea = document.createElement('textarea');
-          tempTextArea.value = txt;
-          document.body.appendChild(tempTextArea);
-          tempTextArea.select();
-          document.execCommand('copy'); 
-          document.body.removeChild(tempTextArea); 
+      function displayNumbers(numbers) {
+          recommendedNumbersDiv.innerHTML = ''; // 기존 내용 지우기
+          numbers.forEach(num => {
+              const ball = document.createElement('div');
+              ball.className = 'lotto-ball';
+              ball.textContent = num;
+              recommendedNumbersDiv.appendChild(ball);
+          });
+          resultSection.style.display = 'block'; // 결과 섹션 표시
+          storySection.style.display = 'block'; // 스토리 섹션 표시
+      }
 
-          const msgBox = document.createElement('div');
-          msgBox.textContent = "복사 완료: " + txt;
-          msgBox.style.cssText = `
-              position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-              background-color: #4CAF50; color: white; padding: 15px 20px;
-              border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-          `;
-          document.body.appendChild(msgBox);
-          setTimeout(() => msgBox.style.opacity = 1, 10);
-          setTimeout(() => {
-              msgBox.style.opacity = 0;
-              msgBox.addEventListener('transitionend', () => msgBox.remove());
-          }, 2000);
-        }
+      // 페이지 로드 시 초기 번호가 있으면 표시 (리다이렉트된 경우)
+      if (initialNumbers && initialNumbers.length > 0) {
+          displayNumbers(initialNumbers);
+          generateLottoStory(initialNumbers);
+      }
 
-        async function generateLottoStory() {
-            const storyDiv = document.getElementById('lotto-story');
-            const loadingIndicator = document.getElementById('story-loading-indicator');
-            const recommendedNumbers = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => parseInt(e.textContent));
-            
-            storyDiv.textContent = ''; 
+      // 번호 생성 버튼 클릭 이벤트
+      generateButton.addEventListener('click', async () => {
+          resultSection.style.display = 'none'; // 이전 결과 숨기기
+          storySection.style.display = 'none'; // 이전 스토리 숨기기
+          loadingIndicator.style.display = 'block'; // 로딩 인디케이터 표시
+          storyDiv.textContent = ''; // 스토리 내용 초기화
+
+          try {
+              const response = await fetch('/generate_numbers', { method: 'POST' });
+              const data = await response.json();
+              
+              if (data.numbers && data.numbers.length > 0) {
+                  displayNumbers(data.numbers);
+                  generateLottoStory(data.numbers); // 스토리 생성 함수 호출
+              } else {
+                  alert('번호 생성에 실패했습니다. 다시 시도해주세요.');
+              }
+          } catch (error) {
+              console.error('Error generating numbers:', error);
+              alert('번호 생성 중 오류가 발생했습니다. 네트워크 연결을 확인해주세요.');
+          } finally {
+              loadingIndicator.style.display = 'none'; // 로딩 인디케이터 숨기기
+          }
+      });
+
+      // 번호 복사 버튼 클릭 이벤트
+      copyButton.addEventListener('click', () => {
+          const numbersText = Array.from(recommendedNumbersDiv.children)
+                                 .map(ball => ball.textContent)
+                                 .join(', ');
+          navigator.clipboard.writeText(numbersText).then(() => {
+              copiedMessage.style.display = 'block';
+              setTimeout(() => {
+                  copiedMessage.style.display = 'none';
+              }, 2000);
+          }).catch(err => {
+              console.error('Failed to copy: ', err);
+              alert('번호 복사에 실패했습니다.');
+          });
+      });
+
+        // 로또 번호 스토리를 생성하는 함수
+        async function generateLottoStory(recommendedNumbers) {
+            storyDiv.textContent = '흥미로운 로또 번호 스토리를 생성 중입니다...';
             loadingIndicator.style.display = 'block'; 
 
             try {
@@ -465,10 +556,9 @@
                 loadingIndicator.style.display = 'none'; 
             }
         }
-      </script>
-    {% endif %}
-    <!-- 기존 link-section은 내용이 모두 이동했으므로 제거합니다. -->
-  </div>
+    </script>
+  {% endif %}
+    </div>
   <div style="height:36px"></div>
   <ins class="adsbygoogle"
        style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
@@ -477,7 +567,7 @@
        data-ad-format="auto"
        data-full-width-responsive="true"></ins>
   <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 </body>
 </html>
