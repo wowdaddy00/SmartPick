@@ -327,6 +327,17 @@
                 font-size: 1.2em;
             }
         }
+
+        /* 광고 영역 스타일 추가 */
+        .ad-area {
+            margin-top: 2.5em; /* 기존 마진 유지 */
+            width: 100%; /* 부모 너비에 맞춤 */
+            min-height: 100px; /* 최소 높이 설정 */
+            display: flex; /* 내부 광고를 중앙 정렬하기 위해 flexbox 사용 */
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+        }
     </style>
 </head>
 <body>
@@ -340,7 +351,7 @@
             <a href="https://smartpick.wow-daddy.com/" class="lotto-main-link" target="_blank">
                 <i class="fas fa-home icon"></i>SmartPick 메인 페이지 가기
             </a>
-             <div class="ad-area" style="margin-top: 2.5em;">
+             <div class="ad-area">
                 <ins class="adsbygoogle"
                      style="display:block; text-align:center;"
                      data-ad-client="ca-pub-2748658493247983"
@@ -357,7 +368,7 @@
             <div id="options-grid" class="options-grid">
                 </div>
             <button id="next-button" class="question-button" style="display: none;"><i class="fas fa-arrow-right icon"></i>다음 질문</button>
-             <div class="ad-area" style="margin-top: 2.5em;">
+             <div class="ad-area">
                 <ins class="adsbygoogle"
                      style="display:block; text-align:center;"
                      data-ad-client="ca-pub-2748658493247983"
@@ -384,7 +395,7 @@
                     <i class="fas fa-home icon"></i>SmartPick 메인 페이지 가기
                 </a>
             </div>
-            <div class="ad-area" style="margin-top: 2.5em;">
+            <div class="ad-area">
                 <ins class="adsbygoogle"
                      style="display:block; text-align:center;"
                      data-ad-client="ca-pub-2748658493247983"
@@ -398,10 +409,13 @@
     <!-- 카카오 SDK 로드 -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
+        // Flask에서 전달된 base_url 변수 (app.py에서 lotto_dna_test_page 라우트 수정 필요)
+        // 예: return render_template('lotto_type_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, base_url="https://smartpick.wow-daddy.com")
+        // 만약 Flask를 사용하지 않고 직접 HTML 파일을 실행하는 경우, 여기에 실제 웹사이트 URL을 직접 입력하세요.
+        const BASE_URL = "{{ base_url }}"; 
+        // 또는 직접 설정: const BASE_URL = "https://smartpick.wow-daddy.com";
+
         // Kakao SDK 초기화 (Flask 템플릿에서 전달된 키 사용)
-        // '{{ kakao_js_key }}' 부분은 Flask 백엔드에서 실제 JavaScript 키를 전달해야 합니다.
-        // 만약 Flask를 사용하지 않고 직접 HTML 파일을 수정하는 경우, 여기에 실제 JavaScript 키를 직접 입력하세요.
-        // 예: Kakao.init('YOUR_JAVASCRIPT_KEY');
         if (Kakao && !Kakao.isInitialized()) {
             Kakao.init('{{ kakao_js_key }}'); 
             console.log("Kakao SDK initialized:", Kakao.isInitialized());
@@ -420,7 +434,7 @@
         // 전역 변수로 선언하여 DOMContentLoaded 이후에도 접근 가능하게 함
         let startButtonElement;
         let nextButtonElement;
-        let kakaoShareButtonElement; // 이름 변경: shareButtonElement -> kakaoShareButtonElement
+        let kakaoShareButtonElement; 
 
         let currentQuestionIndex = 0;
         let totalScore = 0;
@@ -430,7 +444,7 @@
         async function logEvent(event_name, event_details = {}) {
             try {
                 // 절대 경로 사용
-                await fetch(`${window.location.origin}/log_event`, {
+                await fetch(`${BASE_URL}/log_event`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event: event_name, details: event_details })
@@ -600,7 +614,7 @@
             // 로또 번호 가져오기 (백엔드 API 호출)
             try {
                 // 절대 경로 사용
-                const response = await fetch(`${window.location.origin}/generate_dna_lotto_numbers`, {
+                const response = await fetch(`${BASE_URL}/generate_dna_lotto_numbers`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ dna_type: lottoTypeForAPI }) // DNA 유형 전달 (현재는 무작위 생성이라 미사용)
@@ -608,7 +622,7 @@
                 const data = await response.json();
                 if (response.ok) {
                     lottoNumbers = data.numbers;
-                    displayLottoNumbers(lottoNumbers);
+                    displayLottoNumbers(lottoNumbers); // 정렬된 번호 표시 함수 호출
                 } else {
                     console.error('Failed to fetch lotto numbers:', data.error);
                     showToastMessage('로또 번호 생성에 실패했습니다.', 'error');
@@ -622,7 +636,10 @@
 
         function displayLottoNumbers(numbers) {
             lottoNumbersDisplay.innerHTML = ''; // 기존 번호 초기화
-            numbers.forEach((num, index) => {
+            // 번호를 오름차순으로 정렬
+            const sortedNumbers = [...numbers].sort((a, b) => a - b); 
+
+            sortedNumbers.forEach((num) => { // 정렬된 번호 사용
                 const lottoBall = document.createElement('div');
                 lottoBall.classList.add('lotto-ball', `n${Math.min(Math.ceil(num / 10), 5)}`); // 1-10:n1, 11-20:n2...
                 lottoBall.textContent = num;
@@ -684,9 +701,7 @@
             // 버튼 요소들을 DOMContentLoaded 시점에 가져옴
             startButtonElement = document.getElementById('start-button-element');
             nextButtonElement = document.getElementById('next-button'); 
-            // showResultButtonElement는 사용되지 않으므로 제거하거나 주석 처리
-            // showResultButtonElement = document.getElementById('show-result-button'); 
-            kakaoShareButtonElement = document.getElementById('kakao-share-button-dna'); // ID 변경 반영
+            kakaoShareButtonElement = document.getElementById('kakao-share-button-dna'); 
 
             // 이벤트 리스너 부착
             if (startButtonElement) {
@@ -695,11 +710,7 @@
             if (nextButtonElement) { 
                 nextButtonElement.addEventListener('click', nextQuestion);
             }
-            // showResultButtonElement에 대한 이벤트 리스너는 필요 없음 (nextQuestion에서 showResult 호출)
-            // if (showResultButtonElement) {
-            //     showResultButtonElement.addEventListener('click', showResult);
-            // }
-            if (kakaoShareButtonElement) { // 변경된 ID 사용
+            if (kakaoShareButtonElement) { 
                 kakaoShareButtonElement.addEventListener('click', shareResult);
             }
 
