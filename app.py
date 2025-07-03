@@ -903,7 +903,13 @@ def generate_dna_lotto_numbers():
         return jsonify({"numbers": generated_numbers}), 200
     except Exception as e:
         print(f"로또 DNA 번호 생성 오류: {e}")
-        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500   
+        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500 
+
+# New Route for the Fun Lotto Test Hub page
+@app.route('/fun-lotto-test')
+def fun_lotto_test_hub():
+    return render_template('fun_lotto_test_hub.html') # 재미로 보는 로또 테스트 선택 허브
+        
 # --- START OF NEW MBTI LOTTO FORTUNE FEATURE ---
 
 # MBTI 유형별 로또 운세 데이터 (mbti_lotto_fortune.html에서 추출)
