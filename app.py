@@ -908,7 +908,9 @@ def generate_dna_lotto_numbers():
 # New Route for the Fun Lotto Test Hub page
 @app.route('/fun-lotto-test')
 def fun_lotto_test_hub():
-    return render_template('fun_lotto_test_hub.html')
+    # 현재 연도를 Jinja2 템플릿에 전달하여 푸터 등에 활용할 수 있도록 합니다.
+    current_year = datetime.datetime.now().year
+    return render_template('fun_lotto_test_hub.html', now={'year': current_year}) # now 변수 추가
         
 # --- START OF NEW MBTI LOTTO FORTUNE FEATURE ---
 
