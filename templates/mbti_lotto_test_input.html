@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 MBTI 로또 운세 입력 - SmartPick</title>
+    <meta name="description" content="당신의 MBTI 성격유형을 선택하고 이번 주 로또 운세와 추천 번호를 확인하세요.">
+    <meta name="keywords" content="MBTI, 로또, 운세, 성격유형, 추천번호, 심리테스트">
+
+    <meta property="og:title" content="🔮 MBTI 로또 운세 입력 - SmartPick" />
+    <meta property="og:description" content="MBTI 유형을 선택하고 당신의 이번 주 로또 운세를 확인하세요!" />
+    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_mbti_lotto.png" />
+    <meta property="og:url" content="https://smartpick.wow-daddy.com/mbti-lotto-test" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="🔮 MBTI 로또 운세 입력 - SmartPick" />
+    <meta name="twitter:description" content="MBTI 유형을 선택하고 당신의 이번 주 로또 운세를 확인하세요!" />
+    <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_mbti_lotto.png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* Green */
+            --secondary-color: #FFC107; /* Amber */
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --light-text-color: #666;
+            --border-color: #ddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        header .logo {
+            text-decoration: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        header .logo i {
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        main {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .mbti-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 2rem;
+        }
+
+        .mbti-card {
+            background-color: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mbti-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            background-color: #e8f5e9; /* Light green on hover */
+        }
+
+        .mbti-card.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .mbti-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .mbti-card p {
+            font-size: 0.9rem;
+            color: var(--light-text-color);
+            margin-top: 5px;
+        }
+        .mbti-card.selected p {
+             color: rgba(255, 255, 255, 0.8);
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #43A047; /* Darker green */
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+            nav ul {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            nav ul li {
+                margin: 5px 10px;
+            }
+            .mbti-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+            .mbti-card {
+                padding: 10px;
+            }
+            .mbti-card h3 {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo"><i class="fas fa-gem"></i>SmartPick</a>
+            <nav>
+                <ul>
+                    <li><a href="/">프리미엄 추천</a></li>
+                    <li><a href="/filter">상세 필터 추천</a></li>
+                    <li><a href="/hotpick">인기 번호 추천</a></li>
+                    <li><a href="/fun-lotto-test">재미로 보는 테스트</a></li>
+                    <li><a href="/stats">통계</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2>🔮 나의 MBTI는?</h2>
+        <p>당신의 MBTI를 선택하고 이번 주 로또 운세를 확인해보세요!</p>
+
+        <div class="mbti-grid" id="mbtiGrid">
+            </div>
+
+        <button id="getFortuneBtn" disabled>운세 확인하기</button>
+    </main>
+
+    <footer>
+        <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
+        <p>
+            <a href="/about">SmartPick은?</a> |
+            <a href="/privacy">개인정보처리방침</a> |
+            <a href="/disclaimer">면책조항</a> |
+            <a href="/contact">문의</a>
+        </p>
+    </footer>
+
+    <script>
+        const MBTI_TYPES = {
+            '분석가': ['INTJ', 'INTP', 'ENTJ', 'ENTP'],
+            '외교관': ['INFJ', 'INFP', 'ENFJ', 'ENFP'],
+            '관리자': ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ'],
+            '탐험가': ['ISTP', 'ISFP', 'ESTP', 'ESFP']
+        };
+
+        const MBTI_DESCRIPTIONS = {
+            INTJ: "용의주도한 전략가", INTP: "논리적인 사색가", ENTJ: "대담한 통솔자", ENTP: "뜨거운 논쟁을 즐기는 변론가",
+            INFJ: "선의의 옹호자", INFP: "열정적인 중재자", ENFJ: "정의로운 사회운동가", ENFP: "자유로운 영혼의 연예인",
+            ISTJ: "청렴결백한 논리주의자", ISFJ: "용감한 수호자", ESTJ: "엄격한 관리자", ESFJ: "사교적인 외교관",
+            ISTP: "만능 재주꾼", ISFP: "호기심 많은 예술가", ESTP: "활동적인 사업가", ESFP: "자유로운 영혼의 연예인"
+        };
+
+        const mbtiGrid = document.getElementById('mbtiGrid');
+        const getFortuneBtn = document.getElementById('getFortuneBtn');
+        let selectedMbti = null;
+
+        // MBTI 카드 동적 생성
+        for (const group in MBTI_TYPES) {
+            MBTI_TYPES[group].forEach(mbti => {
+                const card = document.createElement('div');
+                card.classList.add('mbti-card');
+                card.dataset.mbti = mbti;
+                card.innerHTML = `<h3>${mbti}</h3><p>${MBTI_DESCRIPTIONS[mbti]}</p>`;
+                mbtiGrid.appendChild(card);
+
+                card.addEventListener('click', () => {
+                    // 이전에 선택된 카드 스타일 제거
+                    const currentSelected = document.querySelector('.mbti-card.selected');
+                    if (currentSelected) {
+                        currentSelected.classList.remove('selected');
+                    }
+                    // 현재 카드 선택 및 스타일 적용
+                    card.classList.add('selected');
+                    selectedMbti = mbti;
+                    getFortuneBtn.disabled = false; // 버튼 활성화
+                });
+            });
+        }
+
+        getFortuneBtn.addEventListener('click', async () => {
+            if (selectedMbti) {
+                getFortuneBtn.disabled = true; // 중복 클릭 방지
+                getFortuneBtn.textContent = '운세 확인 중...';
+
+                try {
+                    const response = await fetch('/get_mbti_lotto_fortune', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ mbti_type: selectedMbti })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // 결과 페이지로 리다이렉트 (데이터를 URL 쿼리 파라미터로 전달)
+                        const params = new URLSearchParams({
+                            mbti: data.mbti_type,
+                            title: data.title,
+                            description: data.description,
+                            luckyTip: data.luckyTip,
+                            numbers: data.numbers.join(',') // 배열을 콤마로 구분된 문자열로
+                        }).toString();
+                        window.location.href = `/mbti-lotto-fortune?${params}`;
+                    } else {
+                        alert(`운세 생성 오류: ${data.error || '알 수 없는 오류'}`);
+                    }
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    alert('운세 생성 중 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                } finally {
+                    getFortuneBtn.disabled = false;
+                    getFortuneBtn.textContent = '운세 확인하기';
+                }
+            } else {
+                alert('MBTI 유형을 선택해주세요!');
+            }
+        });
+    </script>
+</body>
+</html>
