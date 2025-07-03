@@ -420,7 +420,6 @@
         // 전역 변수로 선언하여 DOMContentLoaded 이후에도 접근 가능하게 함
         let startButtonElement;
         let nextButtonElement;
-        let showResultButtonElement; // 이 변수는 사용되지 않으므로 제거 가능
         let kakaoShareButtonElement; // 이름 변경: shareButtonElement -> kakaoShareButtonElement
 
         let currentQuestionIndex = 0;
@@ -430,7 +429,8 @@
         // 사용자 활동 로깅 함수
         async function logEvent(event_name, event_details = {}) {
             try {
-                await fetch('/log_event', {
+                // 절대 경로 사용
+                await fetch(`${window.location.origin}/log_event`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event: event_name, details: event_details })
@@ -505,7 +505,14 @@
             // Google AdSense 라이브러리에 새 광고가 있음을 알립니다.
             // window.adsbygoogle 배열에 모든 새 광고 단위를 추가하여 로드를 요청합니다.
             if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
-                window.adsbygoogle.push({});
+                // 광고 컨테이너가 렌더링될 시간을 주기 위해 setTimeout 사용
+                setTimeout(() => {
+                    try {
+                        (window.adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {
+                        console.error("adsbygoogle.push() error:", e);
+                    }
+                }, 100); // 100ms 지연
             }
         }
 
@@ -592,7 +599,8 @@
 
             // 로또 번호 가져오기 (백엔드 API 호출)
             try {
-                const response = await fetch('/generate_dna_lotto_numbers', {
+                // 절대 경로 사용
+                const response = await fetch(`${window.location.origin}/generate_dna_lotto_numbers`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ dna_type: lottoTypeForAPI }) // DNA 유형 전달 (현재는 무작위 생성이라 미사용)
