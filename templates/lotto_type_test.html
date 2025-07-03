@@ -302,6 +302,54 @@
                 font-size: 1.2em;
             }
         }
+
+        /* 카카오톡 공유 버튼 스타일 */
+        #kakao-share-button-dna {
+            background-color: #FEE500; /* 카카오 고유의 노란색 */
+            color: #191919; /* 텍스트 색상을 진한 회색 또는 검정색으로 설정하여 가독성 높임 */
+            border: none;
+            border-radius: 1.2em; /* 이전 버튼 스타일과 유사하게 둥근 모서리 유지 */
+            padding: 1em 2.5em; /* 충분한 패딩 */
+            font-size: 1.2em; /* 폰트 크기 */
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 호버 효과를 위한 전환 효과 */
+            display: inline-flex; /* 이미지와 텍스트를 한 줄에 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            margin-top: 20px; /* 상단 여백 (필요에 따라 조정) */
+        }
+
+        #kakao-share-button-dna:hover {
+            background-color: #FCDD00; /* 호버 시 약간 더 진한 노란색 */
+            transform: translateY(-2px); /* 호버 시 살짝 위로 이동하는 효과 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
+        }
+
+        #kakao-share-button-dna:active {
+            transform: translateY(0); /* 클릭 시 원래 위치로 돌아오는 효과 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 약화 */
+        }
+
+        #kakao-share-button-dna img {
+            width: 24px; /* 카카오톡 아이콘 크기 조정 */
+            height: 24px;
+            margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+        }
+
+        /* 모바일 반응형 (필요하다면 추가) */
+        @media (max-width: 500px) {
+            #kakao-share-button-dna {
+                font-size: 1.05em;
+                padding: 0.8em 1.8em;
+            }
+            #kakao-share-button-dna img {
+                width: 20px;
+                height: 20px;
+                margin-right: 6px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -365,7 +413,14 @@
             </div>
         </div>
     </div>
-
+    
+    <div class="share-section">
+        <button id="kakao-share-button-dna">
+            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png" alt="카카오톡 공유">
+            카카오톡 공유하기
+        </button>
+    </div>
+    
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
         // Kakao SDK 초기화 (Flask 템플릿에서 전달된 키 사용)
