@@ -1029,11 +1029,6 @@ def generate_mbti_lotto_numbers(mbti_type):
 
     return sorted(numbers)
 
-# 새로운 MBTI 로또 테스트 시작 페이지 라우트
-@app.route('/mbti-lotto-test')
-def mbti_lotto_test_page():
-    return render_template('mbti_lotto_test_input.html') # 이 HTML 파일은 MBTI 선택 UI를 가집니다.
-
 # MBTI 유형에 따른 로또 운세 및 번호 생성 API 엔드포인트
 @app.route('/get_mbti_lotto_fortune', methods=['POST'])
 def get_mbti_lotto_fortune():
