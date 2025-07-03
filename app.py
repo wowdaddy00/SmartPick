@@ -908,7 +908,7 @@ def generate_dna_lotto_numbers():
 # New Route for the Fun Lotto Test Hub page
 @app.route('/fun-lotto-test')
 def fun_lotto_test_hub():
-    return render_template('fun_lotto_test_hub.html') # 재미로 보는 로또 테스트 선택 허브
+    return render_template('fun_lotto_test_hub.html')
         
 # --- START OF NEW MBTI LOTTO FORTUNE FEATURE ---
 
