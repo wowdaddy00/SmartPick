@@ -112,22 +112,53 @@
             margin-right: auto; /* 가운데 정렬 */
         }
 
-        /* 시작/질문 버튼 스타일 (CLEAR DAY 강조) */
-        .start-button, .question-button, .lotto-main-link {
+        /* 테스트 시작하기 버튼 스타일 */
+        .start-button {
+            background-color: #FFFFF0; /* 요청된 색상 */
+            color: var(--color-text-dark); /* 텍스트 색상 유지 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 그림자 유지 */
+        }
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* 호버 그림자 강화 */
+        }
+        .start-button:active {
+            transform: translateY(1px); 
+            box-shadow:0 5px 12px rgba(0, 0, 0, 0.05); /* 클릭 시 그림자 약화 */
+        }
+
+        /* SmartPick 메인 페이지 가기 버튼 스타일 */
+        .lotto-main-link {
+            background-color: #BFF0BE; /* 요청된 색상 */
+            color: var(--color-text-dark); /* 텍스트 색상 유지 */
+            box-shadow: 0 8px 20px rgba(191, 240, 190, 0.4); /* 요청된 색상에 맞는 그림자 */
+        }
+        .lotto-main-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(191, 240, 190, 0.5); /* 호버 그림자 강화 */
+        }
+        .lotto-main-link:active {
+            transform: translateY(1px); 
+            box-shadow:0 5px 12px rgba(191, 240, 190, 0.3); /* 클릭 시 그림자 약화 */
+        }
+
+        /* 다음 질문 버튼 스타일 (기존 .question-button 유지) */
+        .question-button {
             background-color: var(--color-clear-day); /* CLEAR DAY */
             color: var(--color-text-dark);
             box-shadow: 0 8px 20px rgba(154, 178, 212, 0.4);
         }
-        .start-button:hover, .question-button:hover, .lotto-main-link:hover {
+        .question-button:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 25px rgba(154, 178, 212, 0.5);
         }
-        .start-button:active, .question-button:active, .lotto-main-link:active {
+        .question-button:active {
             transform: translateY(1px); 
             box-shadow:0 5px 12px rgba(154, 178, 212, 0.3);
         }
 
-        /* 카카오톡 공유 버튼 스타일 (이전에 정의된 share-button 클래스 스타일을 대체) */
+
+        /* 카카오톡 공유 버튼 스타일 */
         #kakao-share-button-dna {
             background-color: #FEE500; /* 카카오 고유의 노란색 */
             color: #191919; /* 텍스트 색상을 진한 회색 또는 검정색으로 설정하여 가독성 높임 */
@@ -332,11 +363,17 @@
         .ad-area {
             margin-top: 2.5em; /* 기존 마진 유지 */
             width: 100%; /* 부모 너비에 맞춤 */
-            min-height: 100px; /* 최소 높이 설정 */
+            min-height: 100px; /* 최소 높이 설정 (광고가 로드될 공간 확보) */
             display: flex; /* 내부 광고를 중앙 정렬하기 위해 flexbox 사용 */
             justify-content: center;
             align-items: center;
             overflow: hidden; /* 내용이 넘칠 경우 숨김 */
+            min-width: 280px; /* 최소 너비 설정 */
+        }
+
+        /* AdSense ins 태그가 항상 블록 레벨이 되도록 강제 */
+        ins.adsbygoogle {
+            display: block !important;
         }
     </style>
 </head>
@@ -411,7 +448,7 @@
     <script>
         // Flask에서 전달된 base_url 변수 (app.py에서 lotto_dna_test_page 라우트 수정 필요)
         // 예: return render_template('lotto_type_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, base_url="https://smartpick.wow-daddy.com")
-        // 만약 Flask를 사용하지 않고 직접 HTML 파일을 실행하는 경우, 여기에 실제 웹사이트 URL을 직접 입력하세요.
+        // 만약 Flask를 사용하지 않고 직접 HTML 파일을 수정하는 경우, 여기에 실제 웹사이트 URL을 직접 입력하세요.
         const BASE_URL = "{{ base_url }}"; 
         // 또는 직접 설정: const BASE_URL = "https://smartpick.wow-daddy.com";
 
@@ -522,11 +559,14 @@
                 // 광고 컨테이너가 렌더링될 시간을 주기 위해 setTimeout 사용
                 setTimeout(() => {
                     try {
+                        // 광고 컨테이너의 실제 너비를 콘솔에 출력하여 디버깅에 활용
+                        const adContainerWidth = document.querySelector('.ad-area').offsetWidth;
+                        console.log('Ad container offsetWidth before push:', adContainerWidth);
                         (window.adsbygoogle = window.adsbygoogle || []).push({});
                     } catch (e) {
                         console.error("adsbygoogle.push() error:", e);
                     }
-                }, 100); // 100ms 지연
+                }, 1000); // 1000ms (1초) 지연
             }
         }
 
