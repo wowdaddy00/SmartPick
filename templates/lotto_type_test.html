@@ -9,7 +9,7 @@
     <meta name="google-site-verification" content="OSCCxtagL4eGuHLAdvED7qvVty2oBgV__K4afsPMXI8" /> 
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" 
-       crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta property="og:title" content="💰 당신의 로또 DNA는?! 심리 테스트 해보기" />
     <meta property="og:description" content="간단한 질문으로 당신의 로또 취향을 알아보고, 나만의 행운 번호 유형을 발견하세요! 친구들과 공유하면 더 재밌어요!" />
     <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_lottodna.png" />
@@ -91,7 +91,7 @@
             line-height: 1.5;
         }
 
-        .start-button, .question-button, .share-button, .lotto-main-link {
+        .start-button, .question-button, .lotto-main-link {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -127,23 +127,43 @@
             box-shadow:0 5px 12px rgba(154, 178, 212, 0.3);
         }
 
+        /* 카카오톡 공유 버튼 스타일 (이전에 정의된 share-button 클래스 스타일을 대체) */
+        #kakao-share-button-dna {
+            background-color: #FEE500; /* 카카오 고유의 노란색 */
+            color: #191919; /* 텍스트 색상을 진한 회색 또는 검정색으로 설정하여 가독성 높임 */
+            border: none;
+            border-radius: 1.5em; /* 기존 버튼들과 유사하게 둥근 모서리 유지 */
+            padding: 1.2em 1.5em; /* 충분한 패딩 */
+            font-size: 1.2em; /* 폰트 크기 */
+            font-weight: 700; /* 폰트 굵기 */
+            cursor: pointer;
+            transition: all 0.3s ease; /* 호버 효과를 위한 전환 효과 */
+            display: inline-flex; /* 이미지와 텍스트를 한 줄에 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            justify-content: center; /* 가로 중앙 정렬 */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            margin-top: 1.5em; /* 상단 여백 (기존 버튼들과 동일하게) */
+            width: 100%; /* 너비 100% */
+            max-width: 350px; /* 최대 너비 설정 */
+            margin-left: auto; /* 가운데 정렬 */
+            margin-right: auto; /* 가운데 정렬 */
+        }
 
-        /* 공유 버튼 스타일 (APPLE 강조) */
-        .share-button {
-            background-color: var(--color-apple); /* APPLE */
-            color: var(--color-text-dark);
-            box-shadow: 0 8px 20px rgba(170, 213, 158, 0.4);
+        #kakao-share-button-dna:hover {
+            background-color: #FCDD00; /* 호버 시 약간 더 진한 노란색 */
+            transform: translateY(-3px); /* 호버 시 살짝 위로 이동하는 효과 */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
         }
-        .share-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(170, 213, 158, 0.5);
+
+        #kakao-share-button-dna:active {
+            transform: translateY(1px); /* 클릭 시 원래 위치로 돌아오는 효과 */
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 약화 */
         }
-        .share-button:active {
-            transform: translateY(1px); 
-            box-shadow:0 5px 12px rgba(170, 213, 158, 0.3);
-        }
-        .share-button .icon {
-            margin-right: 10px;
+
+        #kakao-share-button-dna img {
+            width: 24px; /* 카카오톡 아이콘 크기 조정 */
+            height: 24px;
+            margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
         }
 
 
@@ -279,9 +299,14 @@
             .header p {
                 font-size: 0.95em;
             }
-            .start-button, .question-button, .share-button, .lotto-main-link {
+            .start-button, .question-button, .lotto-main-link, #kakao-share-button-dna {
                 padding: 1em 1.2em;
                 font-size: 1.1em;
+            }
+            #kakao-share-button-dna img {
+                width: 20px;
+                height: 20px;
+                margin-right: 6px;
             }
             .question-section h2 {
                 font-size: 1.4em;
@@ -300,54 +325,6 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1.2em;
-            }
-        }
-
-        /* 카카오톡 공유 버튼 스타일 */
-        #kakao-share-button-dna {
-            background-color: #FEE500; /* 카카오 고유의 노란색 */
-            color: #191919; /* 텍스트 색상을 진한 회색 또는 검정색으로 설정하여 가독성 높임 */
-            border: none;
-            border-radius: 1.2em; /* 이전 버튼 스타일과 유사하게 둥근 모서리 유지 */
-            padding: 1em 2.5em; /* 충분한 패딩 */
-            font-size: 1.2em; /* 폰트 크기 */
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease; /* 호버 효과를 위한 전환 효과 */
-            display: inline-flex; /* 이미지와 텍스트를 한 줄에 정렬 */
-            align-items: center; /* 세로 중앙 정렬 */
-            justify-content: center; /* 가로 중앙 정렬 */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-            margin-top: 20px; /* 상단 여백 (필요에 따라 조정) */
-        }
-
-        #kakao-share-button-dna:hover {
-            background-color: #FCDD00; /* 호버 시 약간 더 진한 노란색 */
-            transform: translateY(-2px); /* 호버 시 살짝 위로 이동하는 효과 */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 호버 시 그림자 강화 */
-        }
-
-        #kakao-share-button-dna:active {
-            transform: translateY(0); /* 클릭 시 원래 위치로 돌아오는 효과 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 클릭 시 그림자 약화 */
-        }
-
-        #kakao-share-button-dna img {
-            width: 24px; /* 카카오톡 아이콘 크기 조정 */
-            height: 24px;
-            margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
-        }
-
-        /* 모바일 반응형 (필요하다면 추가) */
-        @media (max-width: 500px) {
-            #kakao-share-button-dna {
-                font-size: 1.05em;
-                padding: 0.8em 1.8em;
-            }
-            #kakao-share-button-dna img {
-                width: 20px;
-                height: 20px;
-                margin-right: 6px;
             }
         }
     </style>
@@ -398,7 +375,11 @@
                     </div>
             </div>
             <div class="button-group">
-                <button id="share-button-element" class="share-button"><i class="fas fa-share-alt icon"></i>결과 카카오톡 공유하기</button>
+                <!-- 이 버튼이 카카오톡 공유 버튼으로 사용됩니다. -->
+                <button id="kakao-share-button-dna">
+                    <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png" alt="카카오톡 공유">
+                    결과 카카오톡 공유하기
+                </button>
                 <a href="https://smartpick.wow-daddy.com/" class="lotto-main-link" target="_blank">
                     <i class="fas fa-home icon"></i>SmartPick 메인 페이지 가기
                 </a>
@@ -414,18 +395,16 @@
         </div>
     </div>
     
-    <div class="share-section">
-        <button id="kakao-share-button-dna">
-            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png" alt="카카오톡 공유">
-            카카오톡 공유하기
-        </button>
-    </div>
-    
+    <!-- 카카오 SDK 로드 -->
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
         // Kakao SDK 초기화 (Flask 템플릿에서 전달된 키 사용)
+        // '{{ kakao_js_key }}' 부분은 Flask 백엔드에서 실제 JavaScript 키를 전달해야 합니다.
+        // 만약 Flask를 사용하지 않고 직접 HTML 파일을 수정하는 경우, 여기에 실제 JavaScript 키를 직접 입력하세요.
+        // 예: Kakao.init('YOUR_JAVASCRIPT_KEY');
         if (Kakao && !Kakao.isInitialized()) {
-            Kakao.init('{{ kakao_js_key }}'); // Flask에서 전달된 키 삽입
+            Kakao.init('{{ kakao_js_key }}'); 
+            console.log("Kakao SDK initialized:", Kakao.isInitialized());
         }
 
         const startScreen = document.getElementById('start-screen');
@@ -441,8 +420,8 @@
         // 전역 변수로 선언하여 DOMContentLoaded 이후에도 접근 가능하게 함
         let startButtonElement;
         let nextButtonElement;
-        let showResultButtonElement;
-        let shareButtonElement;
+        let showResultButtonElement; // 이 변수는 사용되지 않으므로 제거 가능
+        let kakaoShareButtonElement; // 이름 변경: shareButtonElement -> kakaoShareButtonElement
 
         let currentQuestionIndex = 0;
         let totalScore = 0;
@@ -544,12 +523,12 @@
 
         function loadQuestion() {
             const q = questions[currentQuestionIndex];
-            questionText.textContent = `Q${currentQuestionIndex + 1}. ${q.question}`;
+            questionText.innerHTML = `Q${currentQuestionIndex + 1}. ${q.question}`; // innerHTML로 변경하여 <br> 태그 인식
             optionsGrid.innerHTML = '';
             q.options.forEach((option, index) => {
                 const optionCard = document.createElement('div');
                 optionCard.classList.add('option-card');
-                optionCard.textContent = option.text;
+                optionCard.innerHTML = option.text; // innerHTML로 변경하여 <br> 태그 인식
                 optionCard.dataset.score = option.score;
                 optionCard.addEventListener('click', () => selectOption(optionCard));
                 optionsGrid.appendChild(optionCard);
@@ -609,7 +588,7 @@
             }
 
             resultType.textContent = type;
-            resultDescription.textContent = description;
+            resultDescription.innerHTML = description; // innerHTML로 변경하여 <br> 태그 인식
 
             // 로또 번호 가져오기 (백엔드 API 호출)
             try {
@@ -697,21 +676,23 @@
             // 버튼 요소들을 DOMContentLoaded 시점에 가져옴
             startButtonElement = document.getElementById('start-button-element');
             nextButtonElement = document.getElementById('next-button'); 
-            showResultButtonElement = document.getElementById('show-result-button'); 
-            shareButtonElement = document.getElementById('share-button-element');
+            // showResultButtonElement는 사용되지 않으므로 제거하거나 주석 처리
+            // showResultButtonElement = document.getElementById('show-result-button'); 
+            kakaoShareButtonElement = document.getElementById('kakao-share-button-dna'); // ID 변경 반영
 
             // 이벤트 리스너 부착
             if (startButtonElement) {
-                startButtonElement.addEventListener('click', startTest); // window.startTest 대신 직접 함수 참조
+                startButtonElement.addEventListener('click', startTest);
             }
             if (nextButtonElement) { 
-                nextButtonElement.addEventListener('click', nextQuestion); // window.nextQuestion 대신 직접 함수 참조
+                nextButtonElement.addEventListener('click', nextQuestion);
             }
-            if (showResultButtonElement) {
-                showResultButtonElement.addEventListener('click', showResult); // window.showResult 대신 직접 함수 참조
-            }
-            if (shareButtonElement) {
-                shareButtonElement.addEventListener('click', shareResult); // window.shareResult 대신 직접 함수 참조
+            // showResultButtonElement에 대한 이벤트 리스너는 필요 없음 (nextQuestion에서 showResult 호출)
+            // if (showResultButtonElement) {
+            //     showResultButtonElement.addEventListener('click', showResult);
+            // }
+            if (kakaoShareButtonElement) { // 변경된 ID 사용
+                kakaoShareButtonElement.addEventListener('click', shareResult);
             }
 
             startScreen.style.display = 'block';
