@@ -903,7 +903,287 @@ def generate_dna_lotto_numbers():
         return jsonify({"numbers": generated_numbers}), 200
     except Exception as e:
         print(f"로또 DNA 번호 생성 오류: {e}")
-        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500
+        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500   
+# --- START OF NEW MBTI LOTTO FORTUNE FEATURE ---
+
+# MBTI 유형별 로또 운세 데이터 (mbti_lotto_fortune.html에서 추출)
+MBTI_FORTUNE_DATA = {
+    "ISTP": {
+        "title": "ISTP 로또 운세: 뚝심 있는 탐험가",
+        "description": "ISTP는 독립적이고 문제 해결 능력이 뛰어납니다. 로또에서도 자신만의 방식으로 번호를 분석하고 선택하는 경향이 있습니다. 즉흥적으로 끌리는 번호보다는, 패턴이나 논리적인 근거를 찾아 뚝심 있게 밀고 나가는 것이 행운을 불러올 수 있습니다.",
+        "luckyTip": "이번 주 ISTP의 행운 번호는 **최근 10주간 당첨 이력이 없지만, 꾸준히 선택되는 경향이 있는 번호**들입니다. 기존의 틀을 깨는 번호에서 기회가 숨어있을 수 있습니다!"
+    },
+    "ISFP": {
+        "title": "ISFP 로또 운세: 유연한 예술가",
+        "description": "ISFP는 감성적이고 유연하며, 주변의 아름다움에 민감합니다. 로또 번호를 선택할 때도 직관이나 느낌에 따라 자유롭게 선택하는 경향이 있습니다. 복잡한 분석보다는, 그날의 기분이나 꿈, 혹은 주변에서 영감을 받은 번호들이 의외의 행운을 가져다줄 수 있습니다.",
+        "luckyTip": "이번 주 ISFP의 행운 번호는 **당신이 최근에 인상 깊게 본 숫자, 혹은 주변 환경에서 문득 떠오른 번호**들입니다. 직관을 믿고 선택해 보세요!"
+    },
+    "ESTP": {
+        "title": "ESTP 로또 운세: 대담한 행동가",
+        "description": "ESTP는 에너지 넘치고 현실적이며, 즉각적인 행동을 선호합니다. 로또 번호를 고를 때도 과감하고 스릴 있는 선택을 즐길 수 있습니다. 빠르게 결정을 내리고, 새로운 시도를 두려워하지 않는 대담함이 의외의 당첨으로 이어질 수 있습니다.",
+        "luckyTip": "이번 주 ESTP의 행운 번호는 **가장 최근에 당첨된 번호들 중 당신의 눈길을 끈 숫자들과 이웃하는 번호들**입니다. 과감한 시도가 행운을 만듭니다!"
+    },
+    "ESFP": {
+        "title": "ESFP 로또 운세: 열정적인 연예인",
+        "description": "ESFP는 사교적이고 활기차며, 즐거움을 추구합니다. 로또를 고를 때도 재미와 유희를 중요하게 생각할 것입니다. 혼자만의 고민보다는 친구들과 함께 번호를 고르거나, 흥미로운 스토리를 가진 번호를 선택하는 것이 즐거운 경험과 함께 뜻밖의 행운을 가져올 수 있습니다.",
+        "luckyTip": "이번 주 ESFP의 행운 번호는 **친구들과의 모임에서 나온 숫자, 혹은 당신이 가장 좋아하는 숫자**들을 조합한 것입니다. 즐거운 에너지가 행운을 이끕니다!"
+    },
+    "ISTJ": {
+        "title": "ISTJ 로또 운세: 원칙주의자",
+        "description": "ISTJ는 책임감 있고 논리적이며, 계획에 따라 행동합니다. 로또 번호를 선택할 때도 철저한 분석과 규칙을 선호할 수 있습니다. 과거 데이터, 통계, 출현 빈도 등을 꼼꼼히 따져서 신뢰성 있는 번호를 선택하는 것이 좋습니다.",
+        "luckyTip": "이번 주 ISTJ의 행운 번호는 **과거 당첨 번호 데이터에서 1등 번호로는 출현하지 않았지만, 2등/3등 번호로 자주 조합되었던 숫자**들입니다. 원칙에 충실한 선택이 중요합니다!"
+    },
+    "ISFJ": {
+        "title": "ISFJ 로또 운세: 헌신적인 수호자",
+        "description": "ISFJ는 따뜻하고 성실하며, 안정과 조화를 중요하게 생각합니다. 로또 번호를 선택할 때도 익숙하고 안정적인 번호들을 선호할 수 있습니다. 의미 있는 날짜나, 오랫동안 꾸준히 선택해온 번호들에서 안정적인 행운을 기대해 볼 수 있습니다.",
+        "luckyTip": "이번 주 ISFJ의 행운 번호는 **당신에게 의미 있는 기념일 숫자, 혹은 당신이 오랫동안 꾸준히 사랑해온 번호**들입니다. 익숙함 속에서 행운이 찾아옵니다!"
+    },
+    "ESTJ": {
+        "title": "ESTJ 로또 운세: 경영자",
+        "description": "ESTJ는 현실적이고 조직적이며, 리더십이 강합니다. 로또 번호를 선택할 때도 효율적이고 체계적인 접근을 할 것입니다. 전략적인 분석과 함께, 단호하게 결정을 내리는 실행력이 행운을 만들어낼 수 있습니다.",
+        "luckyTip": "이번 주 ESTJ의 행운 번호는 **과거 50회차 당첨 번호 중 가장 높은 출현 빈도를 보인 번호**들과 그 주변 번호들을 조합한 것입니다. 분석적인 선택이 당신을 리드합니다!"
+    },
+    "ESFJ": {
+        "title": "ESFJ 로또 운세: 사교적인 외교관",
+        "description": "ESFJ는 친화적이고 배려심이 깊으며, 조화로운 관계를 중요하게 생각합니다. 로또 번호를 고를 때도 주변 사람들과의 소통을 통해 영감을 얻거나, 함께 번호를 공유하는 즐거움을 느낄 수 있습니다. 좋은 사람들과 함께하는 시간 속에서 행운의 번호가 나올 수 있습니다.",
+        "luckyTip": "이번 주 ESFJ의 행운 번호는 **친구나 가족과의 대화에서 우연히 나온 숫자, 또는 다수가 좋아하는 숫자**들을 조합한 것입니다. 함께하는 즐거움이 행운을 키웁니다!"
+    },
+    "INFJ": {
+        "title": "INFJ 로또 운세: 통찰력 있는 예언가",
+        "description": "INFJ는 직관적이고 통찰력이 깊으며, 이상을 추구합니다. 로또 번호를 선택할 때도 남들이 보지 못하는 의미나 패턴을 발견하려 할 수 있습니다. 꿈에서 본 숫자나 강하게 끌리는 직관적인 번호들이 큰 행운을 가져다줄 수 있습니다.",
+        "luckyTip": "이번 주 INFJ의 행운 번호는 **당신의 내면에서 강하게 끌리는 숫자들, 혹은 의미심장한 패턴이 보이는 번호**들입니다. 당신의 직관을 믿어보세요!"
+    },
+    "INFP": {
+        "title": "INFP 로또 운세: 이상주의자",
+        "description": "INFP는 창의적이고 이상적이며, 가치를 중요하게 생각합니다. 로또 번호를 고를 때도 개인적인 의미나 스토리가 있는 번호들을 선호할 것입니다. 세상에 긍정적인 영향을 줄 수 있는 번호나, 자신만의 특별한 의미가 담긴 번호가 행운을 부를 수 있습니다.",
+        "luckyTip": "이번 주 INFP의 행운 번호는 **당신의 삶의 중요한 가치와 연결된 숫자, 혹은 당신이 가장 아끼는 소설이나 영화 속 번호**들입니다. 의미 있는 선택이 행운을 만듭니다!"
+    },
+    "ENFJ": {
+        "title": "ENFJ 로또 운세: 정의로운 옹호자",
+        "description": "ENFJ는 열정적이고 타인에게 영감을 주며, 사회적 정의를 추구합니다. 로또 번호를 선택할 때도 다른 사람들에게 좋은 영향을 줄 수 있는 번호나, 긍정적인 의미를 담은 번호를 선호할 수 있습니다. 당신의 선한 영향력이 로또 행운으로 이어질 수 있습니다.",
+        "luckyTip": "이번 주 ENFJ의 행운 번호는 **당신이 존경하는 인물의 생일이나 의미 있는 날짜, 혹은 사회적 이슈와 관련된 숫자**들입니다. 긍정적인 에너지가 행운을 이끕니다!"
+    },
+    "ENFP": {
+        "title": "ENFP 로또 운세: 자유로운 활동가",
+        "description": "ENFP는 창의적이고 열정적이며, 새로운 가능성을 탐구합니다. 로또 번호를 고를 때도 틀에 얽매이지 않고 자유롭게, 그리고 다양한 방식으로 시도하는 것을 즐길 것입니다. 예상치 못한 조합이나, 즉흥적인 아이디어가 뜻밖의 행운을 가져올 수 있습니다.",
+        "luckyTip": "이번 주 ENFP의 행운 번호는 **최근 당첨 번호에 포함되지 않았던 숫자들 중 당신의 직관에 가장 강하게 와닿는 번호**들입니다. 틀을 깨는 시도가 행운을 부릅니다!"
+    },
+    "INTJ": {
+        "title": "INTJ 로또 운세: 전략가",
+        "description": "INTJ는 분석적이고 전략적이며, 장기적인 계획을 선호합니다. 로또 번호를 선택할 때도 고도로 계산된 전략과 논리적인 접근을 할 것입니다. 복잡한 통계 분석이나 자신만의 예측 모델을 통해 가장 확률 높은 번호를 찾아낼 수 있습니다.",
+        "luckyTip": "이번 주 INTJ의 행운 번호는 **각 번호대의 출현 빈도와 홀짝 비율, 고저 비율을 고려하여 통계적으로 가장 균형 잡힌 조합**입니다. 당신의 전략이 승리합니다!"
+    },
+    "INTP": {
+        "title": "INTP 로또 운세: 논리적인 사색가",
+        "description": "INTP는 지적이고 분석적이며, 복잡한 문제 해결을 즐깁니다. 로또 번호를 고를 때도 심층적인 분석과 이론적인 접근을 할 것입니다. 자신만의 독특한 패턴이나 논리를 적용하여 번호를 선택하는 것이 의외의 결과를 가져올 수 있습니다.",
+        "luckyTip": "이번 주 INTP의 행운 번호는 **수학적 패턴(예: 피보나치 수열)이나 특정 알고리즘을 적용하여 도출된 번호**들입니다. 논리적인 탐구가 행운을 발견합니다!"
+    },
+    "ENTJ": {
+        "title": "ENTJ 로또 운세: 통솔자",
+        "description": "ENTJ는 단호하고 비전을 제시하며, 목표 달성을 위해 강력하게 추진합니다. 로또 번호를 선택할 때도 명확한 목표를 세우고, 이를 달성하기 위한 효율적인 방법을 모색할 것입니다. 자신감 있는 선택과 강력한 추진력이 로또 행운을 끌어당길 수 있습니다.",
+        "luckyTip": "이번 주 ENTJ의 행운 번호는 **가장 최근의 당첨 번호들을 기반으로 미래 추이를 예측하여 선정한 번호**들입니다. 당신의 결단력이 행운을 지휘합니다!"
+    },
+    "ENTP": {
+        "title": "ENTP 로또 운세: 발명가",
+        "description": "ENTP는 혁신적이고 독창적이며, 새로운 아이디어에 열려 있습니다. 로또 번호를 고를 때도 기발하고 독특한 방식으로 접근하는 것을 즐길 것입니다. 고정관념을 깨는 예측 불가능한 시도가 의외의 큰 행운을 불러올 수 있습니다.",
+        "luckyTip": "이번 주 ENTP의 행운 번호는 **일반적인 로또 번호 패턴을 벗어나, 당신의 기발한 아이디어로 조합된 번호**들입니다. 창의적인 발상이 행운을 발명합니다!"
+    }
+}
+
+def generate_mbti_lotto_numbers(mbti_type):
+    """
+    MBTI 유형에 따라 로또 번호를 생성하는 함수.
+    기존 generate_numbers 함수를 활용하여 필터 조건을 조절합니다.
+    """
+    numbers = []
+    
+    # MBTI 유형에 따른 번호 생성 전략
+    if mbti_type in ["ISTJ", "ISFJ", "ESTJ", "ESFJ"]: # 현실적, 전통적, 안정성 중시
+        # 과거 당첨 이력이 없는 번호 위주, 또는 특정 통계 기반
+        # 여기서는 1, 2, 3등 조합을 제외하고, 최근 5주간 인기 번호 제외
+        numbers = generate_numbers(
+            exclude_ranks=['1', '2', '3'],
+            exclude_hot_n=5,
+            count=1
+        )[0] # 첫 번째 결과만 가져옴
+    elif mbti_type in ["ISTP", "ISFP", "ESTP", "ESFP"]: # 즉흥적, 탐험적, 경험 중시
+        # 무작위 번호 생성, 특정 패턴 배제
+        # 여기서는 1등만 제외하고, 연번은 2개까지만 허용
+        numbers = generate_numbers(
+            exclude_ranks=['1'],
+            exclude_consecutive=2,
+            count=1
+        )[0]
+    elif mbti_type in ["INFJ", "INFP", "ENFJ", "ENFP"]: # 직관적, 이상적, 창의적
+        # 완전 무작위 또는 특정 직관적인 번호 포함 (여기서는 순수 무작위)
+        numbers = random.sample(range(1, 46), 6)
+    elif mbti_type in ["INTJ", "INTP", "ENTJ", "ENTP"]: # 분석적, 전략적, 논리적
+        # 전략적 필터 적용 (예: 1,2,3등 제외 + 특정 고빈도/저빈도 번호 활용)
+        # 여기서는 1, 2, 3등 조합 제외
+        numbers = generate_numbers(
+            exclude_ranks=['1', '2', '3'],
+            count=1
+        )[0]
+    else: # 기본값 또는 알 수 없는 MBTI 유형
+        numbers = random.sample(range(1, 46), 6) # 완전 무작위
+
+    return sorted(numbers)
+
+# 새로운 MBTI 로또 테스트 시작 페이지 라우트
+@app.route('/mbti-lotto-test')
+def mbti_lotto_test_page():
+    return render_template('mbti_lotto_test_input.html') # 이 HTML 파일은 MBTI 선택 UI를 가집니다.
+
+# MBTI 유형에 따른 로또 운세 및 번호 생성 API 엔드포인트
+@app.route('/get_mbti_lotto_fortune', methods=['POST'])
+def get_mbti_lotto_fortune():
+    try:
+        data = request.json
+        mbti_type = data.get('mbti_type', 'UNKNOWN').upper()
+
+        if mbti_type not in MBTI_FORTUNE_DATA:
+            mbti_type = 'UNKNOWN' # 유효하지 않은 MBTI는 기본값 처리 (혹은 오류 반환)
+            # UNKNOWN MBTI에 대한 기본 데이터를 MBTI_FORTUNE_DATA에 추가해야 합니다.
+            # 지금은 에러 방지를 위해 간단히 무작위 번호로 처리.
+            # 실제 서비스에서는 에러 처리 또는 기본 MBTI 운세를 보여주는 것이 좋습니다.
+
+        # MBTI_FORTUNE_DATA에서 해당 MBTI의 정보 가져오기
+        fortune_info = MBTI_FORTUNE_DATA.get(mbti_type, {
+            "title": "알 수 없는 MBTI 로또 운세",
+            "description": "선택하신 MBTI 유형에 대한 정보가 없습니다. 일반적인 로또 운세를 확인해 보세요.",
+            "luckyTip": "당신의 행운을 빕니다!"
+        })
+
+        # MBTI 유형에 따른 로또 번호 생성
+        generated_numbers = generate_mbti_lotto_numbers(mbti_type)
+        
+        # Firestore에 로그 기록 (MBTI 추천 이벤트)
+        if db:
+            try:
+                user_id = f"{app_id}_user_{random.getrandbits(64)}"
+                log_data = {
+                    "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "timestamp": firestore.SERVER_TIMESTAMP,
+                    "event": "mbti_recommend",
+                    "detail": {
+                        "mbti_type": mbti_type,
+                        "recommended_numbers": generated_numbers
+                    },
+                    "userId": user_id
+                }
+                db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
+                print(f"MBTI 추천 로그 기록 완료: {mbti_type} - {generated_numbers}")
+
+                # 전체 추천 건수 업데이트 (선택 사항, 필요 시 추가)
+                stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                stats_doc_ref.update({
+                    'total_recommendations': firestore.Increment(1),
+                    'last_updated': firestore.SERVER_TIMESTAMP
+                })
+            except Exception as e:
+                print(f"MBTI 추천 로그 또는 통계 업데이트 오류: {e}")
+
+        return jsonify({
+            "mbti_type": mbti_type,
+            "title": fortune_info["title"],
+            "description": fortune_info["description"],
+            "luckyTip": fortune_info["luckyTip"],
+            "numbers": generated_numbers
+        }), 200
+
+    except Exception as e:
+        print(f"MBTI 로또 운세 생성 오류: {e}")
+        return jsonify({"error": "MBTI 로또 운세 생성 중 오류가 발생했습니다."}), 500
+
+# --- END OF NEW MBTI LOTTO FORTUNE FEATURE ---
+
+# --- START OF NEW MBTI LOTTO FORTUNE FEATURE ROUTES ---
+@app.route('/mbti-lotto-test')
+def mbti_lotto_test_page():
+    """
+    사용자에게 MBTI를 선택하도록 하는 입력 페이지를 렌더링합니다.
+    이 페이지는 MBTI별 로또 운세 결과를 보여주는 mbti_lotto_fortune.html과는 별개의 입력 페이지입니다.
+    """
+    # 현재 연도를 Jinja2 템플릿에 전달하여 푸터 등에 활용할 수 있도록 합니다.
+    current_year = datetime.datetime.now().year
+    return render_template('mbti_lotto_test_input.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, now={'year': current_year})
+
+@app.route('/get_mbti_lotto_fortune', methods=['POST'])
+def get_mbti_lotto_fortune():
+    """
+    MBTI 유형을 받아 해당 유형의 로또 운세와 추천 번호를 JSON 형태로 반환합니다.
+    """
+    mbti_type = request.json.get('mbti_type')
+
+    if not mbti_type or mbti_type not in MBTI_FORTUNE_DATA:
+        return jsonify({"error": "유효하지 않은 MBTI 유형입니다."}), 400
+
+    fortune_data = MBTI_FORTUNE_DATA[mbti_type]
+
+    # MBTI별 운세에 따라 로또 번호 생성
+    # 여기서는 간단히 모든 등수를 제외하고 1세트만 생성
+    numbers = generate_numbers(
+        exclude_ranks=['1', '2', '3'], # 과거 모든 당첨 등수 제외
+        exclude_hot_n=None,            # 인기 번호 필터링 안 함
+        exclude_consecutive=None,      # 연속 번호 필터링 안 함
+        user_exclude=None,             # 사용자가 제외할 번호 없음
+        user_include=None,             # 사용자가 포함할 번호 없음
+        count=1
+    )[0] # 1세트만 가져오므로 [0] 인덱싱
+
+    response_data = {
+        "mbti_type": mbti_type,
+        "title": fortune_data['title'],
+        "description": fortune_data['description'],
+        "luckyTip": fortune_data['luckyTip'],
+        "numbers": numbers # 생성된 로또 번호 포함
+    }
+
+    # 누적 추천 건수 업데이트 (MBTI 로또 운세 생성 시)
+    if db:
+        try:
+            stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+            stats_doc_ref.update({
+                'total_recommendations': firestore.Increment(1),
+                'last_updated': firestore.SERVER_TIMESTAMP
+            })
+        except Exception as e:
+            print(f"Firestore 누적 추천 건수 업데이트 오류 (MBTI lotto): {e}")
+
+    return jsonify(response_data)
+
+# MBTI 로또 운세 결과를 표시하는 페이지 (API 응답을 받은 후 프론트엔드에서 리다이렉트 또는 동적 표시)
+@app.route('/mbti-lotto-fortune')
+def mbti_lotto_fortune_result_page():
+    mbti_type = request.args.get('mbti')
+    numbers_str = request.args.get('numbers') # 콤마로 구분된 문자열
+    title = request.args.get('title')
+    description = request.args.get('description')
+    lucky_tip = request.args.get('luckyTip')
+
+    numbers = []
+    if numbers_str:
+        try:
+            numbers = [int(n) for n in numbers_str.split(',') if n.strip().isdigit()]
+        except ValueError:
+            print(f"Invalid numbers string received: {numbers_str}")
+            numbers = [] # 유효하지 않으면 빈 리스트
+
+    # 날짜 정보 (푸터 등 Jinja2 템플릿에 필요할 수 있음)
+    current_date = datetime.datetime.now()
+
+    # 필요한 데이터를 Jinja2 템플릿으로 전달
+    return render_template(
+        'mbti_lotto_fortune.html',
+        mbti_type=mbti_type,
+        title=title,
+        description=description,
+        luckyTip=lucky_tip,
+        numbers=numbers,
+        kakao_js_key=KAKAO_JAVASCRIPT_KEY,
+        now={'year': current_date.year} # 현재 연도만 필요하다면
+    )
+# --- END OF NEW MBTI LOTTO FORTUNE FEATURE ROUTES ---
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
