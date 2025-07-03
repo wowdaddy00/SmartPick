@@ -1103,49 +1103,7 @@ def mbti_lotto_test_page():
     current_year = datetime.datetime.now().year
     return render_template('mbti_lotto_test_input.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, now={'year': current_year})
 
-@app.route('/get_mbti_lotto_fortune', methods=['POST'])
-def get_mbti_lotto_fortune():
-    """
-    MBTI 유형을 받아 해당 유형의 로또 운세와 추천 번호를 JSON 형태로 반환합니다.
-    """
-    mbti_type = request.json.get('mbti_type')
 
-    if not mbti_type or mbti_type not in MBTI_FORTUNE_DATA:
-        return jsonify({"error": "유효하지 않은 MBTI 유형입니다."}), 400
-
-    fortune_data = MBTI_FORTUNE_DATA[mbti_type]
-
-    # MBTI별 운세에 따라 로또 번호 생성
-    # 여기서는 간단히 모든 등수를 제외하고 1세트만 생성
-    numbers = generate_numbers(
-        exclude_ranks=['1', '2', '3'], # 과거 모든 당첨 등수 제외
-        exclude_hot_n=None,            # 인기 번호 필터링 안 함
-        exclude_consecutive=None,      # 연속 번호 필터링 안 함
-        user_exclude=None,             # 사용자가 제외할 번호 없음
-        user_include=None,             # 사용자가 포함할 번호 없음
-        count=1
-    )[0] # 1세트만 가져오므로 [0] 인덱싱
-
-    response_data = {
-        "mbti_type": mbti_type,
-        "title": fortune_data['title'],
-        "description": fortune_data['description'],
-        "luckyTip": fortune_data['luckyTip'],
-        "numbers": numbers # 생성된 로또 번호 포함
-    }
-
-    # 누적 추천 건수 업데이트 (MBTI 로또 운세 생성 시)
-    if db:
-        try:
-            stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
-            stats_doc_ref.update({
-                'total_recommendations': firestore.Increment(1),
-                'last_updated': firestore.SERVER_TIMESTAMP
-            })
-        except Exception as e:
-            print(f"Firestore 누적 추천 건수 업데이트 오류 (MBTI lotto): {e}")
-
-    return jsonify(response_data)
 
 # MBTI 로또 운세 결과를 표시하는 페이지 (API 응답을 받은 후 프론트엔드에서 리다이렉트 또는 동적 표시)
 @app.route('/mbti-lotto-fortune')
