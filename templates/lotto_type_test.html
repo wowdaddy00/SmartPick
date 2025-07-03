@@ -536,38 +536,36 @@
 
         // 새로운 함수: AdSense 광고를 다시 로드합니다.
         function loadAds() {
-            // 페이지에 있는 모든 'adsbygoogle' 클래스를 가진 요소를 찾습니다.
             const adContainers = document.querySelectorAll('.ad-area');
             adContainers.forEach(container => {
-                // 기존 광고를 비웁니다.
                 container.innerHTML = ''; 
-                // 새로운 광고 단위를 생성하여 추가합니다.
                 const ins = document.createElement('ins');
                 ins.className = 'adsbygoogle';
-                ins.style.display = 'block';
-                ins.style.textAlign = 'center'; // 스타일은 기존과 동일하게 유지
+                ins.style.display = 'block'; // Ensure it's block
+                ins.style.textAlign = 'center';
+                ins.style.width = '100%'; // Explicitly set width to 100%
+                ins.style.height = 'auto'; // Let height be determined by AdSense
                 ins.dataset.adClient = 'ca-pub-2748658493247983';
                 ins.dataset.adSlot = '1322588827';
                 ins.dataset.adFormat = 'auto';
-                ins.dataset.fullWidthResponsive = 'true';
+                ins.dataset.fullWidthResponsive = 'true'; 
                 container.appendChild(ins);
-            });
 
-            // Google AdSense 라이브러리에 새 광고가 있음을 알립니다.
-            // window.adsbygoogle 배열에 모든 새 광고 단위를 추가하여 로드를 요청합니다.
-            if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
-                // 광고 컨테이너가 렌더링될 시간을 주기 위해 setTimeout 사용
-                setTimeout(() => {
-                    try {
-                        // 광고 컨테이너의 실제 너비를 콘솔에 출력하여 디버깅에 활용
-                        const adContainerWidth = document.querySelector('.ad-area').offsetWidth;
-                        console.log('Ad container offsetWidth before push:', adContainerWidth);
-                        (window.adsbygoogle = window.adsbygoogle || []).push({});
-                    } catch (e) {
-                        console.error("adsbygoogle.push() error:", e);
-                    }
-                }, 1000); // 1000ms (1초) 지연
-            }
+                // Use a short timeout to allow the browser to render the 'ins' element
+                // before pushing the ad. This is the most common and reliable pattern.
+                if (window.adsbygoogle && typeof window.adsbygoogle.push === 'function') {
+                    setTimeout(() => {
+                        try {
+                            console.log('Attempting to push ad. Current ins dimensions:', ins.offsetWidth, ins.offsetHeight);
+                            (window.adsbygoogle = window.adsbygoogle || []).push({});
+                        } catch (e) {
+                            console.error("adsbygoogle.push() error after short timeout:", e);
+                        }
+                    }, 200); // Increased delay to 200ms
+                } else {
+                    console.warn("adsbygoogle is not defined or push is not a function. AdSense script might not have loaded.");
+                }
+            });
         }
 
 
@@ -762,7 +760,6 @@
             // 페이지 로드 시 시작 화면에 광고를 로드
             loadAds();
         });
-
     </script>
 </body>
 </html>
