@@ -21,7 +21,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <style>
         :root {
             --primary-color: #4CAF50; /* Green */
@@ -364,48 +364,60 @@
     </footer>
 
     <script>
-        // Kakao SDK 초기화
-        Kakao.init('{{ kakao_js_key }}');
+  // 1) 클립보드 복사 폴백 함수
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok ? Promise.resolve() : Promise.reject();
+    }
+  }
 
-        const mbtiType = "{{ mbti_type }}";
-        const fortuneTitle = "{{ title }}";
-        const fortuneDescription = `{{ description | replace('\n', '\\n') | safe }}`; // 줄바꿈 문자 처리
-        const lottoNumbers = "{{ numbers | join(',') }}".split(',').filter(n => n.trim() !== ''); // 문자열로 받은 숫자 배열로 변환
-        const luckyTip = "{{ luckyTip | replace('\n', '\\n') | safe }}";
+  // 2) 복사 버튼 이벤트
+  document.getElementById('copyUrlBtn').addEventListener('click', function() {
+    const url = window.location.href;
+    copyToClipboard(url)
+      .then(() => alert('링크가 복사되었습니다!'))
+      .catch(() => alert('복사 실패: 다시 시도해 주세요.'));
+  });
 
-        document.getElementById('kakaoShareBtn').addEventListener('click', function() {
-            Kakao.Share.sendDefault({
-                objectType: 'feed',
-                content: {
-                    title: `[MBTI 로또 운세] ${mbtiType}님의 운세는?! 🔮`,
-                    description: `${fortuneTitle}\n${fortuneDescription}\n\n✨ 행운의 로또 번호: ${lottoNumbers.join(', ')}`,
-                    imageUrl: 'https://smartpick.wow-daddy.com/images/og_mbti_lotto.png', // OG 이미지 경로
-                    link: {
-                        mobileWebUrl: window.location.href,
-                        webUrl: window.location.href,
-                    },
-                },
-                buttons: [
-                    {
-                        title: '운세 확인하기',
-                        link: {
-                            mobileWebUrl: window.location.href,
-                            webUrl: window.location.href,
-                        },
-                    },
-                ],
-            });
-        });
+  // 3) Kakao SDK 초기화 (여기에 kakao_js_key 변수만 맞춰두세요)
+  Kakao.init('{{ kakao_js_key }}');
 
-        document.getElementById('copyUrlBtn').addEventListener('click', function() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(function() {
-                alert('링크가 클립보드에 복사되었습니다!');
-            }, function(err) {
-                console.error('클립보드 복사 실패:', err);
-                alert('링크 복사에 실패했습니다.');
-            });
-        });
-    </script>
+  // 4) 카카오톡 공유 버튼 생성 (QR 폴백 포함)
+  Kakao.Link.createDefaultButton({
+    container: '#kakaoShareBtn',
+    objectType: 'feed',
+    content: {
+      title: `[MBTI 로또 운세] {{ mbti_type }}님의 운세는?! 🔮`,
+      description:
+        `{{ title }}\n` +
+        `{{ description | replace('\n', '\\n') | safe }}\n\n` +
+        `✨ 행운의 로또 번호: {{ numbers | join(', ') }}`,
+      imageUrl: 'https://smartpick.wow-daddy.com/images/og_mbti_lotto.png',
+      link: {
+        mobileWebUrl: window.location.href,
+        webUrl: window.location.href
+      }
+    },
+    buttons: [
+      {
+        title: '운세 확인하기',
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href
+        }
+      }
+    ]
+  });
+</script>
+
+    
 </body>
 </html>
