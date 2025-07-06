@@ -1,12 +1,12 @@
 import os
 import json
 import random
-from flask import Flask, render_template, request, jsonify, Response, url_for 
+from flask import Flask, render_template, request, jsonify, Response, url_for
 from collections import Counter
 import datetime
 import requests
 import itertools
-import time 
+import time
 
 # Firebase Admin SDK imports
 import firebase_admin
@@ -33,14 +33,14 @@ KAKAO_JAVASCRIPT_KEY = os.environ.get('KAKAO_JAVASCRIPT_KEY', 'YOUR_DEFAULT_KAKA
 
 def initialize_firebase_app():
     """Firebase Admin SDK를 초기화하고 Firestore 클라이언트를 반환합니다."""
-    global db 
-    global app_id 
+    global db
+    global app_id
 
     print("Firebase Admin SDK 초기화 시도...") # 디버그 로그
     if firebase_admin._apps:
         print("Firebase Admin SDK 이미 초기화됨.")
         try:
-            db = firestore.client() 
+            db = firestore.client()
             print("Firestore 클라이언트 재확인 성공.")
         except Exception as e:
             print(f"Firestore 클라이언트 재확인 실패: {e}")
@@ -49,14 +49,14 @@ def initialize_firebase_app():
 
     try:
         firebase_service_account_json = os.environ.get('FIREBASE_SERVICE_ACCOUNT_KEY')
-        
+
         if firebase_service_account_json:
             print("FIREBASE_SERVICE_ACCOUNT_KEY 환경 변수 감지됨.") # 디버그 로그
             cred_dict = json.loads(firebase_service_account_json)
             cred = credentials.Certificate(cred_dict)
-            firebase_admin.initialize_app(cred) 
+            firebase_admin.initialize_app(cred)
             print("Firebase Admin SDK 초기화 성공.") # 디버그 로그
-            db = firestore.client() 
+            db = firestore.client()
             print("Firestore 클라이언트 초기화 성공.") # 디버그 로그
         else:
             print("FIREBASE_SERVICE_ACCOUNT_KEY 환경 변수를 찾을 수 없습니다. Firebase Admin SDK가 초기화되지 않습니다.") # 디버그 로그
@@ -64,7 +64,7 @@ def initialize_firebase_app():
 
     except Exception as e:
         print(f"Firebase Admin SDK 초기화 실패: {e}") # 디버그 로그
-        db = None 
+        db = None
 
 # Flask 앱 컨텍스트 외부에서 Firebase 초기화 함수 호출
 initialize_firebase_app()
@@ -157,10 +157,10 @@ def handle_log_event():
             "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             "timestamp": firestore.SERVER_TIMESTAMP,
             "event": event,
-            "detail": sanitized_detail, 
+            "detail": sanitized_detail,
             "userId": user_id
         }
-        
+
         # Firestore에 로그 저장 경로: artifacts/{appId}/users/{userId}/logs/{docId}
         doc_ref = db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
         print(f"Log event '{event}' for user '{user_id}' added to Firestore with ID: {doc_ref[1].id}")
@@ -197,12 +197,12 @@ def fetch_latest_lotto_from_api_cached(force_update=False):
         return cached_lotto_data['data']['round'], \
                cached_lotto_data['data']['nums'], \
                cached_lotto_data['data']['bonus']
-    
+
     print("Fetching new lotto data from external API (or forced update).")
     latest = get_latest_round_from_api()
     if latest is None:
         print("최신 회차 정보를 가져올 수 없습니다.")
-        return None, None, None 
+        return None, None, None
 
     url = "https://dhlottery.co.kr/common.do?method=getLottoNumber&drwNo="
     try:
@@ -212,7 +212,7 @@ def fetch_latest_lotto_from_api_cached(force_update=False):
     except (requests.exceptions.RequestException, json.JSONDecodeError) as e:
         print(f"최신 로또 번호 API 호출 오류 (회차 {latest}): {e}")
         return None, None, None
-    
+
     required_keys = [f'drwtNo{i}' for i in range(1, 7)] + ['bnusNo']
     if not all(key in data and isinstance(data[key], int) for key in required_keys):
         print(f"API 응답 데이터 형식이 올바르지 않습니다: {data}")
@@ -227,7 +227,7 @@ def fetch_latest_lotto_from_api_cached(force_update=False):
         'nums': nums,
         'bonus': bonus
     }
-    
+
     return latest, nums, bonus
 
 # Function to generate combinations for 2nd and 3rd rank numbers
@@ -252,13 +252,13 @@ def get_hot_numbers(n=5):
     if rank1:
         # n이 rank1의 길이보다 크면 rank1의 모든 요소를 사용
         start_index = max(0, len(rank1) - n)
-        for row in rank1[start_index:]: 
+        for row in rank1[start_index:]:
             all_nums.extend(row)
-    
+
     freq = {}
     for num in all_nums:
         freq[num] = freq.get(num, 0) + 1
-    
+
     sorted_nums = [k for k, v in sorted(freq.items(), key=lambda x: -x[1])]
     return set(sorted_nums)
 
@@ -278,7 +278,7 @@ def has_consecutive(numbers, seq_len=2):
 # Function to generate lottery numbers based on various filters
 def generate_numbers(
     exclude_ranks=[],
-    exclude_hot_n=None, 
+    exclude_hot_n=None,
     exclude_consecutive=None,
     user_exclude=None,
     user_include=None,
@@ -286,13 +286,13 @@ def generate_numbers(
 ):
     results = []
     tries = 0
-    
+
     exclude_db = set()
     for r in exclude_ranks:
         exclude_db.update(ALL_WINNING.get(r, set())) # ALL_WINNING은 이제 Firestore에서 로드된 데이터
 
     hot_numbers_to_exclude = get_hot_numbers(exclude_hot_n) if exclude_hot_n else set()
-    
+
     while len(results) < count:
         nums_list = random.sample(range(1, 46), 6)
         nums = set(nums_list) # set으로 변환하여 교집합 연산 용이하게
@@ -302,23 +302,23 @@ def generate_numbers(
             tries += 1
             if tries > 30000: break
             continue
-        
+
         # 2. User excluded numbers (user_exclude)
         if user_exclude and nums.intersection(set(user_exclude)):
             tries += 1
             if tries > 30000: break
             continue
-        
+
         # 3. Exclude past winning combinations (by rank)
         current_combo_sorted_tuple = tuple(sorted(nums_list))
-        
+
         if exclude_db:
             # 1등 제외
             if current_combo_sorted_tuple in ALL_WINNING.get("1", set()):
                 tries += 1
                 if tries > 30000: break
                 continue
-            
+
             # 2등 제외 (5개 번호 + 보너스 번호 형태)
             # 2등은 6개 번호 중 5개 + 보너스 번호가 일치해야 하므로, 생성된 6개 번호와 보너스 번호의 조합을 확인해야 함
             # 여기서는 ALL_WINNING["2"]에 저장된 6개 번호 조합과 직접 비교
@@ -343,19 +343,19 @@ def generate_numbers(
             tries += 1
             if tries > 30000: break
             continue
-        
+
         # 5. Exclude consecutive numbers if specified
         if exclude_consecutive and has_consecutive(nums, exclude_consecutive):
             tries += 1
             if tries > 30000: break
             continue
-        
+
         # 6. Prevent duplicate sets in the results
         if sorted(list(nums)) in results: # results는 리스트의 리스트이므로 sorted(list(nums))와 비교
             tries += 1
             if tries > 30000: break
             continue
-            
+
         results.append(sorted(list(nums)))
 
         if tries > 300000:
@@ -374,7 +374,7 @@ def parse_int_list(text):
 def free():
     numbers = None
     error = ""
-    
+
     # 메인 페이지에서는 Firestore에서 저장된 최신 당첨 번호를 불러옵니다.
     # fetch_latest_lotto_from_api_cached() 대신 Firestore에서 직접 가져오도록 변경
     latest_winning_data = None
@@ -389,13 +389,13 @@ def free():
                 print("메인 페이지: Firestore에 최신 당첨 번호 문서가 없습니다.")
         except Exception as e:
             print(f"메인 페이지: Firestore에서 최신 당첨 번호 로드 오류: {e}")
-    
+
     latest_round = latest_winning_data.get('round') if latest_winning_data else None
     winning_nums = latest_winning_data.get('numbers') if latest_winning_data else None
     bonus_num = latest_winning_data.get('bonus') if latest_winning_data else None
 
     total_recs_count = 0
-    if db: 
+    if db:
         try:
             stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
             stats_doc = stats_doc_ref.get()
@@ -403,10 +403,10 @@ def free():
                 total_recs_count = stats_doc.to_dict().get('total_recommendations', 0)
             else:
                 stats_doc_ref.set({'total_recommendations': 0})
-                total_recs_count = 0 
+                total_recs_count = 0
         except Exception as e:
             print(f"Firestore에서 누적 추천 건수 가져오기 오류: {e}")
-            total_recs_count = 0 
+            total_recs_count = 0
     else:
         print("Firestore DB not available for fetching total recommendations.")
 
@@ -414,7 +414,7 @@ def free():
     if request.method == "POST":
         numbers = generate_numbers(count=1, exclude_ranks=['1', '2', '3'])
 
-        if db and numbers: 
+        if db and numbers:
             try:
                 stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                 stats_doc_ref.update({
@@ -426,7 +426,7 @@ def free():
 
         if not numbers:
             error = "추천 가능한 프리미엄 번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
-            
+
     return render_template(
         "index.html",
         numbers=numbers,
@@ -434,13 +434,14 @@ def free():
         latest_round=latest_round,
         winning_nums=winning_nums,
         bonus_num=bonus_num,
-        total_recs_count=total_recs_count 
+        total_recs_count=total_recs_count,
+        now=datetime.datetime.now() # <--- 추가
     )
 
 # New Route for choosing recommendation type
 @app.route('/choose_recommendation')
 def choose_recommendation():
-    return render_template('choose_recommendation.html')
+    return render_template('choose_recommendation.html', now=datetime.datetime.now()) # <--- 추가
 
 # Route for the detailed filtered recommendation page
 @app.route("/filter", methods=["GET", "POST"])
@@ -448,34 +449,34 @@ def detailed_filter_page():
     numbers = []
     form = {}
     error = ""
-    
+
     if request.method == "POST":
         try:
             exclude_ranks = request.form.getlist("exclude_ranks")
-            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None 
+            exclude_hot_n = int(request.form.get("exclude_hot_n") or 0) or None
             exclude_consecutive = int(request.form.get("exclude_consecutive") or 0) or None
             user_exclude = parse_int_list(request.form.get("user_exclude", ""))
             user_include = parse_int_list(request.form.get("user_include", ""))
             count = int(request.form.get("count") or 5)
-            
+
             if len(user_include) > 1:
                 error = "고정할 번호는 1개만 입력할 수 있습니다."
                 numbers = []
             else:
                 numbers = generate_numbers(
                     exclude_ranks=exclude_ranks,
-                    exclude_hot_n=exclude_hot_n, 
+                    exclude_hot_n=exclude_hot_n,
                     exclude_consecutive=exclude_consecutive,
                     user_exclude=user_exclude,
                     user_include=user_include,
                     count=count
                 )
                 form = dict(request.form)
-                
+
                 if not numbers and not error:
                     error = "조건에 맞는 추천번호가 없습니다. (필터를 줄이거나 다시 시도해주세요)"
-                
-                if db and numbers: 
+
+                if db and numbers:
                     try:
                         stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                         stats_doc_ref.update({
@@ -487,8 +488,8 @@ def detailed_filter_page():
 
         except Exception as e:
             error = f"입력값 오류: {e}"
-            
-    return render_template("filter.html", numbers=numbers, error=error, form=form)
+
+    return render_template("filter.html", numbers=numbers, error=error, form=form, now=datetime.datetime.now()) # <--- 추가
 
 # New Route for Hot Pick recommendation page
 @app.route("/hotpick", methods=["GET", "POST"])
@@ -501,24 +502,24 @@ def hotpick_page():
         try:
             hot_pick_n = int(request.form.get("hot_pick_n") or 0) or None
             count = int(request.form.get("count") or 1)
-            
+
             if hot_pick_n:
                 hot_numbers_set = get_hot_numbers(hot_pick_n)
-                
+
                 generated_numbers = []
                 for _ in range(count):
                     if len(hot_numbers_set) < 6:
                         error = "선택된 회차의 인기 번호가 6개 미만입니다. 다른 회차를 선택하거나 필터를 줄여주세요."
                         break
-                    
+
                     current_set = sorted(random.sample(list(hot_numbers_set), 6))
                     generated_numbers.append(current_set)
-                
-                if not error: 
+
+                if not error:
                     numbers = generated_numbers
                     form = dict(request.form)
-                    
-                    if db and numbers: 
+
+                    if db and numbers:
                         try:
                             stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
                             stats_doc_ref.update({
@@ -530,11 +531,11 @@ def hotpick_page():
 
             else:
                 error = "인기 번호 추천 주기를 선택해주세요."
-            
+
         except Exception as e:
             error = f"입력값 오류: {e}"
-    
-    return render_template("hotpick.html", numbers=numbers, error=error, form=form)
+
+    return render_template("hotpick.html", numbers=numbers, error=error, form=form, now=datetime.datetime.now()) # <--- 추가
 
 
 # 로또 번호 스토리 생성 LLM 통합 라우트 (활성화됨)
@@ -547,12 +548,12 @@ def generate_lotto_story():
             return jsonify({"error": "유효한 로또 번호 6개를 제공해주세요."}), 400
 
         numbers_str = ", ".join(map(str, sorted(lotto_numbers)))
-        
+
         prompt = f"다음 로또 번호 {numbers_str}에 대한 짧고 재미있는 로또 당첨 시나리오를 작성해주세요. 예를 들어, 이 번호들로 복권에 당첨되어 어떤 일이 일어났는지 상상력을 발휘하여 이야기해주세요. 최대한 긍정적이고 유머러스하게 작성해 주세요. 3-4문장으로 간결하게 작성해주세요."
 
-        api_key = os.environ.get('GEMINI_API_KEY', '') 
+        api_key = os.environ.get('GEMINI_API_KEY', '')
         api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
-        
+
         payload = {
             "contents": [
                 {
@@ -563,10 +564,10 @@ def generate_lotto_story():
         }
 
         response = requests.post(api_url, headers={'Content-Type': 'application/json'}, json=payload)
-        response.raise_for_status() 
-        
+        response.raise_for_status()
+
         result = response.json()
-        
+
         story = "스토리를 생성하지 못했습니다."
         if result.get('candidates') and len(result['candidates']) > 0 and \
            result['candidates'][0].get('content') and \
@@ -574,8 +575,8 @@ def generate_lotto_story():
            len(result['candidates'][0]['content'].get('parts')) > 0:
             story = result['candidates'][0]['content']['parts'][0]['text']
         else:
-            print("Gemini API 응답 구조가 예상과 다릅니다:", result) 
-            
+            print("Gemini API 응답 구조가 예상과 다릅니다:", result)
+
         return jsonify({"story": story})
 
     except requests.exceptions.RequestException as e:
@@ -589,42 +590,42 @@ def generate_lotto_story():
 # Route for the About page
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', now=datetime.datetime.now()) # <--- 추가
 
 # Route for the Privacy Policy page
 @app.route('/privacy')
 def privacy():
-    return render_template('privacy.html')
+    return render_template('privacy.html', now=datetime.datetime.now()) # <--- 추가
 
 # Route for the Disclaimer page
 @app.route('/disclaimer')
 def disclaimer():
-    return render_template('disclaimer.html')
+    return render_template('disclaimer.html', now=datetime.datetime.now()) # <--- 추가
 
 # Route for the Contact page
 @app.route('/contact')
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', now=datetime.datetime.now()) # <--- 추가
 
 # Route for the Statistics page
 @app.route('/stats')
 def stats():
-    recent_n = 10 
-    all_nums = [] 
+    recent_n = 10
+    all_nums = []
     # rank1은 이제 Firestore에서 로드되므로, 데이터가 있는지 확인
     if rank1:
         # n이 rank1의 길이보다 크면 rank1의 모든 요소를 사용
         start_index = max(0, len(rank1) - recent_n)
-        for row in rank1[start_index:]: 
+        for row in rank1[start_index:]:
             all_nums.extend(row)
-    
+
     freq = dict(Counter(all_nums))
     for n in range(1, 46):
         freq.setdefault(n, 0)
     freq = dict(sorted(freq.items()))
-    
+
     print(f"/stats 라우트에서 freq 데이터 생성 완료: {freq}") # 디버그 로그 추가
-    return render_template('stats.html', freq_json=freq, recent_n=recent_n)
+    return render_template('stats.html', freq_json=freq, recent_n=recent_n, now=datetime.datetime.now()) # <--- 추가
 
 # Route for the Admin page (requires password for access)
 @app.route('/admin')
@@ -632,10 +633,10 @@ def admin():
     pw = request.args.get("pw", "")
     if pw != "1234":
         return "관리자 인증 필요(pw=1234)", 403
-    
+
     logs = []
     msg = "" # 메시지 초기화
-    if db: 
+    if db:
         try:
             all_logs = []
             # Firestore에서 로그를 가져올 때, 사용자별 컬렉션에서 가져오도록 수정
@@ -643,17 +644,17 @@ def admin():
             for user_doc in users_ref:
                 user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
                 # timestamp 필드를 기준으로 내림차순 정렬
-                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream() 
+                user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream()
                 for log in user_logs:
                     log_data = log.to_dict()
-                    if 'timestamp' in log_data and log_data['timestamp']: 
+                    if 'timestamp' in log_data and log_data['timestamp']:
                         # Firestore Timestamp 객체를 datetime 객체로 변환 후 포맷팅
-                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S') 
+                        log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
                     elif 'dt' in log_data: # 이전 형식의 dt 필드도 처리
-                        log_data['dt_formatted'] = log_data['dt'] 
+                        log_data['dt_formatted'] = log_data['dt']
                     all_logs.append(log_data)
             # 모든 사용자 로그를 합쳐서 다시 시간 기준으로 정렬
-            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True) 
+            logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
 
         except Exception as e:
             print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
@@ -665,20 +666,20 @@ def admin():
 
     total_visits = sum(1 for log in logs if log["event"]=="visit")
     total_recs = sum(1 for log in logs if log["event"]=="recommend")
-    
+
     today_recs_admin = 0
     today_str = datetime.datetime.now().strftime('%Y-%m-%d')
     for log in logs:
         if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(today_str):
             today_recs_admin += 1
 
-    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
 
 # Route to update winning numbers (admin functionality)
 @app.route("/update_winning", methods=["POST"])
 def update_winning():
     pw = request.form.get("pw")
-    
+
     if pw != "1234":
         # 비밀번호 틀렸을 때도 로그와 통계 데이터를 가져와서 템플릿에 전달
         logs = []
@@ -702,16 +703,16 @@ def update_winning():
                 print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
                 msg += f"<br>로그 로드 오류: {e}"
                 pass
-        
+
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
-        
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
+
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
 
     # 외부 API에서 최신 로또 번호 가져오기
-    latest, nums, bonus = fetch_latest_lotto_from_api_cached(force_update=True) 
-    
+    latest, nums, bonus = fetch_latest_lotto_from_api_cached(force_update=True)
+
     if latest is None or nums is None or bonus is None:
         msg = "아직 최신 회차 당첨번호가 공개되지 않았습니다.<br>잠시 후 다시 시도해 주세요."
         logs = [] # 메시지 전달을 위해 로그 다시 로드
@@ -734,13 +735,13 @@ def update_winning():
                 print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
                 msg += f"<br>로그 로드 오류: {e}"
                 pass
-            
+
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
 
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
-        
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
+
     # --- Update Winning Data in Firestore ---
     msg_rank1 = ""
     msg_rank2 = ""
@@ -760,7 +761,7 @@ def update_winning():
                 msg_rank1 = f"{latest}회차 1등 번호 {nums} 저장 완료!"
             else:
                 msg_rank1 = f"1등 번호 (회차 {latest})는 이미 최신으로 반영되어 있습니다."
-            
+
             # 최신 1등 번호, 보너스 번호를 'lotto_data/latest_numbers' 문서에 저장 (메인 페이지용)
             db.collection('lotto_data').document('latest_numbers').set({
                 'round': latest,
@@ -797,7 +798,7 @@ def update_winning():
                         'updated_at': firestore.SERVER_TIMESTAMP
                     })
             msg_rank3 = "3등 조합 업데이트 완료."
-            
+
             # Firestore 업데이트 후 ALL_WINNING 및 rank1, rank2, rank3 전역 변수 새로고침
             load_winning_data_from_firestore()
 
@@ -830,12 +831,12 @@ def update_winning():
             print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
             msg += f"<br>로그 로드 오류: {e}"
             pass
-        
+
     total_visits = sum(1 for log in logs if log["event"] == "visit")
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
     today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
-    
-    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg)
+
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
 
 # Route for ads.txt (for ad services)
 @app.route('/ads.txt')
@@ -851,7 +852,7 @@ def sitemap_xml():
     # 동적으로 사이트맵을 생성합니다.
     # 실제 URL은 Render.com에 배포된 도메인을 사용해야 합니다.
     base_url = "https://smartpick.wow-daddy.com" # 실제 도메인으로 변경하세요!
-    
+
     # 웹사이트의 모든 주요 페이지 URL을 리스트로 정의
     urls = [
         {"loc": f"{base_url}/", "lastmod": datetime.date.today().isoformat(), "changefreq": "daily", "priority": "1.0"},
@@ -888,28 +889,29 @@ def healthz():
 @app.route('/lotto-dna-test')
 def lotto_dna_test_page():
     # 클라이언트에서 로그를 직접 보낼 것이므로 여기서는 log_event 호출하지 않음
-    return render_template('lotto_type_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY)
+    current_year = datetime.datetime.now().year
+    return render_template('lotto_type_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, now={'year': current_year})
 
 # New API endpoint to generate Lotto DNA numbers
 @app.route('/generate_dna_lotto_numbers', methods=['POST'])
 def generate_dna_lotto_numbers():
     try:
         # 클라이언트에서 넘어온 DNA 유형 (현재는 사용하지 않고 무작위 생성)
-        # dna_type = request.json.get('dna_type') 
-        
+        # dna_type = request.json.get('dna_type')
+
         # 무작위 로또 번호 6개 생성 (1부터 45까지, 중복 없이)
         generated_numbers = random.sample(range(1, 46), 6)
-        
+
         return jsonify({"numbers": generated_numbers}), 200
     except Exception as e:
         print(f"로또 DNA 번호 생성 오류: {e}")
-        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500 
+        return jsonify({"error": "번호 생성 중 오류가 발생했습니다."}), 500
 
 # New Route for the Fun Lotto Test Hub page
 @app.route('/fun-lotto-test')
 def fun_lotto_test_hub():
-    return render_template('fun_lotto_test_hub.html')
-        
+    return render_template('fun_lotto_test_hub.html', now=datetime.datetime.now()) # <--- 추가
+
 # --- START OF NEW MBTI LOTTO FORTUNE FEATURE ---
 
 # MBTI 유형별 로또 운세 데이터 (mbti_lotto_fortune.html에서 추출)
@@ -1002,7 +1004,7 @@ def generate_mbti_lotto_numbers(mbti_type):
     기존 generate_numbers 함수를 활용하여 필터 조건을 조절합니다.
     """
     numbers = []
-    
+
     # MBTI 유형에 따른 번호 생성 전략
     if mbti_type in ["ISTJ", "ISFJ", "ESTJ", "ESFJ"]: # 현실적, 전통적, 안정성 중시
         # 과거 당첨 이력이 없는 번호 위주, 또는 특정 통계 기반
@@ -1057,7 +1059,7 @@ def get_mbti_lotto_fortune():
 
         # MBTI 유형에 따른 로또 번호 생성
         generated_numbers = generate_mbti_lotto_numbers(mbti_type)
-        
+
         # Firestore에 로그 기록 (MBTI 추천 이벤트)
         if db:
             try:
