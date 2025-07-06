@@ -27,328 +27,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  {# 외부 style.css 파일을 우선적으로 링크합니다. #}
+  {# 외부 style.css 파일을 링크하여 모든 스타일을 통합 관리합니다. #}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-  <style>
-    /*
-    * 여기에 있는 스타일은 index.html에만 특화되거나,
-    * style.css에 있는 스타일을 덮어써야 할 경우에만 남겨둡니다.
-    */
-    body {
-      background: #f0f4f8; /* 더 부드러운 배경색 */
-      font-family:'Pretendard', Arial, sans-serif;
-      margin:0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      justify-content: center; /* 세로 중앙 정렬 */
-      align-items: center; /* 가로 중앙 정렬 */
-      color: #333; /* 기본 텍스트 색상 추가 (명시적으로) */
-    }
-    .container {
-      width: 90%; /* max-width와 함께 사용 */
-      max-width:450px; /* 컨테이너 너비 살짝 키움 */
-      background:#ffffff; /* 흰색 배경 */
-      border-radius:2.5em; /* 모서리 더 둥글게 */
-      box-shadow:0 12px 40px rgba(0, 0, 0, 0.1); /* 그림자 더 부드럽고 깊게 */
-      padding:3em 2.5em 2.5em 2.5em; /* 패딩 조정 */
-      text-align:center;
-      box-sizing: border-box;
-      margin-top: 20px; /* 상단 여백 추가 (페이지 시작 시 너무 붙지 않게) */
-      margin-bottom: 20px; /* 하단 여백 추가 */
-    }
-    h1 {
-      font-size:2.4em; /* h1 크기 키움 */
-      font-weight:900;
-      color:#2a4365; /* 어두운 파란색 계열 */
-      margin-bottom:0.8em;
-      letter-spacing: -0.05em; /* 자간 조절 */
-    }
-
-    /* 핵심 차별점 메시지 스타일 */
-    .usp-message {
-        margin-bottom: 2.5em; /* 간격 더 넓게 */
-        border: 2px solid #ff708a; /* 핑크빛 테두리 */
-        padding: 1.5em 1.2em; /* 내부 여백 */
-        border-radius: 1.8em; /* 모서리 더 둥글게 */
-        background-color: #fffafc; /* 매우 연한 핑크 배경 */
-        box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15); /* 부드러운 핑크 그림자 */
-    }
-    .usp-message div {
-        font-size: 1.15em; /* 폰트 크기 살짝 키움 */
-        font-weight: 600;
-        line-height: 1.6;
-        color: #3f5477; /* 진한 파란색 계열 */
-        margin-bottom: 0.6em;
-    }
-    .usp-message .line1 {
-        font-size: 1.45em; /* 첫 줄 가장 크게 강조 */
-        font-weight: 800;
-        color: #d32f2f; /* 강렬한 빨간색 */
-        margin-bottom: 0.8em;
-    }
-    .usp-message .line1 .icon {
-        margin-right: 10px;
-        color: #d32f2f;
-    }
-    .usp-message .line2 {
-        font-size: 1.05em;
-        font-weight: 500;
-        color: #6a7f9a; /* 연한 회색 파란색 */
-    }
-    .usp-message .line3 {
-        font-size: 1.3em; /* 마지막 줄 강조 */
-        font-weight: 700;
-        color: #28a745; /* 선명한 녹색 */
-        margin-top: 1em; /* 위쪽 간격 추가 */
-    }
-    .usp-message .line3 .icon {
-        margin-right: 10px;
-        color: #28a745;
-    }
-
-    form {
-        margin-bottom: 0.5em; /* 버튼 그룹 시작 전 여백 조절 */
-    }
-    button, .copy-btn, .main-action-link-button {
-      font-size:1.2em;
-      font-weight:bold;
-      background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
-      color:#fff;
-      border:none;
-      border-radius:1.2em;
-      padding:1em 2.5em;
-      box-shadow:0 8px 20px rgba(70, 96, 216, 0.3);
-      margin-top:0.5em; /* 간격 좁힘 */
-      cursor:pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-      text-decoration: none;
-      /* 버튼 너비 통일 */
-      width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
-      max-width: 350px; /* 최대 너비 설정 */
-      box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
-    }
-    button:hover, .copy-btn:hover, .main-action-link-button:hover {
-      transform: translateY(-3px);
-      box-shadow:0 12px 25px rgba(70, 96, 216, 0.4);
-    }
-    button:active, .copy-btn:active, .main-action-link-button:active {
-        transform: translateY(1px);
-        box-shadow:0 4px 10px rgba(70, 96, 216, 0.2);
-    }
-    /* 버튼 간 간격 조절 */
-    form button { /* 프리미엄 번호 추천받기 버튼 */
-        margin-bottom: 0; /* 항상 붙어있도록 */
-    }
-    /* `link-about-moved`는 하단 버튼 그룹과 다른 디자인이므로 이전에 제거했던 extra-margin을 여기에 붙여 복구할 필요가 없습니다. */
-    /* .main-action-link-button.extra-margin은 일반 .main-action-link-button과 동일하게 0.5em으로 통일합니다. */
-
-
-    .main-action-link-button .icon {
-        margin-right: 8px;
-    }
-
-    /* 로또 볼 배열 (기본) - 데스크탑/태블릿용 */
-    .lotto {
-      margin:2.5em auto 1em auto;
-      display: flex;
-      flex-wrap: nowrap; /* 줄바꿈 방지 */
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      max-width: 300px;
-      box-sizing: border-box;
-    }
-    /* 볼 스타일 (기본) */
-    .ball {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* width와 height를 vw 기반으로 설정하여 반응성을 높임 */
-      width: clamp(42px, 9vw, 55px); /* 최소 42px, 최대 55px, 뷰포트 너비의 9% */
-      height: clamp(42px, 9vw, 55px);
-      border-radius:50%;
-      margin:0;
-      font-size:1.2em;
-      font-weight:700;
-      box-shadow:0 4px 10px rgba(0,0,0,0.15);
-      transition: all 0.2s ease;
-      border:3px solid #fff;
-      flex-shrink: 0;
-      box-sizing: border-box;
-      color: #333;
-    }
-    .ball.n1 { background: #ffdf6c; }
-    .ball.n2 { background: #9bd0ff; }
-    .ball.n3 { background: #ff91a5; color: #fff;}
-    .ball.n4 { background: #c2c9d1; }
-    .ball.n5 { background: #b0e891; }
-
-    /* 'SmartPick이 특별한 이유' 링크 스타일 */
-    /* 이 스타일 블록을 기존 style.css에서 가져오고, index.html의 인라인 스타일에서는 제거하거나
-       여기에만 필요한 최소한의 재정의만 남겨둡니다.
-       요청에 따라 이 스타일은 유지하되, 버튼과의 간격을 기존처럼 유지합니다. */
-    .link-about-moved {
-        display: block;
-        padding: 1.2em 1.5em;
-        border-radius: 1.5em;
-        font-weight: bold;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        text-align: center;
-        background-color: #f7f9fc;
-        border: 2px solid #b3d4f5;
-        color: #4a6fa3;
-        margin-bottom: 2em; /* <--- 이 값을 기존 2em으로 유지 */
-    }
-    .link-about-moved:hover {
-        background-color: #e6f0fa;
-        border-color: #8bbceb;
-        transform: translateY(-3px);
-    }
-    .link-about-moved .icon {
-        margin-right: 8px;
-        color: #4a6fa3;
-    }
-
-
-    /* 누적 추천 조합 통계 섹션 스타일 */
-    .stats-box {
-      margin-top: 25px;
-      margin-bottom: 25px;
-      padding: 18px 25px;
-      background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%);
-      border-radius: 2em;
-      box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
-      font-size: 1.1em;
-      color: #00796b;
-      font-weight: 700;
-      line-height: 1.6;
-      text-align: center;
-      max-width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .stats-box b {
-        color: #004d40;
-        font-weight: 800;
-    }
-
-    /* 최신 당첨번호 섹션 */
-    .latest-winning-section {
-        background-color: #e6f7ff;
-        border: 2px solid #a8e0f5;
-        border-radius: 1.8em;
-        padding: 1.5em;
-        margin-bottom: 2em;
-        box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
-        text-align: center;
-    }
-    .latest-winning-section h2 {
-        font-size: 1.5em;
-        font-weight: 800;
-        color: #00796b;
-        margin-bottom: 0.8em;
-    }
-    .latest-winning-numbers {
-        display: flex;
-        flex-wrap: nowrap; /* 줄바꿈 방지 */
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-        margin-top: 1em;
-    }
-    .latest-winning-numbers .ball {
-        flex-shrink: 0;
-        /* 최신 당첨번호 볼 크기 조정 */
-        width: clamp(32px, 7vw, 40px); /* 최소 32px, 최대 40px, 뷰포트 너비의 7% */
-        height: clamp(32px, 7vw, 40px);
-        font-size: 0.95em;
-        border: 2px solid #fff;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-    .plus-sign {
-        font-size: 1.6em;
-        font-weight: 900;
-        color: #4a6fa3;
-        margin: 0 3px;
-        flex-shrink: 0;
-    }
-
-    /* 모바일 반응형 미디어 쿼리 */
-    @media (max-width:600px){ /* 모바일 화면 너비 기준을 600px로 변경 */
-      body {
-          justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
-      }
-      .container {
-        max-width:95vw; /* 모바일에서 너비를 95vw로 확장 */
-        margin:8vw 2.5vw; /* 여백 조정 */
-        padding:2em 1em; /* 모바일 패딩 조정 */
-      }
-      h1 { font-size:1.8em;}
-      .usp-message div {
-          font-size: 1.0em;
-      }
-      .usp-message .line1 {
-          font-size: 1.1em;
-      }
-      .usp-message .line3 {
-          font-size: 1.0em;
-      }
-      /* 로또 볼 및 최신 당첨 번호 볼 레이아웃 */
-      .lotto, .latest-winning-numbers {
-          max-width: 100%; /* 모바일에서 최대 너비 100% */
-          gap: 5px; /* 모바일에서 볼 간격 조절 */
-          justify-content: center;
-      }
-      .ball {
-          /* 모바일에서 볼 크기 조정 (clamp 함수 사용) */
-          width: clamp(36px, 8vw, 45px); /* 최소 36px, 최대 45px, 뷰포트 너비의 8% */
-          height: clamp(36px, 8vw, 45px);
-          font-size: 1em; /* 폰트 크기 조정 */
-      }
-      .latest-winning-numbers .ball {
-          /* 모바일에서 최신 당첨 번호 볼 크기 조정 */
-          width: clamp(28px, 6vw, 35px); /* 최소 28px, 최대 35px, 뷰포트 너비의 6% */
-          height: clamp(28px, 6vw, 35px);
-          font-size: 0.85em;
-      }
-      .plus-sign {
-          font-size: 1.4em;
-          margin: 0 3px; /* 간격 거의 없음 */
-      }
-      button, .copy-btn, .main-action-link-button {
-          font-size: 1.05em;
-          padding: 0.8em 1.8em;
-          margin-top: 0.5em; /* 모바일 간격 좁힘 */
-          width: 90%; /* 모바일 버튼 너비를 90%로 설정 */
-          max-width: none; /* 최대 너비 제한 해제 */
-          margin-left: auto; /* 중앙 정렬 */
-          margin-right: auto; /* 중앙 정렬 */
-      }
-      .stats-box {
-          max-width: 95vw; /* 모바일에서 최대 너비 95vw */
-          font-size: 0.95em;
-          padding: 15px 20px;
-          margin-top: 5vw;
-          margin-bottom: 5vw;
-      }
-      .link-about-moved {
-          margin-bottom: 1.5em; /* <--- 이 값을 기존 1.5em으로 유지 (모바일) */
-          padding: 1em 1.2em;
-          font-size: 1em;
-      }
-    }
-  </style>
+  {# 이 HTML 파일에만 특화된 스타일이 아니라면, 여기에 <style> 태그를 남겨두지 않는 것이 좋습니다.
+     이제 모든 관련 스타일은 static/style.css에서 관리됩니다.
+     아래 <style> 태그와 그 안의 모든 내용은 이 코드에서 완전히 제거되었습니다. #}
 </head>
-<body>
-  {# 전체 페이지 컨텐츠를 감싸는 메인 컨테이너 (옵션) #}
-  {# <div class="page-wrapper"> #}
+<body class="main-page-layout"> {# <--- body에 'main-page-layout' 클래스 추가 #}
 
   <div class="stats-box">
     <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
@@ -356,11 +42,6 @@
 
   <div class="container">
     <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
-
-    {# 이전 피드백에서 요청했던 '재미로 보는 로또 테스트' 문구는 이 페이지에 직접 없고,
-       '재미로 보는 로또 테스트' 버튼을 통해 연결되는 '/fun-lotto-test' 페이지에 있을 것입니다.
-       해당 페이지의 디자인은 나중에 논의할게요.
-       여기서는 메인 페이지의 전체적인 중앙 정렬을 유지합니다. #}
 
     {% if latest_round and winning_nums and bonus_num %}
     <div class="latest-winning-section">
@@ -380,20 +61,20 @@
         <div class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</div>
     </div>
 
-    <a href="/about" class="link-item link-about-moved">
+    {# .link-item 클래스는 제거하고, .link-about-moved 클래스만 사용합니다. #}
+    <a href="/about" class="link-about-moved"> {# <--- 클래스 변경 유지 #}
         <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
     </a>
 
     <form method="post" style="width: 100%;">
       <button type="submit"> 프리미엄 번호<br>추천받기</button>
-      {# <div style="height:10px"></div> #} {# 버튼 사이 간격 조절용 div 제거 #}
     </form>
 
     <a href="/choose_recommendation" class="main-action-link-button">
         고급 맞춤 번호<br>추천 받기
     </a>
 
-    <a href="/fun-lotto-test" class="main-action-link-button"> {# "재미로 보는 로또 테스트" 버튼에 extra-margin 클래스를 제거했습니다 #}
+    <a href="/fun-lotto-test" class="main-action-link-button">
         <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
     </a>
 
@@ -404,8 +85,7 @@
         {% endfor %}
       </div>
       <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
-      {# `div style="height: 15px;"` 대신 CSS margin으로 처리하는 것이 좋습니다. #}
-      <button class="main-action-link-button" onclick="generateLottoStory()"> {# "재미로 보는 로또 당첨 후 내 모습 확인하기!" 버튼에 extra-margin 클래스를 제거했습니다 #}
+      <button class="main-action-link-button" onclick="generateLottoStory()">
           재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
       </button>
 
@@ -490,13 +170,14 @@
        (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 
-  {# 푸터 (footer.html을 분리했다면 include 하거나 여기에 직접 작성) #}
-  <footer style="margin-top: 2em; padding: 1.5em; text-align: center; color: #6a7f9a; font-size: 0.9em; width: 100%; box-sizing: border-box;">
+  {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
+  <footer>
       <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
-      <div style="margin-top: 0.5em;">
-          <a href="/privacy" style="color: #6a7f9a; text-decoration: none; margin: 0 0.5em;">개인정보처리방침</a> |
-          <a href="/disclaimer" style="color: #6a7f9a; text-decoration: none; margin: 0 0.5em;">면책조항</a> |
-          <a href="/contact" style="color: #6a7f9a; text-decoration: none; margin: 0 0.5em;">문의</a>
+      <div>
+          {# 인라인 스타일 제거 - static/style.css의 footer a 규칙을 따르도록 #}
+          <a href="/privacy">개인정보처리방침</a> |
+          <a href="/disclaimer">면책조항</a> |
+          <a href="/contact">문의</a>
       </div>
   </footer>
 
