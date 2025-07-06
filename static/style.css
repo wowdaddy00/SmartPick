@@ -10,6 +10,8 @@
   --pastel-4: #fcf9ee;  /* 연한 베이지 */
   --pastel-5: #557997;  /* 부드러운 블루 */
   --pastel-6: #d6ef84;  /* 연두 옐로 */
+  --text-dark: #333; /* 추가: 어두운 텍스트 색상 변수 */
+  --text-light-blue: #557997; /* 추가: 부드러운 블루 텍스트 색상 변수 */
 }
 
 /* 3) 기본 바디 스타일 */
@@ -22,7 +24,7 @@ body {
   min-height: 100vh;
   align-items: center;
   justify-content: center;
-  color: #333;
+  color: var(--text-dark); /* 기본 텍스트 색상 변수 사용 */
 }
 
 /* 4) 컨테이너 박스 */
@@ -35,6 +37,8 @@ body {
   padding: 3em 2em;
   text-align: center;
   box-sizing: border-box;
+  /* 변경: 컨테이너 내부 텍스트 기본 색상을 어두운 색으로 설정 */
+  color: var(--text-dark);
 }
 
 /* 5) 로고 & 제목 */
@@ -118,7 +122,7 @@ button, .main-action-link-button, .copy-btn {
 }
 .number-ball, .ball {
   background: var(--pastel-2);
-  color: #333;
+  color: var(--text-dark); /* 텍스트 색상 변수 사용 */
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -268,7 +272,7 @@ ul {
   margin-bottom: 0.5em;
 }
 .test-card p {
-  color: var(--text-color);
+  color: var(--text-dark); /* 변경: 텍스트 색상 변수 사용 */
   margin-bottom: 1em;
 }
 .test-card .action-button {
@@ -281,3 +285,19 @@ ul {
   transform: translateY(-2px);
 }
 
+/* ----- 추가된 스타일 ----- */
+
+/* "재미로 보는 로또 테스트" 섹션 */
+.lotto-test-intro { /* 새로운 클래스 추가 */
+    text-align: center;
+    margin-top: 2em; /* 필요에 따라 상단 여백 조절 */
+    margin-bottom: 2em; /* 필요에 따라 하단 여백 조절 */
+}
+
+/* 저작권 문구 */
+.footer-text { /* 새로운 클래스 추가 */
+    text-align: center;
+    margin-top: 3em; /* 필요에 따라 상단 여백 조절 */
+    font-size: 0.9em;
+    color: var(--pastel-5); /* 부드러운 블루 계열로 색상 조절 */
+}
