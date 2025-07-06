@@ -115,26 +115,62 @@ button, .main-action-link-button, .copy-btn {
 
 /* 11) 로또 번호볼 */
 .lotto-numbers, .lotto, .latest-winning-numbers {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 볼 간격 */
+  flex-wrap: wrap; /* 반응형을 위해 줄바꿈 허용 */
 }
-.number-ball, .ball {
-  background: var(--pastel-2);
-  color: var(--text-dark); /* 텍스트 색상 변수 사용 */
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+/* 로또 볼 기본 스타일 */
+.lotto-ball, .number-ball, .ball { /* 모든 로또 볼 관련 클래스에 적용 */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.4em; /* PC에서의 글자 크기 */
+  color: #333333; /* 기본 텍스트 색상 (일부 번호대는 흰색으로 오버라이드) */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 2px solid rgba(255, 255, 255, 0.5); /* 테두리 추가 (선택 사항) */
 }
-.number-ball:nth-child(odd) {
-  background: var(--pastel-3);
-  color: #fff;
+
+/* 동행복권 로또 번호대별 색상 */
+/* 1-10번대: 노란색 */
+.lotto-ball.num-1-10, .number-ball.num-1-10, .ball.num-1-10 {
+  background-color: #FFD400;
+  color: #333333; /* 검정색 글씨 */
+}
+/* 11-20번대: 파란색 */
+.lotto-ball.num-11-20, .number-ball.num-11-20, .ball.num-11-20 {
+  background-color: #69C4F8;
+  color: #333333; /* 검정색 글씨 */
+}
+/* 21-30번대: 빨간색 */
+.lotto-ball.num-21-30, .number-ball.num-21-30, .ball.num-21-30 {
+  background-color: #F26A6A;
+  color: #FFFFFF; /* 흰색 글씨 */
+}
+/* 31-40번대: 회색 */
+.lotto-ball.num-31-40, .number-ball.num-31-40, .ball.num-31-40 {
+  background-color: #AAAAAA;
+  color: #FFFFFF; /* 흰색 글씨 */
+}
+/* 41-45번대: 초록색 */
+.lotto-ball.num-41-45, .number-ball.num-41-45, .ball.num-41-45 {
+  background-color: #B0D26E;
+  color: #333333; /* 검정색 글씨 */
+}
+
+/* 반응형 조정 (기존 미디어 쿼리 내부에 추가) */
+@media (max-width: 600px) {
+  /* ... 기존 스타일 유지 ... */
+  .lotto-ball, .number-ball, .ball {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem; /* 모바일에서의 글자 크기 */
+  }
 }
 
 /* 12) “행운의 팁” */
