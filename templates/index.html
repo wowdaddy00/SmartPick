@@ -27,14 +27,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  {# 외부 style.css 파일을 우선적으로 링크합니다. 중복되는 스타일은 제거하거나 여기에만 필요한 스타일만 남겨둡니다. #}
+  {# 외부 style.css 파일을 우선적으로 링크합니다. #}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
   <style>
     /*
     * 여기에 있는 스타일은 index.html에만 특화되거나,
     * style.css에 있는 스타일을 덮어써야 할 경우에만 남겨둡니다.
-    * 가능한 한 많은 스타일은 style.css로 이동하는 것이 좋습니다.
     */
     body {
       background: #f0f4f8; /* 더 부드러운 배경색 */
@@ -55,9 +54,6 @@
       box-shadow:0 12px 40px rgba(0, 0, 0, 0.1); /* 그림자 더 부드럽고 깊게 */
       padding:3em 2.5em 2.5em 2.5em; /* 패딩 조정 */
       text-align:center;
-      /* flex-grow: 1; 이 속성은 body가 flex-direction: column일 때 container가 남은 공간을 차지하게 함.
-                     여기서는 특정 크기의 컨테이너이므로 필요 없을 수 있음.
-                     모바일에서만 필요할 경우 미디어 쿼리 안에서 사용 고려 */
       box-sizing: border-box;
       margin-top: 20px; /* 상단 여백 추가 (페이지 시작 시 너무 붙지 않게) */
       margin-bottom: 20px; /* 하단 여백 추가 */
@@ -83,7 +79,7 @@
         font-size: 1.15em; /* 폰트 크기 살짝 키움 */
         font-weight: 600;
         line-height: 1.6;
-        color: #3f5477; /* 진한 파란색 계열 (기존 #3f5477 유지) */
+        color: #3f5477; /* 진한 파란색 계열 */
         margin-bottom: 0.6em;
     }
     .usp-message .line1 {
@@ -99,7 +95,7 @@
     .usp-message .line2 {
         font-size: 1.05em;
         font-weight: 500;
-        color: #6a7f9a; /* 연한 회색 파란색 (기존 #6a7f9a 유지) */
+        color: #6a7f9a; /* 연한 회색 파란색 */
     }
     .usp-message .line3 {
         font-size: 1.3em; /* 마지막 줄 강조 */
@@ -124,7 +120,7 @@
       border-radius:1.2em;
       padding:1em 2.5em;
       box-shadow:0 8px 20px rgba(70, 96, 216, 0.3);
-      margin-top:0.5em; /* <--- 간격 좁힘 (기존 1.5em에서 0.5em으로) */
+      margin-top:0.5em; /* 간격 좁힘 */
       cursor:pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -148,18 +144,8 @@
     form button { /* 프리미엄 번호 추천받기 버튼 */
         margin-bottom: 0; /* 항상 붙어있도록 */
     }
-    /*
-    .main-action-link-button {
-        margin-top: 10px; // 이전 설정: 버튼 간 최소 여백
-    }
-    */
-    /* '재미로 보는 로또 테스트' 버튼에만 적용되었던 extra-margin 클래스를
-       모든 .main-action-link-button에 대한 기본 간격으로 흡수 (위 margin-top:0.5em)
-       또는 개별 조정이 필요하다면 계속 유지할 수 있음
-    */
-    .main-action-link-button.extra-margin {
-        margin-top: 0.5em; /* <--- 간격 좁힘 (기존 1.5em에서 0.5em으로) */
-    }
+    /* `link-about-moved`는 하단 버튼 그룹과 다른 디자인이므로 이전에 제거했던 extra-margin을 여기에 붙여 복구할 필요가 없습니다. */
+    /* .main-action-link-button.extra-margin은 일반 .main-action-link-button과 동일하게 0.5em으로 통일합니다. */
 
 
     .main-action-link-button .icon {
@@ -203,6 +189,9 @@
     .ball.n5 { background: #b0e891; }
 
     /* 'SmartPick이 특별한 이유' 링크 스타일 */
+    /* 이 스타일 블록을 기존 style.css에서 가져오고, index.html의 인라인 스타일에서는 제거하거나
+       여기에만 필요한 최소한의 재정의만 남겨둡니다.
+       요청에 따라 이 스타일은 유지하되, 버튼과의 간격을 기존처럼 유지합니다. */
     .link-about-moved {
         display: block;
         padding: 1.2em 1.5em;
@@ -215,7 +204,7 @@
         background-color: #f7f9fc;
         border: 2px solid #b3d4f5;
         color: #4a6fa3;
-        margin-bottom: 2em;
+        margin-bottom: 2em; /* <--- 이 값을 기존 2em으로 유지 */
     }
     .link-about-moved:hover {
         background-color: #e6f0fa;
@@ -336,7 +325,7 @@
       button, .copy-btn, .main-action-link-button {
           font-size: 1.05em;
           padding: 0.8em 1.8em;
-          margin-top: 0.5em; /* <--- 모바일 간격 좁힘 (기존 1em에서 0.5em으로) */
+          margin-top: 0.5em; /* 모바일 간격 좁힘 */
           width: 90%; /* 모바일 버튼 너비를 90%로 설정 */
           max-width: none; /* 최대 너비 제한 해제 */
           margin-left: auto; /* 중앙 정렬 */
@@ -350,7 +339,7 @@
           margin-bottom: 5vw;
       }
       .link-about-moved {
-          margin-bottom: 1.5em;
+          margin-bottom: 1.5em; /* <--- 이 값을 기존 1.5em으로 유지 (모바일) */
           padding: 1em 1.2em;
           font-size: 1em;
       }
