@@ -1,339 +1,365 @@
-/* 1) 구글 폰트 로드 */
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700&display=swap');
-
-/* 2) 파스텔·코랄 팔레트 변수 선언 */
-:root {
-  --pastel-1: #fffffb;  /* 연한 크림 */
-  --pastel-2: #bff0be;  /* 민트 그린 */
-  --pastel-3: #f9cebf;  /* 코랄 핑크 */
-  --pastel-4: #fcf9ee;  /* 연한 베이지 */
-  --pastel-5: #557997;  /* 부드러운 블루 */
-  --pastel-6: #d6ef84;  /* 연두 옐로 */
-  --text-dark: #333; /* 추가: 어두운 텍스트 색상 변수 */
-  --text-light-blue: #557997; /* 추가: 부드러운 블루 텍스트 색상 변수 */
-}
-
-/* 3) 기본 바디 스타일 */
 body {
-  background: var(--pastel-4);
-  font-family: 'Pretendard', Arial, sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-dark); /* 기본 텍스트 색상 변수 사용 */
+    background: #f0f4f8; /* 더 부드러운 배경색 - 두 번째 블록 우선 */
+    font-family: 'Pretendard', Arial, sans-serif; /* Pretendard 폰트 - 두 번째 블록 우선 */
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center; /* 세로 중앙 정렬 */
+    align-items: center; /* 가로 중앙 정렬 */
 }
 
-/* 4) 컨테이너 박스 */
 .container {
-  width: 90%;
-  max-width: 450px;
-  background: var(--pastel-1);
-  border-radius: 2em;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-  padding: 3em 2em;
-  text-align: center;
-  box-sizing: border-box;
-  /* 변경: 컨테이너 내부 텍스트 기본 색상을 어두운 색으로 설정 */
-  color: var(--text-dark);
+    max-width: 450px; /* 컨테이너 너비 살짝 키움 - 두 번째 블록 우선 */
+    background: #ffffff; /* 흰색 배경 - 두 번째 블록 우선 */
+    border-radius: 2.5em; /* 모서리 더 둥글게 - 두 번째 블록 우선 */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); /* 그림자 더 부드럽고 깊게 - 두 번째 블록 우선 */
+    padding: 3em 2.5em 2.5em 2.5em; /* 패딩 조정 - 두 번째 블록 우선 */
+    text-align: center;
+    flex-grow: 1;
+    box-sizing: border-box;
 }
 
-/* 5) 로고 & 제목 */
-.logo, h1 {
-  font-family: 'Nanum Brush Script', cursive;
-  color: var(--pastel-5);
+.logo {
+    color: #3b82f6; /* 파란 포인트 컬러 */
+    font-weight: 700;
 }
+
 h1 {
-  font-size: 2.4em;
-  margin-bottom: 0.5em;
-  letter-spacing: -0.03em;
+    font-size: 2.4em; /* h1 크기 키움 - 두 번째 블록 우선 */
+    font-weight: 900;
+    color: #2a4365; /* 어두운 파란색 계열 */
+    margin-bottom: 0.8em;
+    letter-spacing: -0.05em; /* 자간 조절 */
 }
 
-/* 6) 부제목 */
 .subtitle {
-  font-size: 1.1rem;
-  color: var(--pastel-2);
-  margin-bottom: 1.5em;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 24px;
 }
 
-/* 7) 버튼 공통 스타일 */
-button, .main-action-link-button, .copy-btn {
-  font-family: 'Pretendard', Arial, sans-serif;
-  font-weight: 700;
-  border: none;
-  border-radius: 1.2em;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* --- SmartPick - 버튼 및 링크 스타일 --- */
+
+/* 모든 주요 버튼 및 링크에 공통으로 적용되는 기본 스타일 */
+button, .link-item { /* .main-action-link-button과 .copy-btn은 아래에서 개별 스타일 적용 */
+    display: block;
+    width: 100%;
+    padding: 1em 2.5em; /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    font-size: 1.2em; /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    font-weight: bold; /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    color: #fff;
+    border: none;
+    border-radius: 1.2em; /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3); /* 기존 .main-action-link-button 값으로 통일 (두 번째 블록 값) */
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative; /* 두 번째 블록에서 추가된 속성 */
+    overflow: hidden; /* 두 번째 블록에서 추가된 속성 */
+    display: inline-block; /* 두 번째 블록에서 추가된 속성 */
+    margin-top: 1.5em; /* 버튼 간 기본 간격 */
+    box-sizing: border-box;
+    width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 - 두 번째 블록 값 */
+    max-width: 350px; /* 최대 너비 설정 - 두 번째 블록 값 */
 }
 
-/* 8) 주요 액션 버튼 (프리미엄 / 테스트 등) */
+/* Hover 및 Active 효과 */
+button:hover, .copy-btn:hover, .main-action-link-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(70, 96, 216, 0.4);
+}
+button:active, .copy-btn:active, .main-action-link-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(70, 96, 216, 0.2);
+}
+
+/* 아이콘 스타일 */
+.main-action-link-button .icon,
+.link-item .icon {
+    margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+}
+
+/* '프리미엄 번호 추천 받기' 버튼 (form 내부) - 고급 맞춤 번호와의 간격 조정 */
+form {
+    margin-bottom: 1.5em;
+}
+form button { /* 프리미엄 번호 추천받기 버튼 */
+    margin-bottom: 0em; /* 아래 간격 추가 */
+}
+
+/* '고급 맞춤 번호 추천 받기' 및 '재미로 보는 로또 테스트' 버튼 (.main-action-link-button) 스타일 */
 .main-action-link-button {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--pastel-3) 0%, var(--pastel-5) 100%);
-  color: #fff;
-  padding: 1em 2em;
-  margin: 0.8em 0;
-  box-shadow: 0 8px 20px rgba(85, 121, 151, 0.3);
-}
-.main-action-link-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(85, 121, 151, 0.4);
+    background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 기존 그라데이션 유지 */
+    /* background: #d72638; <-- 이 색상은 첫 번째 블록에서 왔는데, 두 번째 블록의 그라데이션이 더 강합니다. */
+    font-size: 1.2em; /* 첫 번째 블록의 0.95rem 대신 1.2em 유지 */
+    margin-top: 0; /* 이전 버튼과의 간격을 없앰 (form button의 margin-bottom으로 간격 조절) */
 }
 
-/* 9) URL 복사 버튼 */
+/* 'SmartPick이 특별한 이유 알아보기' 링크 (link-item) 스타일 */
+.link-item { /* .link-about-moved와 유사하나 이름이 다름 */
+    padding: 1.2em 1.5em; /* 두 번째 블록의 .link-about-moved 값 사용 */
+    font-size: 1em;
+    font-weight: bold; /* 첫 번째 블록의 500 대신 bold 유지 */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* 두 번째 블록의 .link-about-moved 값 사용 */
+    text-align: center;
+    background-color: #f7f9fc; /* 두 번째 블록의 .link-about-moved 값 사용 */
+    border: 2px solid #b3d4f5; /* 두 번째 블록의 .link-about-moved 값 사용 */
+    color: #4a6fa3; /* 두 번째 블록의 .link-about-moved 값 사용 */
+    margin-bottom: 2em; /* 두 번째 블록의 .link-about-moved 값 사용 */
+}
+.link-item:hover {
+    background-color: #e6f0fa;
+    border-color: #8bbceb;
+    transform: translateY(-3px);
+}
+
+
+/* '추천 번호 복사' 버튼 (.copy-btn) - 요청에 따른 수정 */
 .copy-btn {
-  background: transparent;
-  color: var(--pastel-5);
-  border: 2px solid var(--pastel-5);
-  padding: 0.8em 1.5em;
-  margin-top: 1em;
-}
-.copy-btn:hover {
-  background: var(--pastel-6);
+    background-color: transparent; /* 배경색을 투명하게 */
+    color: #FFD700; /* 글씨색을 테두리색과 동일한 황금색으로 */
+    border: 2px solid #FFD700; /* 테두리는 유지 */
+    box-shadow: none; /* 투명 배경이므로 불필요한 그림자 제거 */
+    font-weight: normal; /* 글씨를 볼드 처리하지 않음 */
+    padding: 0.8em 1em; /* 박스 높이 줄임 (상하 패딩 조정) */
 }
 
-/* 10) MBTI 운세 카드 */
-.fortune-card {
-  background: var(--pastel-4);
-  border: 2px solid var(--pastel-3);
-  border-radius: 1em;
-  padding: 1.5em;
-  text-align: left;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom: 2em;
+/* 핵심 차별점 메시지 스타일 (.usp-message) */
+.usp-message {
+    margin-bottom: 2.5em;
+    border: 2px solid #ff708a;
+    padding: 1.5em 1.2em;
+    border-radius: 1.8em;
+    background-color: #fffafc;
+    box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15);
 }
-.fortune-card h3 {
-  font-family: 'Nanum Brush Script', cursive;
-  color: var(--pastel-3);
-  font-size: 1.8rem;
-  text-align: center;
-  margin-bottom: 0.5em;
+.usp-message div {
+    font-size: 1.15em;
+    font-weight: 600;
+    line-height: 1.6;
+    color: #3f5477;
+    margin-bottom: 0.6em;
 }
-
-/* 11) 로또 번호볼 */
-.lotto-numbers, .lotto, .latest-winning-numbers {
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* 볼 간격 */
-  flex-wrap: wrap; /* 반응형을 위해 줄바꿈 허용 */
+.usp-message .line1 {
+    font-size: 1.45em;
+    font-weight: 800;
+    color: #d32f2f;
+    margin-bottom: 0.8em;
 }
-
-/* 로또 볼 기본 스타일 */
-.lotto-ball, .number-ball, .ball { /* 모든 로또 볼 관련 클래스에 적용 */
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.4em; /* PC에서의 글자 크기 */
-  color: #333333; /* 기본 텍스트 색상 (일부 번호대는 흰색으로 오버라이드) */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border: 2px solid rgba(255, 255, 255, 0.5); /* 테두리 추가 (선택 사항) */
+.usp-message .line1 .icon {
+    margin-right: 10px;
+    color: #d32f2f;
 }
-
-/* 동행복권 로또 번호대별 색상 */
-/* 1-10번대: 노란색 */
-.lotto-ball.num-1-10, .number-ball.num-1-10, .ball.num-1-10 {
-  background-color: #FFD400;
-  color: #333333; /* 검정색 글씨 */
+.usp-message .line2 {
+    font-size: 1.05em;
+    font-weight: 500;
+    color: #6a7f9a;
 }
-/* 11-20번대: 파란색 */
-.lotto-ball.num-11-20, .number-ball.num-11-20, .ball.num-11-20 {
-  background-color: #69C4F8;
-  color: #333333; /* 검정색 글씨 */
+.usp-message .line3 {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: #28a745;
+    margin-top: 1em;
 }
-/* 21-30번대: 빨간색 */
-.lotto-ball.num-21-30, .number-ball.num-21-30, .ball.num-21-30 {
-  background-color: #F26A6A;
-  color: #FFFFFF; /* 흰색 글씨 */
-}
-/* 31-40번대: 회색 */
-.lotto-ball.num-31-40, .number-ball.num-31-40, .ball.num-31-40 {
-  background-color: #AAAAAA;
-  color: #FFFFFF; /* 흰색 글씨 */
-}
-/* 41-45번대: 초록색 */
-.lotto-ball.num-41-45, .number-ball.num-41-45, .ball.num-41-45 {
-  background-color: #B0D26E;
-  color: #333333; /* 검정색 글씨 */
+.usp-message .line3 .icon {
+    margin-right: 10px;
+    color: #28a745;
 }
 
-/* 반응형 조정 (기존 미디어 쿼리 내부에 추가) */
-@media (max-width: 600px) {
-  /* ... 기존 스타일 유지 ... */
-  .lotto-ball, .number-ball, .ball {
-    width: 36px;
-    height: 36px;
-    font-size: 1rem; /* 모바일에서의 글자 크기 */
-  }
+/* 로또 볼 배열 (기본) - 데스크탑/태블릿용 */
+.lotto {
+    margin: 2.5em auto 1em auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    max-width: 300px;
+    box-sizing: border-box;
+}
+/* 볼 스타일 (기본) */
+.ball {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc((100% - (8px * 5)) / 6);
+    height: calc((100% - (8px * 5)) / 6);
+    min-width: 42px;
+    min-height: 42px;
+    border-radius: 50%;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    border: 3px solid #fff;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    color: #333;
+}
+.ball.n1 { background: #ffdf6c; }
+.ball.n2 { background: #9bd0ff; }
+.ball.n3 { background: #ff91a5; color: #fff;}
+.ball.n4 { background: #c2c9d1; }
+.ball.n5 { background: #b0e891; }
+
+/* 'SmartPick이 특별한 이유' 링크 스타일 (link-about-moved) */
+.link-about-moved {
+    display: block;
+    padding: 1.2em 1.5em;
+    border-radius: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    text-align: center;
+    background-color: #f7f9fc;
+    border: 2px solid #b3d4f5;
+    color: #4a6fa3;
+    margin-bottom: 2em;
+}
+.link-about-moved:hover {
+    background-color: #e6f0fa;
+    border-color: #8bbceb;
+    transform: translateY(-3px);
+}
+.link-about-moved .icon {
+    margin-right: 8px;
+    color: #4a6fa3;
 }
 
-/* 12) “행운의 팁” */
-.lucky-tip {
-  background: var(--pastel-6);
-  border: 1px solid var(--pastel-2);
-  border-radius: 0.8em;
-  padding: 1em;
-  font-size: 1rem;
-  margin-top: 1em;
-}
-
-/* 13) 통계·최신 당첨 섹션 */
+/* 누적 추천 조합 통계 섹션 스타일 */
 .stats-box {
-  background: var(--pastel-6);
-  border: 2px solid var(--pastel-2);
-  border-radius: 1.5em;
-  padding: 1.2em;
-  margin: 1.5em auto;
-  max-width: 350px;
-  color: #004d40;
-  font-weight: 600;
-  text-align: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 18px 25px;
+    background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%);
+    border-radius: 2em;
+    box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
+    font-size: 1.1em;
+    color: #00796b;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
 }
+.stats-box b {
+    color: #004d40;
+    font-weight: 800;
+}
+
+/* 최신 당첨번호 섹션 */
 .latest-winning-section {
-  background: var(--pastel-4);
-  border: 2px solid var(--pastel-1);
-  padding: 1.2em;
-  border-radius: 1.5em;
-  margin-bottom: 2em;
+    background-color: #e6f7ff;
+    border: 2px solid #a8e0f5;
+    border-radius: 1.8em;
+    padding: 1.5em;
+    margin-bottom: 2em;
+    box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
+    text-align: center;
+}
+.latest-winning-section h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #00796b;
+    margin-bottom: 0.8em;
+}
+.latest-winning-numbers {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 1em;
+}
+.latest-winning-numbers .ball {
+    flex-shrink: 0;
+    min-width: 32px;
+    min-height: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 0.95em;
+    border: 2px solid #fff;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
 }
 .plus-sign {
-  font-weight: 900;
-  color: var(--pastel-5);
+    font-size: 1.6em;
+    font-weight: 900;
+    color: #4a6fa3;
+    margin: 0 3px;
+    flex-shrink: 0;
 }
 
-/* 14) 반응형 */
-@media (max-width: 600px) {
-  h1 { font-size: 1.8em; }
-  .container { padding: 2em 1em; }
-  .main-action-link-button, .copy-btn { width: 100%; }
-  .number-ball, .ball { width: 36px; height: 36px; font-size: 1rem; }
-}
-
-header {
-  background: var(--pastel-5);      /* 부드러운 블루 바탕 */
-  padding: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 800px;
-  margin: 0 auto;
-}
-header .logo {
-  font-family: 'Nanum Brush Script', cursive;
-  color: #fff;
-  font-size: 1.8rem;
-}
-header nav ul {
-  display: flex;
-  gap: 1em;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-header nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
-}
-header nav ul li a:hover {
-  color: var(--pastel-3);           /* 코랄 핑크 호버 */
-}
-
-/* ── 본문 타이포 & 리스트 & 링크 ─────────────── */
-main {
-  padding: 2rem 1rem;
-}
-h2 {
-  font-family: 'Nanum Brush Script', cursive;
-  color: var(--pastel-3);
-  font-size: 2.2rem;
-  margin-bottom: 0.5em;
-}
-p {
-  font-family: 'Pretendard', sans-serif;
-  color: var(--pastel-2);
-  line-height: 1.5;
-  font-size: 1rem;
-}
-a {
-  color: var(--pastel-5);
-  text-decoration: none;
-  font-weight: 500;
-}
-a:hover {
-  color: var(--pastel-3);
-}
-ul {
-  list-style: none;  /* 불릿 제거 */
-  padding: 0;
-  margin: 0.5em 0 1em 0;
-}
-
-/* ── 테스트 허브 카드(이미 있겠지만 혹시 빠졌다면) ── */
-.test-options {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-@media (min-width: 600px) {
-  .test-options {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-.test-card {
-  background: var(--pastel-1);
-  border: 2px solid var(--pastel-3);
-  border-radius: 1em;
-  padding: 1.5em;
-  flex: 1;
-  max-width: 45%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  text-align: center;
-}
-.test-card h3 {
-  font-family: 'Nanum Brush Script', cursive;
-  color: var(--pastel-5);
-  margin-bottom: 0.5em;
-}
-.test-card p {
-  color: var(--text-dark); /* 변경: 텍스트 색상 변수 사용 */
-  margin-bottom: 1em;
-}
-.test-card .action-button {
-  background: var(--pastel-3);
-  color: #fff;
-}
-.test-card .action-button:hover {
-  background: var(--pastel-2);
-  color: #333;
-  transform: translateY(-2px);
-}
-
-/* ----- 추가된 스타일 ----- */
-
-/* "재미로 보는 로또 테스트" 섹션 */
-.lotto-test-intro { /* 새로운 클래스 추가 */
-    text-align: center;
-    margin-top: 2em; /* 필요에 따라 상단 여백 조절 */
-    margin-bottom: 2em; /* 필요에 따라 하단 여백 조절 */
-}
-
-/* 저작권 문구 */
-.footer-text { /* 새로운 클래스 추가 */
-    text-align: center;
-    margin-top: 3em; /* 필요에 따라 상단 여백 조절 */
-    font-size: 0.9em;
-    color: var(--pastel-5); /* 부드러운 블루 계열로 색상 조절 */
+/* 모바일 반응형 미디어 쿼리 */
+@media (max-width: 600px) { /* 기존 100px 대신 일반적인 모바일 해상도 600px로 변경 권장 */
+    body {
+        justify-content: flex-start;
+    }
+    .container {
+        max-width: 97vw;
+        margin: 8vw 2vw; /* 30px 15px 대신 vw 사용 */
+        padding: 2em 0.2em; /* 25px 대신 em 사용 */
+    }
+    h1 { font-size: 1.8em; }
+    .subtitle { font-size: 1em; } /* 기존 첫 번째 블록과 동일하게 1em 유지 */
+    .usp-message div {
+        font-size: 1.0em;
+    }
+    .usp-message .line1 {
+        font-size: 1.1em;
+    }
+    .usp-message .line3 {
+        font-size: 1.0em;
+    }
+    /* 로또 볼 및 최신 당첨 번호 볼 레이아웃 */
+    .lotto, .latest-winning-numbers {
+        max-width: calc(100% - 20px);
+        gap: 3px;
+        justify-content: center;
+    }
+    .ball {
+        min-width: 28px;
+        min-height: 28px;
+        width: 28px;
+        height: 28px;
+        font-size: 0.85em;
+    }
+    .latest-winning-numbers .ball {
+        min-width: 28px;
+        min-height: 28px;
+        width: 28px;
+        height: 28px;
+        font-size: 0.85em;
+    }
+    .plus-sign {
+        font-size: 1.4em;
+        margin: 0 1px;
+    }
+    button, .copy-btn, .main-action-link-button {
+        font-size: 1.05em;
+        padding: 0.8em 1.8em;
+        margin-top: 1em;
+    }
+    /* 버튼 너비 통일 (모바일에서도) */
+    button, .main-action-link-button {
+        width: calc(100% - (1.8em * 2));
+    }
+    .stats-box {
+        max-width: 90%;
+        font-size: 0.95em;
+        padding: 15px 20px;
+        margin-top: 5vw;
+        margin-bottom: 5vw;
+    }
+    .link-about-moved {
+        margin-bottom: 1.5em;
+        padding: 1em 1.2em;
+        font-size: 1em;
+    }
 }
