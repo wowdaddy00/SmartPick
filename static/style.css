@@ -383,7 +383,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: var(--white-bg);
+  color: #fff; /*
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -438,13 +438,29 @@ footer a:hover {
   border: 2px solid var(--pastel-3); /* 코랄 핑크 */
   border-radius: 1.5em;
   padding: 1.5em;
-  flex: 1; /* flex-direction: row일 때 공간 분배 */
-  max-width: 350px; /* 개별 카드 최대 너비 */
+  /* flex: 1; 대신 flex-basis와 flex-grow/shrink를 사용하여 명시적으로 너비를 제어 */
+  /* max-width는 @media 쿼리 안에서만 재정의합니다. */
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
+  width: 100%; /* 기본 너비는 100% (모바일 우선) */
 }
+
+/* test-card 크기 균등하게 맞추기 (데스크톱 600px 이상) */
+@media (min-width: 600px) {
+    .test-card {
+        /* test-options의 gap (1.5rem = 24px)을 고려하여 너비 설정 */
+        /* test-options에 margin-left: -0.75rem; margin-right: -0.75rem;가 있으므로,
+           카드의 실제 너비는 (50% - 0.75rem)이 되어야 합니다. */
+        flex-basis: calc(50% - 0.75rem); /* <-- 좌우 카드 너비를 동일하게 맞춤 */
+        flex-grow: 0; /* 늘어나지 않도록 */
+        flex-shrink: 0; /* 줄어들지 않도록 */
+        max-width: none; /* 이전에 정의된 max-width 350px를 해제하여 flex-basis가 적용되도록 */
+        margin: 0; /* test-options의 gap으로 간격 조절 */
+    }
+}
+
 .test-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
