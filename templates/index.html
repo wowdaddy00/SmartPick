@@ -26,9 +26,9 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  
+
   {# 외부 style.css 파일을 우선적으로 링크합니다. 중복되는 스타일은 제거하거나 여기에만 필요한 스타일만 남겨둡니다. #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"> 
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
   <style>
     /*
@@ -113,7 +113,7 @@
     }
 
     form {
-        margin-bottom: 1.5em;
+        margin-bottom: 0.5em; /* 버튼 그룹 시작 전 여백 조절 */
     }
     button, .copy-btn, .main-action-link-button {
       font-size:1.2em;
@@ -124,7 +124,7 @@
       border-radius:1.2em;
       padding:1em 2.5em;
       box-shadow:0 8px 20px rgba(70, 96, 216, 0.3);
-      margin-top:1.5em;
+      margin-top:0.5em; /* <--- 간격 좁힘 (기존 1.5em에서 0.5em으로) */
       cursor:pointer;
       transition: all 0.3s ease;
       position: relative;
@@ -146,14 +146,19 @@
     }
     /* 버튼 간 간격 조절 */
     form button { /* 프리미엄 번호 추천받기 버튼 */
-        margin-bottom: 0; /* 고급 맞춤 번호와의 간격을 없앰 */
+        margin-bottom: 0; /* 항상 붙어있도록 */
     }
-    .main-action-link-button { /* 고급 맞춤 추천 받기 버튼 */
-        margin-top: 10px; /* 버튼 간 최소 여백 */
+    /*
+    .main-action-link-button {
+        margin-top: 10px; // 이전 설정: 버튼 간 최소 여백
     }
-    /* 특정 버튼에만 다른 마진 적용 (필요 시) */
+    */
+    /* '재미로 보는 로또 테스트' 버튼에만 적용되었던 extra-margin 클래스를
+       모든 .main-action-link-button에 대한 기본 간격으로 흡수 (위 margin-top:0.5em)
+       또는 개별 조정이 필요하다면 계속 유지할 수 있음
+    */
     .main-action-link-button.extra-margin {
-        margin-top: 1.5em; /* 다른 버튼과 분리할 때 사용 */
+        margin-top: 0.5em; /* <--- 간격 좁힘 (기존 1.5em에서 0.5em으로) */
     }
 
 
@@ -287,8 +292,7 @@
     }
 
     /* 모바일 반응형 미디어 쿼리 */
-    /* @media (max-width:100px) -> 이 부분을 @media (max-width:600px)로 수정 */
-    @media (max-width:600px){ /* <--- 모바일 화면 너비 기준을 600px로 변경 */
+    @media (max-width:600px){ /* 모바일 화면 너비 기준을 600px로 변경 */
       body {
           justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
       }
@@ -332,7 +336,7 @@
       button, .copy-btn, .main-action-link-button {
           font-size: 1.05em;
           padding: 0.8em 1.8em;
-          margin-top: 1em;
+          margin-top: 0.5em; /* <--- 모바일 간격 좁힘 (기존 1em에서 0.5em으로) */
           width: 90%; /* 모바일 버튼 너비를 90%로 설정 */
           max-width: none; /* 최대 너비 제한 해제 */
           margin-left: auto; /* 중앙 정렬 */
@@ -355,7 +359,7 @@
 </head>
 <body>
   {# 전체 페이지 컨텐츠를 감싸는 메인 컨테이너 (옵션) #}
-  {# <div class="page-wrapper"> #} 
+  {# <div class="page-wrapper"> #}
 
   <div class="stats-box">
     <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
@@ -400,7 +404,7 @@
         고급 맞춤 번호<br>추천 받기
     </a>
 
-    <a href="/fun-lotto-test" class="main-action-link-button extra-margin"> {# 재미로 보는 로또 테스트 버튼에 상단 여백 추가 #}
+    <a href="/fun-lotto-test" class="main-action-link-button"> {# "재미로 보는 로또 테스트" 버튼에 extra-margin 클래스를 제거했습니다 #}
         <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
     </a>
 
@@ -412,7 +416,7 @@
       </div>
       <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
       {# `div style="height: 15px;"` 대신 CSS margin으로 처리하는 것이 좋습니다. #}
-      <button class="main-action-link-button extra-margin" onclick="generateLottoStory()"> {# 스토리 버튼에도 상단 여백 추가 #}
+      <button class="main-action-link-button" onclick="generateLottoStory()"> {# "재미로 보는 로또 당첨 후 내 모습 확인하기!" 버튼에 extra-margin 클래스를 제거했습니다 #}
           재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
       </button>
 
