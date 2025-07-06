@@ -18,8 +18,200 @@
     <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_lotto_test_hub.png" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/static/style.css">    <!-- ← 추가 -->
-    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+    <style>
+        /* 이 페이지에만 적용될 추가/덮어쓰기 스타일 */
+        body {
+            /* 메인 페이지와 동일한 배경색 및 폰트 설정 (style.css에서 이미 정의되어 있을 수 있으나, 명시적으로) */
+            background: #f0f4f8; /* index.html과 동일한 배경 */
+            font-family: 'Pretendard', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            /* main 콘텐츠가 유동적으로 늘어나도록 justify-content를 space-between으로 변경 */
+            justify-content: space-between;
+            align-items: center; /* 가로 중앙 정렬 */
+            color: #333; /* 기본 텍스트 색상 */
+        }
+
+        header {
+            /* style.css에 정의된 헤더 스타일이 적용되도록 합니다. */
+            width: 100%; /* 헤더가 페이지 전체 너비 차지 */
+            box-sizing: border-box; /* 패딩 포함 너비 */
+        }
+        header .container {
+            max-width: 800px; /* 헤더 컨테이너 최대 너비 지정 */
+            margin: 0 auto; /* 헤더 컨테이너 중앙 정렬 */
+            padding: 1rem 1rem; /* 헤더 컨테이너 패딩 */
+        }
+
+
+        main {
+            flex-grow: 1; /* 메인 콘텐츠가 남은 공간을 차지하도록 */
+            width: 90%; /* 메인 콘텐츠 너비 설정 */
+            max-width: 800px; /* 메인 콘텐츠 최대 너비 */
+            margin: 2em auto; /* 상하 여백, 좌우 중앙 정렬 */
+            padding: 1.5em; /* 내부 여백 */
+            box-sizing: border-box;
+            background: #ffffff; /* 메인 콘텐츠 영역 흰색 배경 */
+            border-radius: 2.5em; /* 메인 페이지 컨테이너와 유사하게 둥근 모서리 */
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); /* 메인 페이지 컨테이너와 유사한 그림자 */
+            text-align: center; /* h2, p, test-options를 중앙 정렬 */
+        }
+
+        main h2 {
+            font-size: 2.2em; /* 메인 페이지 h1과 유사한 느낌 */
+            font-weight: 900;
+            color: #2a4365; /* 메인 페이지와 동일한 색상 */
+            margin-bottom: 0.8em;
+            letter-spacing: -0.05em;
+        }
+
+        main p {
+            font-size: 1.1em;
+            color: #6a7f9a; /* 메인 페이지와 유사한 연한 회색 파란색 */
+            line-height: 1.6;
+            margin-bottom: 2em; /* 카드 위 여백 */
+        }
+
+        .test-options {
+            display: flex;
+            flex-direction: column; /* 기본적으로 세로 배열 */
+            gap: 1.5rem; /* 카드 간 간격 */
+            margin-top: 2rem;
+            align-items: center; /* 카드들을 컨테이너 중앙으로 정렬 */
+        }
+
+        @media (min-width: 600px) {
+            .test-options {
+                flex-direction: row; /* 데스크톱에서는 가로 배열 */
+                justify-content: center; /* 카드들을 가로 중앙으로 정렬 */
+                flex-wrap: wrap; /* 카드가 많아지면 줄바꿈 허용 */
+            }
+            .test-card {
+                flex: 1; /* 가로 공간을 균등하게 분배 */
+                max-width: 45%; /* 두 개의 카드를 나란히 배치하기 위함 */
+            }
+        }
+
+        .test-card {
+            background: #f7f9fc; /* 메인 페이지의 link-about-moved와 유사한 배경 */
+            border: 2px solid #b3d4f5; /* 메인 페이지와 유사한 테두리 */
+            border-radius: 1.5em; /* 메인 페이지와 유사한 둥근 모서리 */
+            padding: 1.5em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* 부드러운 그림자 */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%; /* 기본 너비 설정 */
+            box-sizing: border-box;
+            max-width: 350px; /* 컨테이너의 max-width에 맞춰 카드 최대 너비 설정 */
+        }
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .test-card h3 {
+            font-family: 'Nanum Brush Script', cursive; /* style.css의 로고 폰트 사용 */
+            font-size: 1.8rem;
+            color: #557997; /* style.css의 pastel-5와 유사한 부드러운 블루 */
+            margin-bottom: 0.5em;
+        }
+        .test-card h3 .icon { /* 제목 옆 아이콘 스타일 */
+            margin-right: 8px;
+            color: #ff91a5; /* 핑크색으로 아이콘 강조 */
+        }
+
+        .test-card p {
+            font-family: 'Pretendard', sans-serif;
+            color: #3f5477; /* 진한 파란색 계열 */
+            line-height: 1.5;
+            font-size: 1em;
+            margin-bottom: 1.5em;
+        }
+
+        .test-card .action-button {
+            /* 메인 페이지의 main-action-link-button과 유사하게 디자인 */
+            display: inline-block;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
+            color: #fff;
+            border: none;
+            border-radius: 1.2em;
+            padding: 0.8em 2em;
+            box-shadow: 0 6px 15px rgba(70, 96, 216, 0.25);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            width: calc(100% - (2em * 2)); /* 패딩 고려한 너비 */
+            max-width: 250px; /* 버튼 최대 너비 */
+            box-sizing: border-box;
+        }
+        .test-card .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(70, 96, 216, 0.35);
+        }
+
+        footer {
+            /* style.css에 정의된 푸터 스타일이 적용되도록 합니다. */
+            margin-top: 2em; /* 메인 콘텐츠와의 간격 */
+            padding: 1.5em;
+            text-align: center;
+            color: #6a7f9a;
+            font-size: 0.9em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        footer p {
+            margin: 0.2em 0; /* 푸터 내부 문단 간 간격 */
+        }
+        footer a {
+            color: #6a7f9a;
+            text-decoration: none;
+            margin: 0 0.5em;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: #4a6fa3;
+        }
+
+        /* 모바일 반응형 (600px 이하) */
+        @media (max-width: 600px) {
+            main {
+                width: 95%; /* 모바일에서 메인 콘텐츠 너비 확장 */
+                margin: 5vw auto; /* 모바일 여백 조정 */
+                padding: 1.5em 1em; /* 모바일 내부 여백 조정 */
+            }
+            main h2 {
+                font-size: 1.8em;
+            }
+            main p {
+                font-size: 1em;
+            }
+            .test-options {
+                gap: 1em; /* 모바일에서 카드 간 간격 줄임 */
+            }
+            .test-card {
+                padding: 1.2em;
+                max-width: none; /* 모바일에서 max-width 제한 해제 */
+            }
+            .test-card h3 {
+                font-size: 1.5rem;
+            }
+            .test-card p {
+                font-size: 0.9em;
+            }
+            .test-card .action-button {
+                font-size: 1em;
+                padding: 0.7em 1.5em;
+            }
+            footer {
+                padding: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -38,22 +230,24 @@
     </header>
 
     <main>
-        <h2>🌟 재미로 보는 로또 테스트</h2>
-        <p>당신의 로또 운세와 번호에 재미있는 이야기를 더해보세요!</p>
+        <div class="main-content-wrapper"> {# <--- 중앙 정렬을 위한 래퍼 추가 #}
+            <h2>🌟 재미로 보는 로또 테스트</h2>
+            <p>당신의 로또 운세와 번호에 재미있는 이야기를 더해보세요!</p>
 
-        <div class="test-options">
-            <div class="test-card">
-                <h3>🧬 당신의 로또 DNA는? </h3>
-                <p>간단한 심리 테스트로 당신의 로또 DNA 유형을 알아보고, 그에 맞는 행운의 번호를 받아보세요!</p>
-                <a href="/lotto-dna-test" class="action-button">테스트 시작하기</a>
-            </div>
+            <div class="test-options">
+                <div class="test-card">
+                    <h3><i class="fas fa-dna icon"></i> 당신의 로또 DNA는? </h3>
+                    <p>간단한 심리 테스트로 당신의 로또 DNA 유형을 알아보고, 그에 맞는 행운의 번호를 받아보세요!</p>
+                    <a href="/lotto-dna-test" class="action-button">테스트 시작하기</a>
+                </div>
 
-            <div class="test-card">
-                <h3>🔮 MBTI별 이번 주 로또 운세는? 💰</h3>
-                <p>당신의 MBTI 성격 유형에 따른 이번 주 로또 운세와 특별 추천 번호를 확인해보세요!</p>
-                <a href="/mbti-lotto-test" class="action-button">운세 확인하기</a>
+                <div class="test-card">
+                    <h3><i class="fas fa-magic icon"></i> MBTI별 이번 주 로또 운세는? <i class="fas fa-money-bill-wave icon"></i></h3> {# <--- 아이콘 추가 #}
+                    <p>당신의 MBTI 성격 유형에 따른 이번 주 로또 운세와 특별 추천 번호를 확인해보세요!</p>
+                    <a href="/mbti-lotto-test" class="action-button">운세 확인하기</a>
+                </div>
             </div>
-        </div>
+        </div> {# main-content-wrapper 끝 #}
     </main>
 
     <footer>
