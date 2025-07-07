@@ -174,15 +174,19 @@ form button {
   color: var(--white-bg);
   box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
   margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
-  white-space: normal; /* <--- 이 줄을 추가하여 줄 바꿈을 허용합니다. */
-  line-height: 1.3; /* <--- (선택 사항) 줄 간격을 조절하여 텍스트가 너무 붙지 않도록 합니다. */
+  
+  /* --- ▼ 이 부분을 수정 또는 추가합니다. ▼ --- */
+  white-space: normal !important; /* 모든 white-space 규칙을 무시하고 줄 바꿈을 허용합니다. */
+  line-height: 1.3; /* 줄 간격을 조절하여 텍스트가 너무 붙지 않도록 합니다. (선택 사항) */
+  /* --- ▲ 이 부분을 수정 또는 추가합니다. ▲ --- */
 }
 
-/* 추가적으로, .button-line 클래스에는 별도 스타일이 없어도 됩니다. */
-/* 만약 이 클래스에 다른 곳에서 white-space: nowrap;이 적용되어 있다면 아래 코드를 추가해야 합니다. */
+/* 추가: .button-line에 대한 스타일 */
 .button-line {
-    white-space: normal; /* 혹시 모를 상황을 대비하여 추가 */
-    display: block; /* span은 기본적으로 inline이라 줄바꿈이 안될 수 있으므로 block으로 설정 */
+    /* --- ▼ 이 부분을 추가 또는 수정합니다. ▼ --- */
+    display: block; /* span은 기본 inline 요소이므로 block으로 만들어 각 줄이 독립적으로 작동하도록 합니다. */
+    white-space: normal !important; /* 혹시 모를 경우를 대비하여 다시 한번 강제 줄 바꿈 허용 */
+    /* --- ▲ 이 부분을 추가 또는 수정합니다. ▲ --- */
 }
 
 /* Hover 및 Active 효과 */
