@@ -3,8 +3,8 @@
 /* 1) 구글 폰트 로드 */
 /* Nanum Brush Script: 로고 및 특별 제목용 */
 /* Pretendard: 본문 및 일반 텍스트용 (다양한 웨이트 포함) */
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
+@import url('[https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap](https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap)');
+@import url('[https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap](https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap)');
 
 /* 2) 파스텔·코랄 팔레트 변수 선언 */
 :root {
@@ -383,7 +383,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: #fff !important; /* 네비게이션 탭 글자색을 흰색으로 강제 지정 */
+  color: #fff !important; /* <--- 주석 오류 수정될 부분 */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -430,8 +430,15 @@ footer a:hover {
         flex-direction: row; /* 데스크톱: 가로 배열 */
         justify-content: center;
         flex-wrap: wrap; /* 카드가 많아지면 줄바꿈 허용 */
+        /* 이전에 여기에 있었던 margin-left: -0.75rem; margin-right: -0.75rem;를 제거하거나 0으로 변경 */
+        margin-left: 0; /* <--- 추가: 음수 마진 제거 */
+        margin-right: 0; /* <--- 추가: 음수 마진 제거 */
+        gap: 1.5rem; /* 원래 gap 유지 */
+        justify-content: center;
+        flex-wrap: wrap;
     }
-}
+/* 🔥 이 불필요한 닫는 중괄호를 제거해야 합니다. */
+/* } */
 
 .test-card {
   background: var(--pastel-1); /* 연한 크림 */
@@ -460,20 +467,7 @@ footer a:hover {
         flex-shrink: 0; /* 줄어들지 않도록 */
         margin: 0 0.75rem; /* <--- 양쪽에 반만큼의 gap을 마진으로 추가 */
     }
-    /* test-options에 음수 마진이 있다면 제거하거나 조정해야 합니다.
-       이전 코드에서 .test-options의 @media 600px 내부에 margin-left/right: -0.75rem; 가 있었는데
-       이 부분이 문제가 될 수 있습니다. 해당 부분을 찾아서 제거하거나 0으로 변경해주세요. */
 }
-/* test-options의 @media (min-width: 600px)에 추가 또는 수정 */
-@media (min-width: 600px) {
-    .test-options {
-        /* 이전에 여기에 있었던 margin-left: -0.75rem; margin-right: -0.75rem;를 제거하거나 0으로 변경 */
-        margin-left: 0; /* <--- 추가: 음수 마진 제거 */
-        margin-right: 0; /* <--- 추가: 음수 마진 제거 */
-        gap: 1.5rem; /* 원래 gap 유지 */
-        justify-content: center;
-        flex-wrap: wrap;
-    
 
 .test-card:hover {
     transform: translateY(-5px);
