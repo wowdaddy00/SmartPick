@@ -516,6 +516,12 @@ footer a:hover {
     .test-card h3 { font-size: 1.5rem; }
     .test-card p { font-size: 0.9em; }
 
+    /* 추가 또는 수정: 최신 당첨번호 제목 모바일 크기 조정 */
+    .latest-winning-section h2 {
+        font-size: 1.2em; /* <--- 변경: 모바일에서 폰트 크기를 줄여 한 줄에 들어오도록 */
+        line-height: 1.2; /* <--- 추가: 줄 간격도 조절 */
+    }
+
     /* 버튼 조정 */
     button, .copy-btn, .main-action-link-button {
         font-size: 1.05em;
@@ -561,8 +567,11 @@ footer a:hover {
     }
     .link-about-moved {
         margin-bottom: 1.5em; /* 모바일에서는 1.5em 유지 */
-        padding: 1em 1.2em;
-        font-size: 1em;
+        padding: 1em 1em; /* <--- 변경: 좌우 패딩을 1em으로 약간 줄임 */
+        font-size: 0.9em; /* <--- 변경: 폰트 크기를 0.9em으로 줄임 */
+        white-space: nowrap; /* <--- 추가: 텍스트가 강제로 한 줄에 나오도록 (오버플로우는 숨기거나 처리 필요) */
+        overflow: hidden; /* <--- 추가: 텍스트가 넘치면 숨김 */
+        text-overflow: ellipsis; /* <--- 추가: 넘치는 텍스트를 ...으로 표시 */
     }
 
     /* 헤더/푸터 반응형 */
