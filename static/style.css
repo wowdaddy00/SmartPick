@@ -590,37 +590,38 @@ footer a:hover {
 
 /* 🔥 Hero CTA 영역 */
 .hero {
-  background: linear-gradient(135deg, #4361ee 0%, #4CAF50 100%);
-  color: white;
+  background-color: #f0f4ff;  /* 은은한 연파랑 or 원하시는 색으로 수정 가능 */
+  border-radius: 20px;
+  padding: 2em;
   text-align: center;
-  padding: 3em 1em;
-  border-radius: 1em;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   margin-bottom: 2em;
+  box-shadow: 0 6px 24px #22325610;
 }
 
 .hero-inner h1 {
-  font-size: 2.4em;
+  font-size: 1.6em;
+  color: #222;
   font-weight: 900;
-  margin-bottom: 0.5em;
+  margin-bottom: 0.8em;
 }
 
 .hero-inner p {
-  font-size: 1.2em;
-  margin-bottom: 1.5em;
+  font-size: 1.05em;
+  color: #444;
   line-height: 1.6;
+  margin-bottom: 1.5em;
 }
 
 .btn-primary {
-  display: inline-block;
-  background-color: #FFC107;
-  color: #333;
-  padding: 0.9em 1.6em;
-  border-radius: 0.6em;
+  background-color: #ffcc00;
+  color: #111;
   font-weight: bold;
+  padding: 0.9em 1.5em;
+  border-radius: 999px;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  display: inline-block;
+  transition: background-color 0.3s;
 }
 .btn-primary:hover {
-  background-color: #ffb300;
+  background-color: #f5b600;
 }
