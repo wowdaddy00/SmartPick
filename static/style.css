@@ -383,7 +383,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: #fff !important; /* 주석 오류 수정될 부분 */
+  color: #557997 !important; /* 주석 오류 수정될 부분 */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
