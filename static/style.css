@@ -3,8 +3,8 @@
 /* 1) 구글 폰트 로드 */
 /* Nanum Brush Script: 로고 및 특별 제목용 */
 /* Pretendard: 본문 및 일반 텍스트용 (다양한 웨이트 포함) */
-@import url('[https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap](https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap)');
-@import url('[https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap](https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap)');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap');
 
 /* 2) 파스텔·코랄 팔레트 변수 선언 */
 :root {
@@ -383,7 +383,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: #fff !important; /* <--- 주석 오류 수정될 부분 */
+  color: #fff !important; /* 주석 오류 수정될 부분 */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -437,8 +437,7 @@ footer a:hover {
         justify-content: center;
         flex-wrap: wrap;
     }
-/* 🔥 이 불필요한 닫는 중괄호를 제거해야 합니다. */
-/* } */
+} /* <--- 이 닫는 중괄호가 있어야 합니다! */
 
 .test-card {
   background: var(--pastel-1); /* 연한 크림 */
