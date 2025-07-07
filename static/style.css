@@ -524,11 +524,11 @@ footer a:hover {
 
     /* 버튼 조정 */
     button, .copy-btn, .main-action-link-button {
-        font-size: 1.05em;
-        padding: 0.8em 1.8em;
+        font-size: 0.95em; /* <--- 변경: 폰트 크기를 더 줄임 */
+        padding: 0.7em 1.5em; /* <--- 변경: 패딩도 약간 줄임 */
         margin-top: 0.5em;
         width: 90%;
-        max-width: none; /* 최대 너비 제한 해제 */
+        max-width: none;
         margin-left: auto;
         margin-right: auto;
     }
