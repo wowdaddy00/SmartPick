@@ -248,8 +248,14 @@
         <label><input type="checkbox" name="exclude_ranks" value="1" {% if '1' in form.get('exclude_ranks', []) %}checked{% endif %}> 1등</label> 
         <label><input type="checkbox" name="exclude_ranks" value="2" {% if '2' in form.get('exclude_ranks', []) %}checked{% endif %}> 2등</label> 
         <label><input type="checkbox" name="exclude_ranks" value="3" {% if '3' in form.get('exclude_ranks', []) %}checked{% endif %}> 3등</label> 
-      </div> 
-      
+      </div>
+
+      <section class="cta-box">
+        <h2>아직 추천 번호를 안 받으셨나요?</h2>
+        <p>한 번도 당첨된 적 없는 조합, 지금 무료로 확인해보세요!</p>
+        <a href="/choose_recommendation" class="btn-primary">🎯 추천 번호 받기</a>
+      </section>
+            
       <div class="form-row"> 
         <b>연속번호 제외:</b> 
         <select name="exclude_consecutive"> 
