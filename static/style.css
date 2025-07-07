@@ -524,17 +524,23 @@ footer a:hover {
 
     /* 버튼 조정 */
     button, .copy-btn, .main-action-link-button {
-        font-size: 0.95em; /* <--- 변경: 폰트 크기를 더 줄임 */
-        padding: 0.7em 1.5em; /* <--- 변경: 패딩도 약간 줄임 */
+        font-size: 0.85em;   /* <--- 변경: 폰트 크기를 더 줄임 (이전 0.9em에서 0.85em으로) */
+        padding: 0.6em 1em; /* <--- 변경: 좌우 패딩을 더 줄임 (이전 1.2em에서 1em으로) */
         margin-top: 0.5em;
         width: 90%;
         max-width: none;
         margin-left: auto;
         margin-right: auto;
+        white-space: normal; /* 텍스트가 필요하면 자연스럽게 줄바꿈되도록 */
+        word-break: keep-all; /* 단어 중간에 끊기지 않도록 (한국어 텍스트에 유용) */
+        text-align: center; /* <--- 추가: 텍스트를 확실히 가운데 정렬 */
     }
     .test-card .action-button {
-        font-size: 1em;
-        padding: 0.7em 1.5em;
+        font-size: 0.85em; /* <--- 통일: test-card 버튼도 동일한 폰트 크기로 조정 */
+        padding: 0.6em 1em; /* <--- 통일: test-card 버튼도 동일한 패딩으로 조정 */
+        white-space: normal; /* 텍스트가 필요하면 자연스럽게 줄바꿈되도록 */
+        word-break: keep-all; /* 단어 중간에 끊기지 않도록 (한국어 텍스트에 유용) */
+        text-align: center; /* <--- 추가: 텍스트를 확실히 가운데 정렬 */
     }
 
     /* 로또볼 조정 */
