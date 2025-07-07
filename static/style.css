@@ -371,7 +371,7 @@ header .container {
 }
 header .logo {
   font-family: 'Nanum Brush Script', cursive;
-  color: var(--white-bg);
+  color: #557997 !important;
   font-size: 1.8rem;
   text-decoration: none;
 }
