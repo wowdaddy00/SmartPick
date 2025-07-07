@@ -383,7 +383,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: #fff !important; /*
+  color: #fff !important; /* 네비게이션 탭 글자색을 흰색으로 강제 지정 */
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
@@ -449,17 +449,31 @@ footer a:hover {
 
 /* test-card 크기 균등하게 맞추기 (데스크톱 600px 이상) */
 @media (min-width: 600px) {
+    /* test-options의 gap (1.5rem = 24px)을 고려하여 너비 설정 */
+    /* 각 카드의 너비를 전체 컨테이너 너비(main max-width 800px - main padding 1.5em*2 = 752px)에서
+       gap을 뺀 후 절반으로 나눕니다: (752px - 24px) / 2 = 364px */
     .test-card {
-        /* test-options의 gap (1.5rem = 24px)을 고려하여 너비 설정 */
-        /* test-options에 margin-left: -0.75rem; margin-right: -0.75rem;가 있으므로,
-           카드의 실제 너비는 (50% - 0.75rem)이 되어야 합니다. */
-        flex-basis: calc(50% - 0.75rem); /* <-- 좌우 카드 너비를 동일하게 맞춤 */
+        width: 364px; /* <--- 명시적인 픽셀 너비로 고정 (테스트 카드 내부 콘텐츠 크기에 따라 미세 조정 필요할 수 있음) */
+        max-width: 364px; /* <--- max-width도 동일하게 고정 */
+        flex-basis: 364px; /* flex-basis도 동일하게 설정하여 flex 컨테이너 내에서 고정 너비 우선 */
         flex-grow: 0; /* 늘어나지 않도록 */
         flex-shrink: 0; /* 줄어들지 않도록 */
-        max-width: none; /* 이전에 정의된 max-width 350px를 해제하여 flex-basis가 적용되도록 */
-        margin: 0; /* test-options의 gap으로 간격 조절 */
+        margin: 0 0.75rem; /* <--- 양쪽에 반만큼의 gap을 마진으로 추가 */
     }
+    /* test-options에 음수 마진이 있다면 제거하거나 조정해야 합니다.
+       이전 코드에서 .test-options의 @media 600px 내부에 margin-left/right: -0.75rem; 가 있었는데
+       이 부분이 문제가 될 수 있습니다. 해당 부분을 찾아서 제거하거나 0으로 변경해주세요. */
 }
+/* test-options의 @media (min-width: 600px)에 추가 또는 수정 */
+@media (min-width: 600px) {
+    .test-options {
+        /* 이전에 여기에 있었던 margin-left: -0.75rem; margin-right: -0.75rem;를 제거하거나 0으로 변경 */
+        margin-left: 0; /* <--- 추가: 음수 마진 제거 */
+        margin-right: 0; /* <--- 추가: 음수 마진 제거 */
+        gap: 1.5rem; /* 원래 gap 유지 */
+        justify-content: center;
+        flex-wrap: wrap;
+    
 
 .test-card:hover {
     transform: translateY(-5px);
