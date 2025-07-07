@@ -132,27 +132,29 @@ def load_winning_data_from_firestore():
 # 앱 시작 시 당첨 번호 데이터 로드
 load_winning_data_from_firestore()
 
-# Function to load winning data from winning_numbers_full.json file (NEW FUNCTION)
+# Function to load winning data from winning_numbers_full.json file
 def load_winning_data_from_json(file_path):
     try:
+        # winning_numbers_full.json 파일이 static 디렉토리에 있다고 가정
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            return data.get('rank1', []) # assuming 'rank1' key for 1st rank numbers
+            return data.get('rank1', [])
     except FileNotFoundError:
-        print(f"Error: {file_path} not found.")
+        print(f"Error: {file_path} not found. Please ensure it's in the correct directory.")
         return []
     except json.JSONDecodeError:
         print(f"Error: Could not parse {file_path}.")
         return []
 
-# Function to load winning data for specific rank from JSON file (NEW FUNCTION)
+# Function to load winning data for specific rank from JSON file
 def load_rank_data_from_json(file_path, rank_key):
     try:
+        # JSON 파일이 static 디렉토리에 있다고 가정
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            return data.get(rank_key, []) # Use rank_key (e.g., 'rank2', 'rank3')
+            return data.get(rank_key, [])
     except FileNotFoundError:
-        print(f"Error: {file_path} not found.")
+        print(f"Error: {file_path} not found. Please ensure it's in the correct directory.")
         return []
     except json.JSONDecodeError:
         print(f"Error: Could not parse {file_path}.")
@@ -876,7 +878,8 @@ def admin_upload_past_rank1():
 
     try:
         # JSON 파일에서 과거 1등 데이터 로드
-        past_rank1_data = load_winning_data_from_json('winning_numbers_full.json')
+        # 파일 경로를 static 폴더 내부로 수정
+        past_rank1_data = load_winning_data_from_json('static/winning_numbers_full.json') # <--- 이 부분 수정
         if not past_rank1_data:
             return jsonify({"status": "error", "message": "업로드할 1등 과거 데이터가 없습니다. 'winning_numbers_full.json' 파일 확인."}), 400
 
@@ -958,7 +961,8 @@ def admin_upload_past_rank2_3():
 
     try:
         # 2등 데이터 업로드
-        past_rank2_data = load_rank_data_from_json('winning_numbers_rank2.json', 'rank2')
+        # 파일 경로를 static 폴더 내부로 수정
+        past_rank2_data = load_rank_data_from_json('static/winning_numbers_rank2.json', 'rank2') # <--- 이 부분 수정
         uploaded_rank2_count = 0
         if past_rank2_data:
             batch2 = db.batch()
@@ -978,7 +982,8 @@ def admin_upload_past_rank2_3():
                 batch2.commit()
 
         # 3등 데이터 업로드
-        past_rank3_data = load_rank_data_from_json('winning_numbers_rank3.json', 'rank3')
+        # 파일 경로를 static 폴더 내부로 수정
+        past_rank3_data = load_rank_data_from_json('static/winning_numbers_rank3.json', 'rank3') # <--- 이 부분 수정
         uploaded_rank3_count = 0
         if past_rank3_data:
             batch3 = db.batch()
