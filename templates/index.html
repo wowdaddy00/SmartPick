@@ -89,6 +89,20 @@
     <a href="/fun-lotto-test" class="main-action-link-button">
         <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
     </a>
+                                                
+    {# --- ▼ 여기에 Google AdSense 광고 코드를 삽입합니다. ▼ --- #}
+    <div class="ad-area-in-main-container"> {# 새로운 클래스 이름으로 컨테이너 추가 #}
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center;" {# display, text-align은 유지 #}
+             data-ad-client="ca-pub-2748658493247983" {# 본인의 AdSense 클라이언트 ID 확인 #}
+             data-ad-slot="1322588827" {# 본인의 AdSense 슬롯 ID 확인 #}
+             data-ad-format="rectangle" {# 사각형 광고를 위해 "rectangle"로 지정 (300x250 등) #}
+             data-full-width-responsive="false"></ins> {# 레이아웃 제어를 위해 false로 설정하거나 이 속성을 제거 #}
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    {# --- ▲ 광고 코드 삽입 끝 ▲ --- #}                                            
 
     {% if numbers %}
       <div class="lotto" id="lotto_result">
@@ -169,19 +183,7 @@
     {% endif %}
   </div> {# .container 끝 #}
 
-  <div style="height:36px"></div> {# 임시 여백 유지 (애드센스 위에) #}
-
-  {# 구글 애드센스 광고 #}
-  <ins class="adsbygoogle"
-       style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
-       data-ad-client="ca-pub-2748658493247983"
-       data-ad-slot="1322588827"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
-
+  
   {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
   <footer>
       <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
