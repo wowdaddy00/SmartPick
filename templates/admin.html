@@ -1,157 +1,264 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>SmartPick 관리자 대시보드 - 로또 서비스 관리</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- SEO/Meta 태그 추가 -->
-  <meta name="description" content="SmartPick 로또 번호 추천 서비스의 관리자 대시보드입니다. 방문자 로그 및 추천 기록을 확인하고 최신 당첨 번호를 업데이트할 수 있습니다.">
-  <meta name="keywords" content="SmartPick 관리자, 로또 관리, 로또 통계, 로또 로그">
-  <meta name="author" content="SmartPick Team">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPick 관리자 대시보드</title>
+    <style>
+        body {
+            font-family: 'Pretendard', Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 1.5em;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 2.5em;
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2em;
+            color: #2a4365;
+            margin-bottom: 1.5em;
+        }
+        .stats-summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 2em;
+        }
+        .stat-box {
+            background-color: #e6f7ff;
+            border: 1px solid #a8e0f5;
+            border-radius: 1em;
+            padding: 1em 1.5em;
+            min-width: 150px;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #00796b;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            flex: 1;
+        }
+        .stat-box span {
+            display: block;
+            font-size: 0.9em;
+            color: #4a6fa3;
+            margin-top: 5px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 2em;
+        }
+        form input[type="password"] {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 0.8em;
+            width: 100%;
+            max-width: 250px;
+            box-sizing: border-box;
+        }
+        form button {
+            background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
+            color: white;
+            border: none;
+            border-radius: 1em;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 300px;
+        }
+        form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+        .message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 0.8em;
+            margin-bottom: 2em;
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #2a4365;
+            margin-bottom: 1em;
+            margin-top: 1.5em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5em;
+            font-size: 0.9em;
+            word-break: break-all; /* 긴 텍스트 줄바꿈 */
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .log-detail {
+            max-width: 300px; /* 상세 내용 너비 제한 */
+            overflow: auto; /* 넘치면 스크롤바 */
+        }
+        footer {
+            margin-top: 2em;
+            padding: 1em;
+            text-align: center;
+            color: #6a7f9a;
+            font-size: 0.85em;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        footer p {
+            margin: 0.2em 0;
+        }
+        footer a {
+            color: #6a7f9a;
+            text-decoration: none;
+            margin: 0 0.5em;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: #4a6fa3;
+        }
 
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family:'Pretendard', sans-serif; background:#f7fafc; margin:0;}
-    .dash { 
-      max-width:700px; 
-      margin:40px auto; 
-      background:#fff; 
-      border-radius:1.5em; 
-      padding:2.5em;
-      box-shadow:0 6px 36px #22325620; /* 일관된 그림자 */
-    }
-    h1 { font-size: 2em; margin-bottom:1em; color:#222;}
-    h2 { font-size: 1.4em; margin-top: 1.5em; margin-bottom: 0.8em; color:#333; border-bottom: 1px solid #eee; padding-bottom: 0.5em;}
-    form { margin-bottom:18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center;}
-    input[type="password"] {
-      padding:10px 15px; /* 패딩 증가 */
-      border-radius:10px; /* 모서리 둥글게 */
-      border:1px solid #ccc;
-      margin-right:10px;
-      margin-bottom: 10px; /* 모바일 대응 */
-      flex-grow: 1; /* 너비 유연하게 */
-      max-width: 250px; /* 최대 너비 */
-    }
-    button[type="submit"] {
-      padding:10px 20px; /* 패딩 증가 */
-      border-radius:10px; /* 모서리 둥글게 */
-      background:#3a5df0;
-      color:#fff;
-      border:none;
-      cursor:pointer;
-      transition:.2s;
-      margin-bottom: 10px; /* 모바일 대응 */
-    }
-    button[type="submit"]:hover { background:#2642b2;}
-    
-    .msg-box {
-      color:#25701a; 
-      margin-bottom:14px; 
-      font-weight:bold;
-      background-color: #e6ffe6;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #4CAF50;
-    }
-
-    table { 
-      width:100%; 
-      border-collapse:collapse; 
-      margin:1.5em 0;
-      font-size: 0.95em;
-    }
-    th, td { 
-      border:1px solid #eee; 
-      padding:10px; /* 패딩 증가 */
-      text-align:left;
-      vertical-align: top;
-    }
-    th { 
-      background:#f0f2fa;
-      font-weight: 700;
-      color: #555;
-    }
-    hr { border: none; border-top: 1px solid #eee; margin: 2em 0;}
-
-    /* 모바일 반응형 */
-    @media (max-width: 768px) {
-      .dash {
-        margin: 20px 15px;
-        padding: 1.5em;
-      }
-      h1 { font-size: 1.6em; text-align: center;}
-      form {
-        flex-direction: column; /* 세로 정렬 */
-        align-items: stretch; /* 늘려서 너비 채우기 */
-      }
-      input[type="password"], button[type="submit"] {
-        width: 100%;
-        margin-right: 0;
-      }
-      table, thead, tbody, th, td, tr { 
-        display: block; /* 테이블 셀을 블록 요소로 변경 */
-      }
-      thead tr { 
-        position: absolute; /* 헤더 숨김 */
-        top: -9999px;
-        left: -9999px;
-      }
-      tr { border: 1px solid #ccc; margin-bottom: 1.5em; border-radius: 8px;} /* 각 행마다 테두리 */
-      td { 
-        border: none; /* 셀 테두리 제거 */
-        border-bottom: 1px solid #eee; /* 하단 구분선 */
-        position: relative;
-        padding-left: 50%; /* 레이블 공간 확보 */
-        text-align: right;
-      }
-      td:last-child { border-bottom: 0;} /* 마지막 셀 하단선 제거 */
-      td::before { /* 레이블 추가 (모바일에서 테이블 헤더 역할) */
-        position: absolute;
-        top: 6px;
-        left: 6px;
-        width: 45%; /* 레이블 너비 */
-        padding-right: 10px;
-        white-space: nowrap;
-        font-weight: bold;
-        text-align: left;
-        color: #666;
-      }
-      /* 각 td에 데이터 속성으로 레이블 지정 */
-      td:nth-of-type(1)::before { content: "일시:"; }
-      td:nth-of-type(2)::before { content: "이벤트:"; }
-      td:nth-of-type(3)::before { content: "상세:"; }
-    }
-  </style>
+        /* 반응형 모바일 */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 1.5em 1em;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .stats-summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .stat-box {
+                min-width: unset;
+                width: 100%;
+            }
+            form button {
+                font-size: 0.9em;
+                padding: 8px 15px;
+            }
+            table {
+                font-size: 0.8em;
+            }
+            th, td {
+                padding: 6px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="dash">
-    <h1>SmartPick 관리자 대시보드</h1>
-    <form action="/update_winning" method="post">
-      <input type="password" name="pw" placeholder="관리자 비밀번호">
-      <button type="submit">최신 로또 1등 번호 자동 업데이트</button>
-    </form>
-   {% if msg %}
-     <div class="msg-box">{{ msg|safe }}</div>
-   {% endif %}
-    
-    <div>총 방문자 수: <b>{{total_visits}}</b></div>
-    <div>총 추천 생성 수: <b>{{total_recs}}</b></div>
-    <hr>
-    <h2>최근 로그 기록</h2>
-    <table>
-      <thead>
-        <tr><th>일시</th><th>이벤트</th><th>상세</th></tr>
-      </thead>
-      <tbody>
-        {% for log in logs|reverse %} {# 최신 로그부터 보이도록 reverse 필터 사용 #}
-        <tr>
-          <td>{{log.dt}}</td>
-          <td>{{log.event}}</td>
-          <td>{{log.detail}}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    <div class="container">
+        <h1>SmartPick 관리자 대시보드</h1>
+
+        {% if msg %}
+            <div class="message {% if '오류' in msg or '틀렸습니다' in msg %}error-message{% endif %}">
+                {{ msg | safe }}
+            </div>
+        {% endif %}
+
+        <div class="stats-summary">
+            <div class="stat-box">총 방문자 수: <span>{{ total_visits }}</span></div>
+            <div class="stat-box">총 추천 생성 수: <span>{{ total_recs }}</span></div>
+            <div class="stat-box">오늘 추천 생성 수: <span>{{ today_recs }}</span></div>
+        </div>
+
+        {# 최신 로또 1등 번호 자동 업데이트 폼 #}
+        <form action="/update_winning" method="post">
+            <input type="password" name="pw" placeholder="관리자 비밀번호" required>
+            <button type="submit">최신 로또 1등 번호 자동 업데이트</button>
+        </form>
+
+        {# 과거 1등 번호 JSON 파일 업로드 폼 #}
+        <form action="/admin_upload_past_rank1" method="post" style="margin-top: 20px;">
+            <input type="password" name="pw" placeholder="관리자 비밀번호" required>
+            <button type="submit">과거 1등 번호 (JSON) Firestore에 일괄 업로드</button>
+            <p style="font-size: 0.9em; color: #666;">* 이 기능은 'winning_numbers_full.json'의 1등 데이터를 업로드합니다. 한 번만 실행하세요.</p>
+        </form>
+
+        {# 과거 2/3등 번호 JSON 파일 업로드 폼 #}
+        <form action="/admin_upload_past_rank2_3" method="post" style="margin-top: 10px;">
+            <input type="password" name="pw" placeholder="관리자 비밀번호" required>
+            <button type="submit">과거 2/3등 번호 (JSON) 일괄 업로드</button>
+            <p style="font-size: 0.9em; color: #666;">* 이 기능은 'winning_numbers_rank2.json' 및 'winning_numbers_rank3.json'의 데이터를 업로드합니다. 한 번만 실행하세요.</p>
+        </form>
+
+        <h2>최근 로그 기록</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>일시</th>
+                    <th>이벤트</th>
+                    <th>상세</th>
+                    <th>사용자 ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.dt_formatted }}</td>
+                        <td>{{ log.event }}</td>
+                        <td class="log-detail">{{ log.detail | tojson(indent=2) | safe }}</td>
+                        <td>{{ log.userId }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">로그 기록이 없습니다.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; {{ now.year if now and now.year else '현재 연도' }} SmartPick. All rights reserved.</p>
+        <div>
+            <a href="/privacy">개인정보처리방침</a> |
+            <a href="/disclaimer">면책조항</a> |
+            <a href="/contact">문의</a>
+        </div>
+    </footer>
 </body>
 </html>
