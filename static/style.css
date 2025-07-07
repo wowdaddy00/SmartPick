@@ -75,6 +75,41 @@ body.full-page-layout main {
   margin: 2em auto; /* 상하 여백, 좌우 중앙 정렬 */
 }
 
+/* 메인 컨테이너 내 광고 영역 스타일 */
+.ad-area-in-main-container {
+    margin-top: 2.5em;    /* 위쪽 요소(버튼)와 간격 */
+    margin-bottom: 2em; /* 아래쪽 요소(로또 결과 등)와 간격 */
+    max-width: 336px; /* 사각형 광고의 일반적인 최대 너비 (조정 가능) */
+    margin-left: auto;
+    margin-right: auto; /* .container 내에서 중앙 정렬 */
+    text-align: center; /* 광고 내부 콘텐츠 (이미지, 텍스트) 중앙 정렬 */
+    /* overflow: hidden; /* 광고가 컨테이너를 벗어나지 않도록 (필요시) */
+
+    /* 이미지처럼 컨테이너와 동일한 배경 및 그림자를 원한다면 (선택 사항) */
+    /* background: var(--white-bg); */
+    /* border-radius: 2.5em; */
+    /* box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); */
+    /* padding: 1.5em; */
+}
+
+/* Google AdSense <ins> 태그에 대한 추가 스타일 (광고가 .ad-area-in-main-container에 맞춰지도록) */
+.ad-area-in-main-container ins.adsbygoogle {
+    display: block !important; /* 항상 블록 요소로 */
+    width: 100% !important; /* 부모 컨테이너에 맞춰 너비 조절 */
+    height: auto !important; /* 높이도 자동으로 조절되게 (또는 min-height 지정) */
+    box-sizing: border-box;
+}
+
+/* 모바일 반응형 조정 */
+@media (max-width: 600px) {
+    .ad-area-in-main-container {
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+        max-width: 95%; /* 모바일 화면 너비에 맞춰 유동적으로 */
+        padding: 1em; /* 모바일에서 내부 패딩 조정 (컨테이너 자체 배경/그림자 적용시) */
+    }
+}
+
 /* 5) 로고 & 제목 (h1, h2, h3) 타이포그래피 */
 .logo {
   font-family: 'Nanum Brush Script', cursive;
