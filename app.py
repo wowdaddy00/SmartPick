@@ -132,6 +132,33 @@ def load_winning_data_from_firestore():
 # 앱 시작 시 당첨 번호 데이터 로드
 load_winning_data_from_firestore()
 
+# Function to load winning data from winning_numbers_full.json file (NEW FUNCTION)
+def load_winning_data_from_json(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data.get('rank1', []) # assuming 'rank1' key for 1st rank numbers
+    except FileNotFoundError:
+        print(f"Error: {file_path} not found.")
+        return []
+    except json.JSONDecodeError:
+        print(f"Error: Could not parse {file_path}.")
+        return []
+
+# Function to load winning data for specific rank from JSON file (NEW FUNCTION)
+def load_rank_data_from_json(file_path, rank_key):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return data.get(rank_key, []) # Use rank_key (e.g., 'rank2', 'rank3')
+    except FileNotFoundError:
+        print(f"Error: {file_path} not found.")
+        return []
+    except json.JSONDecodeError:
+        print(f"Error: Could not parse {file_path}.")
+        return []
+
+
 # Function to log events to Firestore
 @app.route('/log_event', methods=['POST'])
 def handle_log_event():
@@ -319,9 +346,8 @@ def generate_numbers(
                 if tries > 30000: break
                 continue
 
-            # 2등 제외 (5개 번호 + 보너스 번호 형태)
-            # 2등은 6개 번호 중 5개 + 보너스 번호가 일치해야 하므로, 생성된 6개 번호와 보너스 번호의 조합을 확인해야 함
-            # 여기서는 ALL_WINNING["2"]에 저장된 6개 번호 조합과 직접 비교
+            # 2등 제외 (5개 번호와 보너스 번호가 일치하는 형태)
+            # ALL_WINNING["2"]에 저장된 것은 6개 번호 조합 (5개 당첨 + 보너스)
             if current_combo_sorted_tuple in ALL_WINNING.get("2", set()):
                 tries += 1
                 if tries > 30000: break
@@ -838,6 +864,155 @@ def update_winning():
 
     return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
 
+# --- START: NEW Admin Route for Past Rank1 Upload ---
+@app.route('/admin_upload_past_rank1', methods=['POST'])
+def admin_upload_past_rank1():
+    pw = request.form.get("pw")
+    if pw != "1234":
+        return jsonify({"status": "error", "message": "관리자 비밀번호가 틀렸습니다."}), 403
+
+    if db is None:
+        return jsonify({"status": "error", "message": "Firestore DB가 초기화되지 않았습니다."}), 500
+
+    try:
+        # JSON 파일에서 과거 1등 데이터 로드
+        past_rank1_data = load_winning_data_from_json('winning_numbers_full.json')
+        if not past_rank1_data:
+            return jsonify({"status": "error", "message": "업로드할 1등 과거 데이터가 없습니다. 'winning_numbers_full.json' 파일 확인."}), 400
+
+        # Firestore에서 가장 높은 회차 번호 가져오기 (이미 있는 경우)
+        latest_round_doc = db.collection('winning_numbers_rank1').order_by('round', direction=firestore.Query.DESCENDING).limit(1).stream()
+        current_max_round = 0
+        for doc in latest_round_doc:
+            current_max_round = max(current_max_round, doc.to_dict().get('round', 0))
+
+        # JSON 데이터의 길이를 기반으로 시작 회차 계산
+        # 예시: JSON에 300개의 데이터가 있고, 최신 회차가 1179라면,
+        # 가장 오래된 데이터는 1179 - 299 = 880회차가 됩니다.
+        # JSON 파일에 회차 정보가 없으므로, 편의상 가장 최신 회차부터 역순으로 회차를 부여.
+        # 현재 코드의 latest 변수를 사용하여 정확한 회차를 부여할 수도 있습니다.
+        # 여기서는 JSON 데이터의 마지막 조합이 최신 회차라고 가정하고, 그 이전 회차들을 역순으로 채워 넣음.
+        # 만약 current_max_round가 0이면 (아무 데이터도 없으면),
+        # JSON 데이터의 마지막 요소를 가장 최신 회차로 간주하고, 그 이전 회차들을 순서대로 부여합니다.
+        
+        # 임의의 시작 회차 (만약 Firestore에 데이터가 없다면)
+        # 실제 로또 회차에 맞춰야 함.
+        # 가장 현실적인 방법: JSON 파일의 데이터 개수만큼 역순으로 회차를 부여하고,
+        # 최신 회차는 API 업데이트 기능을 통해 추가.
+        
+        # 현재는 JSON 데이터의 첫 번째 데이터를 가장 오래된 회차, 마지막 데이터를 가장 최신 회차로 간주합니다.
+        # 따라서, 시작 회차를 JSON 데이터의 길이만큼 빼서 조정합니다.
+        start_round_for_json = (current_max_round if current_max_round > 0 else 1179) - len(past_rank1_data) + 1 # 1179는 예시, 실제 최신 회차를 반영해야 합니다.
+
+        uploaded_count = 0
+        skipped_count = 0
+        batch = db.batch() # Firestore Batch Write를 사용하여 여러 문서 한 번에 쓰기
+
+        # JSON 파일의 데이터를 순회하며 Firestore에 저장
+        for i, combo in enumerate(past_rank1_data):
+            round_num_to_save = start_round_for_json + i
+
+            doc_ref = db.collection('winning_numbers_rank1').document(str(round_num_to_save))
+
+            # 해당 회차가 이미 존재하면 스킵 (추후에 덮어쓰기 기능이 필요할 수도 있음)
+            # 여기서는 get() 호출을 피하여 배치 쓰기 효율을 높입니다.
+            # 만약 이미 존재하는 문서라면 set()이 덮어쓰므로 문제가 되지 않습니다.
+            # 중복 스킵 로직을 원하면 doc_ref.get().exists를 먼저 확인해야 합니다.
+            # (그러나 배치 내에서는 get() 호출은 추천되지 않음)
+            
+            # 보너스 번호는 JSON 파일에 없으므로 0으로 설정
+            batch.set(doc_ref, {
+                'round': round_num_to_save,
+                'numbers': sorted(combo),
+                'bonus': 0, # 과거 데이터에 보너스 번호가 없으므로 0으로 설정하거나 별도 처리 필요
+                'updated_at': firestore.SERVER_TIMESTAMP
+            })
+            uploaded_count += 1
+            if uploaded_count % 400 == 0: # 400개마다 배치 커밋 (Firestore Batch 제한은 500이므로 400개 권장)
+                batch.commit()
+                batch = db.batch() # 새 배치 시작
+
+        if uploaded_count % 400 != 0: # 남은 문서 커밋
+            batch.commit()
+
+        # 데이터 업로드 후 ALL_WINNING 및 rank1, rank2, rank3 전역 변수 새로고침
+        load_winning_data_from_firestore()
+
+        return jsonify({"status": "success", "message": f"과거 1등 번호 {uploaded_count}개 업로드 완료!", "total_loaded_rank1": len(rank1)}), 200
+
+    except Exception as e:
+        print(f"과거 1등 번호 업로드 중 오류 발생: {e}")
+        return jsonify({"status": "error", "message": f"과거 1등 번호 업로드 오류: {e}"}), 500
+# --- END: NEW Admin Route for Past Rank1 Upload ---
+
+
+# --- START: NEW Admin Route for Past Rank2/3 Upload ---
+@app.route('/admin_upload_past_rank2_3', methods=['POST'])
+def admin_upload_past_rank2_3():
+    pw = request.form.get("pw")
+    if pw != "1234":
+        return jsonify({"status": "error", "message": "관리자 비밀번호가 틀렸습니다."}), 403
+
+    if db is None:
+        return jsonify({"status": "error", "message": "Firestore DB가 초기화되지 않았습니다."}), 500
+
+    try:
+        # 2등 데이터 업로드
+        past_rank2_data = load_rank_data_from_json('winning_numbers_rank2.json', 'rank2')
+        uploaded_rank2_count = 0
+        if past_rank2_data:
+            batch2 = db.batch()
+            for combo in past_rank2_data:
+                combo_id = "_".join(map(str, sorted(combo)))
+                doc_ref = db.collection('winning_numbers_rank2').document(combo_id)
+                # 문서 존재 여부 확인을 배치 내에서는 하지 않음 (덮어쓰기 됨)
+                batch2.set(doc_ref, {
+                    'combination': sorted(combo),
+                    'updated_at': firestore.SERVER_TIMESTAMP
+                })
+                uploaded_rank2_count += 1
+                if uploaded_rank2_count % 400 == 0: # 400개마다 커밋
+                    batch2.commit()
+                    batch2 = db.batch()
+            if uploaded_rank2_count % 400 != 0: # 남은 문서 커밋
+                batch2.commit()
+
+        # 3등 데이터 업로드
+        past_rank3_data = load_rank_data_from_json('winning_numbers_rank3.json', 'rank3')
+        uploaded_rank3_count = 0
+        if past_rank3_data:
+            batch3 = db.batch()
+            for combo in past_rank3_data:
+                combo_id = "_".join(map(str, sorted(combo)))
+                doc_ref = db.collection('winning_numbers_rank3').document(combo_id)
+                # 문서 존재 여부 확인을 배치 내에서는 하지 않음 (덮어쓰기 됨)
+                batch3.set(doc_ref, {
+                    'combination': sorted(combo),
+                    'updated_at': firestore.SERVER_TIMESTAMP
+                })
+                uploaded_rank3_count += 1
+                if uploaded_rank3_count % 400 == 0: # 400개마다 커밋
+                    batch3.commit()
+                    batch3 = db.batch()
+            if uploaded_rank3_count % 400 != 0: # 남은 문서 커밋
+                batch3.commit()
+
+        # 데이터 업로드 후 ALL_WINNING 및 rank1, rank2, rank3 전역 변수 새로고침
+        load_winning_data_from_firestore()
+
+        return jsonify({
+            "status": "success",
+            "message": f"과거 2등 조합 {uploaded_rank2_count}개, 3등 조합 {uploaded_rank3_count}개 업로드 완료!",
+            "total_loaded_rank2": len(ALL_WINNING.get("2", set())),
+            "total_loaded_rank3": len(ALL_WINNING.get("3", set()))
+        }), 200
+
+    except Exception as e:
+        print(f"과거 2/3등 번호 업로드 중 오류 발생: {e}")
+        return jsonify({"status": "error", "message": f"과거 2/3등 번호 업로드 오류: {e}"}), 500
+# --- END: NEW Admin Route for Past Rank2/3 Upload ---
+
+
 # Route for ads.txt (for ad services)
 @app.route('/ads.txt')
 def ads_txt():
@@ -934,7 +1109,7 @@ MBTI_FORTUNE_DATA = {
     "ESFP": {
         "title": "ESFP 로또 운세: 열정적인 연예인",
         "description": "ESFP는 사교적이고 활기차며, 즐거움을 추구합니다. 로또를 고를 때도 재미와 유희를 중요하게 생각할 것입니다. 혼자만의 고민보다는 친구들과 함께 번호를 고르거나, 흥미로운 스토리를 가진 번호를 선택하는 것이 즐거운 경험과 함께 뜻밖의 행운을 가져올 수 있습니다.",
-        "luckyTip": "이번 주 ESFP의 행운 번호는 **친구들과의 모임에서 나온 숫자, 혹은 당신이 가장 좋아하는 숫자**들을 조합한 것입니다. 즐거운 에너지가 행운을 이끕니다!"
+        "luckyTip": "이번 주 ESFP의 행운 번호는 **친구들과의 모임에서 나온 숫자, 혹은 당신이 가장 좋아하는 숫자**들을 조합한 것입니다. 즐거운 에너지가 행운을 이니다!"
     },
     "ISTJ": {
         "title": "ISTJ 로또 운세: 원칙주의자",
