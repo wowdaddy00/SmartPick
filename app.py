@@ -967,6 +967,13 @@ def admin_upload_past_rank2_3():
         if past_rank2_data:
             batch2 = db.batch()
             for combo in past_rank2_data:
+                # --- ▼ 이 부분 추가 (유효성 검사) ▼ ---
+                # combo가 리스트이고 모든 요소가 숫자인지 확인
+                if not isinstance(combo, list) or not all(isinstance(x, int) for x in combo):
+                    print(f"경고: 유효하지 않은 2등 조합 데이터 발견, 스킵합니다: {combo}")
+                    continue
+                # --- ▲ 이 부분 추가 ▲ ---
+                
                 combo_id = "_".join(map(str, sorted(combo)))
                 doc_ref = db.collection('winning_numbers_rank2').document(combo_id)
                 # 문서 존재 여부 확인을 배치 내에서는 하지 않음 (덮어쓰기 됨)
@@ -988,6 +995,13 @@ def admin_upload_past_rank2_3():
         if past_rank3_data:
             batch3 = db.batch()
             for combo in past_rank3_data:
+                # --- ▼ 이 부분 추가 (유효성 검사) ▼ ---
+                # combo가 리스트이고 모든 요소가 숫자인지 확인
+                if not isinstance(combo, list) or not all(isinstance(x, int) for x in combo):
+                    print(f"경고: 유효하지 않은 3등 조합 데이터 발견, 스킵합니다: {combo}")
+                    continue
+                # --- ▲ 이 부분 추가 ▲ ---
+
                 combo_id = "_".join(map(str, sorted(combo)))
                 doc_ref = db.collection('winning_numbers_rank3').document(combo_id)
                 # 문서 존재 여부 확인을 배치 내에서는 하지 않음 (덮어쓰기 됨)
