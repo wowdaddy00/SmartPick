@@ -75,41 +75,6 @@ body.full-page-layout main {
   margin: 2em auto; /* 상하 여백, 좌우 중앙 정렬 */
 }
 
-/* 메인 컨테이너 내 광고 영역 스타일 */
-.ad-area-in-main-container {
-    margin-top: 2.5em;    /* 위쪽 요소(버튼)와 간격 */
-    margin-bottom: 2em; /* 아래쪽 요소(로또 결과 등)와 간격 */
-    max-width: 336px; /* 사각형 광고의 일반적인 최대 너비 (조정 가능) */
-    margin-left: auto;
-    margin-right: auto; /* .container 내에서 중앙 정렬 */
-    text-align: center; /* 광고 내부 콘텐츠 (이미지, 텍스트) 중앙 정렬 */
-    /* overflow: hidden; /* 광고가 컨테이너를 벗어나지 않도록 (필요시) */
-
-    /* 이미지처럼 컨테이너와 동일한 배경 및 그림자를 원한다면 (선택 사항) */
-    /* background: var(--white-bg); */
-    /* border-radius: 2.5em; */
-    /* box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1); */
-    /* padding: 1.5em; */
-}
-
-/* Google AdSense <ins> 태그에 대한 추가 스타일 (광고가 .ad-area-in-main-container에 맞춰지도록) */
-.ad-area-in-main-container ins.adsbygoogle {
-    display: block !important; /* 항상 블록 요소로 */
-    width: 100% !important; /* 부모 컨테이너에 맞춰 너비 조절 */
-    height: auto !important; /* 높이도 자동으로 조절되게 (또는 min-height 지정) */
-    box-sizing: border-box;
-}
-
-/* 모바일 반응형 조정 */
-@media (max-width: 600px) {
-    .ad-area-in-main-container {
-        margin-top: 1.5em;
-        margin-bottom: 1.5em;
-        max-width: 95%; /* 모바일 화면 너비에 맞춰 유동적으로 */
-        padding: 1em; /* 모바일에서 내부 패딩 조정 (컨테이너 자체 배경/그림자 적용시) */
-    }
-}
-
 /* 5) 로고 & 제목 (h1, h2, h3) 타이포그래피 */
 .logo {
   font-family: 'Nanum Brush Script', cursive;
@@ -209,19 +174,8 @@ form button {
   color: var(--white-bg);
   box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
   margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
-  
-  /* --- ▼ 이 부분을 수정 또는 추가합니다. ▼ --- */
-  white-space: normal !important; /* 모든 white-space 규칙을 무시하고 줄 바꿈을 허용합니다. */
-  line-height: 1.3; /* 줄 간격을 조절하여 텍스트가 너무 붙지 않도록 합니다. (선택 사항) */
-  /* --- ▲ 이 부분을 수정 또는 추가합니다. ▲ --- */
-}
-
-/* 추가: .button-line에 대한 스타일 */
-.button-line {
-    /* --- ▼ 이 부분을 추가 또는 수정합니다. ▼ --- */
-    display: block; /* span은 기본 inline 요소이므로 block으로 만들어 각 줄이 독립적으로 작동하도록 합니다. */
-    white-space: normal !important; /* 혹시 모를 경우를 대비하여 다시 한번 강제 줄 바꿈 허용 */
-    /* --- ▲ 이 부분을 추가 또는 수정합니다. ▲ --- */
+  white-space: normal; /* <--- 이 줄을 추가하여 줄 바꿈을 허용합니다. */
+  line-height: 1.3; /* <--- (선택 사항) 줄 간격을 조절하여 텍스트가 너무 붙지 않도록 합니다. */
 }
 
 /* Hover 및 Active 효과 */
@@ -660,13 +614,13 @@ footer a:hover {
     line-height: 1.2; /* <--- 추가: 줄 간격도 조절 */
   }
 
-   /* 버튼 조정 */
+  /* 버튼 조정 */
   button,
   .copy-btn,
   .main-action-link-button,
-  form button /* <--- 여기에 form button을 추가합니다. */ {
-    font-size: 0.85em;
-    padding: 0.6em 1em;
+  form button { /* <--- 여기에 form button을 추가합니다. */
+    font-size: 0.85em; /* <--- 변경: 폰트 크기를 더 줄임 (이전 0.9em에서 0.85em으로) */
+    padding: 0.6em 1em; /* <--- 변경: 좌우 패딩을 더 줄임 (이전 1.2em에서 1em으로) */
     margin-top: 0.5em;
     width: 90%;
     max-width: none;
@@ -679,8 +633,8 @@ footer a:hover {
   }
 
   .test-card .action-button {
-    font-size: 0.85em;
-    padding: 0.6em 1em;
+    font-size: 0.85em; /* <--- 통일: test-card 버튼도 동일한 폰트 크기로 조정 */
+    padding: 0.6em 1em; /* <--- 통일: test-card 버튼도 동일한 패딩으로 조정 */
     white-space: normal !important; /* <--- 중요: !important 추가 */
     word-break: keep-all;
     text-align: center;
@@ -808,7 +762,7 @@ footer a:hover {
   margin: 3em auto;
   text-align: center;
   max-width: 680px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
 }
 
 .cta-box-final h2 {
@@ -833,7 +787,7 @@ footer a:hover {
   border-radius: 8px;
   text-decoration: none;
   font-size: 1.1em;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
   transition: background-color 0.2s ease;
 }
 
