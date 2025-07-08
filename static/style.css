@@ -369,7 +369,7 @@ button:active,
   background-color: #e6f7ff;
   border: 2px solid #a8e0f5;
   border-radius: 1.8em;
-  padding: 1.2em 1.5em;
+  padding: 1em 1.5em;
   margin-bottom: 2em;
   box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
   text-align: center;
@@ -384,11 +384,13 @@ button:active,
 
 .latest-winning-numbers {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   gap: 5px;
   margin-top: 1em;
+  margin-bottom: 0.5em; /*
+  padding: 0; /*
 }
 
 .latest-winning-numbers .ball {
