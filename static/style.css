@@ -38,9 +38,9 @@ body {
   font-family: 'Pretendard', Arial, sans-serif;
   margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* 자식 요소들을 세로로 정렬 */
   min-height: 100vh;
-  align-items: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 자식 요소들을 가로 중앙 정렬 (컨테이너 중앙 정렬에 기여) */
   color: var(--text-dark); /* 기본 텍스트 색상 */
 }
 
@@ -56,18 +56,17 @@ body.full-page-layout {
 /* 4) 컨테이너 및 메인 콘텐츠 영역 공통 스타일 */
 .container,
 main {
-  width: 90%;
+  width: 90%; /* 기본 90% 너비 */
   max-width: 450px; /* 기본 컨테이너 너비 (index.html) */
   background: var(--white-bg);
   border-radius: 2.5em;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-  padding: 3em 2.5em 2.5em 2.5em;
-  text-align: center;
-  box-sizing: border-box;
+  padding: 3em 2.5em 2.5em 2.5em; /* 내부 패딩 */
+  text-align: center; /* 내부 텍스트 및 인라인/인라인-블록 요소 중앙 정렬 */
+  box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
   margin-top: 20px; /* 상단 여백 */
   margin-bottom: 20px; /* 하단 여백 */
 }
-
 /* fun_lotto_test_hub.html 및 다른 풀페이지 레이아웃의 main 태그를 위한 확장된 너비 */
 body.full-page-layout main {
   max-width: 800px; /* 더 넓은 콘텐츠 영역 */
@@ -146,9 +145,10 @@ button,
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  display: inline-block;
+  display: inline-block; /* 기본적으로 인라인 블록, 텍스트 정렬을 위해 */
   text-decoration: none;
   box-sizing: border-box;
+  text-align: center; /* 버튼 내부 텍스트 가운데 정렬 */
 }
 
 /* 7) 주요 액션 버튼 (프리미엄, 고급 맞춤, 재미 테스트) */
@@ -174,8 +174,9 @@ form button {
   color: var(--white-bg);
   box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
   margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
-  white-space: normal; /* <--- 이 줄을 추가하여 줄 바꿈을 허용합니다. */
-  line-height: 1.3; /* <--- (선택 사항) 줄 간격을 조절하여 텍스트가 너무 붙지 않도록 합니다. */
+  white-space: normal; /* 줄 바꿈 허용 */
+  line-height: 1.3; /* 줄 간격 조절 */
+  text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 /* Hover 및 Active 효과 */
@@ -231,7 +232,6 @@ button:active,
   max-width: calc(450px - (2.5em * 2)); /* container의 max-width에서 padding을 뺀 값 */
   margin-left: auto;
   margin-right: auto;
-  /* 기존 여백 유지 (빨간 박스와의 간격) */
   margin-bottom: 2em;
   margin-top: 2em;
 }
@@ -370,7 +370,7 @@ button:active,
   border: 2px solid #a8e0f5;
   border-radius: 1.8em;
   padding: 1.5em;
-  margin-bottom: 2em;
+  margin-bottom: 2em; /* 간격 문제 해결을 위해 조정될 수 있음 */
   box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
   text-align: center;
 }
@@ -461,10 +461,22 @@ footer {
   font-size: 0.9em;
   width: 100%;
   box-sizing: border-box;
+  /* --- ▼ 푸터 정렬을 위한 flex 속성 추가 (새로 추가) ▼ --- */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* --- ▲ 푸터 정렬을 위한 flex 속성 추가 끝 ▲ --- */
 }
 
 footer p {
   margin: 0.2em 0; /* 푸터 내부 문단 간 간격 */
+}
+
+footer div { /* 푸터의 링크들을 감싸는 div */
+    display: flex; /* 링크들을 가로로 정렬 */
+    justify-content: center; /* 링크들을 가운데 정렬 */
+    flex-wrap: wrap; /* 모바일에서 줄바꿈 허용 */
+    margin-top: 0.5em; /* 문단과의 간격 */
 }
 
 footer a {
