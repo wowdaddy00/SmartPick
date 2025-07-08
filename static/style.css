@@ -387,24 +387,28 @@ button:active,
   flex-wrap: nowrap; /* 줄바꿈 안되도록 유지. 필요시 wrap으로 변경 */
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
   margin-top: 1em;
 }
 
 .latest-winning-numbers .ball {
   flex-shrink: 0;
-  width: clamp(32px, 7vw, 40px);
-  height: clamp(32px, 7vw, 40px);
-  font-size: 0.95em;
+  /* 볼 크기 조정: clamp(최소 크기, 뷰포트 너비 비례 크기, 최대 크기) */
+  /* 최대 크기를 40px에서 32px로 줄여 더 많은 볼이 한 줄에 들어가도록 합니다. */
+  width: clamp(28px, 6vw, 32px);
+  height: clamp(28px, 6vw, 32px);
+  font-size: 0.95em; /* 폰트 크기는 그대로 유지 */
   border: 2px solid var(--white-bg);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  color: var(--text-dark); /* 텍스트 색상 */
 }
 
+/* '+' 기호 마진도 살짝 조정 */
 .plus-sign {
   font-size: 1.6em;
   font-weight: 900;
   color: #4a6fa3;
-  margin: 0 3px;
+  margin: 0 2px; /* 좌우 마진을 3px에서 2px로 줄입니다. */
   flex-shrink: 0;
 }
 
@@ -659,7 +663,7 @@ footer a:hover {
   .lotto,
   .latest-winning-numbers {
     max-width: 100%;
-    gap: 3px;
+    gap: 2px;
   }
 
   .ball {
@@ -669,14 +673,14 @@ footer a:hover {
   }
 
   .latest-winning-numbers .ball {
-    width: clamp(28px, 6vw, 35px);
-    height: clamp(28px, 6vw, 35px);
-    font-size: 0.85em;
+    width: clamp(25px, 5.5vw, 28px);
+    height: clamp(25px, 5.5vw, 28px);
+    font-size: 0.8em; /* 모바일에서 폰트 크기도 약간 더 줄일 수 있습니다. */
   }
 
   .plus-sign {
-    font-size: 1.4em;
-    margin: 0 1px;
+    font-size: 1.2em; /* 모바일에서 '+' 기호 크기 조정 */
+    margin: 0 1px; /* 모바일에서 '+' 기호 마진도 더 줄입니다. */
   }
 
   /* 기타 섹션 조정 */
