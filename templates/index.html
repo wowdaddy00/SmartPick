@@ -164,20 +164,25 @@
         }
       </script>
     {% endif %}
+    {# --- ▼ 광고 코드를 .container 안으로 이동 ▼ --- #}
+    <div class="ad-area-in-main-container"> {# 새로운 클래스 이름으로 컨테이너 추가 #}
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
+             data-ad-client="ca-pub-2748658493247983"
+             data-ad-slot="1322588827"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    {# --- ▲ 광고 코드 이동 끝 ▲ --- #}
   </div> {# .container 끝 #}
 
-  <div style="height:36px"></div> {# 임시 여백 유지 (애드센스 위에) #}
-
-  {# 구글 애드센스 광고 #}
-  <ins class="adsbygoogle"
-       style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
-       data-ad-client="ca-pub-2748658493247983"
-       data-ad-slot="1322588827"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+  {# 기존에 있었던 이 광고 코드는 이제 필요 없으므로 제거합니다. #}
+  {# <div style="height:36px"></div> #}
+  {# <ins class="adsbygoogle" ...> </ins> #}
+  {# <script> ... </script> #}
 
   {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
   <footer>
