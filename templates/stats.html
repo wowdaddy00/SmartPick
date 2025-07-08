@@ -56,16 +56,25 @@
             height: 300px !important; /* 명시적인 높이 설정 (필요에 따라 조절) */
             max-height: 400px; /* 최대 높이 설정 */
         }
+        /* 새로 추가할 광고 컨테이너 스타일 */
+        .ad-container-for-stats {
+            width: 100%; /* 부모에 맞춰 너비 사용 */
+            max-width: 650px; /* .container의 max-width와 동일하게 설정 */
+            margin: 40px auto; /* 위아래 여백, 좌우 중앙 정렬 */
+            text-align: center; /* 광고 내부 콘텐츠 중앙 정렬 */
+            box-sizing: border-box; /* 패딩, 보더 포함 계산 */
+            padding: 0 20px; /* 좌우 패딩을 추가하여 컨테이너와 광고 경계 사이 여백 확보 */
+            /* (선택 사항) 광고 영역에 배경색이나 테두리를 주어 시각적으로 분리 */
+            /* background-color: #fff; */
+            /* border-radius: 1.5em; */
+            /* box-shadow: 0 6px 24px rgba(0,0,0,0.05); */
+        }
+        
         /* 모바일 반응형 */
         @media (max-width: 500px) {
-            .container {
+            .ad-container-for-stats {
                 margin: 30px auto; /* 모바일에서 마진 조정 */
-                padding: 2em 1.5em;
-            }
-            h1 { font-size: 1.8em; }
-            .desc { font-size: 0.9em; }
-            canvas {
-                height: 250px !important; /* 모바일에서 캔버스 높이 조정 */
+                padding: 0 15px; /* 모바일에서 패딩 조정 */
             }
         }
     </style>
@@ -80,7 +89,10 @@
         </div>
     </div>
 
-    <input type="hidden" id="freqDataInput" value="{{ freq_data_encoded }}"> <script>
+    <input type="hidden" id="freqDataInput" value="{{ freq_data_encoded }}">
+    
+    <script>
+        
         // 숨겨진 input 필드에서 Base64 인코딩된 문자열을 가져와 디코딩 및 파싱
         const encodedFreqDataString = document.getElementById('freqDataInput').value;
         let freqData = {};
@@ -162,5 +174,18 @@
             document.getElementById('noDataMessage').style.display = 'block';
         }
     </script>
-</body>
+
+    <div class="ad-container-for-stats">
+        {# 구글 애드센스 광고 #}
+        <ins class="adsbygoogle"
+            style="display:block; text-align:center;"
+            data-ad-client="ca-pub-2748658493247983"
+            data-ad-slot="1322588827"
+            data-ad-format="auto" {# "auto" 또는 "rectangle"로 설정 (광고 형식에 따라) #}
+            data-full-width-responsive="true"></ins> {# "true" 또는 "false"로 설정 (레이아웃에 따라) #}
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+    </body>
 </html>
