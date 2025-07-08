@@ -8,128 +8,128 @@
 
 /* 2) 파스텔·코랄 팔레트 변수 선언 */
 :root {
-  --pastel-1: #fffffb; /* 연한 크림 */
-  --pastel-2: #bff0be; /* 민트 그린 */
-  --pastel-3: #f9cebf; /* 코랄 핑크 */
-  --pastel-4: #fcf9ee; /* 연한 베이지 */
-  --pastel-5: #557997; /* 부드러운 블루 (로고, 특정 링크 색상) */
-  --pastel-6: #d6ef84; /* 연두 옐로 */
-  --text-dark: #333; /* 기본 어두운 텍스트 색상 */
-  --text-light-blue: #557997; /* 부드러운 블루 텍스트 색상 */
-  --soft-blue-bg: #f0f4f8; /* 웹사이트 전반의 부드러운 배경색 */
-  --white-bg: #ffffff; /* 컨테이너, 카드 등의 흰색 배경 */
-  --accent-pink: #ff708a; /* 핵심 차별점 메시지 테두리/그림자 및 아이콘 */
-  --accent-red: #d32f2f; /* 핵심 차별점 메시지 강조 텍스트 */
-  --accent-green: #28a745; /* 핵심 차별점 메시지 마지막 줄 및 아이콘 */
-  --blue-gradient-start: #6a82fb; /* 버튼 그라데이션 시작 */
-  --blue-gradient-end: #3f5477; /* 버튼 그라데이션 끝 */
-  --lotto-yellow: #ffdf6c; /* 로또볼 색상 1-10 */
-  --lotto-blue: #9bd0ff; /* 로또볼 색상 11-20 */
-  --lotto-red: #ff91a5; /* 로또볼 색상 21-30 */
-  --lotto-gray: #c2c9d1; /* 로또볼 색상 31-40 */
-  --lotto-green: #b0e891; /* 로또볼 색상 41-45 */
-  --soft-blue-border: #b3d4f5; /* SmartPick이 특별한 이유 링크 테두리 */
-  --soft-blue-text: #4a6fa3; /* SmartPick이 특별한 이유 링크 텍스트 */
+  --pastel-1: #fffffb; /* 연한 크림 */
+  --pastel-2: #bff0be; /* 민트 그린 */
+  --pastel-3: #f9cebf; /* 코랄 핑크 */
+  --pastel-4: #fcf9ee; /* 연한 베이지 */
+  --pastel-5: #557997; /* 부드러운 블루 (로고, 특정 링크 색상) */
+  --pastel-6: #d6ef84; /* 연두 옐로 */
+  --text-dark: #333; /* 기본 어두운 텍스트 색상 */
+  --text-light-blue: #557997; /* 부드러운 블루 텍스트 색상 */
+  --soft-blue-bg: #f0f4f8; /* 웹사이트 전반의 부드러운 배경색 */
+  --white-bg: #ffffff; /* 컨테이너, 카드 등의 흰색 배경 */
+  --accent-pink: #ff708a; /* 핵심 차별점 메시지 테두리/그림자 및 아이콘 */
+  --accent-red: #d32f2f; /* 핵심 차별점 메시지 강조 텍스트 */
+  --accent-green: #28a745; /* 핵심 차별점 메시지 마지막 줄 및 아이콘 */
+  --blue-gradient-start: #6a82fb; /* 버튼 그라데이션 시작 */
+  --blue-gradient-end: #3f5477; /* 버튼 그라데이션 끝 */
+  --lotto-yellow: #ffdf6c; /* 로또볼 색상 1-10 */
+  --lotto-blue: #9bd0ff; /* 로또볼 색상 11-20 */
+  --lotto-red: #ff91a5; /* 로또볼 색상 21-30 */
+  --lotto-gray: #c2c9d1; /* 로또볼 색상 31-40 */
+  --lotto-green: #b0e891; /* 로또볼 색상 41-45 */
+  --soft-blue-border: #b3d4f5; /* SmartPick이 특별한 이유 링크 테두리 */
+  --soft-blue-text: #4a6fa3; /* SmartPick이 특별한 이유 링크 텍스트 */
 }
 
 /* 3) 기본 바디 스타일 - 모든 페이지에 공통 적용 */
 body {
-  background: var(--soft-blue-bg);
-  font-family: 'Pretendard', Arial, sans-serif;
-  margin: 0;
-  display: flex;
-  flex-direction: column; /* 자식 요소들을 세로로 정렬 */
-  min-height: 100vh;
-  align-items: center; /* 자식 요소들을 가로 중앙 정렬 (컨테이너 중앙 정렬에 기여) */
-  color: var(--text-dark); /* 기본 텍스트 색상 */
+  background: var(--soft-blue-bg);
+  font-family: 'Pretendard', Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* 자식 요소들을 세로로 정렬 */
+  min-height: 100vh;
+  align-items: center; /* 자식 요소들을 가로 중앙 정렬 (컨테이너 중앙 정렬에 기여) */
+  color: var(--text-dark); /* 기본 텍스트 색상 */
 }
 
 /* 페이지별 레이아웃을 위한 body 클래스 */
 body.main-page-layout {
-  justify-content: center; /* 콘텐츠를 세로 중앙으로 정렬 (index.html) */
+  justify-content: center; /* 콘텐츠를 세로 중앙으로 정렬 (index.html) */
 }
 
 body.full-page-layout {
-  justify-content: space-between; /* 헤더, 메인, 푸터가 공간을 나누어 가짐 (fun_lotto_test_hub.html 등) */
+  justify-content: space-between; /* 헤더, 메인, 푸터가 공간을 나누어 가짐 (fun_lotto_test_hub.html 등) */
 }
 
 /* 4) 컨테이너 및 메인 콘텐츠 영역 공통 스타일 */
 .container,
 main {
-  width: 90%; /* 기본 90% 너비 */
-  max-width: 450px; /* 기본 컨테이너 너비 (index.html) */
-  background: var(--white-bg);
-  border-radius: 2.5em;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-  padding: 3em 2.5em 2.5em 2.5em; /* 내부 패딩 */
-  text-align: center; /* 내부 텍스트 및 인라인/인라인-블록 요소 중앙 정렬 */
-  box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
-  margin-top: 20px; /* 상단 여백 */
-  margin-bottom: 20px; /* 하단 여백 */
+  width: 90%; /* 기본 90% 너비 */
+  max-width: 450px; /* 기본 컨테이너 너비 (index.html) */
+  background: var(--white-bg);
+  border-radius: 2.5em;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  padding: 3em 2.5em 2.5em 2.5em; /* 내부 패딩 */
+  text-align: center; /* 내부 텍스트 및 인라인/인라인-블록 요소 중앙 정렬 */
+  box-sizing: border-box; /* 패딩과 보더를 너비에 포함 */
+  margin-top: 20px; /* 상단 여백 */
+  margin-bottom: 20px; /* 하단 여백 */
 }
 /* fun_lotto_test_hub.html 및 다른 풀페이지 레이아웃의 main 태그를 위한 확장된 너비 */
 body.full-page-layout main {
-  max-width: 800px; /* 더 넓은 콘텐츠 영역 */
-  padding: 1.5em; /* 내부 패딩 조정 */
-  margin: 2em auto; /* 상하 여백, 좌우 중앙 정렬 */
+  max-width: 800px; /* 더 넓은 콘텐츠 영역 */
+  padding: 1.5em; /* 내부 패딩 조정 */
+  margin: 2em auto; /* 상하 여백, 좌우 중앙 정렬 */
 }
 
 /* 5) 로고 & 제목 (h1, h2, h3) 타이포그래피 */
 .logo {
-  font-family: 'Nanum Brush Script', cursive;
-  color: var(--pastel-5);
-  font-size: 1.8rem;
-  text-decoration: none;
+  font-family: 'Nanum Brush Script', cursive;
+  color: var(--pastel-5);
+  font-size: 1.8rem;
+  text-decoration: none;
 }
 
 h1 {
-  /* 메인 페이지의 가장 큰 제목 */
-  font-family: 'Pretendard', Arial, sans-serif;
-  font-size: 2.4em;
-  font-weight: 900;
-  color: #2a4365;
-  margin-bottom: 0.8em;
-  letter-spacing: -0.05em;
+  /* 메인 페이지의 가장 큰 제목 */
+  font-family: 'Pretendard', Arial, sans-serif;
+  font-size: 2.4em;
+  font-weight: 900;
+  color: #2a4365;
+  margin-bottom: 0.8em;
+  letter-spacing: -0.05em;
 }
 
 main h2 {
-  /* 서브 페이지의 주요 제목 (예: 재미로 보는 로또 테스트) */
-  font-family: 'Pretendard', Arial, sans-serif; /* 현대적인 Pretendard 폰트 */
-  font-size: 2.2em;
-  font-weight: 900;
-  color: #2a4365;
-  margin-bottom: 0.8em;
-  letter-spacing: -0.05em;
+  /* 서브 페이지의 주요 제목 (예: 재미로 보는 로또 테스트) */
+  font-family: 'Pretendard', Arial, sans-serif; /* 현대적인 Pretendard 폰트 */
+  font-size: 2.2em;
+  font-weight: 900;
+  color: #2a4365;
+  margin-bottom: 0.8em;
+  letter-spacing: -0.05em;
 }
 
 main p {
-  /* 서브 페이지의 일반 설명 텍스트 */
-  font-size: 1.1em;
-  color: #6a7f9a;
-  line-height: 1.6;
-  margin-bottom: 2em;
+  /* 서브 페이지의 일반 설명 텍스트 */
+  font-size: 1.1em;
+  color: #6a7f9a;
+  line-height: 1.6;
+  margin-bottom: 2em;
 }
 
 /* '당신의 로또 DNA는?', 'MBTI별 이번 주 로또 운세는?' 제목 폰트 수정 */
 .test-card h3 {
-  font-family: 'Pretendard', Arial, sans-serif; /* Pretendard 폰트 사용 (Nanum Brush Script 대신) */
-  font-size: 1.8rem;
-  font-weight: 800; /* 굵게 */
-  color: var(--pastel-5); /* 부드러운 블루 */
-  margin-bottom: 0.5em;
+  font-family: 'Pretendard', Arial, sans-serif; /* Pretendard 폰트 사용 (Nanum Brush Script 대신) */
+  font-size: 1.8rem;
+  font-weight: 800; /* 굵게 */
+  color: var(--pastel-5); /* 부드러운 블루 */
+  margin-bottom: 0.5em;
 }
 
 .test-card h3 .icon {
-  /* 제목 옆 아이콘 스타일 */
-  margin-right: 8px;
-  color: var(--accent-pink); /* 핑크색으로 아이콘 강조 */
+  /* 제목 옆 아이콘 스타일 */
+  margin-right: 8px;
+  color: var(--accent-pink); /* 핑크색으로 아이콘 강조 */
 }
 
 .subtitle {
-  /* 사용처를 찾지 못함. 필요하다면 정의 유지 */
-  font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 24px;
+  /* 사용처를 찾지 못함. 필요하다면 정의 유지 */
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 24px;
 }
 
 /* 6) 버튼 및 링크 공통 스타일 */
@@ -137,46 +137,46 @@ button,
 .main-action-link-button,
 .copy-btn,
 .action-button {
-  font-family: 'Pretendard', Arial, sans-serif;
-  font-weight: bold;
-  border: none;
-  border-radius: 1.2em;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  display: inline-block; /* 기본적으로 인라인 블록, 텍스트 정렬을 위해 */
-  text-decoration: none;
-  box-sizing: border-box;
-  text-align: center; /* 버튼 내부 텍스트 가운데 정렬 */
+  font-family: 'Pretendard', Arial, sans-serif;
+  font-weight: bold;
+  border: none;
+  border-radius: 1.2em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: inline-block; /* 기본적으로 인라인 블록, 텍스트 정렬을 위해 */
+  text-decoration: none;
+  box-sizing: border-box;
+  text-align: center; /* 버튼 내부 텍스트 가운데 정렬 */
 }
 
 /* 7) 주요 액션 버튼 (프리미엄, 고급 맞춤, 재미 테스트) */
 .main-action-link-button {
-  font-size: 1.2em;
-  padding: 1em 2.5em;
-  background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%);
-  color: var(--white-bg);
-  box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
-  margin-top: 0.5em; /* 버튼 간격 좁힘 */
-  width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
-  max-width: 350px; /* 최대 너비 설정 */
+  font-size: 1.2em;
+  padding: 1em 2.5em;
+  background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%);
+  color: var(--white-bg);
+  box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
+  margin-top: 0.5em; /* 버튼 간격 좁힘 */
+  width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
+  max-width: 350px; /* 최대 너비 설정 */
 }
 
 form button {
-  /* form 내부의 첫 번째 버튼 (프리미엄 번호 추천받기) */
-  margin-bottom: 0em; /* 바로 아래 버튼과 붙도록 */
-  width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
-  max-width: 350px; /* 최대 너비 설정 */
-  font-size: 1.2em;
-  padding: 1em 2.5em;
-  background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%);
-  color: var(--white-bg);
-  box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
-  margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
-  white-space: normal; /* 줄 바꿈 허용 */
-  line-height: 1.3; /* 줄 간격 조절 */
-  text-align: center; /* 텍스트 가운데 정렬 */
+  /* form 내부의 첫 번째 버튼 (프리미엄 번호 추천받기) */
+  margin-bottom: 0em; /* 바로 아래 버튼과 붙도록 */
+  width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
+  max-width: 350px; /* 최대 너비 설정 */
+  font-size: 1.2em;
+  padding: 1em 2.5em;
+  background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%);
+  color: var(--white-bg);
+  box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
+  margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
+  white-space: normal; /* 줄 바꿈 허용 */
+  line-height: 1.3; /* 줄 간격 조절 */
+  text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 /* Hover 및 Active 효과 */
@@ -184,625 +184,627 @@ button:hover,
 .main-action-link-button:hover,
 .copy-btn:hover,
 .action-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(70, 96, 216, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(70, 96, 216, 0.4);
 }
 
 button:active,
 .main-action-link-button:active,
 .copy-btn:active,
 .action-button:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 10px rgba(70, 96, 216, 0.2);
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(70, 96, 216, 0.2);
 }
 
 /* 아이콘 스타일 */
 .main-action-link-button .icon,
 .link-about-moved .icon {
-  margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+  margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
 }
 
 /* 8) URL 복사 버튼 */
 .copy-btn {
-  background-color: transparent;
-  color: #FFD700; /* 황금색 */
-  border: 2px solid #FFD700;
-  box-shadow: none;
-  font-weight: normal;
-  padding: 0.8em 1em;
-  margin-top: 0.5em;
-  width: calc(100% - (1em * 2)); /* 복사 버튼은 패딩이 다름 */
-  max-width: 350px;
+  background-color: transparent;
+  color: #FFD700; /* 황금색 */
+  border: 2px solid #FFD700;
+  box-shadow: none;
+  font-weight: normal;
+  padding: 0.8em 1em;
+  margin-top: 0.5em;
+  width: calc(100% - (1em * 2)); /* 복사 버튼은 패딩이 다름 */
+  max-width: 350px;
 }
 
 /* 'SmartPick이 특별한 이유 알아보기' 링크 (link-about-moved) 스타일 복구 및 통합 */
 .link-about-moved {
-  display: block;
-  padding: 1.2em 1.5em;
-  border-radius: 1.5em;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  text-align: center;
-  background-color: #f7f9fc;
-  border: 2px solid var(--soft-blue-border);
-  color: var(--soft-blue-text);
-  /* 아래 두 속성이 핵심: .usp-message와 동일한 max-width를 갖도록 조정 */
-  max-width: calc(450px - (2.5em * 2)); /* container의 max-width에서 padding을 뺀 값 */
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 2em;
-  margin-top: 2em;
+  display: block;
+  padding: 1.2em 1.5em;
+  border-radius: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  background-color: #f7f9fc;
+  border: 2px solid var(--soft-blue-border);
+  color: var(--soft-blue-text);
+  /* 아래 두 속성이 핵심: .usp-message와 동일한 max-width를 갖도록 조정 */
+  max-width: calc(450px - (2.5em * 2)); /* container의 max-width에서 padding을 뺀 값 */
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2em;
+  margin-top: 2em;
 }
 
 .link-about-moved:hover {
-  background-color: #e6f0fa;
-  border-color: #8bbceb;
-  transform: translateY(-3px);
+  background-color: #e6f0fa;
+  border-color: #8bbceb;
+  transform: translateY(-3px);
 }
 
 /* 9) 핵심 차별점 메시지 스타일 (.usp-message) */
 .usp-message {
-  margin-bottom: 2.5em;
-  border: 2px solid var(--accent-pink);
-  padding: 1.5em 1.2em;
-  border-radius: 1.8em;
-  background-color: #fffafc;
-  box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15);
+  margin-bottom: 2.5em;
+  border: 2px solid var(--accent-pink);
+  padding: 1.5em 1.2em;
+  border-radius: 1.8em;
+  background-color: #fffafc;
+  box-shadow: 0 8px 25px rgba(255, 112, 138, 0.15);
 }
 
 .usp-message div {
-  font-size: 1.15em;
-  font-weight: 600;
-  line-height: 1.6;
-  color: #3f5477;
-  margin-bottom: 0.6em;
+  font-size: 1.15em;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #3f5477;
+  margin-bottom: 0.6em;
 }
 
 .usp-message .line1 {
-  font-size: 1.45em;
-  font-weight: 800;
-  color: var(--accent-red);
-  margin-bottom: 0.8em;
+  font-size: 1.45em;
+  font-weight: 800;
+  color: var(--accent-red);
+  margin-bottom: 0.8em;
 }
 
 .usp-message .line1 .icon {
-  margin-right: 10px;
-  color: var(--accent-red);
+  margin-right: 10px;
+  color: var(--accent-red);
 }
 
 .usp-message .line2 {
-  font-size: 1.05em;
-  font-weight: 500;
-  color: #6a7f9a;
+  font-size: 1.05em;
+  font-weight: 500;
+  color: #6a7f9a;
 }
 
 .usp-message .line3 {
-  font-size: 1.3em;
-  font-weight: 700;
-  color: var(--accent-green);
-  margin-top: 1em;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: var(--accent-green);
+  margin-top: 1em;
 }
 
 .usp-message .line3 .icon {
-  margin-right: 10px;
-  color: var(--accent-green);
+  margin-right: 10px;
+  color: var(--accent-green);
 }
 
 /* 10) 로또 볼 배열 (기본) */
 .lotto {
-  margin: 2.5em auto 1em auto;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  max-width: 300px;
-  box-sizing: border-box;
+  margin: 2.5em auto 1em auto;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 300px;
+  box-sizing: border-box;
 }
 
 .ball {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: clamp(42px, 9vw, 55px); /* clamp 함수로 반응형 크기 조절 */
-  height: clamp(42px, 9vw, 55px);
-  border-radius: 50%;
-  margin: 0;
-  font-size: 1.2em;
-  font-weight: 700;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease;
-  border: 3px solid var(--white-bg);
-  flex-shrink: 0;
-  box-sizing: border-box;
-  color: var(--text-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: clamp(42px, 9vw, 55px); /* clamp 함수로 반응형 크기 조절 */
+  height: clamp(42px, 9vw, 55px);
+  border-radius: 50%;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  border: 3px solid var(--white-bg);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  color: var(--text-dark);
 }
 
 .ball.n1 {
-  background: var(--lotto-yellow);
+  background: var(--lotto-yellow);
 }
 
 .ball.n2 {
-  background: var(--lotto-blue);
+  background: var(--lotto-blue);
 }
 
 .ball.n3 {
-  background: var(--lotto-red);
-  color: var(--white-bg);
+  background: var(--lotto-red);
+  color: var(--white-bg);
 }
 
 .ball.n4 {
-  background: var(--lotto-gray);
+  background: var(--lotto-gray);
 }
 
 .ball.n5 {
-  background: var(--lotto-green);
+  background: var(--lotto-green);
 }
 
 /* 11) 누적 추천 조합 통계 섹션 스타일 */
 .stats-box {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  padding: 18px 25px;
-  background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%);
-  border-radius: 2em;
-  box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
-  font-size: 1.1em;
-  color: #00796b;
-  font-weight: 700;
-  line-height: 1.6;
-  text-align: center;
-  max-width: 350px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  padding: 18px 25px;
+  background: linear-gradient(45deg, #e0f2f7 0%, #c8e8ef 100%);
+  border-radius: 2em;
+  box-shadow: 0 8px 20px rgba(0, 188, 212, 0.15);
+  font-size: 1.1em;
+  color: #00796b;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 350px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .stats-box b {
-  color: #004d40;
-  font-weight: 800;
+  color: #004d40;
+  font-weight: 800;
 }
 
 /* 12) 최신 당첨번호 섹션 */
 .latest-winning-section {
-  background-color: #e6f7ff;
-  border: 2px solid #a8e0f5;
-  border-radius: 1.8em;
-  padding: 1.5em;
-  margin-bottom: 2em; /* 간격 문제 해결을 위해 조정될 수 있음 */
-  box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
-  text-align: center;
+  background-color: #e6f7ff;
+  border: 2px solid #a8e0f5;
+  border-radius: 1.8em;
+  padding: 1.5em;
+  margin-bottom: 2em; /* 간격 문제 해결을 위해 조정될 수 있음 */
+  box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
+  text-align: center;
 }
 
 .latest-winning-section h2 {
-  font-size: 1.5em;
-  font-weight: 800;
-  color: #00796b;
-  margin-bottom: 0.8em;
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #00796b;
+  margin-bottom: 0.8em;
 }
 
 .latest-winning-numbers {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  margin-top: 1em;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 1em;
 }
 
 .latest-winning-numbers .ball {
-  flex-shrink: 0;
-  width: clamp(32px, 7vw, 40px);
-  height: clamp(32px, 7vw, 40px);
-  font-size: 0.95em;
-  border: 2px solid var(--white-bg);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+  width: clamp(32px, 7vw, 40px);
+  height: clamp(32px, 7vw, 40px);
+  font-size: 0.95em;
+  border: 2px solid var(--white-bg);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .plus-sign {
-  font-size: 1.6em;
-  font-weight: 900;
-  color: #4a6fa3;
-  margin: 0 3px;
-  flex-shrink: 0;
+  font-size: 1.6em;
+  font-weight: 900;
+  color: #4a6fa3;
+  margin: 0 3px;
+  flex-shrink: 0;
 }
 
 /* 13) 헤더 스타일 - 모든 페이지에 공통 적용 */
 header {
-  background: var(--pastel-5); /* 부드러운 블루 바탕 */
-  padding: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%; /* 헤더가 항상 전체 너비를 차지하도록 */
+  background: var(--pastel-5); /* 부드러운 블루 바탕 */
+  padding: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 100%; /* 헤더가 항상 전체 너비를 차지하도록 */
 }
 
 header .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 800px; /* 헤더 컨테이너 최대 너비 */
-  margin: 0 auto;
-  box-sizing: border-box; /* 패딩 포함 너비 계산 */
-  padding: 0 1rem; /* 좌우 패딩 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px; /* 헤더 컨테이너 최대 너비 */
+  margin: 0 auto;
+  box-sizing: border-box; /* 패딩 포함 너비 계산 */
+  padding: 0 1rem; /* 좌우 패딩 */
 }
 
 header .logo {
-  font-family: 'Nanum Brush Script', cursive;
-  color: #557997 !important;
-  font-size: 1.8rem;
-  text-decoration: none;
+  font-family: 'Nanum Brush Script', cursive;
+  color: #557997 !important;
+  font-size: 1.8rem;
+  text-decoration: none;
 }
 
 header nav ul {
-  display: flex;
-  gap: 1em;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  display: flex;
+  gap: 1em;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 header nav ul li a {
-  color: #557997 !important; /* 주석 오류 수정될 부분 */
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
+  color: #557997 !important; /* 주석 오류 수정될 부분 */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
 header nav ul li a:hover {
-  color: var(--pastel-3); /* 코랄 핑크 호버 */
+  color: var(--pastel-3); /* 코랄 핑크 호버 */
 }
 
 /* 14) 푸터 스타일 - 모든 페이지에 공통 적용 */
 footer {
-  margin-top: 2em; /* 메인 콘텐츠와의 간격 */
-  padding: 1.5em;
-  text-align: center;
-  color: #6a7f9a;
-  font-size: 0.9em;
-  width: 100%;
-  box-sizing: border-box;
-  /* --- ▼ 푸터 정렬을 위한 flex 속성 추가 (새로 추가) ▼ --- */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* --- ▲ 푸터 정렬을 위한 flex 속성 추가 끝 ▲ --- */
+  margin-top: 2em; /* 메인 콘텐츠와의 간격 */
+  padding: 1.5em;
+  text-align: center;
+  color: #6a7f9a;
+  font-size: 0.9em;
+  width: 100%;
+  box-sizing: border-box;
+  /* --- ▼ 푸터 정렬을 위한 flex 속성 추가 (새로 추가) ▼ --- */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* --- ▲ 푸터 정렬을 위한 flex 속성 추가 끝 ▲ --- */
 }
 
 footer p {
-  margin: 0.2em 0; /* 푸터 내부 문단 간 간격 */
+  margin: 0.2em 0; /* 푸터 내부 문단 간 간격 */
 }
 
 footer div { /* 푸터의 링크들을 감싸는 div */
-    display: flex; /* 링크들을 가로로 정렬 */
-    justify-content: center; /* 링크들을 가운데 정렬 */
-    flex-wrap: wrap; /* 모바일에서 줄바꿈 허용 */
-    margin-top: 0.5em; /* 문단과의 간격 */
+    display: flex; /* 링크들을 가로로 정렬 */
+    justify-content: center; /* 링크들을 가운데 정렬 */
+    flex-wrap: wrap; /* 모바일에서 줄바꿈 허용 */
+    margin-top: 0.5em; /* 문단과의 간격 */
 }
 
 footer a {
-  color: #6a7f9a;
-  text-decoration: none;
-  margin: 0 0.5em;
-  transition: color 0.2s;
+  color: #6a7f9a;
+  text-decoration: none;
+  margin: 0 0.5em;
+  transition: color 0.2s;
 }
 
 footer a:hover {
-  color: #4a6fa3;
+  color: #4a6fa3;
 }
 
 /* 15) 테스트 허브 카드 (.test-card) - fun_lotto_test_hub.html에서 사용 */
 .test-options {
-  display: flex;
-  flex-direction: column; /* 모바일 우선: 세로 배열 */
-  gap: 1.5rem;
-  margin-top: 2rem;
-  align-items: center; /* 카드 중앙 정렬 */
+  display: flex;
+  flex-direction: column; /* 모바일 우선: 세로 배열 */
+  gap: 1.5rem;
+  margin-top: 2rem;
+  align-items: center; /* 카드 중앙 정렬 */
 }
 
 /* 데스크톱/태블릿 (600px 이상) */
 @media (min-width: 600px) {
-  .test-options {
-    flex-direction: row; /* 데스크톱: 가로 배열 */
-    justify-content: center;
-    flex-wrap: wrap; /* 카드가 많아지면 줄바꿈 허용 */
-    /* 이전에 여기에 있었던 margin-left: -0.75rem; margin-right: -0.75rem;를 제거하거나 0으로 변경 */
-    margin-left: 0; /* <--- 추가: 음수 마진 제거 */
-    margin-right: 0; /* <--- 추가: 음수 마진 제거 */
-    gap: 1.5rem; /* 원래 gap 유지 */
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+  .test-options {
+    flex-direction: row; /* 데스크톱: 가로 배열 */
+    justify-content: center;
+    flex-wrap: wrap; /* 카드가 많아지면 줄바꿈 허용 */
+    /* 이전에 여기에 있었던 margin-left: -0.75rem; margin-right: -0.75rem;를 제거하거나 0으로 변경 */
+    margin-left: 0; /* <--- 추가: 음수 마진 제거 */
+    margin-right: 0; /* <--- 추가: 음수 마진 제거 */
+    gap: 1.5rem; /* 원래 gap 유지 */
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 
 .test-card {
-  background: var(--pastel-1); /* 연한 크림 */
-  border: 2px solid var(--pastel-3); /* 코랄 핑크 */
-  border-radius: 1.5em;
-  padding: 1.5em;
-  /* flex: 1; 대신 flex-basis와 flex-grow/shrink를 사용하여 명시적으로 너비를 제어 */
-  /* max-width는 @media 쿼리 안에서만 재정의합니다. */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box;
-  width: 100%; /* 기본 너비는 100% (모바일 우선) */
+  background: var(--pastel-1); /* 연한 크림 */
+  border: 2px solid var(--pastel-3); /* 코랄 핑크 */
+  border-radius: 1.5em;
+  padding: 1.5em;
+  /* flex: 1; 대신 flex-basis와 flex-grow/shrink를 사용하여 명시적으로 너비를 제어 */
+  /* max-width는 @media 쿼리 안에서만 재정의합니다. */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  width: 100%; /* 기본 너비는 100% (모바일 우선) */
 }
 
 /* test-card 크기 균등하게 맞추기 (데스크톱 600px 이상) */
 @media (min-width: 600px) {
-  /* test-options의 gap (1.5rem = 24px)을 고려하여 너비 설정 */
-  /* 각 카드의 너비를 전체 컨테이너 너비(main max-width 800px - main padding 1.5em*2 = 752px)에서
-      gap을 뺀 후 절반으로 나눕니다: (752px - 24px) / 2 = 364px */
-  .test-card {
-    width: 364px; /* <--- 명시적인 픽셀 너비로 고정 (테스트 카드 내부 콘텐츠 크기에 따라 미세 조정 필요할 수 있음) */
-    max-width: 364px; /* <--- max-width도 동일하게 고정 */
-    flex-basis: 364px; /* flex-basis도 동일하게 설정하여 flex 컨테이너 내에서 고정 너비 우선 */
-    flex-grow: 0; /* 늘어나지 않도록 */
-    flex-shrink: 0; /* 줄어들지 않도록 */
-    margin: 0 0.75rem; /* <--- 양쪽에 반만큼의 gap을 마진으로 추가 */
-  }
+  /* test-options의 gap (1.5rem = 24px)을 고려하여 너비 설정 */
+  /* 각 카드의 너비를 전체 컨테이너 너비(main max-width 800px - main padding 1.5em*2 = 752px)에서
+      gap을 뺀 후 절반으로 나눕니다: (752px - 24px) / 2 = 364px */
+  .test-card {
+    width: 364px; /* <--- 명시적인 픽셀 너비로 고정 (테스트 카드 내부 콘텐츠 크기에 따라 미세 조정 필요할 수 있음) */
+    max-width: 364px; /* <--- max-width도 동일하게 고정 */
+    flex-basis: 364px; /* flex-basis도 동일하게 설정하여 flex 컨테이너 내에서 고정 너비 우선 */
+    flex-grow: 0; /* 늘어나지 않도록 */
+    flex-shrink: 0; /* 줄어들지 않도록 */
+    margin: 0 0.75rem; /* <--- 양쪽에 반만큼의 gap을 마진으로 추가 */
+  }
 }
 
 .test-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .test-card .action-button {
-  /* test-card 내부의 버튼 (테스트 시작하기, 운세 확인하기) */
-  background: var(--pastel-3); /* 코랄 핑크 버튼 */
-  color: var(--white-bg);
-  padding: 0.8em 2em; /* 패딩 조정 */
-  box-shadow: 0 6px 15px rgba(249, 206, 191, 0.5); /* 핑크 계열 그림자 */
-  font-size: 1.1em;
-  font-weight: bold;
-  border-radius: 1.2em;
-  width: calc(100% - (2em * 2)); /* 패딩 고려한 너비 */
-  max-width: 250px; /* 버튼 최대 너비 */
+  /* test-card 내부의 버튼 (테스트 시작하기, 운세 확인하기) */
+  background: var(--pastel-3); /* 코랄 핑크 버튼 */
+  color: var(--white-bg);
+  padding: 0.8em 2em; /* 패딩 조정 */
+  box-shadow: 0 6px 15px rgba(249, 206, 191, 0.5); /* 핑크 계열 그림자 */
+  font-size: 1.1em;
+  font-weight: bold;
+  border-radius: 1.2em;
+  width: calc(100% - (2em * 2)); /* 패딩 고려한 너비 */
+  max-width: 250px; /* 버튼 최대 너비 */
 }
 
 .test-card .action-button:hover {
-  background: var(--pastel-2); /* 민트 그린 호버 */
-  color: var(--text-dark);
+  background: var(--pastel-2); /* 민트 그린 호버 */
+  color: var(--text-dark);
 }
 
 /* 16) 반응형 미디어 쿼리 (600px 이하) - 모든 페이지에 공통 적용 */
 @media (max-width: 600px) {
 
-  /* 기본 레이아웃 조정 */
-  body.main-page-layout {
-    justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
-  }
+  /* 기본 레이아웃 조정 */
+  body.main-page-layout {
+    justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
+  }
 
-  .container {
-    max-width: 95vw; /* 모바일에서 너비를 95vw로 확장 */
-    margin: 5vw 2.5vw; /* 여백 조정 */
-    padding: 2em 1em; /* 모바일 패딩 조정 */
-  }
+  .container {
+    max-width: 95vw; /* 모바일에서 너비를 95vw로 확장 */
+    margin: 5vw 2.5vw; /* 여백 조정 */
+    padding: 2em 1em; /* 모바일 패딩 조정 */
+  }
 
-  body.full-page-layout main {
-    /* fun_lotto_test_hub.html의 main 태그 */
-    max-width: 95vw;
-    margin: 5vw auto;
-    padding: 1.5em 1em;
-  }
+  body.full-page-layout main {
+    /* fun_lotto_test_hub.html의 main 태그 */
+    max-width: 95vw;
+    margin: 5vw auto;
+    padding: 1.5em 1em;
+  }
 
-  /* 타이포그래피 조정 */
-  h1 {
-    font-size: 1.8em;
-  }
+  /* 타이포그래피 조정 */
+  h1 {
+    font-size: 1.8em;
+  }
 
-  main h2 {
-    font-size: 1.8em;
-  }
+  main h2 {
+    font-size: 1.8em;
+  }
 
-  main p {
-    font-size: 1em;
-  }
+  main p {
+    font-size: 1em;
+  }
 
-  .usp-message div {
-    font-size: 1.0em;
-  }
+  .usp-message div {
+    font-size: 1.0em;
+  }
 
-  .usp-message .line1 {
-    font-size: 1.1em;
-  }
+  .usp-message .line1 {
+    font-size: 1.1em;
+  }
 
-  .usp-message .line3 {
-    font-size: 1.0em;
-  }
+  .usp-message .line3 {
+    font-size: 1.0em;
+  }
 
-  .test-card h3 {
-    font-size: 1.5rem;
-  }
+  .test-card h3 {
+    font-size: 1.5rem;
+  }
 
-  .test-card p {
-    font-size: 0.9em;
-  }
+  .test-card p {
+    font-size: 0.9em;
+  }
 
-  /* 추가 또는 수정: 최신 당첨번호 제목 모바일 크기 조정 */
-  .latest-winning-section h2 {
-    font-size: 1.2em; /* <--- 변경: 모바일에서 폰트 크기를 줄여 한 줄에 들어오도록 */
-    line-height: 1.2; /* <--- 추가: 줄 간격도 조절 */
-  }
+  /* 추가 또는 수정: 최신 당첨번호 제목 모바일 크기 조정 */
+  .latest-winning-section h2 {
+    font-size: 1.2em; /* <--- 변경: 모바일에서 폰트 크기를 줄여 한 줄에 들어오도록 */
+    line-height: 1.2; /* <--- 추가: 줄 간격도 조절 */
+  }
 
-  /* 버튼 조정 */
-  button,
-  .copy-btn,
-  .main-action-link-button,
-  form button { /* <--- 여기에 form button을 추가합니다. */
-    font-size: 0.85em; /* <--- 변경: 폰트 크기를 더 줄임 (이전 0.9em에서 0.85em으로) */
-    padding: 0.6em 1em; /* <--- 변경: 좌우 패딩을 더 줄임 (이전 1.2em에서 1em으로) */
-    margin-top: 0.5em;
-    width: 90%;
-    max-width: none;
-    margin-left: auto;
-    margin-right: auto;
-    white-space: normal !important; /* <--- 중요: 다시 한번 !important로 강제합니다. */
-    word-break: keep-all;
-    text-align: center;
-    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
-  }
+  /* 버튼 조정 */
+  button,
+  .copy-btn,
+  .main-action-link-button,
+  form button { /* <--- 여기에 form button을 추가합니다. */
+    font-size: 0.85em; /* <--- 변경: 폰트 크기를 더 줄임 (이전 0.9em에서 0.85em으로) */
+    padding: 0.6em 1em; /* <--- 변경: 좌우 패딩을 더 줄임 (이전 1.2em에서 1em으로) */
+    margin-top: 0.5em;
+    width: 90%;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: normal !important; /* <--- 중요: 다시 한번 !important로 강제합니다. */
+    word-break: keep-all;
+    text-align: center;
+    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
+  }
 
-  .test-card .action-button {
-    font-size: 0.85em; /* <--- 통일: test-card 버튼도 동일한 폰트 크기로 조정 */
-    padding: 0.6em 1em; /* <--- 통일: test-card 버튼도 동일한 패딩으로 조정 */
-    white-space: normal !important; /* <--- 중요: !important 추가 */
-    word-break: keep-all;
-    text-align: center;
-    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
-  }
+  .test-card .action-button {
+    font-size: 0.85em; /* <--- 통일: test-card 버튼도 동일한 폰트 크기로 조정 */
+    padding: 0.6em 1em; /* <--- 통일: test-card 버튼도 동일한 패딩으로 조정 */
+    white-space: normal !important; /* <--- 중요: !important 추가 */
+    word-break: keep-all;
+    text-align: center;
+    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
+  }
 
-  /* .button-line 스타일 (모바일에서도 줄 바꿈 되도록) */
-  .button-line {
-    display: block;
-    white-space: normal !important; /* <--- 중요: !important 추가 */
-  }
+  /* .button-line 스타일 (모바일에서도 줄 바꿈 되도록) */
+  .button-line {
+    display: block;
+    white-space: normal !important; /* <--- 중요: !important 추가 */
+  }
 
-  /* 로또볼 조정 */
-  .lotto,
-  .latest-winning-numbers {
-    max-width: 100%;
-    gap: 3px;
-  }
+  /* 로또볼 조정 */
+  .lotto,
+  .latest-winning-numbers {
+    max-width: 100%;
+    gap: 3px;
+  }
 
-  .ball {
-    width: clamp(36px, 8vw, 45px);
-    height: clamp(36px, 8vw, 45px);
-    font-size: 1em;
-  }
+  .ball {
+    width: clamp(36px, 8vw, 45px);
+    height: clamp(36px, 8vw, 45px);
+    border-radius: 50%;
+    margin: 0;
+    font-size: 1em;
+  }
 
-  .latest-winning-numbers .ball {
-    width: clamp(28px, 6vw, 35px);
-    height: clamp(28px, 6vw, 35px);
-    font-size: 0.85em;
-  }
+  .latest-winning-numbers .ball {
+    width: clamp(28px, 6vw, 35px);
+    height: clamp(28px, 6vw, 35px);
+    font-size: 0.85em;
+  }
 
-  .plus-sign {
-    font-size: 1.4em;
-    margin: 0 1px;
-  }
+  .plus-sign {
+    font-size: 1.4em;
+    margin: 0 1px;
+  }
 
-  /* 기타 섹션 조정 */
-  .stats-box {
-    max-width: 95vw;
-    font-size: 0.95em;
-    padding: 15px 20px;
-    margin-top: 5vw;
-    margin-bottom: 5vw;
-  }
+  /* 기타 섹션 조정 */
+  .stats-box {
+    max-width: 95vw;
+    font-size: 0.95em;
+    padding: 15px 20px;
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+  }
 
-  .link-about-moved {
-    margin-bottom: 1.5em; /* 모바일에서는 1.5em 유지 */
-    padding: 1em 1em; /* <--- 변경: 좌우 패딩을 1em으로 약간 줄임 */
-    font-size: 0.9em; /* <--- 변경: 폰트 크기를 0.9em으로 줄임 */
-    white-space: nowrap; /* <--- 추가: 텍스트가 강제로 한 줄에 나오도록 (오버플로우는 숨기거나 처리 필요) */
-    overflow: hidden; /* <--- 추가: 텍스트가 넘치면 숨김 */
-    text-overflow: ellipsis; /* <--- 추가: 넘치는 텍스트를 ...으로 표시 */
-  }
+  .link-about-moved {
+    margin-bottom: 1.5em; /* 모바일에서는 1.5em 유지 */
+    padding: 1em 1em; /* <--- 변경: 좌우 패딩을 1em으로 약간 줄임 */
+    font-size: 0.9em; /* <--- 변경: 폰트 크기를 0.9em으로 줄임 */
+    white-space: nowrap; /* <--- 추가: 텍스트가 강제로 한 줄에 나오도록 (오버플로우는 숨기거나 처리 필요) */
+    overflow: hidden; /* <--- 추가: 텍스트가 넘치면 숨김 */
+    text-overflow: ellipsis; /* <--- 추가: 넘치는 텍스트를 ...으로 표시 */
+  }
 
-  /* 헤더/푸터 반응형 */
-  header .container {
-    flex-direction: column;
-    align-items: center;
-    padding: 0.8rem 1rem;
-  }
+  /* 헤더/푸터 반응형 */
+  header .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0.8rem 1rem;
+  }
 
-  header .logo {
-    margin-bottom: 0.5em;
-  }
+  header .logo {
+    margin-bottom: 0.5em;
+  }
 
-  header nav ul {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5em;
-  }
+  header nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+  }
 
-  header nav ul li a {
-    font-size: 0.9em;
-    padding: 0.3em 0.5em;
-  }
+  header nav ul li a {
+    font-size: 0.9em;
+    padding: 0.3em 0.5em;
+  }
 
-  footer {
-    padding: 1em;
-  }
+  footer {
+    padding: 1em;
+  }
 }
 
 /* 🔥 Hero CTA 영역 */
 .hero {
-  background-color: #e0f7fa; /* 은은한 연파랑 or 원하시는 색으로 수정 가능 */
-  border-radius: 20px;
-  padding: 2em;
-  text-align: center;
-  margin-bottom: 2em;
-  box-shadow: 0 6px 24px #22325610;
+  background-color: #e0f7fa; /* 은은한 연파랑 or 원하시는 색으로 수정 가능 */
+  border-radius: 20px;
+  padding: 2em;
+  text-align: center;
+  margin-bottom: 2em;
+  box-shadow: 0 6px 24px #22325610;
 }
 
 .hero-inner h1 {
-  font-size: 1.6em;
-  color: #222;
-  font-weight: 900;
-  margin-bottom: 0.8em;
+  font-size: 1.6em;
+  color: #222;
+  font-weight: 900;
+  margin-bottom: 0.8em;
 }
 
 .hero-inner p {
-  font-size: 1.05em;
-  color: #444;
-  line-height: 1.6;
-  margin-bottom: 1.5em;
+  font-size: 1.05em;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 1.5em;
 }
 
 .btn-primary {
-  background-color: #ffcc00;
-  color: #111;
-  font-weight: bold;
-  padding: 0.9em 1.5em;
-  border-radius: 999px;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s;
+  background-color: #ffcc00;
+  color: #111;
+  font-weight: bold;
+  padding: 0.9em 1.5em;
+  border-radius: 999px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
 }
 
 .btn-primary:hover {
-  background-color: #f5b600;
+  background-color: #f5b600;
 }
 
 .cta-box-final {
-  background-color: #f1f6fd;
-  border-radius: 12px;
-  padding: 2em 1.5em;
-  margin: 3em auto;
-  text-align: center;
-  max-width: 680px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  background-color: #f1f6fd;
+  border-radius: 12px;
+  padding: 2em 1.5em;
+  margin: 3em auto;
+  text-align: center;
+  max-width: 680px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
 }
 
 .cta-box-final h2 {
-  font-size: 1.6em;
-  color: #223256;
-  font-weight: 800;
-  margin-bottom: 0.5em;
+  font-size: 1.6em;
+  color: #223256;
+  font-weight: 800;
+  margin-bottom: 0.5em;
 }
 
 .cta-box-final p {
-  font-size: 1.1em;
-  color: #444;
-  margin-bottom: 1.5em;
+  font-size: 1.1em;
+  color: #444;
+  margin-bottom: 1.5em;
 }
 
 .btn-cta-final {
-  display: inline-block;
-  background-color: #ffb300;
-  color: #000;
-  padding: 0.9em 1.6em;
-  font-weight: bold;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1.1em;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: background-color 0.2s ease;
+  display: inline-block;
+  background-color: #ffb300;
+  color: #000;
+  padding: 0.9em 1.6em;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
 }
 
 .btn-cta-final:hover {
-  background-color: #f7a100;
+  background-color: #f7a100;
 }
