@@ -1,3 +1,4 @@
+import base64
 import os
 import json
 import random
@@ -653,7 +654,17 @@ def stats():
     freq = dict(sorted(freq.items()))
 
     print(f"/stats 라우트에서 freq 데이터 생성 완료: {freq}") # 디버그 로그 추가
-    return render_template('stats.html', freq_json=freq, recent_n=recent_n, now=datetime.datetime.now()) # <--- 추가
+    # --- ▼ 이 부분을 수정합니다. ▼ ---
+    # freq 딕셔너리를 JSON 문자열로 변환 후 Base64로 인코딩하여 HTML에 전달
+    freq_json_string = json.dumps(freq)
+    encoded_freq_data = base64.b64encode(freq_json_string.encode('utf-8')).decode('utf-8')
+
+    return render_template(
+        'stats.html',
+        freq_data_encoded=encoded_freq_data, # 인코딩된 데이터를 전달
+        recent_n=recent_n,
+        now=datetime.datetime.now()
+    )
 
 # Route for the Admin page (requires password for access)
 @app.route('/admin')
