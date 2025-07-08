@@ -20,7 +20,7 @@
   <meta property="og:type" content="website" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
+  <meta name="twitter:title" content="SmartPick 로또 번호 추천 - 1~3등 제외 프리미엄 로또 번호 추천" />
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
@@ -30,9 +30,6 @@
   {# 외부 style.css 파일을 링크하여 모든 스타일을 통합 관리합니다. #}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-  {# 이 HTML 파일에만 특화된 스타일이 아니라면, 여기에 <style> 태그를 남겨두지 않는 것이 좋습니다.
-     이제 모든 관련 스타일은 static/style.css에서 관리됩니다.
-     아래 <style> 태그와 그 안의 모든 내용은 이 코드에서 완전히 제거되었습니다. #}
 </head>
 <body class="main-page-layout"> {# <--- body에 'main-page-layout' 클래스 추가 #}
 
@@ -88,7 +85,18 @@
         <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
       </a>
 
-    {% if numbers %}
+    <div class="ad-area-in-main-container"> {# 새로운 클래스 이름으로 컨테이너 추가 #}
+        <ins class="adsbygoogle"
+             style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
+             data-ad-client="ca-pub-2748658493247983"
+             data-ad-slot="1322588827"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+        {% if numbers %}
       <div class="lotto" id="lotto_result">
         {% for n in numbers[0] %}
           <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
@@ -164,19 +172,6 @@
         }
       </script>
     {% endif %}
-    {# --- ▼ 광고 코드를 .container 안으로 이동 ▼ --- #}
-    <div class="ad-area-in-main-container"> {# 새로운 클래스 이름으로 컨테이너 추가 #}
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
-             data-ad-client="ca-pub-2748658493247983"
-             data-ad-slot="1322588827"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-    {# --- ▲ 광고 코드 이동 끝 ▲ --- #}
   </div> {# .container 끝 #}
 
   {# 기존에 있었던 이 광고 코드는 이제 필요 없으므로 제거합니다. #}
