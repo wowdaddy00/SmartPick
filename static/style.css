@@ -369,7 +369,8 @@ button:active,
   background-color: #e6f7ff;
   border: 2px solid #a8e0f5;
   border-radius: 1.8em;
-  padding: 1.5em;
+  /* padding 값을 조절하여 높이를 줄여보세요 */
+  padding: 0.8em 1.5em; /* 상하 패딩을 줄이고 좌우는 유지 (예시) */
   margin-bottom: 2em;
   box-shadow: 0 8px 25px rgba(0, 172, 193, 0.15);
   text-align: center;
@@ -379,7 +380,7 @@ button:active,
   font-size: 1.5em;
   font-weight: 800;
   color: #00796b;
-  margin-bottom: 0.8em;
+  margin-bottom: 0.5em;
 }
 
 .latest-winning-numbers {
@@ -388,7 +389,7 @@ button:active,
   justify-content: center;
   align-items: center;
   gap: 3px;
-  margin-top: 1em;
+  margin-top: 0.5em;
 }
 
 .latest-winning-numbers .ball {
