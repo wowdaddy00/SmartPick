@@ -30,6 +30,9 @@
   {# 외부 style.css 파일을 링크하여 모든 스타일을 통합 관리합니다. #}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+  {# 이 HTML 파일에만 특화된 스타일이 아니라면, 여기에 <style> 태그를 남겨두지 않는 것이 좋습니다.
+     이제 모든 관련 스타일은 static/style.css에서 관리됩니다.
+     아래 <style> 태그와 그 안의 모든 내용은 이 코드에서 완전히 제거되었습니다. #}
 </head>
 <body class="main-page-layout"> {# <--- body에 'main-page-layout' 클래스 추가 #}
 
@@ -40,24 +43,14 @@
   <div class="container">
         <section class="hero">
       <div class="hero-inner">
-        <h1>🎯 SmartPick이 로또 추천을 바꾸다</h1> {# <-- 이 부분을 H1으로 유지하거나, 아래의 H1을 H2로 바꿉니다. #}
+        <h1>🎯 SmartPick이 로또 추천을 바꾸다</h1>
         <p>한 번도 당첨된 적 없는 번호만!<br>데이터 기반의 새로운 선택,<br>지금 바로 시작하세요.</p>
         <a href="/choose_recommendation" class="btn-primary">🚀 추천 번호 받기</a>
-
-        <div class="featured-snippet-qa">
-            <h2>SmartPick 로또 번호 추천, 무엇이 특별한가요?</h2>
-            <p>SmartPick은 **과거 1등부터 3등까지의 모든 당첨 번호 조합을 철저히 분석하여, 해당 조합에 속했던 번호들은 추천 목록에서 제외**합니다. 이를 통해 한 번도 당첨되지 않은 새로운 번호 조합을 제공하여, 사용자에게 신선하고 기대감 있는 로또 경험을 선사합니다.</p>
-            
-            <h3>SmartPick은 어떻게 당첨 번호를 제외하나요?</h3>
-            <p>저희 알고리즘은 **수억 건의 과거 당첨 데이터를 학습**하고, 특정 번호들이 함께 등장했던 패턴을 파악합니다. 이 데이터를 기반으로, 만약 특정 번호 조합이 과거 1~3등 당첨 이력이 있다면, 해당 번호들은 추천 과정에서 자동으로 필터링되어 제외됩니다.</p>
-            
-            <h3>SmartPick의 추천 번호는 무료인가요?</h3>
-            <p>네, SmartPick은 기본적인 프리미엄 로또 번호 추천 서비스를 **무료로 제공**합니다. 누구나 쉽게 접근하여 데이터 기반의 차별화된 로또 번호를 경험할 수 있습니다.</p>
-        </div>
-              </div>
+      </div>
     </section>
-        <h2><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h2> 
-        {% if latest_round and winning_nums and bonus_num %}
+        <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
+
+    {% if latest_round and winning_nums and bonus_num %}
     <div class="latest-winning-section">
         <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
         <div class="latest-winning-numbers">
@@ -70,11 +63,12 @@
     </div>
     {% endif %}
 
-        <div class="usp-message">
-        <h2 class="line1"><i class="fas fa-exclamation-triangle icon"></i><br>지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.</h2>
-        <p class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</p>
+    <div class="usp-message">
+        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i><br>지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.</div>
+        <div class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</div>
     </div>
-        {# .link-item 클래스는 제거하고, .link-about-moved 클래스만 사용합니다. #}
+
+    {# .link-item 클래스는 제거하고, .link-about-moved 클래스만 사용합니다. #}
     <a href="/about" class="link-about-moved"> {# <--- 클래스 변경 유지 #}
         <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
     </a>
@@ -92,21 +86,9 @@
 
     <a href="/fun-lotto-test" class="main-action-link-button">
         <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
-    </a>
+      </a>
 
-    {# 이전에 제안했던 광고 삽입 위치가 여기입니다. #}
-    <div class="ad-area-in-main-container"> {# 새로운 클래스 이름으로 컨테이너 추가 #}
-        <ins class="adsbygoogle"
-             style="display:block; text-align:center;"
-             data-ad-client="ca-pub-2748658493247983"
-             data-ad-slot="1322588827"
-             data-ad-format="rectangle"
-             data-full-width-responsive="false"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-        {% if numbers %}
+    {% if numbers %}
       <div class="lotto" id="lotto_result">
         {% for n in numbers[0] %}
           <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
@@ -171,7 +153,6 @@
                     storyDiv.textContent = data.story;
                 } else {
                     storyDiv.textContent = '스토리 생성 실패: ' + (data.error || '알 수 없는 오류');
-                    storyDiv.style.color = 'red';
                 }
             } catch (error) {
                 console.error('스토리 생성 중 오류 발생:', error);
@@ -185,10 +166,18 @@
     {% endif %}
   </div> {# .container 끝 #}
 
-  {# 기존에 있었던 이 광고 코드는 이제 필요 없으므로 제거합니다. #}
-  {# <div style="height:36px"></div> #}
-  {# <ins class="adsbygoogle" ...> </ins> #}
-  {# <script> ... </script> #}
+  <div style="height:36px"></div> {# 임시 여백 유지 (애드센스 위에) #}
+
+  {# 구글 애드센스 광고 #}
+  <ins class="adsbygoogle"
+       style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
+       data-ad-client="ca-pub-2748658493247983"
+       data-ad-slot="1322588827"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 
   {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
   <footer>
