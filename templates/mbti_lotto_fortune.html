@@ -98,12 +98,13 @@
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background-color: var(--primary-color);
+            background-color: #f44336; /* 기본 빨간색 */
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1rem;
+            font-weight: bold;
         }
 
         .buttons {
@@ -163,6 +164,35 @@
         .action-buttons button:hover {
             background-color: #ff6659;
         }
+
+        .lotto-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap; /* 너무 길어지면 다음 줄로 */
+            margin-top: 1rem;
+        }
+
+        /* 동행복권 스타일의 번호별 색상 적용 */
+        .ball-1, .ball-2, .ball-3, .ball-4, .ball-5,
+        .ball-6, .ball-7, .ball-8, .ball-9, .ball-10 {
+            background-color: #fbc400;
+        }
+        .ball-11, .ball-12, .ball-13, .ball-14, .ball-15,
+        .ball-16, .ball-17, .ball-18, .ball-19, .ball-20 {
+            background-color: #69c8f2;
+        }
+        .ball-21, .ball-22, .ball-23, .ball-24, .ball-25,
+        .ball-26, .ball-27, .ball-28, .ball-29, .ball-30 {
+            background-color: #ff7272;
+        }
+        .ball-31, .ball-32, .ball-33, .ball-34, .ball-35,
+        .ball-36, .ball-37, .ball-38, .ball-39, .ball-40 {
+            background-color: #aaaaaa;
+        }
+        .ball-41, .ball-42, .ball-43, .ball-44, .ball-45 {
+            background-color: #b0d840;
+        }
     </style>
 </head>
 <body>
@@ -198,7 +228,7 @@
             <p style="margin-top: 20px; font-weight: bold;">✨ 행운의 로또 번호 ✨</p>
             <div class="lotto-numbers">
                 {% for number in numbers %}
-                <div class="number-ball">{{ number }}</div>
+                <div class="number-ball ball-{{ number }}">{{ number }}</div>
                 {% endfor %}
             </div>
             {% endif %}
