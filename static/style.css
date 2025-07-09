@@ -507,6 +507,41 @@ footer a:hover {
         padding: 1.5em 1em;
     }
 
+    /* 버튼 조정 */
+  button,
+  .copy-btn,
+  .main-action-link-button,
+  form button /* <--- 여기에 form button을 추가합니다. */ {
+    font-size: 0.85em;
+    padding: 0.6em 1em;
+    margin-top: 0.5em;
+    width: 90%;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    white-space: normal !important; /* <--- 중요: 다시 한번 !important로 강제합니다. */
+    word-break: keep-all;
+    text-align: center;
+    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
+  }
+
+  .test-card .action-button {
+    font-size: 0.85em;
+    padding: 0.6em 1em;
+    white-space: normal !important; /* <--- 중요: !important 추가 */
+    word-break: keep-all;
+    text-align: center;
+    line-height: 1.3; /* 모바일에서도 줄 간격 유지 */
+  }
+
+  /* .button-line 스타일 (모바일에서도 줄 바꿈 되도록) */
+  .button-line {
+    display: block;
+    white-space: normal !important; /* <--- 중요: !important 추가 */
+  }
+
+  
+
     /* 타이포그래피 조정 */
     h1 { font-size: 1.8em; }
     main h2 { font-size: 1.8em; }
