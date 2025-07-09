@@ -133,47 +133,6 @@ main p {
     margin-bottom: 24px;
 }
 
-/* === MBTI/로또 테스트 카드 스타일 커스터마이징 === */
-.test-card {
-    background-color: #ffffff;
-    border: 2px solid #fcded6;        /* 연한 코랄 테두리 */
-    border-radius: 1.8em;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-    padding: 1.8em 1.5em;
-    text-align: center;
-    margin-bottom: 2em;
-}
-
-/* 카드 제목 아이콘 색상 */
-.test-card h3 .icon {
-    color: #fa647b;                   /* 이미지 속 DNA/펜 아이콘 색상 */
-    margin-right: 8px;
-}
-
-/* 카드 설명 텍스트 */
-.test-card p {
-    font-size: 0.95em;
-    color: #6a7f9a;
-    line-height: 1.6;
-}
-
-/* 버튼 스타일 */
-.test-card .action-button {
-    background-color: #ffdcd4;        /* 연한 코랄 */
-    color: #444;                      /* 텍스트는 다크 그레이 */
-    font-weight: bold;
-    padding: 0.9em 1.5em;
-    border-radius: 2em;
-    border: none;
-    box-shadow: none;
-    margin-top: 1em;
-    font-size: 1em;
-}
-
-.test-card .action-button:hover {
-    background-color: #fa647b;        /* 호버 시 진한 코랄 */
-    color: white;
-}
 
 /* 6) 버튼 및 링크 공통 스타일 */
 button,
@@ -862,3 +821,44 @@ footer a:hover {
     background-color: #ffb300;
 }
 
+/* === MBTI/로또 테스트 카드 스타일 커스터마이징 === */
+.test-card {
+    background-color: #ffffff;
+    border: 2px solid #fcded6;        /* 연한 코랄 테두리 */
+    border-radius: 1.8em;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    padding: 1.8em 1.5em;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+/* 카드 제목 아이콘 색상 */
+.test-card h3 .icon {
+    color: #fa647b;                   /* 이미지 속 DNA/펜 아이콘 색상 */
+    margin-right: 8px;
+}
+
+/* 카드 설명 텍스트 */
+.test-card p {
+    font-size: 0.95em;
+    color: #6a7f9a;
+    line-height: 1.6;
+}
+
+/* 버튼 스타일 */
+.test-card .action-button {
+    background-color: #ffdcd4;        /* 연한 코랄 */
+    color: #444;                      /* 텍스트는 다크 그레이 */
+    font-weight: bold;
+    padding: 0.9em 1.5em;
+    border-radius: 2em;
+    border: none;
+    box-shadow: none;
+    margin-top: 1em;
+    font-size: 1em;
+}
+
+.test-card .action-button:hover {
+    background-color: #fa647b;        /* 호버 시 진한 코랄 */
+    color: white;
+}
