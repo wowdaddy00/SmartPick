@@ -580,11 +580,7 @@ footer a:hover {
         text-align: center;
     }
 
-    .latest-winning-numbers {
-        background-color: lightyellow;
-        border: 2px dashed red;
-    }
-
+    
     /* 기본 레이아웃 조정 */
     body.main-page-layout {
         justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
