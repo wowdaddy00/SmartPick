@@ -764,6 +764,24 @@ footer a:hover {
     }
 }
 
+/* === 애드센스 광고 영역 스타일 === */
+.adsbygoogle {
+    display: block;
+    max-height: 180px;         /* 광고 높이 제한 */
+    overflow: hidden;          /* 넘치는 광고 잘라내기 */
+    margin: 2em auto;          /* 상하 여백 추가 및 가운데 정렬 */
+    width: 100%;               /* 너비 100% 유지 */
+    text-align: center;
+}
+
+/* 모바일 환경에선 더 작은 높이 제한 */
+@media (max-width: 600px) {
+    .adsbygoogle {
+        max-height: 140px;
+        margin: 1.5em auto;
+    }
+}
+
 /* Hero CTA 영역 */
 .hero {
     background: linear-gradient(135deg, #4361ee 0%, #4CAF50 100%);
@@ -801,3 +819,4 @@ footer a:hover {
 .btn-primary:hover {
     background-color: #ffb300;
 }
+
