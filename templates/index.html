@@ -120,19 +120,7 @@
   <div class="container">
     <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
 
-    <div class="mbti-card">
-      <h3><i class="fas fa-dna icon"></i> 당신의 로또 DNA는?</h3>
-      <p>심리 테스트로 로또 DNA 유형과 맞춤 번호를 확인해보세요!</p>
-      <a href="/dna-lotto-test" class="action-button">테스트 시작하기</a>
-    </div>
-
-    <div class="mbti-card">
-      <h3><i class="fas fa-pen-nib icon"></i> MBTI별 이번 주 로또 운세는?</h3>
-      <p>당신의 MBTI 유형에 따른 특별 추천 번호와 운세를 확인하세요!</p>
-      <a href="/mbti-lotto-test" class="action-button">운세 확인하기</a>
-    </div>
-
-    {% if latest_round and winning_nums and bonus_num %}
+        {% if latest_round and winning_nums and bonus_num %}
     <div class="latest-winning-section">
         <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
         <div class="latest-winning-numbers">
