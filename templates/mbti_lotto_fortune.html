@@ -23,7 +23,147 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/style.css">
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    
+    <style>
+        :root {
+            --primary-color: #FF8A80;
+            --secondary-color: #FFD180;
+            --background-color: #FFF8F4;
+            --card-background: #FFFFFF;
+            --text-color: #4A4A4A;
+            --light-text-color: #888;
+            --border-color: #FFCCBC;
+            --shadow-color: rgba(255, 138, 128, 0.2);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        p.description {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--light-text-color);
+        }
+
+        .lucky-tip {
+            background-color: #fff0ec;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            color: #5d4037;
+        }
+
+        .numbers {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .number-ball {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .buttons {
+            margin-top: 2rem;
+        }
+
+        .buttons a {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            margin: 0.3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .buttons a:hover {
+            background-color: #ff6659;
+        }
+
+        /* ✅ 1번: 헤더 내 메뉴(nav) 스타일 */
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        header nav ul li {
+            margin: 0 10px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* ✅ 2번: 공유 버튼 및 액션 버튼 통일 스타일 */
+        .share-buttons button,
+        .action-buttons button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 5px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .share-buttons button:hover,
+        .action-buttons button:hover {
+            background-color: #ff6659;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -72,7 +212,7 @@
                 <i class="fas fa-copy"></i> URL 복사
             </button>
         </div>
-        
+
         <div class="action-buttons">
             <button class="action-button" onclick="location.href='/fun-lotto-test'">다른 재미 테스트 보기</button>
             <button class="action-button" onclick="location.href='/'">메인 페이지로</button>
@@ -90,60 +230,58 @@
     </footer>
 
     <script>
-  // 1) 클립보드 복사 폴백 함수
-  function copyToClipboard(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(text);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      const ok = document.execCommand('copy');
-      document.body.removeChild(ta);
-      return ok ? Promise.resolve() : Promise.reject();
-    }
-  }
-
-  // 2) 복사 버튼 이벤트
-  document.getElementById('copyUrlBtn').addEventListener('click', function() {
-    const url = window.location.href;
-    copyToClipboard(url)
-      .then(() => alert('링크가 복사되었습니다!'))
-      .catch(() => alert('복사 실패: 다시 시도해 주세요.'));
-  });
-
-  // 3) Kakao SDK 초기화 (여기에 kakao_js_key 변수만 맞춰두세요)
-  Kakao.init('{{ kakao_js_key }}');
-
-  // 4) 카카오톡 공유 버튼 생성 (QR 폴백 포함)
-  Kakao.Link.createDefaultButton({
-    container: '#kakaoShareBtn',
-    objectType: 'feed',
-    content: {
-      title: `[MBTI 로또 운세] {{ mbti_type }}님의 운세는?! 🔮`,
-      description:
-        `{{ title }}\n` +
-        `{{ description | replace('\n', '\\n') | safe }}\n\n` +
-        `✨ 행운의 로또 번호: {{ numbers | join(', ') }}`,
-      imageUrl: 'https://smartpick.wow-daddy.com/images/og_mbti_lotto.png',
-      link: {
-        mobileWebUrl: window.location.href,
-        webUrl: window.location.href
-      }
-    },
-    buttons: [
-      {
-        title: '운세 확인하기',
-        link: {
-          mobileWebUrl: window.location.href,
-          webUrl: window.location.href
+        // 1) 클립보드 복사 폴백 함수
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                return navigator.clipboard.writeText(text);
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                return ok ? Promise.resolve() : Promise.reject();
+            }
         }
-      }
-    ]
-  });
-</script>
 
-    
+        // 2) 복사 버튼 이벤트
+        document.getElementById('copyUrlBtn').addEventListener('click', function() {
+            const url = window.location.href;
+            copyToClipboard(url)
+                .then(() => alert('링크가 복사되었습니다!'))
+                .catch(() => alert('복사 실패: 다시 시도해 주세요.'));
+        });
+
+        // 3) Kakao SDK 초기화 (여기에 kakao_js_key 변수만 맞춰두세요)
+        Kakao.init('{{ kakao_js_key }}');
+
+        // 4) 카카오톡 공유 버튼 생성 (QR 폴백 포함)
+        Kakao.Link.createDefaultButton({
+            container: '#kakaoShareBtn',
+            objectType: 'feed',
+            content: {
+                title: `[MBTI 로또 운세] {{ mbti_type }}님의 운세는?! 🔮`,
+                description:
+                    `{{ title }}\n` +
+                    `{{ description | replace('\\n', '\\n') | safe }}\n\n` +
+                    `✨ 행운의 로또 번호: {{ numbers | join(', ') }}`,
+                imageUrl: 'https://smartpick.wow-daddy.com/images/og_mbti_lotto.png',
+                link: {
+                    mobileWebUrl: window.location.href,
+                    webUrl: window.location.href
+                }
+            },
+            buttons: [
+                {
+                    title: '운세 확인하기',
+                    link: {
+                        mobileWebUrl: window.location.href,
+                        webUrl: window.location.href
+                    }
+                }
+            ]
+        });
+    </script>
 </body>
 </html>
