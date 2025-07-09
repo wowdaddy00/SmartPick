@@ -3,6 +3,7 @@ import os
 import json
 import random
 from flask import Flask, render_template, request, jsonify, Response, url_for
+from flask import send_from_directory
 from collections import Counter
 import datetime
 import requests
@@ -1356,6 +1357,9 @@ def mbti_lotto_fortune_result_page():
 def faq():
     return render_template('faq.html', now=datetime.datetime.now()) # <--- 새로 추가
 
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
