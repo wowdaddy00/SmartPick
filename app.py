@@ -1351,5 +1351,11 @@ def mbti_lotto_fortune_result_page():
     )
 # --- END OF NEW MBTI LOTTO FORTUNE FEATURE ROUTES ---
 
+# New Route for FAQ page (NEW ROUTE)
+@app.route('/faq')
+def faq():
+    return render_template('faq.html', now=datetime.datetime.now()) # <--- 새로 추가
+
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
