@@ -193,6 +193,22 @@
         .ball-41, .ball-42, .ball-43, .ball-44, .ball-45 {
             background-color: #b0d840;
         }
+
+        @media (max-width: 600px) {
+       .lotto-numbers {
+           flex-wrap: nowrap;        /* 줄바꿈 방지 */
+           overflow-x: auto;         /* 넘칠 경우 스크롤 */
+           gap: 6px;
+           padding: 0.5rem 0;
+       }
+
+       .lotto-numbers .number-ball {
+           flex-shrink: 0;
+           width: 30px;
+           height: 30px;
+           font-size: 0.85rem;
+       }
+   }
     </style>
 </head>
 <body>
