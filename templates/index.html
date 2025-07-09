@@ -4,16 +4,8 @@
   <meta charset="UTF-8">
   <title>⭐ 제{{ latest_round }}회 로또 번호 생성기 & 로또 번호 추천 | SmartPick 무료 프리미엄 예상번호</title>
   <meta name="description" content="1등 당첨 확률 UP! SmartPick 로또 번호 생성기로 지금 바로 무료 로또 번호 추천을 받아보세요. 과거 1~3등 당첨 조합 제외, 최신 통계 분석으로 나만의 행운 번호를 생성합니다.">
+  <!-- 검색엔진 색인 관련 -->
   <link rel="canonical" href="https://smartpick.wow-daddy.com/" />
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVNHC9SMEE"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RVNHC9SMEE');
-    </script>
-  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow">
@@ -21,14 +13,24 @@
   <meta name="distribution" content="global">
   <meta name="revisit-after" content="7 days">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-
+  
+  <!-- Google tag (gtag.js) Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVNHC9SMEE"></script>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RVNHC9SMEE');
+  </script>
+    
+  <!-- Google AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
        crossorigin="anonymous"></script>
 
-  <meta name="description" content="SmartPick은 과거 1~3등 당첨번호를 제외하고, 신뢰도 높은 로또 번호를 추천해 드립니다. 맞춤 필터, 통계 분석 서비스로 당신의 로또 당첨 확률을 높여보세요!">
   <meta name="keywords" content="로또, 로또번호추천, SmartPick, 로또번호생성, 로또필터, 로또통계, 로또분석, 프리미엄로또, 로또당첨번호">
   <meta name="author" content="SmartPick Team">
-
+  
+  <!-- SNS 공유 최적화 -->
   <meta property="og:title" content="SmartPick - 1~3등 제외 프리미엄 로또 번호 추천" />
   <meta property="og:description" content="과거 당첨 조합과 겹치지 않는, 신뢰도 높은 맞춤형 프리미엄 로또 번호 추천 서비스! 지금 바로 경험하세요." />
   <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
@@ -40,8 +42,58 @@
   <meta name="twitter:description" content="당첨번호 자동제외, 최신 인기번호, 고급 통계까지 한 번에! SmartPick에서 프리미엄 로또 번호 추천을 받아보세요." />
   <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
 
+  <!-- 웹 폰트 / 아이콘 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- FAQ 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "SmartPick에서 추천하는 번호는 어떻게 생성되나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SmartPick은 과거 1~3등 당첨 번호를 학습하고 제외한 후, 통계 기반으로 번호를 추천합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "과거 당첨 번호는 어디서 가져오나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "공식 로또 API 및 Firestore DB를 통해 1~3등 당첨 조합을 수집합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "정말 중복 번호는 추천되지 않나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "500개 이상의 과거 당첨 조합을 제외 리스트로 관리하며, 추천 시 중복 조합이 자동으로 제외됩니다."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- WebSite 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "SmartPick",
+    "url": "https://smartpick.wow-daddy.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://smartpick.wow-daddy.com/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 
   {# 외부 style.css 파일을 링크하여 모든 스타일을 통합 관리합니다. #}
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
@@ -202,5 +254,21 @@
       </div>
   </footer>
 
+  <!-- 추천 번호 구조화 데이터 (템플릿용 반복문) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for i, n in enumerate(numbers[0]) %}
+      {
+        "@type": "ListItem",
+        "position": {{ i + 1 }},
+        "name": "추천 번호 {{ n }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
 </body>
 </html>
