@@ -352,6 +352,32 @@ button:active, .main-action-link-button:active, .copy-btn:active, .action-button
     margin: 0 3px;
     flex-shrink: 0;
 }
+.latest-winning-section {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-sizing: border-box;
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.latest-winning-section h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.latest-winning-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: 90vw;
+  margin: 0 auto;
+}
 
 /* 13) 헤더 스타일 - 모든 페이지에 공통 적용 */
 header {
