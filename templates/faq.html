@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartPick 로또 번호 추천 - 자주 묻는 질문 (FAQ)</title>
+    <link rel="canonical" href="https://smartpick.wow-daddy.com/faq" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SmartPick 로또 번호 추천 서비스에 대해 궁금한 점이 있으신가요? 과거 당첨 번호 제외, 추천 방식, 무료 이용 등 SmartPick FAQ에서 모든 질문의 답변을 찾아보세요.">
+    <meta name="keywords" content="로또 FAQ, 로또 질문, SmartPick FAQ, 로또 번호 추천 원리, 로또 서비스 무료, 로또 당첨 제외, 로또 자주 묻는 질문">
+    <meta name="author" content="SmartPick Team">
+
+    <meta property="og:title" content="SmartPick 로또 번호 추천 - 자주 묻는 질문 (FAQ)" />
+    <meta property="og:description" content="SmartPick 로또 번호 추천 서비스에 대한 궁금증을 FAQ 페이지에서 해결하세요. 질문과 답변 형식으로 쉽고 빠르게 정보를 확인하세요." />
+    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+    <meta property="og:url" content="https://smartpick.wow-daddy.com/faq" />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SmartPick 로또 번호 추천 - 자주 묻는 질문 (FAQ)" />
+    <meta name="twitter:description" content="SmartPick 로또 번호 추천에 대한 모든 궁금증을 FAQ 페이지에서 해결해 드립니다. 지금 바로 확인해보세요." />
+    <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    {# 모든 스타일은 static/style.css에서 관리됩니다. #}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* FAQ 페이지에 특화된 스타일 (여기에서만 사용) */
+        body.faq-page-layout {
+            justify-content: flex-start; /* FAQ 페이지는 상단에 붙도록 */
+            align-items: center;
+        }
+        .faq-container {
+            width: 90%;
+            max-width: 700px; /* FAQ 컨테이너는 좀 더 넓게 */
+            background: var(--white-bg);
+            border-radius: 2.5em;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+            padding: 3em 2.5em 2.5em 2.5em;
+            box-sizing: border-box;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            text-align: left; /* FAQ 텍스트는 좌측 정렬 */
+        }
+        .faq-container h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 1.5em;
+            color: #2a4365;
+            font-weight: 900;
+        }
+        .faq-item {
+            margin-bottom: 2em;
+            padding-bottom: 1.5em;
+            border-bottom: 1px dashed #eee;
+        }
+        .faq-item:last-child {
+            border-bottom: none; /* 마지막 FAQ 항목은 선 없음 */
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .faq-item h2 {
+            font-size: 1.4em;
+            color: var(--pastel-5); /* 부드러운 블루 */
+            margin-bottom: 0.8em;
+            font-weight: 700;
+        }
+        .faq-item p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            color: var(--text-dark);
+            margin-left: 1em; /* 답변 들여쓰기 */
+        }
+        .faq-item h2 .icon {
+            margin-right: 10px;
+            color: var(--accent-green);
+        }
+        .back-to-home {
+            display: block;
+            margin-top: 3em;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        /* 모바일 반응형 */
+        @media (max-width: 600px) {
+            .faq-container {
+                margin-top: 20px;
+                margin-bottom: 20px;
+                padding: 2em 1.5em;
+            }
+            .faq-container h1 {
+                font-size: 2em;
+            }
+            .faq-item h2 {
+                font-size: 1.2em;
+            }
+            .faq-item p {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body class="faq-page-layout">
+    <div class="faq-container">
+        <h1>SmartPick 로또 자주 묻는 질문</h1>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> SmartPick은 어떤 기준으로 로또 번호를 추천하나요?</h2>
+            <p>SmartPick은 **과거 1등부터 3등까지의 모든 당첨 번호 조합을 철저히 분석하여, 해당 조합에 속했던 번호들은 추천 목록에서 제외**합니다. 이를 통해 한 번도 당첨되지 않은 새로운 번호 조합을 제공하여, 사용자에게 신선하고 기대감 있는 로또 경험을 선사합니다.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> SmartPick의 추천 번호는 정말 무료인가요?</h2>
+            <p>네, SmartPick은 기본적인 프리미엄 로또 번호 추천 서비스를 **완전히 무료로 제공**합니다. 숨겨진 비용이나 유료 전환 없이 누구나 데이터 기반의 차별화된 로또 번호를 경험할 수 있습니다.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> 과거 당첨 번호를 제외하는 것이 로또 당첨 확률을 높여주나요?</h2>
+            <p>로또는 기본적으로 무작위 추첨 게임이므로, 어떤 번호 조합도 나올 확률은 동일합니다. 하지만 로또 당첨 번호는 **이론적으로 같은 조합이 다시 나올 확률이 매우 낮습니다.** SmartPick은 이 점에 착안하여, 과거 1~3등에 당첨된 적 없는 번호만을 추천함으로써 사용자에게 심리적 만족감과 '새로운 기회'라는 특별한 경험을 제공합니다. 이는 로또를 더욱 재미있게 즐기는 방법이 될 수 있습니다.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> 추천 번호는 매번 다른가요?</h2>
+            <p>네, 사용자가 번호를 추천받을 때마다 SmartPick의 독자적인 알고리즘이 **새로운 데이터 기반의 고유한 번호 조합을 생성**합니다. 이는 항상 신선하고 중복되지 않는 번호를 제공하기 위함입니다.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> '고급 맞춤 번호 추천'은 무엇인가요?</h2>
+            <p>일반 추천 외에, 사용자가 직접 **특정 번호를 포함하거나 제외**할 수 있고, 최근 많이 나온 번호(핫픽)를 활용하는 등 **더욱 세밀한 필터링 조건**을 적용하여 자신만의 로또 번호를 추천받을 수 있는 기능입니다. 자신만의 로또 전략이 있다면 이 기능을 활용해 보세요.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> '재미로 보는 로또 테스트'는 어떤 기능인가요?</h2>
+            <p>MBTI 유형별 로또 운세나 로또 DNA 테스트처럼 **재미 요소를 가미한 로또 번호 추천 기능**입니다. 과학적 분석보다는 가볍게 로또를 즐기고 싶은 분들을 위해 흥미로운 방식으로 번호를 제공합니다.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> 추천 번호 통계는 어떤 정보를 제공하나요?</h2>
+            <p>SmartPick의 로또 번호 통계 페이지에서는 **최근 로또 당첨 번호들의 출현 빈도**를 시각적으로 분석하여 보여줍니다. 특정 번호가 얼마나 자주 나왔는지 등을 확인하여 자신만의 로또 전략을 세우는 데 참고할 수 있습니다.</p>
+        </div>
+
+        <div class="faq-item">
+            <h2><i class="fas fa-question-circle icon"></i> 웹사이트 이용 중 문제가 발생하면 어떻게 해야 하나요?</h2>
+            <p>서비스 이용 중 불편한 점이나 문의사항이 있으시면, 푸터 하단의 '문의' 링크를 통해 언제든지 연락 주시기 바랍니다. 최대한 빠르게 도움을 드리겠습니다.</p>
+        </div>
+
+        <a href="/" class="back-to-home">메인 페이지로 돌아가기</a>
+    </div>
+
+    {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
+    <footer>
+        <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
+        <div>
+            <a href="/privacy">개인정보처리방침</a> |
+            <a href="/disclaimer">면책조항</a> |
+            <a href="/contact">문의</a>
+        </div>
+    </footer>
+</body>
+</html>
