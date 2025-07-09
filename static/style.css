@@ -492,6 +492,29 @@ footer a:hover {
 
 /* 16) 반응형 미디어 쿼리 (600px 이하) - 모든 페이지에 공통 적용 */
 @media (max-width: 600px) {
+    .latest-winning-numbers {
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap; /* 공들이 한 줄에 나오도록 */
+    gap: 5px;
+    overflow-x: auto;  /* 가로 스크롤 대신 자동 처리 */
+    padding: 0.5em 0;
+    }
+    .latest-winning-numbers .ball {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    .latest-winning-section h2 {
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+    text-align: center;
+    }
     /* 기본 레이아웃 조정 */
     body.main-page-layout {
         justify-content: flex-start; /* 모바일에서는 상단에 붙도록 변경 */
