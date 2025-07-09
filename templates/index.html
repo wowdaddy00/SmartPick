@@ -254,16 +254,16 @@
       </div>
   </footer>
 
-  <!-- 추천 번호 구조화 데이터 (템플릿용 반복문) -->
+  <!-- 추천 번호 구조화 데이터: Flask 템플릿 안에서 반복문 사용 예시 -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "itemListElement": [
-      {% for i, n in enumerate(numbers[0]) %}
+      {% for n in numbers[0] %}
       {
         "@type": "ListItem",
-        "position": {{ i + 1 }},
+        "position": {{ loop.index }},
         "name": "추천 번호 {{ n }}"
       }{% if not loop.last %},{% endif %}
       {% endfor %}
