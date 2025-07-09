@@ -85,8 +85,22 @@ button:active, .copy-btn:active, .main-action-link-button:active {
 form {
     margin-bottom: 1.5em;
 }
-form button { /* 프리미엄 번호 추천받기 버튼 */
-    margin-bottom: 0em; /* 아래 간격 추가 */
+form button {
+  /* form 내부의 첫 번째 버튼 (프리미엄 번호 추천받기) */
+  /* --- ▼ 이 부분을 수정합니다. ▼ --- */
+  margin-bottom: 0.8em; /* 아래 간격을 0.8em으로 설정 (다른 버튼과 동일하게) */
+  /* --- ▲ 이 부분 수정 끝 ▲ --- */
+  width: calc(100% - (2.5em * 2)); /* 패딩 고려한 너비 */
+  max-width: 350px; /* 최대 너비 설정 */
+  font-size: 1.2em;
+  padding: 1em 2.5em;
+  background: linear-gradient(135deg, var(--blue-gradient-start) 0%, var(--blue-gradient-end) 100%);
+  color: var(--white-bg);
+  box-shadow: 0 8px 20px rgba(70, 96, 216, 0.3);
+  margin-top: 1.5em; /* 폼 자체의 마진과 함께 시작 마진 */
+  white-space: normal; /* 줄 바꿈 허용 */
+  line-height: 1.3; /* 줄 간격 조절 */
+  text-align: center; /* 텍스트 가운데 정렬 */
 }
 
 /* '고급 맞춤 번호 추천 받기' 및 '재미로 보는 로또 테스트' 버튼 (.main-action-link-button) 스타일 */
@@ -94,7 +108,7 @@ form button { /* 프리미엄 번호 추천받기 버튼 */
     background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%); /* 기존 그라데이션 유지 */
     /* background: #d72638; <-- 이 색상은 첫 번째 블록에서 왔는데, 두 번째 블록의 그라데이션이 더 강합니다. */
     font-size: 1.2em; /* 첫 번째 블록의 0.95rem 대신 1.2em 유지 */
-    margin-top: 0; /* 이전 버튼과의 간격을 없앰 (form button의 margin-bottom으로 간격 조절) */
+    margin-top: 0.8; /* 이전 버튼과의 간격을 없앰 (form button의 margin-bottom으로 간격 조절) */
 }
 
 /* 'SmartPick이 특별한 이유 알아보기' 링크 (link-item) 스타일 */
@@ -362,4 +376,41 @@ form button { /* 프리미엄 번호 추천받기 버튼 */
         padding: 1em 1.2em;
         font-size: 1em;
     }
+    /* 14) 푸터 스타일 - 모든 페이지에 공통 적용 */
+footer {
+  margin-top: 2em; /* 메인 콘텐츠와의 간격 */
+  padding: 1.5em;
+  text-align: center;
+  color: #6a7f9a;
+  font-size: 0.9em;
+  width: 100%;
+  box-sizing: border-box;
+  /* --- ▼ 푸터 정렬을 위한 flex 속성 추가 (이전에 있었지만, 정확성 위해 다시 포함) ▼ --- */
+  display: flex;
+  flex-direction: column; /* 자식 요소를 세로로 정렬 */
+  align-items: center; /* 가로 중앙 정렬 */
+  /* --- ▲ 푸터 정렬을 위한 flex 속성 추가 끝 ▲ --- */
+}
+
+footer p {
+  margin: 0.2em 0; /* 푸터 내부 문단 간 간격 */
+}
+
+footer div { /* 푸터의 링크들을 감싸는 div */
+    display: flex; /* 링크들을 가로로 정렬 */
+    justify-content: center; /* 링크들을 가운데 정렬 */
+    flex-wrap: wrap; /* 모바일에서 줄바꿈 허용 */
+    margin-top: 0.5em; /* 문단과의 간격 */
+}
+
+footer a {
+  color: #6a7f9a;
+  text-decoration: none;
+  margin: 0 0.5em;
+  transition: color 0.2s;
+}
+
+footer a:hover {
+  color: #4a6fa3;
+}
 }
