@@ -459,7 +459,7 @@ header nav ul {
   padding: 0;
 }
 header nav ul li a {
-  color: #fff;
+  color: #557997 !important;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
