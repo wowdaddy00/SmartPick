@@ -579,7 +579,7 @@ def generate_lotto_story():
 
         numbers_str = ", ".join(map(str, sorted(lotto_numbers)))
 
-        prompt = f"
+        prompt = f"""
         다음 로또 번호 {numbers_str}로 1등에 당첨된 상상을 바탕으로  
         짧고 유쾌한 시나리오를 3~4문장으로 작성해 주세요.
 
