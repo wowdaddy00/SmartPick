@@ -1093,6 +1093,8 @@ def sitemap_xml():
         {"loc": f"{base_url}/privacy", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base_url}/disclaimer", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base_url}/contact", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        # 여기에 생년월일 로또 테스트 페이지 URL 추가
+        {"loc": f"{base_url}/birthday-lotto-test", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.85"},
     ]
 
     sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
