@@ -1376,5 +1376,109 @@ def faq():
 def robots():
     return send_from_directory('static', 'robots.txt')
 
+
+# templates/dream_lotto_test.html을 위한 라우트 추가
+@app.route('/dream-lotto-test')
+def dream_lotto_test_page():
+    return render_template('dream_lotto_test.html') # now 변수는 필요 없으므로 제거
+
+# 꿈 해몽 및 로또 번호 생성 API 엔드포인트
+@app.route('/api/dream-to-lotto', methods=['POST'])
+def dream_to_lotto_api():
+    try:
+        data = request.json
+        dream_text = data.get('dream')
+
+        if not dream_text or len(dream_text) > 300:
+            return jsonify({"error": "꿈 내용을 300자 이내로 입력해주세요."}), 400
+
+        # --- Gemini API 호출 부분 (핵심 로직) ---
+        api_key = os.environ.get('GEMINI_API_KEY', '')
+        api_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={api_key}" # 모델은 1.5-flash 추천
+
+        # Gemini에게 보낼 프롬프트 구성
+        # 꿈 해몽과 로또 번호를 동시에 요청
+        prompt = f"""사용자가 꾼 꿈에 대해 긍정적인 의미를 담아 간결하게 해몽해주세요.
+        해몽 내용이 3~4 문장을 넘지 않도록 간결하게 작성하고, 마지막에는 해당 꿈에서 영감을 받은 로또 번호 6개(1~45 사이, 중복 없음, 오름차순 정렬)를 "번호: [숫자, 숫자, ...]" 형식으로만 정확히 한 줄로 추천해주세요.
+        예시 응답 형식:
+        별을 본 꿈은 당신의 미래가 밝고 희망찬 길을 예고합니다. 곧 좋은 기회가 찾아와 큰 성공을 이룰 수 있습니다.
+        번호: [1, 10, 23, 34, 40, 45]
+
+        사용자의 꿈: "{dream_text}"
+        """
+
+        payload = {
+            "contents": [
+                {
+                    "role": "user",
+                    "parts": [{"text": prompt}]
+                }
+            ]
+        }
+
+        response = requests.post(api_url, headers={'Content-Type': 'application/json'}, json=payload)
+        response.raise_for_status() # HTTP 오류 발생 시 예외 처리
+
+        gemini_response = response.json()
+        generated_text = ""
+        if gemini_response.get('candidates') and gemini_response['candidates'][0].get('content'):
+            generated_text = gemini_response['candidates'][0]['content']['parts'][0]['text']
+
+        # 생성된 텍스트에서 해몽과 번호 분리
+        story = "꿈 해몽을 생성하지 못했습니다."
+        numbers = []
+        if "번호:" in generated_text:
+            parts = generated_text.split("번호:")
+            story = parts[0].strip()
+            num_str = parts[1].strip().replace('[','').replace(']','').split(',')
+            try:
+                numbers = sorted([int(n.strip()) for n in num_str if n.strip().isdigit() and 1 <= int(n.strip()) <= 45])
+                # 혹시 6개가 아니면 다시 생성 (안전 장치)
+                if len(numbers) != 6:
+                    numbers = random.sample(range(1, 46), 6)
+                    story += "\n(참고: 번호 추출 오류로 무작위 번호를 생성했습니다.)"
+            except ValueError:
+                numbers = random.sample(range(1, 46), 6) # 번호 파싱 실패 시 무작위 생성
+                story += "\n(참고: 번호 파싱 오류로 무작위 번호를 생성했습니다.)"
+        else: # 번호: 형식이 없으면 전체를 스토리로 하고 번호는 무작위 생성
+            story = generated_text
+            numbers = random.sample(range(1, 46), 6)
+
+        # Firestore에 로그 기록 (선택 사항)
+        if db:
+            try:
+                user_id = f"{app_id}_dream_user_{random.getrandbits(64)}"
+                log_data = {
+                    "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "timestamp": firestore.SERVER_TIMESTAMP,
+                    "event": "dream_lotto_recommend",
+                    "detail": {
+                        "dream_input": dream_text,
+                        "generated_story": story,
+                        "recommended_numbers": numbers
+                    },
+                    "userId": user_id
+                }
+                db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
+                print(f"꿈 해몽 로또 추천 로그 기록 완료: {dream_text[:20]}... - {numbers}")
+
+                # 전체 추천 건수 업데이트 (필요 시)
+                stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                stats_doc_ref.update({
+                    'total_recommendations': firestore.Increment(1),
+                    'last_updated': firestore.SERVER_TIMESTAMP
+                })
+            except Exception as e:
+                print(f"꿈 해몽 추천 로그 또는 통계 업데이트 오류: {e}")
+
+        return jsonify({"story": story, "numbers": numbers}), 200
+
+    except requests.exceptions.RequestException as e:
+        print(f"Gemini API 요청 중 오류 발생 (꿈 해몽): {e}")
+        return jsonify({"error": "꿈 해몽 서비스에 문제가 발생했습니다. 잠시 후 다시 시도해주세요."}), 500
+    except Exception as e:
+        print(f"꿈 해몽 로또 생성 중 예기치 않은 오류 발생: {e}")
+        return jsonify({"error": "꿈 해몽 로또 번호 생성 중 알 수 없는 오류가 발생했습니다."}), 500
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
