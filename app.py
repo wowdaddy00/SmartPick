@@ -1536,8 +1536,10 @@ def calculate_birthday_lotto_api():
         def calculate_final_lucky(year, month, day, gender):
             base = year + month + day
             if gender == 'male': base += 7
-            if gender === 'female': base += 3 # 이 부분은 Python이므로 '===' 대신 '=='
-            return reduce_to_single_digit_or_below_45(base)
+            if gender == 'female': base += 3 # <-- 이 부분 '==='를 '=='로 수정
+            while base > 45 and base > 9:
+                base = sum(int(digit) for digit in str(base))
+            return base
 
         # 날짜 파싱
         try:
