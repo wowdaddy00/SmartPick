@@ -17,33 +17,39 @@
     <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
     <link rel="stylesheet" href="/static/style.css">
     <style>
-        /* 기본 컨테이너 스타일 (main) */
+        /* 중요: body 스타일은 static/style.css에 있으므로 여기서는 제거합니다. */
+        /* main 컨테이너에 중앙 정렬을 위한 display:flex 속성을 추가합니다. */
         main {
             max-width: 600px;
             margin: 2rem auto;
             padding: 1rem;
-            background-color: #fff8f4; /* 부드러운 오렌지 계열 배경 */
+            background-color: #fff8f4;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center; /* 내부 텍스트 및 요소 중앙 정렬 */
-            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
-            width: 90%; /* 모바일 대응을 위해 너비 설정 */
+            /* 중앙 정렬을 위해 main 자체를 flex 컨테이너로 만듭니다. */
+            display: flex; /* 추가 */
+            flex-direction: column; /* 세로 정렬 */
+            align-items: center; /* 가로 중앙 정렬 */
+            text-align: center; /* 내부 텍스트 중앙 정렬 */
+            box-sizing: border-box;
+            width: 90%;
         }
         /* 제목 스타일 */
         main h2 {
             font-size: 2em;
-            color: #d32f2f; /* 붉은 계열 색상 */
+            color: #d32f2f;
             margin-bottom: 1em;
+            width: 100%; /* 너비 100%로 설정 */
         }
         /* 안내 문구 스타일 */
         main p {
             font-size: 1.1em;
             color: #555;
             margin-bottom: 1.5em;
+            width: 100%; /* 너비 100%로 설정 */
         }
-        /* 텍스트 에어리어 스타일 */
+        /* 1. 꿈 입력칸 사이즈 고정 및 여백 추가 */
         textarea {
-            /* 1. 꿈 입력칸 사이즈 고정 박스 */
             height: 150px; /* 고정 높이 */
             width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 */
             padding: 1em;
@@ -52,43 +58,51 @@
             border: 1px solid #ccc;
             resize: none; /* 세로 크기 조절 막음 */
             box-sizing: border-box;
-            display: block; /* 블록 요소로 만들어 가로 100% 차지 */
-            margin: 0 auto; /* 중앙 정렬 */
+            /* display: block; (이미 form 요소가 블록이므로 필요 없을 수 있지만, 명시적으로 유지) */
+            /* margin: 0 auto; (form 내에서 중앙 정렬을 위해 필요. form 자체에 align-items:center 적용되어 있다면 필요없음) */
         }
-        /* 제출 버튼 스타일 */
+        /* 2. "꿈 해몽하고 번호 받기" 탭 가운데 정렬 */
+        /* form 요소 자체를 flex 컨테이너로 만들고 버튼을 가운데 정렬합니다. */
+        form {
+            width: 100%; /* 폼이 main의 100% 너비를 차지하게 */
+            display: flex; /* flex 컨테이너로 만듭니다. */
+            flex-direction: column; /* 자식 요소를 세로로 정렬합니다. */
+            align-items: center; /* 자식 요소를 가로 중앙으로 정렬합니다. */
+            margin-bottom: 2em; /* 이전과 동일한 여백 유지 */
+        }
         .submit-btn {
-            background-color: #f44336; /* 강렬한 빨간색 */
+            background-color: #f44336;
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 8px;
-            margin-top: 1rem;
+            margin-top: 1rem; /* textarea와의 간격 */
             cursor: pointer;
             font-weight: bold;
-            font-size: 1.1em; /* 폰트 크기 조정 */
-            transition: background-color 0.3s ease; /* 호버 효과 추가 */
-            /* 2. "꿈 해몽하고 번호 받기" 탭 가운데 정렬 */
-            display: block; /* 블록 요소로 만들어 가로 100% 차지 */
-            margin: 1rem auto; /* 상하 여백과 함께 중앙 정렬 */
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
             width: fit-content; /* 내용물에 맞춰 너비 조절 */
             min-width: 200px; /* 최소 너비 지정 */
+            /* margin: 1rem auto; (form에 align-items: center가 있으므로 개별 margin-left/right auto는 필요 없음) */
         }
         .submit-btn:hover {
-            background-color: #d32f2f; /* 호버 시 약간 어두운 빨간색 */
+            background-color: #d32f2f;
         }
         /* 결과 박스 스타일 */
         .result-box {
             margin-top: 2rem;
-            background-color: #fff0ec; /* 매우 연한 오렌지 계열 배경 */
+            background-color: #fff0ec;
             border: 1px solid #ffccbc;
             border-radius: 10px;
-            padding: 1.5rem; /* 패딩 증가 */
-            text-align: left; /* 결과 텍스트 좌측 정렬 */
-            line-height: 1.8; /* 줄 간격 조절 */
-            color: #333; /* 텍스트 색상 */
-            font-size: 1.05em; /* 폰트 크기 조정 */
+            padding: 1.5rem;
+            text-align: left;
+            line-height: 1.8;
+            color: #333;
+            font-size: 1.05em;
+            width: calc(100% - 3rem); /* padding을 고려한 너비 조정 */
+            margin: 2rem auto; /* 중앙 정렬 */
             /* 3. 해몽 기반 번호의 로또볼과 메인 페이지로 돌아가기 탭 사이 간격 */
-            margin-bottom: 2rem; /* 결과 박스 하단 여백 추가 */
+            /* 이 부분은 result-box의 margin-bottom으로 조정합니다. */
         }
         /* 로딩 인디케이터 스타일 */
         .loading-indicator {
@@ -98,31 +112,32 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%; /* 너비 100%로 설정 */
         }
         .loading-indicator .fas {
             margin-right: 10px;
         }
 
-        /* 로또 볼 스타일 (index.html에서 가져옴) */
+        /* 로또 볼 스타일 */
         .lotto-balls-display {
             display: flex;
-            flex-wrap: wrap; /* 작은 화면에서 줄바꿈 가능하게 */
+            flex-wrap: wrap;
             justify-content: center;
             align-items: center;
             gap: 8px;
             margin-top: 1em;
             /* 3. 로또볼 아래 간격 추가 */
-            margin-bottom: 1.5em; 
-            max-width: 100%; /* 너비 제한 해제 */
+            margin-bottom: 1.5em; /* 충분한 간격 확보 */
+            width: 100%; /* 너비 100%로 설정 */
         }
         .lotto-ball {
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 42px; /* 고정 크기 */
-            height: 42px; /* 고정 크기 */
-            min-width: 42px; /* 최소 너비 고정 */
-            min-height: 42px; /* 최소 높이 고정 */
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            min-height: 42px;
             border-radius: 50%;
             font-size: 1.2em;
             font-weight: 700;
@@ -139,10 +154,9 @@
         .lotto-ball.n4 { background: #c2c9d1; } /* 31-40 회색 */
         .lotto-ball.n5 { background: #b0e891; } /* 41-45 초록색 */
 
-        /* 메인 페이지로 돌아가기 버튼 스타일 (static/style.css의 action-button 재활용) */
-        /* 3. 메인 페이지로 돌아가기 버튼 위 간격 추가 */
+        /* 메인 페이지로 돌아가기 버튼 스타일 */
         .back-to-home {
-            display: inline-block; /* 버튼 형태로 표시 */
+            display: block; /* 블록 요소로 만들어 중앙 정렬 용이하게 */
             padding: 1em 2em;
             background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
             color: #fff;
@@ -151,11 +165,13 @@
             font-weight: bold;
             box-shadow: 0 5px 15px rgba(70, 96, 216, 0.3);
             transition: all 0.3s ease;
-            margin-top: 1.5em; /* 상단 여백 추가 */
-            max-width: 300px;
-            width: 100%;
+            margin-top: 2rem; /* 충분한 상단 여백 추가 (결과 박스와 간격) */
+            max-width: 300px; /* 버튼의 최대 너비 */
+            width: calc(100% - 2em); /* 패딩 고려한 너비 */
             box-sizing: border-box;
             text-align: center;
+            margin-left: auto; /* 중앙 정렬 */
+            margin-right: auto; /* 중앙 정렬 */
         }
         .back-to-home:hover {
             transform: translateY(-2px);
@@ -167,7 +183,7 @@
             main {
                 margin: 1rem auto;
                 padding: 1rem;
-                width: 95%; /* 모바일에서 더 넓게 사용 */
+                width: 95%;
             }
             main h2 {
                 font-size: 1.6em;
@@ -176,14 +192,16 @@
                 font-size: 1em;
             }
             textarea {
-                width: calc(100% - 1.5em); /* 패딩 고려 */
+                width: calc(100% - 1.5em); /* 모바일 패딩 고려 */
                 padding: 0.75em;
-                min-height: 80px;
                 height: 120px; /* 모바일에서 고정 높이 조정 */
             }
             .submit-btn {
                 font-size: 1em;
                 padding: 8px 15px;
+                min-width: unset; /* 모바일에서 최소 너비 해제 */
+                width: calc(100% - 1.5em); /* 모바일에서 버튼 너비를 폼에 맞게 */
+                margin-top: 0.75rem; /* 모바일에서 여백 조정 */
             }
             .result-box {
                 padding: 1em;
@@ -191,16 +209,16 @@
                 margin-bottom: 1.5rem; /* 모바일 결과 박스 하단 여백 조정 */
             }
             .lotto-balls-display {
-                gap: 5px; /* 모바일에서 볼 간격 줄임 */
+                gap: 5px;
                 margin-bottom: 1em; /* 모바일 로또볼 아래 간격 조정 */
             }
             .lotto-ball {
-                width: 36px; /* 모바일에서 볼 크기 줄임 */
+                width: 36px;
                 height: 36px;
                 min-width: 36px;
                 min-height: 36px;
                 font-size: 1em;
-                border-width: 2px; /* 테두리 얇게 */
+                border-width: 2px;
             }
             .loading-indicator {
                 font-size: 1em;
@@ -209,6 +227,8 @@
                 padding: 0.8em 1.5em;
                 font-size: 1em;
                 margin-top: 1em; /* 모바일 메인페이지 돌아가기 버튼 상단 여백 조정 */
+                max-width: unset; /* 모바일에서 최대 너비 해제 */
+                width: calc(100% - 1.5em); /* 모바일에서 너비 조정 */
             }
         }
     </style>
