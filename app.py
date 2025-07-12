@@ -1388,7 +1388,7 @@ def robots():
 # templates/dream_lotto_test.html을 위한 라우트 추가
 @app.route('/dream-lotto-test')
 def dream_lotto_test_page():
-    return render_template('dream_lotto_test.html') # now 변수는 필요 없으므로 제거
+    return render_template('dream_lotto_test.html', now=datetime.datetime.now()) # now 변수는 필요 없으므로 제거
 
 # 꿈 해몽 및 로또 번호 생성 API 엔드포인트
 @app.route('/api/dream-to-lotto', methods=['POST'])
