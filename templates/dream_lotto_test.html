@@ -50,7 +50,7 @@
         }
         /* 1. 꿈 입력칸 사이즈 고정 및 여백 추가 */
         textarea {
-        height: 150px; /* 고정 높이 */
+        height: 180px; /* 고정 높이 */
         width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 (좌우 패딩 1em씩 = 총 2em) */
         padding: 1em; /* 내부 여백 */
         font-size: 1rem;
@@ -76,20 +76,24 @@
     .submit-btn {
         background-color: #f44336;
         color: white;
-        padding: 10px 20px;
+        padding: 1em 2em;
         border: none;
-        border-radius: 8px;
+        border-radius: 1em;
         margin-top: 1rem; /* textarea와의 간격 */
         cursor: pointer;
         font-weight: bold;
-        font-size: 0.9em; /* 글자 크기 조절 (원하는 크기로 변경) */
-        transition: background-color 0.3s ease;
-        width: fit-content; /* 내용물에 맞춰 너비 조절 */
-        min-width: 200px; /* 최소 너비 지정 */
-        /* margin: 1rem auto; (form에 align-items: center가 있으므로 개별 margin-left/right auto는 필요 없음) */
+        font-size: 1em; /* 글자 크기 조절 (원하는 크기로 변경) */
+        width: calc(100% - 2em);  /* 하단 버튼과 통일 */
+        max-width: 300px;         /* 최대 너비도 동일하게 */
+        box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+        text-align: center;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
     }
         .submit-btn:hover {
             background-color: #d32f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.4);
         }
         /* 결과 박스 스타일 */
         .result-box {
