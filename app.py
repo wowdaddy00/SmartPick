@@ -1488,5 +1488,181 @@ def dream_to_lotto_api():
         print(f"꿈 해몽 로또 생성 중 예기치 않은 오류 발생: {e}")
         return jsonify({"error": "꿈 해몽 로또 번호 생성 중 알 수 없는 오류가 발생했습니다."}), 500
 
+# New Route for Birthday Lotto Test page
+@app.route('/birthday-lotto-test')
+def birthday_lotto_test_page():
+    # Kakao JS Key와 현재 연도 정보를 템플릿으로 전달합니다.
+    current_year = datetime.datetime.now().year
+    return render_template('birthday_lotto_test.html', kakao_js_key=KAKAO_JAVASCRIPT_KEY, now={'year': current_year})
+
+# 생년월일 로또 번호 계산 API 엔드포인트
+@app.route('/api/calculate-birthday-lotto', methods=['POST'])
+def calculate_birthday_lotto_api():
+    try:
+        data = request.json
+        birth_date_str = data.get('birthdate')
+        gender = data.get('gender')
+
+        if not birth_date_str:
+            return jsonify({"error": "생년월일을 입력해주세요!"}), 400
+
+        # --- 숫자학 기반 번호 계산 로직 (JavaScript에서 Python으로 이동) ---
+        # 1-45 범위로 조정하고 9를 넘지 않을 때까지 반복하여 단일 숫자로 압축하는 함수 (원본 JS 로직 반영)
+        def reduce_to_single_digit_or_below_45(num):
+            while num > 45 and num > 9:
+                num = sum(int(digit) for digit in str(num))
+            return num
+
+        def calculate_life_path(year, month, day):
+            s = year + month + day
+            return reduce_to_single_digit_or_below_45(s)
+
+        def calculate_destiny(year_num, month_num, day_num): # year_digits, month_digits, day_digits 대신 숫자를 직접 받음
+            all_digits_sum = sum(int(digit) for digit in str(year_num) + str(month_num) + str(day_num))
+            return reduce_to_single_digit_or_below_45(all_digits_sum)
+
+        def calculate_personality(month, day):
+            s = month + day
+            return reduce_to_single_digit_or_below_45(s)
+
+        def calculate_special_number(year, month):
+            s = year + month
+            return reduce_to_single_digit_or_below_45(s)
+
+        def calculate_birth_month_lucky(month, day):
+            s = month * 3 + day * 2
+            return reduce_to_single_digit_or_below_45(s)
+
+        def calculate_final_lucky(year, month, day, gender):
+            base = year + month + day
+            if gender == 'male': base += 7
+            if gender === 'female': base += 3 # 이 부분은 Python이므로 '===' 대신 '=='
+            return reduce_to_single_digit_or_below_45(base)
+
+        # 날짜 파싱
+        try:
+            birth_date = datetime.datetime.strptime(birth_date_str, '%Y-%m-%d')
+            year = birth_date.year
+            month = birth_date.month
+            day = birth_date.day
+        except ValueError:
+            return jsonify({"error": "유효하지 않은 생년월일 형식입니다."}), 400
+
+        # 6개 행운 숫자 계산
+        numbers = []
+        numbers.append(calculate_life_path(year, month, day))
+        # destinyNumber는 연도, 월, 일의 각 자리수를 합산하는 방식이므로, 숫자로 직접 전달
+        numbers.append(calculate_destiny(year, month, day))
+        numbers.append(calculate_personality(month, day))
+        numbers.append(calculate_special_number(year, month))
+        numbers.append(calculate_birth_month_lucky(month, day))
+        numbers.append(calculate_final_lucky(year, month, day, gender))
+
+        # 1-45 범위로 조정하고 중복 제거
+        adjusted_numbers = [(num - 1) % 45 + 1 for num in numbers]
+        unique_numbers = list(set(adjusted_numbers))
+
+        # 6개 미만이면 무작위 숫자 추가
+        while len(unique_numbers) < 6:
+            random_num = random.randint(1, 45)
+            if random_num not in unique_numbers:
+                unique_numbers.append(random_num)
+        
+        final_lucky_numbers = sorted(unique_numbers)[:6] # 6개로 자르고 오름차순 정렬
+
+        # 숫자 의미 해석 (백엔드에서 처리)
+        def get_number_meaning(number):
+            meanings = {
+                1: { "title": "새로운 시작과 독립", "desc": "강한 리더십과 독립적인 정신을 상징합니다. 새로운 도전에 용기를 가져보세요." },
+                2: { "title": "조화와 협력", "desc": "관계에서의 균형과 협력을 나타냅니다. 주변 사람들과의 조화가 행운을 부를 거예요." },
+                3: { "title": "창의성과 표현", "desc": "예술적 재능과 자유로운 표현을 의미합니다. 자신을 솔직하게 드러낼 때 좋은 기회가 찾아옵니다." },
+                4: { "title": "안정과 견고함", "desc": "성실함과 꾸준함, 그리고 튼튼한 기반을 상징합니다. 계획적인 노력이 성공으로 이어질 거예요." },
+                5: { "title": "자유와 변화", "desc": "새로운 경험과 변화를 추구하는 에너지를 나타냅니다. 틀을 벗어나 자유롭게 도전해 보세요." },
+                6: { "title": "사랑과 책임감", "desc": "가족과 공동체에 대한 사랑과 책임감을 의미합니다. 주변을 돌보는 따뜻한 마음이 행운을 부르죠." },
+                7: { "title": "직관과 통찰력", "desc": "깊은 통찰력과 직감을 상징합니다. 내면의 목소리에 귀 기울이고 신중하게 판단하세요." },
+                8: { "title": "성취와 풍요", "desc": "목표 달성과 물질적, 정신적 풍요를 의미합니다. 당신의 노력이 큰 결실을 맺을 거예요." },
+                9: { "title": "완성과 봉사", "desc": "완성도와 인류애, 그리고 타인을 위한 봉사정신을 나타냅니다. 나눔의 기쁨을 통해 더 큰 행운을 찾을 수 있습니다." }
+            }
+            # 숫자를 1-9 범위로 압축하여 의미 부여
+            base_meaning_number = ((number - 1) % 9) + 1
+            return meanings.get(base_meaning_number, { "title": "특별한 의미", "desc": "당신만의 특별한 의미를 가진 숫자입니다." })
+
+        number_meanings = [{ "number": num, "meaning": get_number_meaning(num) } for num in final_lucky_numbers]
+
+        # 행운 팁 생성 (백엔드에서 처리)
+        def generate_lucky_tips_backend(birth_date_obj, numbers):
+            month = birth_date_obj.month
+            # year_last_digit = int(str(birth_date_obj.year)[-1]) # 연도의 마지막 자리 (필요 시 활용)
+            
+            tips = []
+            tips.append(f"🍀 {month}월 {birth_date_obj.day}일은 당신의 생일이 있는 특별한 날입니다. 새로운 시작을 계획하기 좋은 시기예요.") # 일자도 포함
+
+            if len(numbers) > 0:
+                tips.append(f"🍀 당신의 첫 번째 행운 숫자 {numbers[0]}은(는) 새로운 기회를 가져다 줄 것입니다. 용기를 내세요!")
+                if len(numbers) > 1:
+                    tips.append(f"🍀 숫자 {numbers[1]}이(가) 의미하는 조화로운 관계를 통해 예상치 못한 도움을 받을 수 있어요.")
+                if len(numbers) > 2:
+                    tips.append(f"🍀 숫자 {numbers[2]}에 주목해 보세요. 이 숫자가 포함된 물건이나 장소에서 긍정적인 에너지를 얻을 수 있습니다.")
+                if len(numbers) > 3:
+                    tips.append(f"🍀 이번 주 가장 행운이 따를 요일은 {['일', '월', '화', '수', '목', '금', '토'][(numbers[3] % 7)]}요일입니다. 중요한 일은 이때 진행해 보세요.")
+                if len(numbers) > 4:
+                    tips.append(f"🍀 숫자 {numbers[4]}가 포함된 금액이나 횟수에 주목해 보세요. 예상치 못한 행운이 따를 수 있습니다.")
+            
+            # 추가적인 무작위 팁 (다양성을 위해) - 중복 없이 2~3개 추가 로직
+            additional_tips = [
+                "🍀 오늘 아침에 가장 먼저 떠오른 번호에 집중해보세요.",
+                "🍀 주변에서 우연히 발견하는 숫자들(시계, 간판, 전화번호)이 당신에게 메시지를 보낼 수 있어요.",
+                "🍀 로또를 구매할 때는 마음을 편안히 가지고 긍정적인 기운을 불어넣으세요.",
+                "🍀 꿈 속에서 본 숫자가 있다면, 그것 또한 당신의 행운 번호일 수 있습니다.",
+                "🍀 가까운 사람과 함께 복권을 구매하는 것도 좋은 기운을 더합니다.",
+                f"🍀 이번 달의 색깔인 {['빨간', '주황', '노란', '초록', '파란', '남색', '보라', '핑크', '갈색', '검정', '흰색', '금색'][(datetime.datetime.now().month % 12)]}색 옷을 입거나 소품을 활용해 보세요."
+            ]
+            
+            random.shuffle(additional_tips) # 팁을 무작위로 섞음
+            
+            while len(tips) < 6 and additional_tips:
+                tips.append(additional_tips.pop()) # 섞인 팁에서 하나씩 꺼내 추가
+            
+            return tips[:6] # 최대 6개의 팁 반환
+
+        lucky_tips = generate_lucky_tips_backend(birth_date, final_lucky_numbers)
+
+        # Firestore에 로그 기록 (선택 사항)
+        if db:
+            try:
+                user_id = f"{app_id}_birthday_user_{random.getrandbits(64)}"
+                log_data = {
+                    "dt": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    "timestamp": firestore.SERVER_TIMESTAMP,
+                    "event": "birthday_lotto_recommend",
+                    "detail": {
+                        "birthdate": birth_date_str,
+                        "gender": gender,
+                        "recommended_numbers": final_lucky_numbers
+                    },
+                    "userId": user_id
+                }
+                db.collection('artifacts').document(app_id).collection('users').document(user_id).collection('logs').add(log_data)
+                print(f"생년월일 로또 추천 로그 기록 완료: {birth_date_str} - {final_lucky_numbers}")
+
+                # 전체 추천 건수 업데이트 (필요 시)
+                stats_doc_ref = db.collection('artifacts').document(app_id).collection('public').document('data').collection('app_stats').document('recommendation_counts')
+                stats_doc_ref.update({
+                    'total_recommendations': firestore.Increment(1),
+                    'last_updated': firestore.SERVER_TIMESTAMP
+                })
+            except Exception as e:
+                print(f"생년월일 추천 로그 또는 통계 업데이트 오류: {e}")
+
+        return jsonify({
+            "numbers": final_lucky_numbers,
+            "number_meanings": number_meanings,
+            "lucky_tips": lucky_tips
+        }), 200
+
+    except Exception as e:
+        print(f"생년월일 로또 번호 계산 오류: {e}")
+        return jsonify({"error": "생년월일 로또 번호 계산 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요."}), 500
+
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=os.environ.get('PORT', 5000))
