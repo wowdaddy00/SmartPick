@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⛅️ 꿈 해몽 로또 번호 추천 - SmartPick</title>
-    <link rel="canonical" href="https://smartpick.wow-daddy.com/dream-lotto-test" />
-    <meta name="description" content="생생한 꿈을 로또 번호로! SmartPick 꿈 해몽 로또 번호 추천 서비스에서 당신의 꿈을 해석하고 행운의 로또 번호를 받아가세요.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⛅️ 꿈 해몽 로또 번호 추천 - SmartPick</title>
+    <link rel="canonical" href="https://smartpick.wow-daddy.com/dream-lotto-test" />
+    <meta name="description" content="생생한 꿈을 로또 번호로! SmartPick 꿈 해몽 로또 번호 추천 서비스에서 당신의 꿈을 해석하고 행운의 로또 번호를 받아가세요.">
     <meta property="og:title" content="SmartPick - 꿈 해몽 로또 번호 추천" />
     <meta property="og:description" content="당신의 꿈이 로또 번호가 된다! 꿈을 해석하고 행운의 로또 번호를 받아가세요." />
     <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
@@ -15,17 +15,17 @@
     <meta name="twitter:title" content="SmartPick - 꿈 해몽 로또 번호 추천" />
     <meta name="twitter:description" content="당신의 꿈이 로또 번호가 된다! 꿈을 해석하고 행운의 로또 번호를 받아가세요." />
     <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-    <link rel="stylesheet" href="/static/style.css">
-    <style>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
         /* 중요: body 스타일은 static/style.css에 있으므로 여기서는 제거합니다. */
         /* main 컨테이너에 중앙 정렬을 위한 display:flex 속성을 추가합니다. */
-        main {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background-color: #fff8f4;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        main {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background-color: #fff8f4;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             /* 중앙 정렬을 위해 main 자체를 flex 컨테이너로 만듭니다. */
             display: flex; /* 추가 */
             flex-direction: column; /* 세로 정렬 */
@@ -33,7 +33,7 @@
             text-align: center; /* 내부 텍스트 중앙 정렬 */
             box-sizing: border-box;
             width: 90%;
-        }
+        }
         /* 제목 스타일 */
         main h2 {
             font-size: 2em;
@@ -49,59 +49,56 @@
             width: 100%; /* 너비 100%로 설정 */
         }
         /* 1. 꿈 입력칸 사이즈 고정 및 여백 추가 */
-        textarea {
-        height: 180px; /* 고정 높이 */
-        width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 (좌우 패딩 1em씩 = 총 2em) */
-        padding: 1em; /* 내부 여백 */
-        font-size: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        resize: none; /* 크기 조절 막음 */
-        box-sizing: border-box; /* 패딩이 너비/높이에 포함되도록 */
-        /* 이 두 속성은 form에 flex-direction: column과 align-items: center가 있으므로 텍스트 에어리어 자체에는 필요 없습니다. */
-        /* display: block; */
-        /* margin: 0 auto; */
-    }
+        textarea {
+            height: 180px; /* 고정 높이 */
+            width: 100%
+            padding: 1em; /* 내부 여백 */
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: none; /* 크기 조절 막음 */
+            box-sizing: border-box; /* 패딩이 너비/높이에 포함되도록 */
+        }
 
-    /* 폼 자체를 flex 컨테이너로 만들어 내부 요소들을 중앙 정렬 */
-    form {
-        width: 100%; /* 폼이 main의 100% 너비를 차지하게 */
-        display: flex; /* flex 컨테이너로 만듭니다. */
-        flex-direction: column; /* 자식 요소를 세로로 정렬합니다. */
-        align-items: center; /* 자식 요소를 가로 중앙으로 정렬합니다. */
-        margin-bottom: 2em; /* 이전과 동일한 여백 유지 */
-    }
+        /* 폼 자체를 flex 컨테이너로 만들어 내부 요소들을 중앙 정렬 */
+        form {
+            width: 100%; /* 폼이 main의 100% 너비를 차지하게 */
+            display: flex; /* flex 컨테이너로 만듭니다. */
+            flex-direction: column; /* 자식 요소를 세로로 정렬합니다. */
+            align-items: center; /* 자식 요소를 가로 중앙으로 정렬합니다. */
+            margin-bottom: 2em; /* 이전과 동일한 여백 유지 */
+        }
 
-    /* 제출 버튼 스타일 */
-    .submit-btn {
-        background-color: #f44336;
-        color: white;
-        padding: 1em 2em;
-        border: none;
-        border-radius: 1em;
-        margin-top: 1rem; /* textarea와의 간격 */
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1em; /* 글자 크기 조절 (원하는 크기로 변경) */
-        width: calc(100% - 2em);  /* 하단 버튼과 통일 */
-        max-width: 300px;         /* 최대 너비도 동일하게 */
-        box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
-        text-align: center;
-        transition: all 0.3s ease;
-        box-sizing: border-box;
-    }
+        /* 제출 버튼 스타일 */
+        .submit-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 1em 2em;
+            border: none;
+            border-radius: 1em;
+            margin-top: 1rem; /* textarea와의 간격 */
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em; /* 글자 크기 조절 (원하는 크기로 변경) */
+            width: calc(100% - 2em); /* 하단 버튼과 통일 */
+            max-width: 300px; /* 최대 너비도 동일하게 */
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
+            text-align: center;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
         .submit-btn:hover {
             background-color: #d32f2f;
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(244, 67, 54, 0.4);
         }
         /* 결과 박스 스타일 */
-        .result-box {
-            margin-top: 2rem;
-            background-color: #fff0ec;
-            border: 1px solid #ffccbc;
-            border-radius: 10px;
-            padding: 1.5rem;
+        .result-box {
+            margin-top: 2rem;
+            background-color: #fff0ec;
+            border: 1px solid #ffccbc;
+            border-radius: 10px;
+            padding: 1.5rem;
             text-align: left;
             line-height: 1.8;
             color: #333;
@@ -110,7 +107,7 @@
             margin: 2rem auto; /* 중앙 정렬 */
             /* 3. 해몽 기반 번호의 로또볼과 메인 페이지로 돌아가기 탭 사이 간격 */
             /* 이 부분은 result-box의 margin-bottom으로 조정합니다. */
-        }
+        }
         /* 로딩 인디케이터 스타일 */
         .loading-indicator {
             margin-top: 2rem;
@@ -238,25 +235,27 @@
                 width: calc(100% - 1.5em); /* 모바일에서 너비 조정 */
             }
         }
-    </style>
+    </style>
 </head>
 <body>
-    <main class="container">         <h2>⛅️ 꿈 해몽 로또 번호 추천</h2>
-        <p>생생한 꿈을 입력해주세요. AI가 꿈을 해몽하고 행운의 로또 번호를 추천해 드립니다. (최대 300자)</p>
+    <main class="container">
+        <h2>⛅️ 꿈 해몽 로또 번호 추천</h2>
+        <p>생생한 꿈을 입력해주세요. AI가 꿈을 해몽하고 행운의 로또 번호를 추천해 드립니다. (최대 300자)</p>
 
-        <form id="dreamForm">
-            <textarea id="dreamInput" maxlength="300" placeholder="예: 호랑이를 타고 낮은 산을 넘고, 굶주린 시간을 보면서 도와준 이가 있어요."></textarea>
-            <button type="submit" class="submit-btn">⭐ 꿈 해몽하고 번호 받기</button>
-        </form>
+        <form id="dreamForm">
+            <textarea id="dreamInput" maxlength="300" placeholder="예: 호랑이를 타고 낮은 산을 넘고, 굶주린 시간을 보면서 도와준 이가 있어요."></textarea>
+            <button type="submit" class="submit-btn">⭐ 꿈 해몽하고 번호 받기</button>
+        </form>
 
         <div id="loading-indicator" class="loading-indicator" style="display:none;">
             <i class="fas fa-spinner fa-spin"></i> 꿈 해몽 중... 잠시만 기다려 주세요.
         </div>
 
-        <div id="result" class="result-box" style="display:none;">
+        <div id="result" class="result-box" style="display:none;">
             </div>
-        
-        <a href="/" class="back-to-home">메인 페이지로 돌아가기</a>     </main>
+
+        <a href="/" class="back-to-home">메인 페이지로 돌아가기</a>
+    </main>
     {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
     <footer>
         <p>&copy; {{ now.year if now and now.year else '현재 연도' }} SmartPick. All rights reserved.</p>
@@ -267,32 +266,32 @@
         </div>
     </footer>
 
-    <script>
-        const form = document.getElementById('dreamForm');
-        const input = document.getElementById('dreamInput');
-        const resultDiv = document.getElementById('result'); // 변수명 변경
+    <script>
+        const form = document.getElementById('dreamForm');
+        const input = document.getElementById('dreamInput');
+        const resultDiv = document.getElementById('result'); // 변수명 변경
         const loadingIndicator = document.getElementById('loading-indicator'); // 로딩 인디케이터
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            resultDiv.style.display = 'none'; // 결과 숨기기
-            loadingIndicator.style.display = 'flex'; // 로딩 표시
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            resultDiv.style.display = 'none'; // 결과 숨기기
+            loadingIndicator.style.display = 'flex'; // 로딩 표시
 
-            const response = await fetch('/api/dream-to-lotto', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ dream: input.value })
-            });
+            const response = await fetch('/api/dream-to-lotto', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ dream: input.value })
+            });
 
-            const data = await response.json();
-            loadingIndicator.style.display = 'none'; // 로딩 숨기기
+            const data = await response.json();
+            loadingIndicator.style.display = 'none'; // 로딩 숨기기
 
-            if (data.error) {
-                resultDiv.innerHTML = `<strong>\u26a0\ufe0f 오류:</strong> ${data.error}`; // HTML에 맞게 innerHTML
-                resultDiv.style.color = 'red';
-            } else {
-                resultDiv.style.color = '#333'; // 에러 시 변경될 수 있는 색상 원래대로
-                // 로또 볼 생성 함수 (index.html의 볼 색상 로직 활용)
+            if (data.error) {
+                resultDiv.innerHTML = `<strong>\u26a0\ufe0f 오류:</strong> ${data.error}`; // HTML에 맞게 innerHTML
+                resultDiv.style.color = 'red';
+            } else {
+                resultDiv.style.color = '#333'; // 에러 시 변경될 수 있는 색상 원래대로
+                // 로또 볼 생성 함수 (index.html의 볼 색상 로직 활용)
                 function createLottoBallsHtml(numbers) {
                     let ballsHtml = '<div class="lotto-balls-display">';
                     numbers.forEach(n => {
@@ -305,14 +304,14 @@
 
                 const lottoBallsHtml = createLottoBallsHtml(data.numbers);
 
-                resultDiv.innerHTML = `
+                resultDiv.innerHTML = `
                     <strong>\u2728 해몽:</strong> ${data.story}<br>
                     <strong>\ud83c\udfb2 해몽 기반 번호:</strong>
                     ${lottoBallsHtml}
                 `;
-            }
-            resultDiv.style.display = 'block';
-        });
-    </script>
+            }
+            resultDiv.style.display = 'block';
+        });
+    </script>
 </body>
 </html>
