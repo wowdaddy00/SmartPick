@@ -50,41 +50,44 @@
         }
         /* 1. 꿈 입력칸 사이즈 고정 및 여백 추가 */
         textarea {
-            height: 150px; /* 고정 높이 */
-            width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 */
-            padding: 1em;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            resize: none; /* 세로 크기 조절 막음 */
-            box-sizing: border-box;
-            /* display: block; (이미 form 요소가 블록이므로 필요 없을 수 있지만, 명시적으로 유지) */
-            /* margin: 0 auto; (form 내에서 중앙 정렬을 위해 필요. form 자체에 align-items:center 적용되어 있다면 필요없음) */
-        }
-        /* 2. "꿈 해몽하고 번호 받기" 탭 가운데 정렬 */
-        /* form 요소 자체를 flex 컨테이너로 만들고 버튼을 가운데 정렬합니다. */
-        form {
-            width: 100%; /* 폼이 main의 100% 너비를 차지하게 */
-            display: flex; /* flex 컨테이너로 만듭니다. */
-            flex-direction: column; /* 자식 요소를 세로로 정렬합니다. */
-            align-items: center; /* 자식 요소를 가로 중앙으로 정렬합니다. */
-            margin-bottom: 2em; /* 이전과 동일한 여백 유지 */
-        }
-        .submit-btn {
-            background-color: #f44336;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            margin-top: 1rem; /* textarea와의 간격 */
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9em;
-            transition: background-color 0.3s ease;
-            width: fit-content; /* 내용물에 맞춰 너비 조절 */
-            min-width: 200px; /* 최소 너비 지정 */
-            /* margin: 1rem auto; (form에 align-items: center가 있으므로 개별 margin-left/right auto는 필요 없음) */
-        }
+        height: 150px; /* 고정 높이 */
+        width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 (좌우 패딩 1em씩 = 총 2em) */
+        padding: 1em; /* 내부 여백 */
+        font-size: 1rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        resize: none; /* 크기 조절 막음 */
+        box-sizing: border-box; /* 패딩이 너비/높이에 포함되도록 */
+        /* 이 두 속성은 form에 flex-direction: column과 align-items: center가 있으므로 텍스트 에어리어 자체에는 필요 없습니다. */
+        /* display: block; */
+        /* margin: 0 auto; */
+    }
+
+    /* 폼 자체를 flex 컨테이너로 만들어 내부 요소들을 중앙 정렬 */
+    form {
+        width: 100%; /* 폼이 main의 100% 너비를 차지하게 */
+        display: flex; /* flex 컨테이너로 만듭니다. */
+        flex-direction: column; /* 자식 요소를 세로로 정렬합니다. */
+        align-items: center; /* 자식 요소를 가로 중앙으로 정렬합니다. */
+        margin-bottom: 2em; /* 이전과 동일한 여백 유지 */
+    }
+
+    /* 제출 버튼 스타일 */
+    .submit-btn {
+        background-color: #f44336;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        margin-top: 1rem; /* textarea와의 간격 */
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9em; /* 글자 크기 조절 (원하는 크기로 변경) */
+        transition: background-color 0.3s ease;
+        width: fit-content; /* 내용물에 맞춰 너비 조절 */
+        min-width: 200px; /* 최소 너비 지정 */
+        /* margin: 1rem auto; (form에 align-items: center가 있으므로 개별 margin-left/right auto는 필요 없음) */
+    }
         .submit-btn:hover {
             background-color: #d32f2f;
         }
