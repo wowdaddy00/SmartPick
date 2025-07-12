@@ -1085,6 +1085,14 @@ def sitemap_xml():
         {"loc": f"{base_url}/privacy", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base_url}/disclaimer", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
         {"loc": f"{base_url}/contact", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/mbti-lotto-test", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.9"}, # MBTI 라우트도 추가되어 있다면 이 부분도 확인
+        {"loc": f"{base_url}/faq", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.6"},
+        # 여기에 꿈 해몽 로또 테스트 페이지 URL 추가
+        {"loc": f"{base_url}/dream-lotto-test", "lastmod": datetime.date.today().isoformat(), "changefreq": "weekly", "priority": "0.85"},
+        {"loc": f"{base_url}/about", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/privacy", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/disclaimer", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
+        {"loc": f"{base_url}/contact", "lastmod": datetime.date.today().isoformat(), "changefreq": "monthly", "priority": "0.5"},
     ]
 
     sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
