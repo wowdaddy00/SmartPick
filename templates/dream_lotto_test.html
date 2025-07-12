@@ -43,14 +43,17 @@
         }
         /* 텍스트 에어리어 스타일 */
         textarea {
+            /* 1. 꿈 입력칸 사이즈 고정 박스 */
+            height: 150px; /* 고정 높이 */
             width: calc(100% - 2em); /* 패딩 고려하여 너비 조정 */
             padding: 1em;
             font-size: 1rem;
             border-radius: 8px;
             border: 1px solid #ccc;
-            resize: vertical;
-            min-height: 100px; /* 최소 높이 설정 */
+            resize: none; /* 세로 크기 조절 막음 */
             box-sizing: border-box;
+            display: block; /* 블록 요소로 만들어 가로 100% 차지 */
+            margin: 0 auto; /* 중앙 정렬 */
         }
         /* 제출 버튼 스타일 */
         .submit-btn {
@@ -64,6 +67,11 @@
             font-weight: bold;
             font-size: 1.1em; /* 폰트 크기 조정 */
             transition: background-color 0.3s ease; /* 호버 효과 추가 */
+            /* 2. "꿈 해몽하고 번호 받기" 탭 가운데 정렬 */
+            display: block; /* 블록 요소로 만들어 가로 100% 차지 */
+            margin: 1rem auto; /* 상하 여백과 함께 중앙 정렬 */
+            width: fit-content; /* 내용물에 맞춰 너비 조절 */
+            min-width: 200px; /* 최소 너비 지정 */
         }
         .submit-btn:hover {
             background-color: #d32f2f; /* 호버 시 약간 어두운 빨간색 */
@@ -79,6 +87,8 @@
             line-height: 1.8; /* 줄 간격 조절 */
             color: #333; /* 텍스트 색상 */
             font-size: 1.05em; /* 폰트 크기 조정 */
+            /* 3. 해몽 기반 번호의 로또볼과 메인 페이지로 돌아가기 탭 사이 간격 */
+            margin-bottom: 2rem; /* 결과 박스 하단 여백 추가 */
         }
         /* 로딩 인디케이터 스타일 */
         .loading-indicator {
@@ -101,6 +111,8 @@
             align-items: center;
             gap: 8px;
             margin-top: 1em;
+            /* 3. 로또볼 아래 간격 추가 */
+            margin-bottom: 1.5em; 
             max-width: 100%; /* 너비 제한 해제 */
         }
         .lotto-ball {
@@ -127,6 +139,29 @@
         .lotto-ball.n4 { background: #c2c9d1; } /* 31-40 회색 */
         .lotto-ball.n5 { background: #b0e891; } /* 41-45 초록색 */
 
+        /* 메인 페이지로 돌아가기 버튼 스타일 (static/style.css의 action-button 재활용) */
+        /* 3. 메인 페이지로 돌아가기 버튼 위 간격 추가 */
+        .back-to-home {
+            display: inline-block; /* 버튼 형태로 표시 */
+            padding: 1em 2em;
+            background: linear-gradient(135deg, #6a82fb 0%, #3f5477 100%);
+            color: #fff;
+            border-radius: 1em;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(70, 96, 216, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1.5em; /* 상단 여백 추가 */
+            max-width: 300px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .back-to-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(70, 96, 216, 0.4);
+        }
+
         /* 모바일 반응형 */
         @media (max-width: 600px) {
             main {
@@ -144,6 +179,7 @@
                 width: calc(100% - 1.5em); /* 패딩 고려 */
                 padding: 0.75em;
                 min-height: 80px;
+                height: 120px; /* 모바일에서 고정 높이 조정 */
             }
             .submit-btn {
                 font-size: 1em;
@@ -152,9 +188,11 @@
             .result-box {
                 padding: 1em;
                 font-size: 0.95em;
+                margin-bottom: 1.5rem; /* 모바일 결과 박스 하단 여백 조정 */
             }
             .lotto-balls-display {
                 gap: 5px; /* 모바일에서 볼 간격 줄임 */
+                margin-bottom: 1em; /* 모바일 로또볼 아래 간격 조정 */
             }
             .lotto-ball {
                 width: 36px; /* 모바일에서 볼 크기 줄임 */
@@ -166,6 +204,11 @@
             }
             .loading-indicator {
                 font-size: 1em;
+            }
+            .back-to-home {
+                padding: 0.8em 1.5em;
+                font-size: 1em;
+                margin-top: 1em; /* 모바일 메인페이지 돌아가기 버튼 상단 여백 조정 */
             }
         }
     </style>
