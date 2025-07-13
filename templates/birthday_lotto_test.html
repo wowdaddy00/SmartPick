@@ -28,388 +28,102 @@
          * 여기서는 일단 기존 코드의 컨셉을 유지합니다.
          * 추후 static/style.css에 공통 변수들을 정의하고 이곳에서 var(--변수명)으로 사용하시길 권장합니다. */
         :root {
-            --color-rosehip: #F6C3AE; /* 오렌지/핑크 */
-            --color-brick: #F0743E;   /* 진한 오렌지/벽돌색 */
-            --color-viola: #CDBDBD;   /* 회색/보라 */
-            --color-sunshine: #FDD848; /* 노란색 */
-            --color-apple: #AAD59E;   /* 연두색 */
-            --color-clear-day: #9AB2D4; /* 하늘색 */
-            --color-background-ivory: #FDF9F6; /* 아이보리 */
-            --color-text-dark: #333333;
-            --color-text-medium: #666666;
-            --color-text-light: #999999;
-            --color-white: #FFFFFF;
-            --color-light-gray: #F7F7F7;
-            --color-pink: #FFB6C1;
-            --color-purple: #DDA0DD;
-            --color-gold: #FFD700;
+            --color-rosehip: #F6C3AE;            --color-brick: #F0743E;            --color-viola: #CDBDBD;            --color-sunshine: #FDD848;            --color-apple: #AAD59E;            --color-clear-day: #9AB2D4;            --color-background-ivory: #FDF9F6;            --color-text-dark: #333333;            --color-text-medium: #666666;            --color-text-light: #999999;            --color-white: #FFFFFF;            --color-light-gray: #F7F7F7;            --color-pink: #FFB6C1;            --color-purple: #DDA0DD;            --color-gold: #FFD700;
         }
+        * {            box-sizing: border-box;        }
+        body {            font-family: 'Pretendard', sans-serif;            background: linear-gradient(135deg, var(--color-background-ivory) 0%, #F0F8FF 100%);            display: flex;            justify-content: center;            align-items: center;            min-height: 100vh;            margin: 0;            color: var(--color-text-dark);            overflow-x: hidden;        }
+        .container {            background: var(--color-white);            border-radius: 2.5em;            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);            padding: 2.5em 2em;            max-width: 450px;            width: 90%;            text-align: center;            position: relative;            margin: 2em 0;        }
+        .header {            margin-bottom: 2em;        }
+        .header h1 {            font-size: 2.2em;            font-weight: 900;            color: var(--color-text-dark);            line-height: 1.3;            margin-bottom: 0.5em;            letter-spacing: -0.04em;        }
+        .header p {            font-size: 1.05em;            color: var(--color-text-medium);            line-height: 1.6;        }
+        .form-group {            margin-bottom: 2em;            text-align: left;        }
+        .form-group label {            display: block;            font-size: 1.1em;            font-weight: 600;            color: var(--color-text-dark);            margin-bottom: 0.8em;        }
+        .form-group input, .form-group select {            width: 100%;            padding: 1em 1.2em;            border: 2px solid var(--color-viola);            border-radius: 1em;            font-size: 1.1em;            font-family: 'Pretendard', sans-serif;            transition: all 0.3s ease;            box-sizing: border-box;        }
+        .form-group input:focus, .form-group select:focus {            outline: none;            border-color: var(--color-clear-day);            box-shadow: 0 0 0 3px rgba(154, 178, 212, 0.2);        }
         
-        /* body와 container 스타일은 static/style.css에서 관리하는 것이 더 좋지만,
-         * 현재 코드의 컨셉을 유지하며 이곳에서 재정의합니다.
-         * 만약 static/style.css의 body/container가 전체적으로 적용되도록 하려면,
-         * 이곳의 body/container 정의는 제거하고 main 태그에 .container 클래스를 부여해야 합니다. */
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background: linear-gradient(135deg, var(--color-background-ivory) 0%, #F0F8FF 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            color: var(--color-text-dark);
-            overflow-x: hidden;
-            /* static/style.css의 body와 충돌을 막기 위해 현재 페이지에 특화된 클래스 부여 권장 */
-            /* 예: body.birthday-page { ... } */
-        }
-        .container {
-            background: var(--color-white);
-            border-radius: 2.5em;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            padding: 2.5em 2em;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            margin: 2em 0;
-        }
-        
-        .header {
-            margin-bottom: 2em;
-        }
-        .header h1 {
-            font-size: 2.2em;
-            font-weight: 900;
-            color: var(--color-text-dark);
-            line-height: 1.3;
-            margin-bottom: 0.5em;
-            letter-spacing: -0.04em;
-        }
-        .header p {
-            font-size: 1.05em;
-            color: var(--color-text-medium);
-            line-height: 1.6;
-        }
-        .form-group {
-            margin-bottom: 2em;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--color-text-dark);
-            margin-bottom: 0.8em;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 1em 1.2em;
-            border: 2px solid var(--color-viola);
-            border-radius: 1em;
-            font-size: 1.1em;
-            font-family: 'Pretendard', sans-serif;
-            transition: all 0.3s ease;
-            box-sizing: border-box; /* 추가: 패딩이 너비에 포함되도록 */
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: var(--color-clear-day);
-            box-shadow: 0 0 0 3px rgba(154, 178, 212, 0.2);
-        }
-        
-        /* 버튼 공통 스타일 - static/style.css의 .main-action-link-button과 유사하게 통합 권장 */
         .analyze-button, .main-link-button, .kakao-share-button { /* .main-link -> .main-link-button으로 변경 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 1.2em 1.5em;
-            border: none;
-            border-radius: 1.5em;
-            font-size: 1.2em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            margin-top: 1.5em;
-            text-decoration: none;
-            max-width: 380px;
-            margin-left: auto;
-            margin-right: auto;
-            box-sizing: border-box; /* 추가 */
+            display: flex;            align-items: center;            justify-content: center;            width: 100%;            padding: 1.2em 1.5em;            border: none;            border-radius: 1.5em;            font-size: 1.2em;            font-weight: 700;            cursor: pointer;            transition: all 0.3s ease;            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);            margin-top: 1.5em;            text-decoration: none;            max-width: 380px;            margin-left: auto;            margin-right: auto;            box-sizing: border-box;
         }
-        .analyze-button {
-            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-sunshine) 100%);
-            color: var(--color-text-dark);
-        }
-        .analyze-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.3);
-        }
-        .main-link-button { /* 이름 변경 */
-            background: linear-gradient(135deg, var(--color-apple) 0%, #90EE90 100%);
-            color: var(--color-text-dark);
-        }
-        .main-link-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(170, 213, 158, 0.3);
-        }
-        .kakao-share-button {
-            background-color: #FEE500;
-            color: #191919;
-        }
-        .kakao-share-button:hover {
-            background-color: #FCDD00;
-            transform: translateY(-3px);
-        }
-        .kakao-share-button img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-        }
+        .analyze-button {            background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-sunshine) 100%);            color: var(--color-text-dark);        }
+        .analyze-button:hover {            transform: translateY(-3px);            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.3);        }
+        .main-link-button {            background: linear-gradient(135deg, var(--color-apple) 0%, #90EE90 100%);            color: var(--color-text-dark);        }
+        .main-link-button:hover {            transform: translateY(-3px);            box-shadow: 0 12px 25px rgba(170, 213, 158, 0.3);        }
+        .kakao-share-button {            background-color: #FEE500;            color: #191919;        }
+        .kakao-share-button:hover {            background-color: #FCDD00;            transform: translateY(-3px);        }
+        .kakao-share-button img {            width: 24px;            height: 24px;            margin-right: 8px;        }
         
-        .loading-screen {
-            display: none;
-            text-align: center;
-            padding: 3em 2em;
-        }
-        .loading-animation {
-            width: 80px;
-            height: 80px;
-            border: 4px solid var(--color-light-gray);
-            border-top: 4px solid var(--color-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 2em;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .loading-text {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: var(--color-text-dark);
-            margin-bottom: 1em;
-        }
-        .loading-steps {
-            font-size: 1em;
-            color: var(--color-text-medium);
-            line-height: 1.6;
-        }
+        .loading-screen {            display: none;            text-align: center;            padding: 3em 2em;        }
+        .loading-animation {            width: 80px;            height: 80px;            border: 4px solid var(--color-light-gray);            border-top: 4px solid var(--color-gold);            border-radius: 50%;            animation: spin 1s linear infinite;            margin: 0 auto 2em;        }
+        @keyframes spin {            0% { transform: rotate(0deg); }            100% { transform: rotate(360deg); }        }
+        .loading-text {            font-size: 1.3em;            font-weight: 700;            color: var(--color-text-dark);            margin-bottom: 1em;        }
+        .loading-steps {            font-size: 1em;            color: var(--color-text-medium);            line-height: 1.6;        }
         
-        .result-section {
-            display: none;
-            margin-top: 2em;
-        }
-        .result-header {
-            background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);
-            border-radius: 1.5em;
-            padding: 2em;
-            margin-bottom: 2em;
-            color: var(--color-text-dark);
-        }
-        .result-header h2 {
-            font-size: 1.8em;
-            font-weight: 900;
-            margin-bottom: 0.5em;
-        }
-        .result-header .birth-info {
-            font-size: 1.1em;
-            font-weight: 600;
-            opacity: 0.9;
-        }
+        .result-section {            display: none;            margin-top: 2em;        }
+        .result-header {            background: linear-gradient(135deg, var(--color-pink) 0%, var(--color-purple) 100%);            border-radius: 1.5em;            padding: 2em;            margin-bottom: 2em;            color: var(--color-text-dark);        }
+        .result-header h2 {            font-size: 1.8em;            font-weight: 900;            margin-bottom: 0.5em;        }
+        .result-header .birth-info {            font-size: 1.1em;            font-weight: 600;            opacity: 0.9;        }
         
-        .lucky-numbers {
+        /* 로또볼 컨테이너 및 볼 사이즈 수정 */
+        .lucky-numbers { /* 이 부분이 로또볼을 담는 컨테이너 */
             display: flex;
             justify-content: center;
-            gap: 8px;
+            gap: 5px; /* 볼 사이 간격 줄임 */
             margin: 2em 0;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* 작은 화면에서 줄바꿈 허용 */
+            max-width: 100%; /* 부모 컨테이너에 맞춤 */
+            overflow: hidden; /* 혹시 모를 오버플로우 방지 */
         }
-        .lucky-ball {
-            width: 50px;
-            height: 50px;
+        .lucky-ball { /* 이 부분이 개별 로또볼 */
+            width: 45px; /* 볼 크기 줄임 */
+            height: 45px; /* 볼 크기 줄임 */
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.4em;
+            font-size: 1.2em; /* 폰트 크기 조정 */
             font-weight: 800;
             color: var(--color-text-dark);
             border: 3px solid var(--color-white);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             animation: bounce 0.6s ease-in-out;
+            flex-shrink: 0; /* 볼이 축소되지 않도록 */
         }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-10px);
-            }
-            60% {
-                transform: translateY(-5px);
-            }
-        }
-        /* 볼 색상 - 기존 로또 볼 색상과 매칭 또는 새로운 색상 정의 */
-        .lucky-ball:nth-child(1) { background: var(--color-sunshine); animation-delay: 0.1s; } /* 노란색 */
-        .lucky-ball:nth-child(2) { background: var(--color-clear-day); animation-delay: 0.2s; } /* 하늘색 */
-        .lucky-ball:nth-child(3) { background: var(--color-rosehip); animation-delay: 0.3s; } /* 오렌지/핑크 */
-        .lucky-ball:nth-child(4) { background: var(--color-brick); color: var(--color-white); animation-delay: 0.4s; } /* 진한 오렌지 (흰 글씨) */
-        .lucky-ball:nth-child(5) { background: var(--color-viola); animation-delay: 0.5s; } /* 회색/보라 */
-        .lucky-ball:nth-child(6) { background: var(--color-apple); animation-delay: 0.6s; } /* 연두색 */
+        @keyframes bounce {            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }            40% { transform: translateY(-10px); }            60% { transform: translateY(-5px); }        }
+        /* 볼 색상 - static/style.css의 .ball.n1 등과 동일한 색상 체계를 사용합니다. */
+        /* 이 부분은 이제 JS에서 ball.classList.add(colorClass)로 동적으로 추가될 것이므로,
+           static/style.css에 있는 .ball.n1~n5 스타일을 사용하게 됩니다.
+           여기에 중복으로 정의할 필요는 없습니다. */
         
-        .analysis-section {
-            background: var(--color-light-gray);
-            border-radius: 1.5em;
-            padding: 2em;
-            margin: 2em 0;
-            text-align: left;
-        }
-        .analysis-section h3 {
-            font-size: 1.4em;
-            font-weight: 800;
-            color: var(--color-brick);
-            margin-bottom: 1em;
-            text-align: center;
-        }
-        .number-meaning {
-            margin-bottom: 1.5em;
-            padding: 1em;
-            background: var(--color-white);
-            border-radius: 1em;
-            border-left: 4px solid var(--color-clear-day);
-        }
-        .number-meaning .number {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: var(--color-brick);
-        }
-        .number-meaning .meaning {
-            font-size: 1em;
-            color: var(--color-text-medium);
-            margin-top: 0.5em;
-            line-height: 1.5;
-        }
+        .analysis-section {            background: var(--color-light-gray);            border-radius: 1.5em;            padding: 2em;            margin: 2em 0;            text-align: left;        }
+        .analysis-section h3 {            font-size: 1.4em;            font-weight: 800;            color: var(--color-brick);            margin-bottom: 1em;            text-align: center;        }
+        .number-meaning {            margin-bottom: 1.5em;            padding: 1em;            background: var(--color-white);            border-radius: 1em;            border-left: 4px solid var(--color-clear-day);        }
+        .number-meaning .number {            font-size: 1.2em;            font-weight: 700;            color: var(--color-brick);        }
+        .number-meaning .meaning {            font-size: 1em;            color: var(--color-text-medium);            margin-top: 0.5em;            line-height: 1.5;        }
         
-        .lucky-tips {
-            background: linear-gradient(135deg, var(--color-apple) 0%, #E8F5E8 100%);
-            border-radius: 1.5em;
-            padding: 2em;
-            margin: 2em 0;
-        }
-        .lucky-tips h3 {
-            font-size: 1.4em;
-            font-weight: 800;
-            color: var(--color-text-dark);
-            margin-bottom: 1em;
-        }
-        .lucky-tips ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .lucky-tips li {
-            padding: 0.5em 0;
-            font-size: 1em;
-            color: var(--color-text-dark);
-            line-height: 1.5;
-        }
-        .lucky-tips li::before {
-            content: "🍀 ";
-            margin-right: 0.5em;
-        }
+        .lucky-tips {            background: linear-gradient(135deg, var(--color-apple) 0%, #E8F5E8 100%);            border-radius: 1.5em;            padding: 2em;            margin: 2em 0;        }
+        .lucky-tips h3 {            font-size: 1.4em;            font-weight: 800;            color: var(--color-text-dark);            margin-bottom: 1em;        }
+        .lucky-tips ul {            list-style: none;            padding: 0;            margin: 0;        }
+        .lucky-tips li {            padding: 0.5em 0;            font-size: 1em;            color: var(--color-text-dark);            line-height: 1.5;        }
+        .lucky-tips li::before {            content: "🍀 ";            margin-right: 0.5em;        }
         
-        .ad-area {
-            margin: 2.5em 0;
-            width: 100%;
-            min-height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        ins.adsbygoogle {
-            display: block !important;
-        }
+        .ad-area {            margin: 2.5em 0;            width: 100%;            min-height: 100px;            display: flex;            justify-content: center;            align-items: center;            overflow: hidden;        }
+        ins.adsbygoogle {            display: block !important;        }
         
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1em;
-            margin-top: 2em;
-        }
+        .button-group {            display: flex;            flex-direction: column;            gap: 1em;            margin-top: 2em;        }
         
         @media (max-width: 500px) {
-            .container {
-                padding: 1.5em;
-                margin: 1em 0;
-            }
-            .header h1 {
-                font-size: 1.8em;
-            }
+            .container {                padding: 1.5em;                margin: 1em 0;            }
+            .header h1 {                font-size: 1.8em;            }
             .lucky-ball {
-                width: 42px;
-                height: 42px;
-                font-size: 1.2em;
+                width: 38px; /* 모바일에서 볼 크기 더 줄임 */
+                height: 38px; /* 모바일에서 볼 크기 더 줄임 */
+                font-size: 1.1em; /* 모바일에서 폰트 크기 조정 */
             }
-            .analyze-button, .main-link-button, .kakao-share-button { /* .main-link -> .main-link-button으로 변경 */
+            .analyze-button, .main-link-button, .kakao-share-button {
                 padding: 1em 1.2em;
                 font-size: 1.1em;
             }
-            .lotto.birthday {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 4px;
-                flex-wrap: nowrap;          /* 줄바꿈 금지 */
-                overflow-x: auto;           /* 넘치면 가로 스크롤 허용 */
-                padding: 0.5em 0;
-                margin: 2em auto 1em auto;
-                max-width: 100%;
-                box-sizing: border-box;
-            }
-
-            .ball.birthday {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: clamp(30px, 7vw, 38px);   /* 더 좁은 clamp로 조정 */
-                height: clamp(30px, 7vw, 38px);
-                font-size: 0.9em;
-                font-weight: bold;
-                border-radius: 50%;
-                border: 3px solid #fff;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-                flex-shrink: 0;
-                box-sizing: border-box;
-                color: var(--text-dark);
-                background-color: gray;  /* 필요 시 n1~n5 클래스 추가로 색상 지정 */
-            }
-            @media (max-width: 600px) {
-              .lotto.birthday .ball {
-                width: 34px !important;
-                height: 34px !important;
-                font-size: 0.85em !important;
-              }
-            @media (max-width: 600px) {
-              .lotto.birthday {
-              flex-wrap: nowrap !important;
-              overflow-x: auto;
-              justify-content: center;
-              gap: 4px;
-            }
-
-            .lotto.birthday .ball {
-              width: 32px !important;
-              height: 32px !important;
-              font-size: 0.85em !important;
-              flex-shrink: 0;
-            }    
-            }
-        }
-    </style>
+        }    </style>
 </head>
 <body>
     <div class="container">
@@ -418,13 +132,11 @@
                 <h1>🎂 생년월일 행운 숫자 ✨</h1>
                 <p>당신의 생년월일이 숨겨진 행운 번호를 알려드립니다!<br>숫자학 기반의 개인 맞춤 분석을 받아보세요.</p>
             </div>
-            
-            <div class="form-group">
+                        <div class="form-group">
                 <label for="birthdate">🎈 생년월일</label>
                 <input type="date" id="birthdate" name="birthdate" required>
             </div>
-            
-            <div class="form-group">
+                        <div class="form-group">
                 <label for="gender">👫 성별 (선택사항)</label>
                 <select id="gender" name="gender">
                     <option value="">선택하지 않음</option>
@@ -432,20 +144,18 @@
                     <option value="female">여성</option>
                 </select>
             </div>
-            
-            <button id="analyze-button" class="analyze-button">
+                        <button id="analyze-button" class="analyze-button">
                 <i class="fas fa-magic"></i>&nbsp;&nbsp;운명의 숫자 분석하기
             </button>
-            
-            <a href="https://smartpick.wow-daddy.com/" class="main-link-button" target="_blank"> <i class="fas fa-home"></i>&nbsp;&nbsp;SmartPick 메인 페이지
+                        <a href="https://smartpick.wow-daddy.com/" class="main-link-button" target="_blank">
+                <i class="fas fa-home"></i>&nbsp;&nbsp;SmartPick 메인 페이지
             </a>
-            
-            <div class="ad-area">
-                <ins class="adsbygoogle"
-                    style="display:block; text-align:center;"
-                    data-ad-client="ca-pub-2748658493247983"
-                    data-ad-slot="1322588827"
-                    data-ad-format="auto"
+                        <div class="ad-area">
+                <ins class="adsbygoogle" 
+                    style="display:block; text-align:center;" 
+                    data-ad-client="ca-pub-2748658493247983" 
+                    data-ad-slot="1322588827" 
+                    data-ad-format="auto" 
                     data-full-width-responsive="true"></ins>
             </div>
         </div>
@@ -463,37 +173,33 @@
                 <h2>🎯 당신의 행운 숫자</h2>
                 <div class="birth-info" id="birth-info"></div>
             </div>
-            
-            <div class="lucky-numbers" id="lucky-numbers">
+                        <div class="lucky-numbers" id="lucky-numbers">
                 </div>
-            
-            <div class="analysis-section">
+                        <div class="analysis-section">
                 <h3>🔮 숫자의 의미</h3>
                 <div id="number-meanings">
                     </div>
             </div>
-            
-            <div class="lucky-tips">
+                        <div class="lucky-tips">
                 <h3>🍀 이번 달 행운 팁</h3>
                 <ul id="lucky-tips-list">
                     </ul>
             </div>
-            
-            <div class="button-group">
+                        <div class="button-group">
                 <button id="kakao-share-button" class="kakao-share-button">
                     <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png" alt="카카오톡 공유">
                     결과 카카오톡 공유하기
                 </button>
-                <a href="https://smartpick.wow-daddy.com/" class="main-link-button" target="_blank"> <i class="fas fa-calculator"></i>&nbsp;&nbsp;AI 로또 번호 생성하기
+                <a href="https://smartpick.wow-daddy.com/" class="main-link-button" target="_blank">
+                    <i class="fas fa-calculator"></i>&nbsp;&nbsp;AI 로또 번호 생성하기
                 </a>
             </div>
-            
-            <div class="ad-area">
-                <ins class="adsbygoogle"
-                    style="display:block; text-align:center;"
-                    data-ad-client="ca-pub-2748658493247983"
-                    data-ad-slot="1322588827"
-                    data-ad-format="auto"
+                        <div class="ad-area">
+                <ins class="adsbygoogle" 
+                    style="display:block; text-align:center;" 
+                    data-ad-client="ca-pub-2748658493247983" 
+                    data-ad-slot="1322588827" 
+                    data-ad-format="auto" 
                     data-full-width-responsive="true"></ins>
             </div>
         </div>
@@ -516,162 +222,19 @@
         let userBirthDate = '';
         let userGender = '';
         let luckyNumbers = [];
-        let analysisResult = '';
-
-        // 숫자학 분석 함수
+        // luckyTips와 analysisResult 변수를 여기서 선언합니다.
+        let luckyTips = []; 
+        let analysisResult = [];
+        
+        // 이 부분의 calculateLuckyNumbers 등은 백엔드에서 수행되므로 여기서는 제거하거나 더미 함수로 대체하는 것이 좋습니다.
+        // 현재는 백엔드 호출 로직이 analyzeNumbers에 있기 때문에, 이 calculateLuckyNumbers 함수는 사용되지 않습니다.
+        // 하지만 혹시 모를 참조나 코드 일관성을 위해 "경고" 메시지만 남겨둡니다.
         function calculateLuckyNumbers(birthDate, gender) {
-            const date = new Date(birthDate);
-            const year = date.getFullYear();
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            
-            // 생년월일 각 자리수 분석
-            const yearDigits = year.toString().split('').map(Number);
-            const monthDigits = month.toString().split('').map(Number);
-            const dayDigits = day.toString().split('').map(Number);
-            
-            // 기본 행운 숫자 계산
-            const lifePathNumber = calculateLifePath(year, month, day);
-            const destinyNumber = calculateDestiny(yearDigits, monthDigits, dayDigits);
-            const personalityNumber = calculatePersonality(month, day);
-            
-            // 6개 행운 숫자 생성
-            const numbers = [];
-            numbers.push(lifePathNumber);
-            numbers.push(destinyNumber);
-            numbers.push(personalityNumber);
-            numbers.push(calculateSpecialNumber(year, month));
-            numbers.push(calculateBirthMonthLucky(month, day));
-            numbers.push(calculateFinalLucky(year, month, day, gender));
-            
-            // 1-45 범위로 조정하고 중복 제거
-            // 숫자가 1~45 범위를 벗어나면 %45 연산 후 1 더하기
-            // 중복 제거 후 6개 미만이면 무작위 숫자 추가
-            const adjustedNumbers = numbers.map(num => ((num - 1) % 45) + 1);
-            let uniqueNumbers = [...new Set(adjustedNumbers)];
-            
-            while (uniqueNumbers.length < 6) {
-                const randomNum = ((Math.random() * 45) + 1); // 1-45 사이 난수
-                if (!uniqueNumbers.includes(randomNum)) {
-                    uniqueNumbers.push(randomNum);
-                }
-            }
-            return uniqueNumbers.slice(0, 6).sort((a, b) => a - b); // 오름차순 정렬
+            console.warn("calculateLuckyNumbers는 이제 백엔드에서 처리됩니다. 프론트엔드에서는 호출되지 않아야 합니다.");
+            return []; // 백엔드에서 번호를 가져오므로 빈 배열 반환
         }
         
-        function calculateLifePath(year, month, day) {
-            let sum = year + month + day;
-            while (sum > 45 && sum > 9) { // 45를 넘지 않도록, 두 자리 이상일 경우 반복
-                sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return sum;
-        }
-        function calculateDestiny(yearDigits, monthDigits, dayDigits) {
-            const allDigits = [...yearDigits, ...monthDigits, ...dayDigits];
-            let sum = allDigits.reduce((a, b) => a + b, 0);
-            while (sum > 45 && sum > 9) {
-                sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return sum;
-        }
-        function calculatePersonality(month, day) {
-            let sum = month + day;
-            while (sum > 45 && sum > 9) {
-                sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return sum;
-        }
-        function calculateSpecialNumber(year, month) {
-            let sum = year + month;
-            while (sum > 45 && sum > 9) {
-                sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return sum;
-        }
-        function calculateBirthMonthLucky(month, day) {
-            let sum = month * 3 + day * 2;
-            while (sum > 45 && sum > 9) {
-                sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return sum;
-        }
-        function calculateFinalLucky(year, month, day, gender) {
-            let base = year + month + day;
-            if (gender === 'male') base += 7;
-            if (gender === 'female') base += 3;
-            while (base > 45 && base > 9) {
-                base = base.toString().split('').map(Number).reduce((a, b) => a + b, 0);
-            }
-            return base;
-        }
-
-        // 숫자 의미 해석 (1-9의 기본 의미만 사용하고, 최종 번호는 1-45 범위 그대로 해석하도록 수정)
-        function getNumberMeaning(number) {
-            const meanings = {
-                1: { title: "새로운 시작과 독립", desc: "강한 리더십과 독립적인 정신을 상징합니다. 새로운 도전에 용기를 가져보세요." },
-                2: { title: "조화와 협력", desc: "관계에서의 균형과 협력을 나타냅니다. 주변 사람들과의 조화가 행운을 부를 거예요." },
-                3: { title: "창의성과 표현", desc: "예술적 재능과 자유로운 표현을 의미합니다. 자신을 솔직하게 드러낼 때 좋은 기회가 찾아옵니다." },
-                4: { title: "안정과 견고함", desc: "성실함과 꾸준함, 그리고 튼튼한 기반을 상징합니다. 계획적인 노력이 성공으로 이어질 거예요." },
-                5: { title: "자유와 변화", desc: "새로운 경험과 변화를 추구하는 에너지를 나타냅니다. 틀을 벗어나 자유롭게 도전해 보세요." },
-                6: { title: "사랑과 책임감", desc: "가족과 공동체에 대한 사랑과 책임감을 의미합니다. 주변을 돌보는 따뜻한 마음이 행운을 부르죠." },
-                7: { title: "직관과 통찰력", desc: "깊은 통찰력과 직감을 상징합니다. 내면의 목소리에 귀 기울이고 신중하게 판단하세요." },
-                8: { title: "성취와 풍요", desc: "목표 달성과 물질적, 정신적 풍요를 의미합니다. 당신의 노력이 큰 결실을 맺을 거예요." },
-                9: { title: "완성과 봉사", desc: "완성도와 인류애, 그리고 타인을 위한 봉사정신을 나타냅니다. 나눔의 기쁨을 통해 더 큰 행운을 찾을 수 있습니다." }
-            };
-            
-            // 번호를 1-9의 기본 의미로 매핑 (1-45 범위의 숫자도 1-9로 압축하여 해석)
-            const baseMeaningNumber = ((number - 1) % 9) + 1;
-            return meanings[baseMeaningNumber] || { title: "특별한 의미", desc: "당신만의 특별한 의미를 가진 숫자입니다." };
-        }
-
-        // 행운 팁 생성 (생년월일 및 계산된 행운 숫자 활용)
-        function generateLuckyTips(birthDate, numbers) {
-            const date = new Date(birthDate);
-            const month = date.getMonth() + 1;
-            const day = date.getDate();
-            const yearLastDigit = parseInt(date.getFullYear().toString().slice(-1)); // 연도의 마지막 자리
-
-            const tips = [];
-
-            // 생일 관련 팁
-            tips.push(`🍀 ${month}월 ${day}일은 당신의 생일이 있는 특별한 날입니다. 새로운 시작을 계획하기 좋은 시기예요.`);
-            
-            // 숫자별 팁 (최소 3~5개)
-            if (numbers.length > 0) {
-                tips.push(`🍀 당신의 첫 번째 행운 숫자 ${numbers[0]}은(는) 새로운 기회를 가져다 줄 것입니다. 용기를 내세요!`);
-                if (numbers.length > 1) {
-                    tips.push(`🍀 숫자 ${numbers[1]}이(가) 의미하는 조화로운 관계를 통해 예상치 못한 도움을 받을 수 있어요.`);
-                }
-                if (numbers.length > 2) {
-                    tips.push(`🍀 숫자 ${numbers[2]}에 주목해 보세요. 이 숫자가 포함된 물건이나 장소에서 긍정적인 에너지를 얻을 수 있습니다.`);
-                }
-                if (numbers.length > 3) {
-                    tips.push(`🍀 이번 주 가장 행운이 따를 요일은 ${['일', '월', '화', '수', '목', '금', '토'][(numbers[3] % 7)]}요일입니다. 중요한 일은 이때 진행해 보세요.`);
-                }
-                if (numbers.length > 4) {
-                    tips.push(`🍀 숫자 ${numbers[4]}가 포함된 금액이나 횟수에 주목해 보세요. 예상치 못한 행운이 따를 수 있습니다.`);
-                }
-            }
-
-            // 추가적인 무작위 팁 (다양성을 위해)
-            const additionalTips = [
-                `🍀 오늘 아침에 가장 먼저 떠오른 번호에 집중해보세요.`,
-                `🍀 주변에서 우연히 발견하는 숫자들(시계, 간판, 전화번호)이 당신에게 메시지를 보낼 수 있어요.`,
-                `🍀 로또를 구매할 때는 마음을 편안히 가지고 긍정적인 기운을 불어넣으세요.`,
-                `🍀 꿈 속에서 본 숫자가 있다면, 그것 또한 당신의 행운 번호일 수 있습니다.`,
-                `🍀 가까운 사람과 함께 복권을 구매하는 것도 좋은 기운을 더합니다.`,
-                `🍀 이번 달의 색깔인 ${['빨간', '주황', '노란', '초록', '파란', '남색', '보라', '핑크', '갈색', '검정', '흰색', '금색'][(month % 12)]}색 옷을 입거나 소품을 활용해 보세요.` // 월별 색상 (예시)
-            ];
-            // 중복 없이 2~3개 추가
-            while (tips.length < 6 && additionalTips.length > 0) {
-                const randomIndex = Math.floor(Math.random() * additionalTips.length);
-                tips.push(additionalTips.splice(randomIndex, 1)[0]);
-            }
-            
-            return tips.slice(0, 6); // 최대 6개의 팁 반환
-        }
-
-        // 로딩 단계 시뮬레이션
+        // 로딩 단계 시뮬레이션 (이 함수는 그대로 유지)
         async function showLoadingProcess() {
             const steps = [
                 "생년월일 분석 중...",
@@ -688,7 +251,7 @@
             }
         }
 
-        // 분석 실행
+        // 분석 실행 (수정: 백엔드 API 호출)
         async function analyzeNumbers() {
             const birthDate = document.getElementById('birthdate').value;
             const gender = document.getElementById('gender').value;
@@ -708,21 +271,44 @@
             // 로딩 프로세스 시뮬레이션
             await showLoadingProcess();
             
-            // 행운 숫자 계산
-            luckyNumbers = calculateLuckyNumbers(birthDate, gender);
-            
-            // 결과 화면으로 전환
-            loadingScreen.style.display = 'none';
-            resultScreen.style.display = 'block';
-            
-            // 결과 표시
-            displayResults();
-            
-            // 광고 로드 (이미 async script로 head에 있으므로 별도 호출 필요 없음)
-            // loadAds();
+            // 백엔드 API 호출
+            try {
+                const response = await fetch('/api/calculate-birthday-lotto', { // 새 API 엔드포인트
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ birthdate: birthDate, gender: gender })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert('오류: ' + data.error);
+                    // 에러 발생 시 입력 화면으로 돌아가거나 에러 메시지 표시
+                    loadingScreen.style.display = 'none';
+                    inputScreen.style.display = 'block';
+                    return;
+                }
+                
+                luckyNumbers = data.numbers; // 백엔드에서 받은 번호
+                analysisResult = data.number_meanings; // 백엔드에서 받은 의미
+                luckyTips = data.lucky_tips; // 백엔드에서 받은 팁
+                
+                // 결과 화면으로 전환
+                loadingScreen.style.display = 'none';
+                resultScreen.style.display = 'block';
+                
+                // 결과 표시
+                displayResults();
+                
+            } catch (error) {
+                console.error('API 호출 오류:', error);
+                alert('번호 분석 중 오류가 발생했습니다. 다시 시도해주세요.');
+                loadingScreen.style.display = 'none';
+                inputScreen.style.display = 'block';
+            }
         }
-
-        // 결과 표시
+        
+        // 결과 표시 (백엔드에서 받은 데이터로 표시)
         function displayResults() {
             const date = new Date(userBirthDate);
             const year = date.getFullYear();
@@ -730,29 +316,33 @@
             const day = date.getDate();
             
             // 생년월일 정보 표시
-            document.getElementById('birth-info').textContent =
+            document.getElementById('birth-info').textContent = 
                 `${year}년 ${month}월 ${day}일 생`;
             
             // 행운 숫자 표시
             const luckyNumbersDiv = document.getElementById('lucky-numbers');
-            luckyNumbersDiv.innerHTML = '';
-            luckyNumbers.forEach(num => {
+            luckyNumbersDiv.innerHTML = ''; // 기존 내용 초기화
+            luckyNumbers.forEach(num => { // luckyNumbers는 이제 백엔드에서 온 데이터
                 const ball = document.createElement('div');
                 ball.className = 'lucky-ball';
-                ball.textContent = num;
+                // 숫자를 명확하게 문자열로 변환하여 할당합니다.
+                ball.textContent = String(num); 
+                // 로또볼 색상 클래스 추가 (static/style.css의 .ball.n1~n5와 동일하게)
+                const colorClass = `n${Math.floor((num - 1) / 10) + 1}`; // 1-10:n1, 11-20:n2 등
+                ball.classList.add(colorClass); 
+
                 luckyNumbersDiv.appendChild(ball);
             });
             
             // 숫자 의미 표시
             const meaningsDiv = document.getElementById('number-meanings');
             meaningsDiv.innerHTML = '';
-            luckyNumbers.forEach(num => {
-                const meaning = getNumberMeaning(num);
+            analysisResult.forEach(item => { // analysisResult는 백엔드에서 온 데이터
                 const meaningDiv = document.createElement('div');
                 meaningDiv.className = 'number-meaning';
                 meaningDiv.innerHTML = `
-                    <div class="number">숫자 ${num}</div>
-                    <div class="meaning"><strong>${meaning.title}</strong><br>${meaning.desc}</div>
+                    <div class="number">숫자 ${item.number}</div>
+                    <div class="meaning"><strong>${item.meaning.title}</strong><br>${item.meaning.desc}</div>
                 `;
                 meaningsDiv.appendChild(meaningDiv);
             });
@@ -760,8 +350,8 @@
             // 행운 팁 표시
             const tipsList = document.getElementById('lucky-tips-list');
             tipsList.innerHTML = '';
-            const tips = generateLuckyTips(userBirthDate, luckyNumbers);
-            tips.forEach(tip => {
+            // luckyTips는 이제 백엔드에서 온 데이터
+            luckyTips.forEach(tip => { 
                 const li = document.createElement('li');
                 li.textContent = tip;
                 tipsList.appendChild(li);
@@ -773,7 +363,7 @@
             };
         }
 
-        // 카카오톡 공유 함수
+        // 카카오톡 공유 함수 (기존 코드 그대로 유지)
         function shareToKakao(numbers) {
             if (Kakao && Kakao.isInitialized()) {
                 const birthdateText = `${new Date(userBirthDate).getFullYear()}년 ${new Date(userBirthDate).getMonth() + 1}월 ${new Date(userBirthDate).getDate()}일생`;
