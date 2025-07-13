@@ -22,16 +22,56 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/static/style.css">
-    <style>
-        /* 이 <style> 태그 안의 내용은 static/style.css의 변수와 스타일을 사용하도록 정리되었습니다. */
-        /* 이제 :root 변수 정의와 대부분의 CSS 규칙은 static/style.css에만 존재합니다. */
-        /* 이 파일에는 이 페이지에만 필요한 추가적인 오버라이드나 특정 스타일만 남겨둡니다. */
+    <link rel="stylesheet" href="/static/style.css"> <style>
+        /* 이 페이지에만 사용되는 CSS 변수들을 다시 정의합니다. */
+        :root {
+            --color-rosehip: #F6C3AE; /* 오렌지/핑크 */
+            --color-brick: #F0743E;   /* 진한 오렌지/벽돌색 */
+            --color-viola: #CDBDBD;   /* 회색/보라 */
+            --color-sunshine: #FDD848; /* 노란색 */
+            --color-apple: #AAD59E;   /* 연두색 */
+            --color-clear-day: #9AB2D4; /* 하늘색 */
+            --color-background-ivory: #FDF9F6; /* 아이보리 */
+            --color-text-dark: #333333;
+            --color-text-medium: #666666;
+            --color-text-light: #999999;
+            --color-white: #FFFFFF;
+            --color-light-gray: #F7F7F7;
+            --color-pink: #FFB6C1;
+            --color-purple: #DDA0DD;
+            --color-gold: #FFD700;
 
-        /* body 및 container 스타일은 static/style.css의 공통 스타일을 따르도록 합니다. */
-        /* 필요하다면 body에 클래스를 부여하여 birthday_lotto_test.html의 body 배경을 오버라이드할 수 있습니다. */
-        /* 예: <body class="birthday-page"> 이고 static/style.css에 body.birthday-page { background: ... } */
-
+            /* 로또볼 색상 변수는 static/style.css의 :root에 정의되어 있으므로 여기서는 중복 정의하지 않습니다. */
+        }
+        * { box-sizing: border-box; }
+        
+        /* body 스타일은 static/style.css에서 관리하는 것이 더 좋지만,
+           이 페이지의 고유한 배경 그라데이션을 위해 여기에서 재정의합니다. */
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background: linear-gradient(135deg, var(--color-background-ivory) 0%, #F0F8FF 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: var(--color-text-dark);
+            overflow-x: hidden;
+        }
+        /* container는 static/style.css에도 있지만, 이 페이지에만 특화된 스타일을 위해 여기에 유지합니다. */
+        .container {
+            background: var(--color-white);
+            border-radius: 2.5em;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            padding: 2.5em 2em;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            margin: 2em 0;
+        }
+        
+        .header { margin-bottom: 2em; }
         .header h1 {
             font-size: 2.2em;
             font-weight: 900;
@@ -59,7 +99,7 @@
         .form-group input, .form-group select {
             width: 100%;
             padding: 1em 1.2em;
-            border: 2px solid var(--color-viola); /* var(--color-viola)는 static/style.css에 정의되어야 함 */
+            border: 2px solid var(--color-viola);
             border-radius: 1em;
             font-size: 1.1em;
             font-family: 'Pretendard', sans-serif;
@@ -68,32 +108,63 @@
         }
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: var(--color-clear-day); /* var(--color-clear-day)는 static/style.css에 정의되어야 함 */
+            border-color: var(--color-clear-day);
             box-shadow: 0 0 0 3px rgba(154, 178, 212, 0.2);
         }
         
-        /* 버튼 공통 스타일은 static/style.css의 .main-action-link-button과 .button 클래스를 사용합니다. */
+        /* 버튼 공통 스타일 - static/style.css의 .main-action-link-button과 유사하게 통합 권장 */
         /* 이 파일에서는 해당 버튼 클래스들을 직접 재정의하지 않습니다. */
         /* 만약 이 페이지의 버튼에만 특정 그라데이션이 필요하다면 아래처럼 클래스를 명시합니다. */
-
-        /* analyze-button, main-link-button, kakao-share-button 스타일 (static/style.css의 기존 정의 활용) */
-        /* 이들은 static/style.css에서 .main-action-link-button과 같은 공통 스타일을 따르도록 하거나,
-           아니면 별도의 클래스명을 부여하여 static/style.css에서 제어하는 것이 좋습니다.
-           여기서는 기존 코드를 따라 각 버튼의 배경색만 명시합니다. */
+        .analyze-button, .main-link-button, .kakao-share-button { /* .main-link -> .main-link-button으로 변경 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1.2em 1.5em;
+            border: none;
+            border-radius: 1.5em;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 1.5em;
+            text-decoration: none;
+            max-width: 380px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
         .analyze-button {
             background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-sunshine) 100%);
             color: var(--color-text-dark);
+        }
+        .analyze-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.3);
         }
         .main-link-button {
             background: linear-gradient(135deg, var(--color-apple) 0%, #90EE90 100%);
             color: var(--color-text-dark);
         }
+        .main-link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(170, 213, 158, 0.3);
+        }
         .kakao-share-button {
             background-color: #FEE500;
             color: #191919;
         }
-        /* hover, active, img 스타일 등은 static/style.css의 공통 스타일을 따르게 됩니다. */
-
+        .kakao-share-button:hover {
+            background-color: #FCDD00;
+            transform: translateY(-3px);
+        }
+        .kakao-share-button img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+        
         .loading-screen {
             display: none;
             text-align: center;
