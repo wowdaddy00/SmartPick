@@ -341,15 +341,6 @@ button:active,
     background: var(--lotto-green);
 }
 
-/* 🎯 모바일에서 로또볼 크기 줄이기 */
-@media (max-width: 600px) {
-  .ball {
-    width: 28px;
-    height: 28px;
-    font-size: 0.85em;
-    margin: 3px;
-  }
-}
 
 /* 11) 누적 추천 조합 통계 섹션 스타일 */
 .stats-box {
