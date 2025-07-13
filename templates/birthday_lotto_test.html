@@ -354,6 +354,35 @@
                 padding: 1em 1.2em;
                 font-size: 1.1em;
             }
+            .lotto {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 6px;
+                flex-wrap: nowrap;         /* 줄바꿈 금지 */
+                overflow-x: auto;          /* 넘치면 가로 스크롤 허용 */
+                padding: 0.5em 0;
+                margin: 2em auto 1em auto;
+                max-width: 100%;           /* 부모 요소에 맞게 */
+                box-sizing: border-box;
+            }
+
+            .ball {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: clamp(30px, 9vw, 42px);   /* 작아도 안깨지게 clamp 사용 */
+                height: clamp(30px, 9vw, 42px);
+                font-size: 0.95em;
+                font-weight: bold;
+                border-radius: 50%;
+                border: 3px solid #fff;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                flex-shrink: 0;                  /* 절대 줄어들지 않음 */
+                box-sizing: border-box;
+                color: var(--text-dark);
+                background-color: gray;         /* 기본 색 (필요 시 n1~n5 클래스 유지) */
+            }
         }    </style>
 </head>
 <body>
