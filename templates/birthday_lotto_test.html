@@ -40,36 +40,6 @@
             --color-pink: #FFB6C1;
             --color-purple: #DDA0DD;
             --color-gold: #FFD700;
-            
-            --lotto-yellow: #ffdf6c;
-            --lotto-blue: #9bd0ff;
-            --lotto-red: #ff91a5;
-            --lotto-gray: #c2c9d1;
-            --lotto-green: #b0e891;
-            --white-bg: #ffffff;
-            --text-dark: #333333;
-        }
-
-        .ball.n1 {
-          background-color: var(--lotto-yellow);
-        }
-
-        .ball.n2 {
-          background-color: var(--lotto-blue);
-        }
-
-        .ball.n3 {
-          background-color: var(--lotto-red);
-          color: var(--white-bg);
-        }
-
-        .ball.n4 {
-          background-color: var(--lotto-gray);
-        }
-
-        .ball.n5 {
-          background-color: var(--lotto-green);
-        }
 
             /* 로또볼 색상 변수는 static/style.css의 :root에 정의되어 있으므로 여기서는 중복 정의하지 않습니다. */
         }
@@ -502,7 +472,7 @@
             
             // 생년월일 정보 표시
             document.getElementById('birth-info').textContent = 
-                `${year}년 ${month}월 ${day}일 생`;
+                ${year}년 ${month}월 ${day}일 생;
             
             // 행운 숫자 표시
             const luckyNumbersDiv = document.getElementById('lucky-numbers');
@@ -514,7 +484,7 @@
 
                 // 로또볼 색상 클래스 추가 (static/style.css의 .ball.n1~n5와 동일하게)
                 const colorCategory = Math.floor((num - 1) / 10) + 1; // 1-10:1, 11-20:2, 21-30:3, 31-40:4, 41-45:5
-                ball.classList.add(`n${colorCategory}`); 
+                ball.classList.add(n${colorCategory}); 
 
                 luckyNumbersDiv.appendChild(ball);
             });
@@ -525,10 +495,10 @@
             analysisResult.forEach(item => { // analysisResult는 백엔드에서 온 데이터
                 const meaningDiv = document.createElement('div');
                 meaningDiv.className = 'number-meaning';
-                meaningDiv.innerHTML = `
+                meaningDiv.innerHTML = 
                     <div class="number">숫자 ${item.number}</div>
                     <div class="meaning"><strong>${item.meaning.title}</strong><br>${item.meaning.desc}</div>
-                `;
+                ;
                 meaningsDiv.appendChild(meaningDiv);
             });
             
@@ -551,9 +521,9 @@
         // 카카오톡 공유 함수 (기존 코드 그대로 유지)
         function shareToKakao(numbers) {
             if (Kakao && Kakao.isInitialized()) {
-                const birthdateText = `${new Date(userBirthDate).getFullYear()}년 ${new Date(userBirthDate).getMonth() + 1}월 ${new Date(userBirthDate).getDate()}일생`;
+                const birthdateText = ${new Date(userBirthDate).getFullYear()}년 ${new Date(userBirthDate).getMonth() + 1}월 ${new Date(userBirthDate).getDate()}일생;
                 const numbersText = numbers.join(', ');
-                const descriptionText = `${birthdateText} 당신의 행운 숫자: ${numbersText}! 지금 SmartPick에서 확인해보세요.`;
+                const descriptionText = ${birthdateText} 당신의 행운 숫자: ${numbersText}! 지금 SmartPick에서 확인해보세요.;
 
                 Kakao.Share.sendDefault({
                     objectType: 'feed',
@@ -591,7 +561,7 @@
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
             const dd = String(today.getDate()).padStart(2, '0');
-            document.getElementById('birthdate').value = `${yyyy}-${mm}-${dd}`;
+            document.getElementById('birthdate').value = ${yyyy}-${mm}-${dd};
         });
     </script>
 </body>
