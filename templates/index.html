@@ -2,9 +2,9 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>로또 번호 추천 | 무료 로또 번호 생성기 & 당첨번호 분석 | SmartPick</title>
-  <meta name="description" content="무료 로또 번호 추천! 1등 당첨번호 제외, 최신 로또 통계 분석 기반 맞춤형 번호 생성기. SmartPick에서 로또 1등 당첨에 가까워지세요.">
-  <meta name="keywords" content="로또, 로또 번호, 로또 필터, 로또 당첨번호, 로또 번호 추천, 로또 통계, 로또 분석, 로또 판매점, 로또 번호 생성기, 로또 자동 추첨기, 무료 로또 추천, 오늘의 로또 번호, 이번 주 로또 번호, 로또 당첨 확률">
+  <title>로또 번호 추천 | 무료 로또 번호 생성기 & 재미로 보는 로또 테스트 - SmartPick</title>
+  <meta name="description" content="과거 1~3등 당첨 조합 제외로 더 똑똑한 로또 번호 추천! 무료 로또 번호 생성기와 MBTI·생년월일·꿈 해몽 로또 테스트, 카톡 공유까지 한 번에 - SmartPick">
+  <meta name="keywords" content="로또 번호 추천, 무료 로또 번호 생성기, 로또 테스트, 로또 운세, MBTI 로또, 생년월일 로또, 꿈 해몽 로또, 로또 분석">
   <meta name="author" content="SmartPick Team">
 
   <!-- 검색엔진 색인 관련 -->
@@ -164,6 +164,9 @@
       <button type="submit">프리미엄 번호<br>추천 받기</button>
     </form>
 
+    <!-- 섹션: 재미로 보는 로또 테스트 -->
+    <h2 style="margin-top:1.5em">재미로 보는 로또 테스트</h2>
+
     <a href="/choose_recommendation" class="main-action-link-button">
       고급 맞춤 번호<br>추천 받기
     </a>
@@ -182,6 +185,12 @@
         <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
       {% endfor %}
     </div>
+
+    <!-- 섹션: 당첨 후 내 모습 확인하기 -->
+    <h2 style="margin-top:1em">재미로 보는 로또 당첨 후 내 모습 확인하기</h2>
+    <p style="margin:0.4em 0 0.8em;color:#6a7f9a">
+      프리미엄 번호 추천을 받은 뒤, 추천 번호로 재미있는 스토리를 만들어 보세요. 한 줄 요약도 카톡 공유 OK!
+    </p>
 
     <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
     <button class="main-action-link-button" onclick="generateLottoStory()">
@@ -262,6 +271,7 @@
     <nav class="sp-internal-links" style="margin:20px 0;text-align:center">
       <a href="/" title="로또 번호 추천">로또 번호 추천</a> ·
       <a href="/choose_recommendation" title="무료 로또 번호 생성기">무료 로또 번호 생성기</a> ·
+      <a href="/fun-lotto-test" title="재미로 보는 로또 테스트">재미로 보는 로또 테스트</a> ·
       <a href="/faq" title="로또 번호 추천 FAQ">로또 번호 추천 FAQ</a>
     </nav>
   </div> <!-- .container 끝 -->
