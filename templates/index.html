@@ -2,13 +2,13 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>⭐ 제{{ latest_round }}회 로또 번호 생성기 & 로또 번호 추천 | 무료 로또 번호 추천 (1등/2등/3등 제외)</title>
-  <meta name="description" content="무료 로또 번호 추천! 1등 당첨번호 제외, 최신 로또 통계 분석 기반 맞춤형 번호 생성기. SmartPick에서 로또 1등 당첨에 가까워지세요.">
+  <title>로또 번호 추천 | 무료 로또 번호 생성기 & 당첨번호 분석 | SmartPick</title>
+  <meta name="description" content="무료 로또 번호 추천! 1등 당첨번호 제외, 최신 로또 통계 분석 기반 맞춤형 번호 생성기. SmartPick에서 로또 1등 당첨에 가까워지세요.">
   <meta name="keywords" content="로또, 로또 번호, 로또 필터, 로또 당첨번호, 로또 번호 추천, 로또 통계, 로또 분석, 로또 판매점, 로또 번호 생성기, 로또 자동 추첨기, 무료 로또 추천, 오늘의 로또 번호, 이번 주 로또 번호, 로또 당첨 확률">
   <meta name="author" content="SmartPick Team">
-  
+
   <!-- 검색엔진 색인 관련 -->
-  <link rel="canonical" href="https://smartpick.wow-daddy.com/" />
+  <link rel="canonical" href="https://smartpick.wow-daddy.com/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="index, follow">
   <meta name="googlebot" content="index, follow">
@@ -16,37 +16,38 @@
   <meta name="distribution" content="global">
   <meta name="revisit-after" content="7 days">
   <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
-  
+
   <!-- Google tag (gtag.js) Google Analytics GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-RVNHC9SMEE"></script>
   <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RVNHC9SMEE');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RVNHC9SMEE');
   </script>
-    
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983"
-       crossorigin="anonymous"></script>
-    
-  <!-- SNS 공유 최적화 -->
-  <meta property="og:title" content="로또 번호 생성기 - 1~3등 제외 프리미엄 로또 번호 추천" />
-  <meta property="og:description" content="과거 당첨번호 자동제외, 프리미엄 로또 번호 생성기. 로또 분석부터 당첨번호 확인까지 한 곳에서!" />
-  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
-  <meta property="og:url" content="https://smartpick.wow-daddy.com/" />
-  <meta property="og:type" content="website" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="로또 번호 생성기 | 1등 제외 프리미엄 추천 - SmartPick" />
-  <meta name="twitter:description" content="로또 자동 번호 생성기, 당첨번호 분석, 필터 기능까지. 무료 로또 번호 추천 받고 1등에 도전하세요!" />
-  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png" />
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2748658493247983" crossorigin="anonymous"></script>
+
+  <!-- SNS 공유 최적화 (비www로 통일) -->
+  <meta property="og:title" content="로또 번호 생성기 - 1~3등 제외 프리미엄 로또 번호 추천">
+  <meta property="og:description" content="과거 당첨번호 자동제외, 프리미엄 로또 번호 생성기. 로또 분석부터 당첨번호 확인까지 한 곳에서!">
+  <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png">
+  <meta property="og:url" content="https://smartpick.wow-daddy.com/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="로또 번호 생성기 | 1등 제외 프리미엄 추천 - SmartPick">
+  <meta name="twitter:description" content="로또 자동 번호 생성기, 당첨번호 분석, 필터 기능까지. 무료 로또 번호 추천 받고 1등에 도전하세요!">
+  <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_smartpick.png">
 
   <!-- 웹 폰트 / 아이콘 -->
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <!-- CSS: 한 번만 로드 (버전 파라미터 유지) -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2">
-  
+
   <!-- FAQ 구조화 데이터 -->
   <script type="application/ld+json">
   {
@@ -81,15 +82,23 @@
         "@type": "Question",
         "name": "로또 번호 생성기는 어떤 방식인가요?",
         "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "AI 분석 기반 로또 자동 생성기는 과거 1~3등 번호를 제외하고, 통계적으로 유망한 번호를 추천합니다."
+          "@type": "Answer",
+          "text": "AI 분석 기반 로또 자동 생성기는 과거 1~3등 번호를 제외하고, 통계적으로 유망한 번호를 추천합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "무료 로또 번호 생성기도 제공하나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "네. SmartPick은 무료 로또 번호 생성기를 통해 과거 1~3등 당첨번호를 제외하고 통계 기반 번호를 추천합니다."
         }
       }
     ]
   }
   </script>
 
-  <!-- WebSite 구조화 데이터 -->
+  <!-- WebSite 구조화 데이터 (비www 통일) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -103,154 +112,161 @@
     }
   }
   </script>
-
-  {# 외부 style.css 파일을 링크하여 모든 스타일을 통합 관리합니다. #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-  {# 이 HTML 파일에만 특화된 스타일이 아니라면, 여기에 <style> 태그를 남겨두지 않는 것이 좋습니다.
-     이제 모든 관련 스타일은 static/style.css에서 관리됩니다.
-     아래 <style> 태그와 그 안의 모든 내용은 이 코드에서 완전히 제거되었습니다. #}
 </head>
-<body class="main-page-layout"> {# <--- body에 'main-page-layout' 클래스 추가 #}
+<body class="main-page-layout">
 
   <div class="stats-box">
     <b>누적 추천 조합:</b> {{ total_recs_count if total_recs_count is not none else '불러오는 중...' }}건
   </div>
 
   <div class="container">
-    <h1><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h1>
+    <section class="sp-seo-intro" style="margin:16px 0;text-align:center">
+      <h1>로또 번호 추천 & 무료 로또 번호 생성기</h1>
+      <p>
+        SmartPick은 매주 최신 <strong>로또 번호 추천</strong>과 <strong>무료 로또 번호 생성기</strong>를 제공합니다.
+        과거 1~3등 당첨번호를 제외하고 통계 기반으로 더 효율적인 조합만 제안합니다.
+      </p>
+    </section>
 
-        {% if latest_round and winning_nums and bonus_num %}
+    <h2><i class="fas fa-dice-d6"></i> SmartPick<br>로또 번호 추천</h2>
+
+    {% if latest_round and winning_nums and bonus_num %}
     <div class="latest-winning-section">
-        <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
-        <div class="latest-winning-numbers">
-            {% for n in winning_nums %}
-                <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
-            {% endfor %}
-            <span class="plus-sign">+</span>
-            <span class="ball n{{ (bonus_num-1)//10 + 1 }}">{{ bonus_num }}</span>
-        </div>
+      <h2>제{{ latest_round }}회차 1등 당첨번호</h2>
+      <div class="latest-winning-numbers">
+        {% for n in winning_nums %}
+          <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
+        {% endfor %}
+        <span class="plus-sign">+</span>
+        <span class="ball n{{ (bonus_num-1)//10 + 1 }}">{{ bonus_num }}</span>
+      </div>
     </div>
     {% endif %}
 
     <div class="usp-message">
-        <div class="line1"><i class="fas fa-exclamation-triangle icon"></i><br>지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.</div>
-        <div class="line2"><i class="fas fa-check-circle icon"></i>SmartPick은 과거 당첨번호를<br>**학습하여**제외하고<br>무료로 추천해 드립니다!</div>
+      <div class="line1">
+        <i class="fas fa-exclamation-triangle icon"></i><br>
+        지금까지 1등 당첨번호가<br>다시 나온 적이 없습니다.
+      </div>
+      <div class="line2">
+        <i class="fas fa-check-circle icon"></i>
+        SmartPick은 과거 당첨번호를<br><strong>학습하여</strong> 제외하고<br>무료로 추천해 드립니다!
+      </div>
     </div>
 
-    {# .link-item 클래스는 제거하고, .link-about-moved 클래스만 사용합니다. #}
-    <a href="/about" class="link-about-moved"> {# <--- 클래스 변경 유지 #}
-        <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
+    <a href="/about" class="link-about-moved">
+      <i class="fas fa-info-circle icon"></i> SmartPick이 특별한 이유 알아보기
     </a>
 
     <form method="post" style="width: 100%;">
-      <button type="submit"> 프리미엄 번호<br>추천 받기</button>
+      <button type="submit">프리미엄 번호<br>추천 받기</button>
     </form>
 
     <a href="/choose_recommendation" class="main-action-link-button">
-        고급 맞춤 번호<br>추천 받기
+      고급 맞춤 번호<br>추천 받기
     </a>
 
     <a href="/fun-lotto-test" class="main-action-link-button">
-        <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
+      <i class="fas fa-dice icon"></i> 재미로 보는<br>로또 테스트
     </a>
 
     <a href="/faq" class="main-action-link-button" style="background: linear-gradient(135deg, #a8e0f5 0%, #6a82fb 100%);">
-        <i class="fas fa-question-circle icon"></i> 자주 묻는 질문<br>(FAQ)
-    </a>                                            
-                                                
+      <i class="fas fa-question-circle icon"></i> 자주 묻는 질문<br>(FAQ)
+    </a>
 
     {% if numbers %}
-      <div class="lotto" id="lotto_result">
-        {% for n in numbers[0] %}
-          <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
-        {% endfor %}
-      </div>
-      <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
-      <button class="main-action-link-button" onclick="generateLottoStory()">
-          재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
-      </button>
+    <div class="lotto" id="lotto_result">
+      {% for n in numbers[0] %}
+        <span class="ball n{{ (n-1)//10 + 1 }}">{{ n }}</span>
+      {% endfor %}
+    </div>
 
-      <div id="story-loading-indicator" style="display: none; margin-top: 1em; color: #555;">
-          <i class="fas fa-spinner fa-spin"></i> 스토리 생성 중...
-      </div>
-      <div id="lotto-story" style="margin-top: 1em; padding: 1em; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; text-align: left; color: #333; font-size: 1em; line-height: 1.6;">
-      </div>
+    <button class="copy-btn" onclick="copyLotto()">추천 번호 복사</button>
+    <button class="main-action-link-button" onclick="generateLottoStory()">
+      재미로 보는<br>로또 당첨 후<br>내 모습 확인하기!
+    </button>
 
-      <!-- ✅ 광고는 추천번호 이후, 스토리 위 or 아래 삽입 -->
-      <div style="height: 24px;"></div>
-      <ins class="adsbygoogle"
-           style="display:block;"
-           data-ad-client="ca-pub-2748658493247983"
-           data-ad-slot="1322588827"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-     
-      <script>
-        function copyLotto() {
-          let txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
-          const tempTextArea = document.createElement('textarea');
-          tempTextArea.value = txt;
-          document.body.appendChild(tempTextArea);
-          tempTextArea.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempTextArea);
+    <div id="story-loading-indicator" style="display: none; margin-top: 1em; color: #555;">
+      <i class="fas fa-spinner fa-spin"></i> 스토리 생성 중...
+    </div>
+    <div id="lotto-story" style="margin-top: 1em; padding: 1em; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9; text-align: left; color: #333; font-size: 1em; line-height: 1.6;"></div>
 
-          const msgBox = document.createElement('div');
-          msgBox.textContent = "복사 완료: " + txt;
-          msgBox.style.cssText = `
-              position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-              background-color: #4CAF50; color: white; padding: 15px 20px;
-              border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
-          `;
-          document.body.appendChild(msgBox);
-          setTimeout(() => msgBox.style.opacity = 1, 10);
-          setTimeout(() => {
-              msgBox.style.opacity = 0;
-              msgBox.addEventListener('transitionend', () => msgBox.remove());
-          }, 2000);
+    <!-- ✅ 광고는 추천번호 이후, 스토리 위 or 아래 삽입 -->
+    <div style="height: 24px;"></div>
+    <ins class="adsbygoogle"
+         style="display:block;"
+         data-ad-client="ca-pub-2748658493247983"
+         data-ad-slot="1322588827"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>
+      function copyLotto() {
+        const txt = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => e.textContent).join(', ');
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = txt;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+
+        const msgBox = document.createElement('div');
+        msgBox.textContent = "복사 완료: " + txt;
+        msgBox.style.cssText = `
+          position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+          background-color: #4CAF50; color: white; padding: 15px 20px;
+          border-radius: 10px; z-index: 1000; opacity: 0; transition: opacity 0.5s;
+        `;
+        document.body.appendChild(msgBox);
+        setTimeout(() => msgBox.style.opacity = 1, 10);
+        setTimeout(() => {
+          msgBox.style.opacity = 0;
+          msgBox.addEventListener('transitionend', () => msgBox.remove());
+        }, 2000);
+      }
+
+      async function generateLottoStory() {
+        const storyDiv = document.getElementById('lotto-story');
+        const loadingIndicator = document.getElementById('story-loading-indicator');
+        const recommendedNumbers = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => parseInt(e.textContent));
+
+        storyDiv.textContent = '';
+        loadingIndicator.style.display = 'block';
+
+        try {
+          const response = await fetch('/generate_lotto_story', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ numbers: recommendedNumbers })
+          });
+          const data = await response.json();
+
+          if (response.ok) {
+            storyDiv.textContent = data.story;
+          } else {
+            storyDiv.textContent = '스토리 생성 실패: ' + (data.error || '알 수 없는 오류');
+            storyDiv.style.color = 'red';
+          }
+        } catch (error) {
+          console.error('스토리 생성 중 오류 발생:', error);
+          storyDiv.textContent = '스토리 생성 중 네트워크 오류가 발생했습니다.';
+          storyDiv.style.color = 'red';
+        } finally {
+          loadingIndicator.style.display = 'none';
         }
-
-        async function generateLottoStory() {
-            const storyDiv = document.getElementById('lotto-story');
-            const loadingIndicator = document.getElementById('story-loading-indicator');
-            const recommendedNumbers = Array.from(document.querySelectorAll('#lotto_result .ball')).map(e => parseInt(e.textContent));
-
-            storyDiv.textContent = '';
-            loadingIndicator.style.display = 'block';
-
-            try {
-                const response = await fetch('/generate_lotto_story', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ numbers: recommendedNumbers })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    storyDiv.textContent = data.story;
-                } else {
-                    storyDiv.textContent = '스토리 생성 실패: ' + (data.error || '알 수 없는 오류');
-                    storyDiv.style.color = 'red';
-                }
-            } catch (error) {
-                console.error('스토리 생성 중 오류 발생:', error);
-                storyDiv.textContent = '스토리 생성 중 네트워크 오류가 발생했습니다.';
-                storyDiv.style.color = 'red';
-            } finally {
-                loadingIndicator.style.display = 'none';
-            }
-        }
-      </script>
+      }
+    </script>
     {% endif %}
-  </div> {# .container 끝 #}
 
-  <div style="height:36px"></div> {# 임시 여백 유지 (애드센스 위에) #}
+    <nav class="sp-internal-links" style="margin:20px 0;text-align:center">
+      <a href="/" title="로또 번호 추천">로또 번호 추천</a> ·
+      <a href="/choose_recommendation" title="무료 로또 번호 생성기">무료 로또 번호 생성기</a> ·
+      <a href="/faq" title="로또 번호 추천 FAQ">로또 번호 추천 FAQ</a>
+    </nav>
+  </div> <!-- .container 끝 -->
 
-  {# 구글 애드센스 광고 #}
+  <div style="height:36px"></div> <!-- 임시 여백 유지 (애드센스 위에) -->
+
+  <!-- 구글 애드센스 광고 -->
   <ins class="adsbygoogle"
        style="display:block; text-align:center; min-width: 250px; min-height: 250px; max-width: 100%;"
        data-ad-client="ca-pub-2748658493247983"
@@ -258,67 +274,50 @@
        data-ad-format="auto"
        data-full-width-responsive="true"></ins>
   <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
   </script>
 
-  {# 푸터는 static/style.css에서 공통 스타일을 가집니다. #}
   <footer>
-      <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
-      <div>
-          {# 인라인 스타일 제거 - static/style.css의 footer a 규칙을 따르도록 #}
-          <a href="/privacy">개인정보처리방침</a> |
-          <a href="/disclaimer">면책조항</a> |
-          <a href="/contact">문의</a>
-      </div>
+    <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
+    <div>
+      <a href="/privacy">개인정보처리방침</a> |
+      <a href="/disclaimer">면책조항</a> |
+      <a href="/contact">문의</a>
+    </div>
   </footer>
 
-  <!-- 추천 번호 구조화 데이터: Flask 템플릿 안에서 반복문 사용 예시 -->
+  <!-- 추천 번호 구조화 데이터 -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "itemListElement": [
       {% for n in numbers[0] %}
-      {
-        "@type": "ListItem",
-        "position": {{ loop.index }},
-        "name": "추천 번호 {{ n }}"
-      }{% if not loop.last %},{% endif %}
+      { "@type": "ListItem", "position": {{ loop.index }}, "name": "추천 번호 {{ n }}" }{% if not loop.last %},{% endif %}
       {% endfor %}
     ]
   }
   </script>
 
   <script>
-        // 페이지 로드 시 방문 이벤트 전송
-        window.onload = function() {
-            fetch('/log_event', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    event: 'visit', // 'visit' 이벤트로 백엔드에 전송
-                    detail: {
-                        page: window.location.pathname, // 현재 페이지 경로 기록 (옵션)
-                        referrer: document.referrer // 이전 페이지 정보 기록 (옵션)
-                    }
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('방문 이벤트 로깅 실패:', response.statusText);
-                }
-                // 성공 여부만 확인하고 응답 본문은 필요 없을 수 있습니다.
-                // return response.json(); 
-            })
-            .then(data => {
-                // console.log('방문 이벤트 로깅 성공:', data); // 디버깅용
-            })
-            .catch(error => {
-                console.error('방문 이벤트 로깅 중 오류 발생:', error);
-            });
-        };
+    // 페이지 로드 시 방문 이벤트 전송
+    window.onload = function() {
+      fetch('/log_event', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'visit',
+          detail: {
+            page: window.location.pathname,
+            referrer: document.referrer
+          }
+        })
+      }).then(response => {
+        if (!response.ok) console.error('방문 이벤트 로깅 실패:', response.statusText);
+      }).catch(error => {
+        console.error('방문 이벤트 로깅 중 오류 발생:', error);
+      });
+    };
   </script>
 </body>
 </html>
