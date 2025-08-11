@@ -3,141 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 재미로 보는 로또 테스트</title>
-    <meta name="description" content="재미있는 로또 테스트를 경험해보세요! 로또 DNA 테스트와 MBTI별 로또 운세를 통해 나만의 행운 번호를 찾아보세요.">
-    <meta name="keywords" content="로또, 로또 테스트, 로또 DNA, MBTI 로또, 로또 운세, 재미있는 로또, 로또 번호 추천">
+    <title>로또 번호 추천 & 재미로 보는 로또 테스트 | SmartPick</title>
+    <meta name="description" content="로또 번호 추천부터 로또 DNA 테스트, MBTI 로또 운세, 꿈 해몽, 생년월일 로또 번호 추천까지! 친구와 공유하고 즐기는 무료 로또 테스트 모음.">
+    <meta name="keywords" content="로또 번호 추천, 무료 로또 번호 생성기, 로또 테스트, 로또 DNA, MBTI 로또, 로또 운세, 꿈 해몽, 생년월일 로또">
 
-    <meta property="og:title" content="🌟 재미로 보는 로또 테스트" />
-    <meta property="og:description" content="로또 DNA 테스트와 MBTI별 로또 운세로 이번 주 행운의 번호를 확인하세요!" />
-    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_lotto_test_hub.png" /> <meta property="og:url" content="https://smartpick.wow-daddy.com/fun-lotto-test" />
+    <!-- OG/Twitter -->
+    <meta property="og:title" content="로또 번호 추천 & 재미로 보는 로또 테스트" />
+    <meta property="og:description" content="로또 번호 추천과 다양한 로또 테스트를 즐기고 행운 번호를 받아보세요!" />
+    <meta property="og:image" content="https://smartpick.wow-daddy.com/images/og_lotto_test_hub.png" />
+    <meta property="og:url" content="https://smartpick.wow-daddy.com/fun-lotto-test" />
     <meta property="og:type" content="website" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="🌟 재미로 보는 로또 테스트" />
-    <meta name="twitter:description" content="로또 DNA 테스트와 MBTI별 로또 운세로 이번 주 행운의 번호를 확인하세요!" />
+    <meta name="twitter:title" content="로또 번호 추천 & 재미로 보는 로또 테스트" />
+    <meta name="twitter:description" content="로또 번호 추천과 다양한 로또 테스트를 즐기고 행운 번호를 받아보세요!" />
     <meta name="twitter:image" content="https://smartpick.wow-daddy.com/images/og_lotto_test_hub.png" />
+
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/static/style.css">     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-    <style>
-        /* 이 페이지에만 특화된 스타일은 여기에 남겨두고, 공통 스타일은 static/style.css로 이동합니다. */
-        /* 이전 <style> 태그 내의 모든 CSS는 static/style.css로 옮겨졌습니다. */
-
-        /* 중앙 상단 '재미로 보는 로또 테스트' 제목과 설명 영역의 추가 디자인 요소 */
-        .main-intro-section {
-            background-color: var(--pastel-1); /* 연한 크림색 배경 */
-            border: 2px solid var(--pastel-2); /* 민트 그린 테두리 */
-            border-radius: 1.8em;
-            padding: 1.5em;
-            margin-bottom: 2em; /* 카드 섹션과의 간격 */
-            box-shadow: 0 8px 25px rgba(0,0,0,0.05); /* 부드러운 그림자 */
-            text-align: center;
-        }
-
-        /* 모바일 반응형에서 특정 요소 간격 조정 */
-        @media (max-width: 600px) {
-            .main-intro-section {
-                padding: 1em; /* 모바일에서 패딩 줄임 */
-                margin-bottom: 1.5em;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 </head>
 <body>
-    <script type="application/ld+json">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": [
     {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "url": "https://smartpick.wow-daddy.com/lotto-dna-test",
-          "name": "로또 DNA 테스트",
-          "description": "간단한 심리 테스트로 당신의 로또 DNA 유형을 알아보고, 그에 맞는 행운의 번호를 받아보세요!"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "url": "https://smartpick.wow-daddy.com/mbti-lotto-test",
-          "name": "MBTI별 로또 운세",
-          "description": "당신의 MBTI 성격 유형에 따른 이번 주 로또 운세와 특별 추천 번호를 확인해보세요!"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "url": "https://smartpick.wow-daddy.com/dream-lotto-test",
-          "name": "꿈 해몽 로또 번호",
-          "description": "생생한 꿈을 AI에게 들려주고, 당신의 꿈에 담긴 행운의 로또 번호를 받아보세요!"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "url": "https://smartpick.wow-daddy.com/birthday-lotto-test",
-          "name": "생년월일 로또 번호",
-          "description": "당신의 생년월일 속에 숨겨진 특별한 행운의 로또 번호를 찾아보세요!"
-        }
-      ]
+      "@type": "ListItem",
+      "position": 1,
+      "url": "https://smartpick.wow-daddy.com/lotto-dna-test",
+      "name": "로또 번호 추천 - 로또 DNA 테스트",
+      "description": "심리 테스트로 당신의 로또 DNA를 알아보고 맞춤 행운 번호를 받아보세요."
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "url": "https://smartpick.wow-daddy.com/mbti-lotto-test",
+      "name": "로또 번호 추천 - MBTI별 로또 운세",
+      "description": "MBTI 성격에 따른 이번 주 로또 운세와 추천 번호 확인."
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "url": "https://smartpick.wow-daddy.com/dream-lotto-test",
+      "name": "로또 번호 추천 - 꿈 해몽 로또 번호",
+      "description": "꿈 해몽을 통해 당신의 꿈에 담긴 행운 번호를 찾아보세요."
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "url": "https://smartpick.wow-daddy.com/birthday-lotto-test",
+      "name": "로또 번호 추천 - 생년월일 로또 번호",
+      "description": "생년월일 속 특별한 행운 번호를 추천합니다."
     }
-    </script>
-    <header>
-        <div class="container">
-            <a href="/" class="logo"><i class="fas fa-gem"></i>SmartPick</a>
-            <nav>
-                <ul>
-                    <li><a href="/">프리미엄 추천</a></li>
-                    <li><a href="/filter">상세 필터 추천</a></li>
-                    <li><a href="/hotpick">인기 번호 추천</a></li>
-                    <li><a href="/fun-lotto-test">재미로 보는 테스트</a></li>
-                    <li><a href="/stats">통계</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  ]
+}
+</script>
 
-    <main>
-        <div class="main-content-wrapper"> {# <--- 중앙 정렬을 위한 래퍼 추가 #}
-            <h2>🌟 재미로 보는 로또 테스트</h2>
-            <p>당신의 로또 운세와 번호에 재미있는 이야기를 더해보세요!</p>
+<header>
+    <div class="container">
+        <a href="/" class="logo"><i class="fas fa-gem"></i>SmartPick</a>
+        <nav>
+            <ul>
+                <li><a href="/">프리미엄 추천</a></li>
+                <li><a href="/filter">상세 필터 추천</a></li>
+                <li><a href="/hotpick">인기 번호 추천</a></li>
+                <li><a href="/fun-lotto-test">재미로 보는 테스트</a></li>
+                <li><a href="/stats">통계</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 
-            <div class="test-options">
-                <div class="test-card">
-                    <h3><i class="fas fa-dna icon"></i> 당신의 로또 DNA는? </h3>
-                    <p>간단한 심리 테스트로 당신의 로또 DNA 유형을 알아보고, 그에 맞는 행운의 번호를 받아보세요!</p>
-                    <a href="/lotto-dna-test" class="action-button">테스트 시작하기</a>
-                </div>
+<main>
+    <div class="main-content-wrapper">
+        <h1>로또 번호 추천 & 재미로 보는 로또 테스트</h1>
+        <p>로또 번호 추천을 다양한 방법으로 즐겨보세요! 심리 테스트, 운세, 꿈 해몽, 생년월일 기반 추천까지 준비되어 있습니다.</p>
 
-                <div class="test-card">
-                    <h3><i class="fas fa-magic icon"></i> MBTI별 이번 주 로또 운세는? <i class="fas fa-money-bill-wave icon"></i></h3> {# <--- 아이콘 추가 #}
-                    <p>당신의 MBTI 성격 유형에 따른 이번 주 로또 운세와 특별 추천 번호를 확인해보세요!</p>
-                    <a href="/mbti-lotto-test" class="action-button">운세 확인하기</a>
-                </div>
-
-                <div class="test-card">
-                    <h3><i class="fas fa-cloud-moon icon"></i> 꿈 해몽 로또 번호 추천</h3>
-                    <p>생생한 꿈을 AI에게 들려주고, 당신의 꿈에 담긴 행운의 로또 번호를 받아보세요!</p>
-                    <a href="/dream-lotto-test" class="action-button">꿈 해몽하기</a>
-                </div>
-
-                <div class="test-card">
-                    <h3><i class="fas fa-birthday-cake icon"></i> 생년월일 로또 번호 추천</h3>
-                    <p>당신의 생년월일 속에 숨겨진 특별한 행운의 로또 번호를 찾아보세요!</p>
-                    <a href="/birthday-lotto-test" class="action-button">번호 받기</a>
-                </div>
-                </div>
+        <div class="test-options">
+            <div class="test-card">
+                <h3>로또 DNA 테스트</h3>
+                <p>간단한 심리 테스트로 당신의 로또 DNA 유형을 알아보고 행운 번호를 추천받으세요.</p>
+                <a href="/lotto-dna-test" class="action-button">테스트 시작하기</a>
             </div>
-        </div> {# main-content-wrapper 끝 #}
-    </main>
 
-    <footer>
-        <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
-        <p>
-            <a href="/about">SmartPick은?</a> |
-            <a href="/privacy">개인정보처리방침</a> |
-            <a href="/disclaimer">면책조항</a> |
-            <a href="/contact">문의</a>
-        </p>
-    </footer>
+            <div class="test-card">
+                <h3>MBTI별 이번 주 로또 운세</h3>
+                <p>MBTI 성격 유형에 따른 이번 주 로또 운세와 특별 추천 번호를 확인하세요.</p>
+                <a href="/mbti-lotto-test" class="action-button">운세 확인하기</a>
+            </div>
+
+            <div class="test-card">
+                <h3>꿈 해몽 로또 번호</h3>
+                <p>AI 꿈 해몽으로 당신의 꿈에 담긴 행운 번호를 찾아보세요.</p>
+                <a href="/dream-lotto-test" class="action-button">꿈 해몽하기</a>
+            </div>
+
+            <div class="test-card">
+                <h3>생년월일 로또 번호</h3>
+                <p>당신의 생년월일 속 특별한 로또 번호를 추천합니다.</p>
+                <a href="/birthday-lotto-test" class="action-button">번호 받기</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; {{ now.year }} SmartPick. All rights reserved.</p>
+    <p>
+        <a href="/about">SmartPick은?</a> |
+        <a href="/privacy">개인정보처리방침</a> |
+        <a href="/disclaimer">면책조항</a> |
+        <a href="/contact">문의</a>
+    </p>
+</footer>
+
 </body>
 </html>
