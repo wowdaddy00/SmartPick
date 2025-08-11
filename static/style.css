@@ -76,6 +76,20 @@ body.full-page-layout main {
 }
 
 /* 5) 로고 & 제목 (h1, h2, h3) 타이포그래피 */
+/* 메인 페이지 H1: 가운데 정렬 + 자동 줄바꿈 유도 */
+.main-title {
+  text-align: center;        /* 가운데 정렬 */
+  display: block;
+  max-width: 320px;          /* 폭 제한 -> 자연스러운 줄바꿈 */
+  margin: 0 auto 0.8em;      /* 중앙 배치 + 기존 h1 하단 여백과 맞춤 */
+  line-height: 1.35;
+  word-break: keep-all;      /* 단어 중간 분리 방지(한글) */
+}
+
+/* 화면이 넓을수록 제목 폭을 살짝 늘려 가독성 유지 */
+@media (min-width: 768px) {
+  .main-title { max-width: 360px; }
+}
 .logo {
     font-family: 'Nanum Brush Script', cursive;
     color: var(--pastel-5);
