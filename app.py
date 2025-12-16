@@ -729,42 +729,7 @@ def admin():
 def update_winning():
     pw = request.form.get("pw")
 
-    if pw != "1234":
-        # 비밀번호 틀렸을 때도 로그와 통계 데이터를 가져와서 템플릿에 전달
-        logs = []
-        msg = "비밀번호가 틀렸습니다."
-        if db:
-            try:
-                all_logs = []
-                users_ref = db.collection('artifacts').document(app_id).collection('users').stream()
-                for user_doc in users_ref:
-                    user_logs_ref = db.collection('artifacts').document(app_id).collection('users').document(user_doc.id).collection('logs')
-                    user_logs = user_logs_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(100).stream()
-                    for log in user_logs:
-                        log_data = log.to_dict()
-                        if 'timestamp' in log_data and log_data['timestamp']:
-                            log_data['dt_formatted'] = log_data['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
-                        elif 'dt' in log_data:
-                            log_data['dt_formatted'] = log_data['dt']
-                        all_logs.append(log_data)
-                logs = sorted(all_logs, key=lambda x: x.get('dt_formatted', ''), reverse=True)
-            except Exception as e:
-                print(f"관리자 로그 가져오기 오류 (Firestore): {e}")
-                msg += f"<br>로그 로드 오류: {e}"
-                pass
-
-        total_visits = sum(1 for log in logs if log["event"] == "visit")
-        total_recs = sum(1 for log in logs if log["event"] == "recommend")
-        today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
-
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
-
-# Route to update winning numbers (admin functionality)
-@app.route("/update_winning", methods=["POST"])
-def update_winning():
-    pw = request.form.get("pw")
-
-    # --- 1. 관리자 비밀번호 확인 (기존 로직) ---
+    # --- 1. 관리자 비밀번호 확인 ---
     if pw != "1234":
         logs = []
         msg = "비밀번호가 틀렸습니다."
@@ -786,7 +751,6 @@ def update_winning():
             except Exception as e:
                 pass
         
-        # 템플릿 렌더링에 필요한 변수들 계산
         total_visits = sum(1 for log in logs if log["event"] == "visit")
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
