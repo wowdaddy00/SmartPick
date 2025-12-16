@@ -729,8 +729,8 @@ def admin():
 def update_winning():
     pw = request.form.get("pw")
 
+    # --- 1. 관리자 비밀번호 확인 및 로그 로드 (기존 로직 유지) ---
     if pw != "1234":
-        # 비밀번호 틀렸을 때도 로그와 통계 데이터를 가져와서 템플릿에 전달
         logs = []
         msg = "비밀번호가 틀렸습니다."
         if db:
@@ -757,50 +757,54 @@ def update_winning():
         total_recs = sum(1 for log in logs if log["event"] == "recommend")
         today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
 
-        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
+        return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now())
 
+    # --- 2. [수정됨] 날짜 기준 강제 업데이트 로직 시작 ---
     msg_updates = []
     
-    # 1. DB에 저장된 '마지막 회차'가 몇 회인지 확인
+    # (1) DB에 저장된 마지막 회차 확인
     last_saved_round = 0
     if db:
         try:
-            # 저장된 1등 번호 중 가장 큰 회차 번호 하나만 가져옵니다.
             docs = db.collection('winning_numbers_rank1').order_by('round', direction=firestore.Query.DESCENDING).limit(1).stream()
             for doc in docs:
                 last_saved_round = int(doc.to_dict().get('round', 0))
         except Exception as e:
             print(f"DB 조회 실패: {e}")
 
-    # 2. 실제 로또 API에서 '오늘 기준 최신 회차' 확인
-    real_latest_round = 0
-    try:
-        # 최신 회차 번호만 알기 위해 API 호출
-        latest_api_url = "https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=" # 번호 없으면 최신나오는 특성 이용하거나, 캐시 함수 이용
-        # 안전하게 기존 함수 이용해서 최신 회차 숫자만 파악
-        latest_temp, _, _ = fetch_latest_lotto_from_api_cached(force_update=True) 
-        real_latest_round = int(latest_temp)
-    except:
-        # 만약 위 함수가 실패하면 수동으로 1205회(예시) 같은 큰 숫자를 넣어 시도하거나 에러 처리
-        pass
+    # (2) [핵심] 오늘 날짜 기준으로 실제 최신 회차를 수학적으로 계산 (기존 API 함수 무시)
+    # 로또 1회차: 2002년 12월 7일
+    first_lotto_date = datetime.datetime(2002, 12, 7, 20, 0, 0)
+    now_date = datetime.datetime.now()
+    
+    # (오늘 - 1회차날짜) / 7일 + 1 = 현재 회차
+    days_diff = (now_date - first_lotto_date).days
+    real_latest_round = (days_diff // 7) + 1
+    
+    # 토요일 저녁 8시 45분(20:45) 이전이라면 아직 추첨 전이므로 1을 뺌
+    # 안전하게 21시(9시) 기준으로 계산
+    if now_date.weekday() == 5 and now_date.hour < 21: 
+        real_latest_round -= 1
 
-    # 3. [저장된 회차 + 1] 부터 [최신 회차] 까지 반복해서 저장 (이 부분이 핵심!)
+    print(f"업데이트 시작 - DB 마지막: {last_saved_round}회 / 오늘 기준 계산: {real_latest_round}회")
+
+    # (3) 반복문 실행 (빠진 회차 모두 채우기)
     if real_latest_round > last_saved_round:
         start_round = last_saved_round + 1
         
         for curr_round in range(start_round, real_latest_round + 1):
             # 동행복권 API 직접 호출
             api_url = f"https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo={curr_round}"
-            res = requests.get(api_url)
-            lotto_result = res.json()
-
-            if lotto_result.get("returnValue") == "success":
-                latest = curr_round
-                nums = [lotto_result[f'drwtNo{i}'] for i in range(1, 7)]
-                bonus = lotto_result['bnusNo']
+            try:
+                res = requests.get(api_url, timeout=5)
+                lotto_result = res.json()
                 
-                if db:
-                    try:
+                if lotto_result.get("returnValue") == "success":
+                    latest = curr_round
+                    nums = [lotto_result[f'drwtNo{i}'] for i in range(1, 7)]
+                    bonus = lotto_result['bnusNo']
+                    
+                    if db:
                         # 1등 저장
                         db.collection('winning_numbers_rank1').document(str(latest)).set({
                             'round': latest,
@@ -818,22 +822,22 @@ def update_winning():
                                 'updated_at': firestore.SERVER_TIMESTAMP
                             })
 
-                        # 2등, 3등 조합 생성 및 저장
+                        # 2등, 3등 생성 및 저장
                         rank2_new, rank3_new = make_rank2_3(nums, bonus)
                         
-                        # 2등 저장 (Batch)
+                        # 2등 저장
                         batch = db.batch()
                         for idx, r2_combo in enumerate(rank2_new):
                             combo_id = "_".join(map(str, r2_combo))
                             batch.set(db.collection('winning_numbers_rank2').document(combo_id), {
                                 'combination': list(r2_combo), 'round': latest, 'updated_at': firestore.SERVER_TIMESTAMP
                             })
-                            if idx % 400 == 0 and idx > 0: # 배치 제한 고려
+                            if idx % 400 == 0 and idx > 0:
                                 batch.commit()
                                 batch = db.batch()
                         batch.commit()
 
-                        # 3등 저장 (Batch)
+                        # 3등 저장
                         batch = db.batch()
                         for idx, r3_combo in enumerate(rank3_new):
                             combo_id = "_".join(map(str, r3_combo))
@@ -845,20 +849,23 @@ def update_winning():
                                 batch = db.batch()
                         batch.commit()
                         
-                        msg_updates.append(f"{latest}회차 업데이트 완료")
-                        
-                    except Exception as e:
-                        msg_updates.append(f"{latest}회차 저장 실패: {e}")
-            else:
-                msg_updates.append(f"{curr_round}회차 데이터가 아직 없습니다.")
-        
-        # 전역 변수 새로고침 (중요)
+                        msg_updates.append(f"{latest}회차 업데이트 성공")
+                    
+                else:
+                    msg_updates.append(f"{curr_round}회차: 아직 추첨 결과가 없거나 API 오류입니다.")
+            
+            except Exception as e:
+                msg_updates.append(f"{curr_round}회차 처리 중 에러: {e}")
+
+        # 전역 변수 새로고침
         load_winning_data_from_firestore()
         msg = "<br>".join(msg_updates)
+        if not msg: msg = "업데이트가 완료되었습니다."
         
     else:
-        msg = "이미 최신 상태입니다. 업데이트할 내용이 없습니다."
-    # 비밀번호가 맞았을 때도 로그와 통계 데이터를 가져와서 템플릿에 전달
+        msg = f"이미 최신 상태입니다. (DB: {last_saved_round}회 / 현재기준: {real_latest_round}회)"
+
+    # --- 3. 결과 화면 렌더링을 위한 로그 다시 로드 ---
     logs = []
     if db:
         try:
@@ -884,7 +891,7 @@ def update_winning():
     total_recs = sum(1 for log in logs if log["event"] == "recommend")
     today_recs_admin = sum(1 for log in logs if log["event"] == "recommend" and log.get("dt_formatted", "").startswith(datetime.datetime.now().strftime('%Y-%m-%d')))
 
-    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now()) # <--- 추가
+    return render_template("admin.html", logs=logs, total_visits=total_visits, total_recs=total_recs, today_recs=today_recs_admin, msg=msg, now=datetime.datetime.now())
 
 # --- START: NEW Admin Route for Past Rank1 Upload ---
 @app.route('/admin_upload_past_rank1', methods=['POST'])
